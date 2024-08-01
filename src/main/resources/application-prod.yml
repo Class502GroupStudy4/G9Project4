@@ -1,0 +1,23 @@
+spring:
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: create #pull 땡겼을 때 create 나오는 참사 가 발생할 수도 있음
+  # 라이브 리로드 설정
+  devtools:
+    livereload:
+      enabled: false
+  # 정적 자원 설정(CSS, JS, 이미지)
+  web:
+    resources:
+      static-locations: classpath:/static/
+  # 타입 리프 설정
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+
+#파일 업로드 경로 설정
+file:
+  upload:
+    path: /home/ubuntu/uploads
+    url: /upload/

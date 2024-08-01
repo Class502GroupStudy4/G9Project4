@@ -1,4 +1,4 @@
-package org.g9project4.global.member.controllers;
+package org.g9project4.member.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
