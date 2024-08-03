@@ -46,6 +46,7 @@ public class SecurityConfig {
                     });
         });
         /* 인가(접근 통제) 설정 E*/
+        http.headers(c -> c.frameOptions(f -> f.sameOrigin()));
         return http.build();
     }
 

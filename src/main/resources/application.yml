@@ -34,7 +34,7 @@ spring:
 # 파일 업로드 경로 설정
 file:
   upload:
-    path: D:/uploads
+    path: D:/uploads # ${filePath}
     url: /upload/
 #로거 설정
 logging:
