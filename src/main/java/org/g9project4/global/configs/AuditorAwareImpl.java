@@ -1,6 +1,7 @@
 package org.g9project4.global.configs;
 
 import lombok.RequiredArgsConstructor;
+
 import org.g9project4.member.MemberUtil;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
