@@ -44,7 +44,7 @@ public class MemberController implements ExceptionProcessor {
 
     @PostMapping("/join")
     public String joinPs(@Valid RequestJoin form, Errors errors, Model model) {
-//        memberSaveService.save(form);
+        memberSaveService.save(form);
         model.addAttribute("addCss", "join");
         joinValidator.validate(form, errors);
         errors.getAllErrors().forEach(System.out::println);
