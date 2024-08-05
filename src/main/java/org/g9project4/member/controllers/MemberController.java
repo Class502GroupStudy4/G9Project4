@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.member.MemberUtil;
-import org.g9project4.member.controllers.RequestJoin;
-import org.g9project4.member.controllers.RequestLogin;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.member.validators.JoinValidator;
 import org.springframework.stereotype.Controller;
@@ -44,7 +42,7 @@ public class MemberController implements ExceptionProcessor {
 
     @PostMapping("/join")
     public String joinPs(@Valid RequestJoin form, Errors errors, Model model) {
-        memberSaveService.save(form);
+//        memberSaveService.save(form);
         model.addAttribute("addCss", "join");
         joinValidator.validate(form, errors);
         errors.getAllErrors().forEach(System.out::println);
