@@ -1,3 +1,4 @@
+ @import url('common/css/style.css');
 /* Reset some basic elements */
 body, h1, dl, dt, dd, form, input, button {
     margin: 0;
@@ -22,7 +23,7 @@ main {
 
 h1 {
     text-align: center;
-    color: #333;
+    color: var(--accent-color);
     margin-bottom: 20px;
 }
 
