@@ -28,6 +28,8 @@ public class QFileInfo extends EntityPathBase<FileInfo> {
 
     public final BooleanPath done = createBoolean("done");
 
+    public final StringPath extenstion = createString("extenstion");
+
     public final StringPath fileName = createString("fileName");
 
     public final StringPath gid = createString("gid");
