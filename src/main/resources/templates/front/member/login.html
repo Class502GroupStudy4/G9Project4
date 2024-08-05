@@ -19,6 +19,12 @@ layout:decorate="~{front/layouts/main}">
                 <div th:if="*{!success}" class="error" th:each="err:${#fields.errors('password')}" th:text="${err}"></div>
             </dd>
         </dl>
+
+        <div>
+            <input type="checkbox" name="autoLogin" value="true" id="autoLogin">
+            <label for="autoLogin" th:text="#{자동_로그인}"></label>
+        </div>
+
         <div class="error global" th:each="err: ${#fields.globalErrors()}" th:text="${err}"></div>
         <button type="submit" th:text="로그인"></button>
     </form>
