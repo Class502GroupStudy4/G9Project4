@@ -2,6 +2,8 @@ package org.g9project4.global;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class Utils { // 빈의 이름 - utils
 
+    private final DiscoveryClient discoveryClient;
     private final MessageSource messageSource;
     private final HttpServletRequest request;
 
@@ -66,5 +69,10 @@ public class Utils { // 빈의 이름 - utils
         List<String> messages = getCodeMessages(new String[]{code});
 
         return messages.isEmpty() ? code : messages.get(0);
+    }
+    public String url(String url) {
+        List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
+
+        return String.format("%s%s", instances.get(0).getUri().toString(), url);
     }
 }
