@@ -5,7 +5,7 @@ import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.repositories.MemberRepository;
 import org.g9project4.mypage.controllers.RequestProfile;
-import org.g9project4.mypage.validators.MyPageUpdateValidator;
+
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import org.springframework.validation.BindingResult;
 @RequiredArgsConstructor
 public class MyPageService {
 
-    private final MyPageUpdateValidator validator;
+    //private final MyPageUpdateValidator validator;
     private final MemberUtil memberUtil;
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
@@ -26,7 +26,7 @@ public class MyPageService {
 
 
         BindingResult bindingResult = new BeanPropertyBindingResult(form, "form");
-        validator.validate(form, bindingResult);
+        //validator.validate(form, bindingResult);
         if (bindingResult.hasErrors()) {
 
             //throw new ValidationException("유효성 검증 오류가 발생했습니다.");

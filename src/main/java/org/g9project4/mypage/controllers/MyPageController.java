@@ -46,8 +46,7 @@ public class MyPageController {
 
 
     @PostMapping("/info")
-    public String updateInfo(@ModelAttribute("profile") @Valid RequestProfile profile,
-                             Errors errors, Principal principal, Model model) {
+    public String updateInfo(@ModelAttribute("profile") @Valid RequestProfile profile, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("addCss", List.of("mypage/style"));
