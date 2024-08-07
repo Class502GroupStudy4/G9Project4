@@ -27,68 +27,65 @@
         </a>
     </th:block>
 
-    <!-- 메인메뉴바 시작 -->
-    <section class="site-top">
-        <div class="layout-width inner">
-            <div class="left">
-                <a th:href="@{/}">
-                    <i class="xi-home-o"></i>
-                    메인화면
+    <!-- 메인메뉴바 시작 !!! 링크 추후 수정 필요 08/07 -->
+    <nav>
+        <div class="inner layout-width">
+
+            <div class="dropdown">
+                <a href="#" class="ac">
+                    <img th:src="@{/images/boardLogo.png}" alt="여행지정보아이콘">
+                    여행지 정보
                 </a>
-            </div>
-            <div class="right">
-                <!-- Replace with user session check logic -->
-                <div th:if="${#request.remoteUser == null}">
-                    <a th:href="@{/member/join}">
-                        <i class="xi-user-plus-o"></i>
-                        회원가입
-                    </a>
-                    <a th:href="@{/member/login}">
-                        <i class="xi-log-in"></i>
-                        로그인
-                    </a>
-                </div>
-                <!-- User logged in state -->
-                <div th:if="${#request.remoteUser != null}" class="logged-in-right">
-                    <img th:src="${myProfile.frontImage}">
-                    <span>
-<span th:text="${loggedMember.userName}">UserName</span>
-(<span th:text="${loggedMember.email}">email@example.com</span>)
-</span>
-                    <a th:href="@{/mypage}">
-                        <i class="xi-user-o"></i>
-                        마이페이지
-                    </a>
-                    <a th:href="@{/member/logout}">
-                        <i class="xi-log-out"></i>
-                        로그아웃
-                    </a>
+                <div class="dropdown-content">
+                    <a th:href="@{/board/list/freetalk}">테마별 정보</a>
+                    <a th:href="@{/board/list/notice}">지역별 정보</a>
+                    <a th:href="@{/board/list/notice}">범주별 검색</a>
+                    <a th:href="@{/board/list/notice}">축제</a>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="logo-search">
-        <div class="layout-width inner">
-            <div class="center">
-                <a th:href="@{/}" class="logo">
-                    <img th:src="@{/images/logo.png}" alt="로고">
+
+
+            <a th:href="@{/random}">
+                <img th:src="@{/images/randomLogo.png}" alt="여행지추천아이콘">
+                여행지 추천
+            </a>
+
+                <div class="dropdown">
+                    <a href="#" class="ac">
+                        <img th:src="@{/images/boardLogo.png}" alt="게시판 아이콘">
+                        게시판
+                    </a>
+                    <div class="dropdown-content">
+                        <a th:href="@{/board/list/freetalk}">자유게시판</a>
+                        <a th:href="@{/board/list/notice}">공지사항</a>
+                    </div>
+                </div>
+
+            <a th:href="@{/random}">
+                <img th:src="@{/images/randomLogo.png}" alt="여행지도아이콘">
+                여행지도
+            </a>
+
+            <div class="dropdown">
+                <a href="#" class="ac">
+                    <img th:src="@{/images/boardLogo.png}" alt="여행노트아이콘">
+                    여행노트
+                </a>
+                <div class="dropdown-content">
+                    <a th:href="@{/board/list/freetalk}">여행노트 조회</a>
+                    <a th:href="@{/board/list/notice}">여행노트 작성</a>
+                </div>
+            </div>
+
+            <!-- Replace with admin check logic -->
+            <div th:if="${isAdmin}">
+                <a th:href="@{/admin}">
+                    <img th:src="@{/images/masterBall.png}" alt="게시판 아이콘">게시판 관리
                 </a>
             </div>
-            <div class="main-center">
-                <a th:href="@{/}" class="center-logo">
-                    <img th:src="@{/images/pokemonLogo.png}" alt="메인 로고">
-                </a>
-            </div>
-            <div class="right">
-                <form class="search-box" method="GET" th:action="@{/pokemon}" autocomplete="off">
-                    <input type="text" id="searchInput" name="skey" placeholder="검색어를 입력하세요.">
-                    <button type="button" onclick="submitSearchForm()">
-                        <i class="xi-search"></i>
-                    </button>
-                </form>
-            </div>
         </div>
-    </section>
+    </nav>
+
     <!-- 메인메뉴바 끝 -->
 </header>
 </html>

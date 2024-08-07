@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
     @GetMapping
-    public String index(Model model){
+    public String index(HttpServletRequest request, Model model){
 
         model.addAttribute("addCss", "main");//메인페이지
         model.addAttribute("addScript", "main"); //메인페이지
