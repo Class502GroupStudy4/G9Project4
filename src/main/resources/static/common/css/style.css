@@ -7,7 +7,7 @@ a{
 
 /* 공통 컬러 시작*/
 /* 공통 컬러 사용법-css:    var(--primary-color);
- 타 css파일에 공통컬러 적용시 추가->  @import url('common/css/style.css');
+ 타 css파일에 공통컬러 적용시 추가-> html에 이미 추가 되어 있음
  */
 :root {
    --primary-color: #7d845a; /* Primary 색상- 녹두색 */

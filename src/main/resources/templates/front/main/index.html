@@ -1,28 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
-<main >
-    <head>
-        <meta charset="UTF-8">
-        <title>Background Image Example</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--     <link rel="stylesheet" href="/front/css/main.css">
-                   <script src="/front/js/main.js"></script> -->
-
-              <link rel="stylesheet" type="text/css" th:href="${@utils.url('/front/css/main.css')}">
-         <link th:if="${addCss != null}" rel="stylesheet" type="text/css"
-              th:each="cssFile: ${addCss}" th:href="@{/front/css/{file}.css(file=${cssFile})}">
-        <th:block layout:fragment="addCss"></th:block>
-        <!---->
-                      <script th:src="${@utils.url('/front/js/main.js')}"></script>
-                    <script th:if="${addScript != null}" th:each="jsFile : ${addScript}"
-                            th:src="@{/front/js/{file}.js(file=${jsFile})}"></script>
-                    <th:block layout:fragment="addScript"></th:block>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content" class="bg">
 <h1>메인페이지</h1>
 <p>This is an example of a webpage with a background image.</p>
-</body>
-
 </main>
 </html>
