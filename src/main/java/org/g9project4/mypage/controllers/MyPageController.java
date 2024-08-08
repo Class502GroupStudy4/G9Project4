@@ -2,9 +2,10 @@ package org.g9project4.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.MemberUtils;
 import org.g9project4.member.MemberUtil;
-import org.g9project4.mypage.services.MyPageService;
+import org.g9project4.member.entities.Member;
+import org.g9project4.member.services.MemberSaveService;
+import org.g9project4.mypage.validators.ProfileUpdateValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -21,8 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MyPageController {
 
-    private final MyPageService myPageService;
+    private final ProfileUpdateValidator profileUpdateValidator;
+    private final MemberSaveService memberSaveService;
     private final MemberUtil memberUtil;
+
     @GetMapping
     public String index(Model model) {
         model.addAttribute("addCss", List.of("mypage/mypageStyle"));
@@ -30,30 +32,26 @@ public class MyPageController {
     }
 
     @GetMapping("/info")
-    public String info(Model model) {
-        if (!memberUtil.isLogin()) {
-            // 비로그인 상태일 때 처리
-            return "redirect:/member/login";
-        }
+    public String info(@ModelAttribute RequestProfile form) {
+        Member member = memberUtil.getMember();
+        form.setUserName(member.getUserName());
+        form.setMobile(member.getMobile());
 
-        RequestProfile profile = new RequestProfile();
-        profile.setUserName(memberUtil.getMember().getUserName());
-
-        model.addAttribute("profile", profile);
-        model.addAttribute("addCss", List.of("mypage/style"));
         return "front/mypage/info";
     }
 
 
     @PostMapping("/info")
-    public String updateInfo(@ModelAttribute("profile") @Valid RequestProfile profile, Errors errors, Model model) {
+    public String updateInfo(@Valid RequestProfile form, Errors errors) {
+
+        profileUpdateValidator.validate(form,errors);
 
         if (errors.hasErrors()) {
-            model.addAttribute("addCss", List.of("mypage/style"));
             return "front/mypage/info";
         }
 
-        myPageService.update(profile);
-        return "redirect:/mypage/info";
+        memberSaveService.save(form);
+
+        return "redirect:/mypage";
     }
 }
