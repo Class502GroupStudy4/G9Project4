@@ -6,15 +6,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RequestMapping("/")
 @Controller
 public class MainController {
 
     @GetMapping
-    public String index(HttpServletRequest request, Model model){
+    public String index( Model model){
 
-        model.addAttribute("addCss", "main");//메인페이지
-        model.addAttribute("addScript", "main"); //메인페이지
+        model.addAttribute("addCss", "main"); // CSS 파일 목록
+        model.addAttribute("addScript", "main"); // JS 파일 목록
 
         return "front/main/index";
     }

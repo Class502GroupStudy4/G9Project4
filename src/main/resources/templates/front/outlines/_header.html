@@ -27,65 +27,22 @@
         </a>
     </th:block>
 
-    <!-- 메인메뉴바 시작 !!! 링크 추후 수정 필요 08/07 -->
+    <!-- 메인메뉴바 시작 !!! -->
     <nav>
         <div class="inner layout-width">
+            <div> <h5> 여행지정보</h5> </div>
+            <div> <h5>여행지추천 </h5></div>
+            <div> <h5>게시판 </h5></div>
+            <div> <h5>여행지도 </h5></div>
+            <div> <h5>여행노트 </h5></div>
 
-            <div class="dropdown">
-                <a href="#" class="ac">
-                    <img th:src="@{/images/boardLogo.png}" alt="여행지정보아이콘">
-                    여행지 정보
-                </a>
-                <div class="dropdown-content">
-                    <a th:href="@{/board/list/freetalk}">테마별 정보</a>
-                    <a th:href="@{/board/list/notice}">지역별 정보</a>
-                    <a th:href="@{/board/list/notice}">범주별 검색</a>
-                    <a th:href="@{/board/list/notice}">축제</a>
-                </div>
-            </div>
-
-
-            <a th:href="@{/random}">
-                <img th:src="@{/images/randomLogo.png}" alt="여행지추천아이콘">
-                여행지 추천
-            </a>
-
-                <div class="dropdown">
-                    <a href="#" class="ac">
-                        <img th:src="@{/images/boardLogo.png}" alt="게시판 아이콘">
-                        게시판
-                    </a>
-                    <div class="dropdown-content">
-                        <a th:href="@{/board/list/freetalk}">자유게시판</a>
-                        <a th:href="@{/board/list/notice}">공지사항</a>
-                    </div>
-                </div>
-
-            <a th:href="@{/random}">
-                <img th:src="@{/images/randomLogo.png}" alt="여행지도아이콘">
-                여행지도
-            </a>
-
-            <div class="dropdown">
-                <a href="#" class="ac">
-                    <img th:src="@{/images/boardLogo.png}" alt="여행노트아이콘">
-                    여행노트
-                </a>
-                <div class="dropdown-content">
-                    <a th:href="@{/board/list/freetalk}">여행노트 조회</a>
-                    <a th:href="@{/board/list/notice}">여행노트 작성</a>
-                </div>
-            </div>
-
-            <!-- Replace with admin check logic -->
-            <div th:if="${isAdmin}">
-                <a th:href="@{/admin}">
-                    <img th:src="@{/images/masterBall.png}" alt="게시판 아이콘">게시판 관리
-                </a>
-            </div>
         </div>
     </nav>
 
     <!-- 메인메뉴바 끝 -->
+
+
+
+
 </header>
 </html>

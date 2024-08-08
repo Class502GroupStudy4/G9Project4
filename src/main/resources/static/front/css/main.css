@@ -4,6 +4,19 @@ h1 {
     margin-top: 50px;
     color:  var(--primary-color);
 }
+
+/*
+.bg {
+    background:url("../images/background1.jpg") no-repeat center top;
+    background-size: 100%;
+}
+.bg.change {
+    background:url("../images/background2.jpg") no-repeat center top;
+    background-size: 100%;
+}
+
+*/
+
 main {
     background-size: cover;
     background-position: center;
@@ -24,12 +37,5 @@ p {
     text-align: center;
 }
 
-.bg {
-    background:url("../images/background1.jpg") no-repeat center top;
-    background-size: 100%;
-}
-.bg.change {
-    background:url("../images/background2.jpg") no-repeat center top;
-    background-size: 100%;
-}
+
 /*메인페이지 상단 바탕이미지 끝 */
