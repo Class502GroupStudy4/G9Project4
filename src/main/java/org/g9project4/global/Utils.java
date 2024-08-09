@@ -2,6 +2,8 @@ package org.g9project4.global;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.global.exceptions.BadRequestException;
+import org.g9project4.publicData.tour.constants.ContentType;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.MessageSource;
@@ -75,5 +77,29 @@ public class Utils { // 빈의 이름 - utils
         List<String> messages = getCodeMessages(new String[]{code});
 
         return messages.isEmpty() ? code : messages.get(0);
+    }
+    public String nl2br(String str) {
+        return str.replaceAll("\\n", "<br>").replaceAll("\\r", "");
+    }
+    public ContentType typeCode(String type) {
+        switch (type) {
+            case("spot"):
+                return ContentType.TourSpot;
+            case("culture"):
+                return ContentType.CultureFacility;
+            case ("festival"):
+                return ContentType.Festival;
+            case("course"):
+                return ContentType.TourCourse;
+            case ("leports"):
+                return ContentType.Leports;
+            case ("stay"):
+                return ContentType.Accommodation;
+            case ("shopping"):
+                return ContentType.Shopping;
+            case("restaurant"):
+                return ContentType.Restaurant;
+        }
+        throw new BadRequestException("Wrong contentType");
     }
 }

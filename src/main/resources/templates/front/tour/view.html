@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{front/layouts/main}">
+<th:block layout:fragment="addCommonScript">
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f7e5ce6f3b0051af5d9e6eeb83ef6d44&libraries=services"></script>
+</th:block>
+<main layout:fragment="content">
+    <div id="map1"></div>
+    <div id="map2"></div>
+    <div id="map3"></div>
+</main>
+</html>
