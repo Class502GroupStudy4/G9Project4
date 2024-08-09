@@ -1,8 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
+
 <main layout:fragment="content">
-    <h1>메인페이지</h1>
+
+<!--메인 배너 -->
+    <div class="banner">
+        <img src="/front/images/background1.jpg" alt="Banner Image" class="banner-image active">
+        <img src="/front/images/background2.jpg" alt="Banner Image" class="banner-image">
+    </div>
+<!--메인 배너 끝-->
+
+
+
+
 </main>
 </html>
