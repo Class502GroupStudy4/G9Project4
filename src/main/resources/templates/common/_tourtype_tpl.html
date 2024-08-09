@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="typelist">
+    <ul>
+        <li><a href="/" th:text="#{홈}">홈</a></li>
+        <li><a th:href="@{/tour/list/spot}" th:text="#{관광지}"></a></li>
+        <li><a th:href="@{/tour/list/culture}" th:text="#{문화시설}"></a></li>
+        <li><a th:href="@{/tour/list/festival}" th:text="#{행사/공연/축제}"></a></li>
+        <li><a th:href="@{/tour/list/course}" th:text="#{여행코스}"></a></li>
+        <li><a th:href="@{/tour/list/leports}" th:text="#{레포츠}"></a></li>
+        <li><a th:href="@{/tour/list/stay}" th:text="#{숙박}"></a></li>
+        <li><a th:href="@{/tour/list/shopping}" th:text="#{쇼핑}"></a></li>
+        <li><a th:href="@{/tour/list/restaurant}" th:text="#{음식점}"></a></li>
+    </ul>
+</nav>
+</html>
