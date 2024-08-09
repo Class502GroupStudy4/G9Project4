@@ -6,6 +6,7 @@ import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -51,6 +52,10 @@ public class MyPageController {
         }
 
         memberSaveService.save(form);
+
+
+
+        //SecurityContextHolder.getContext().setAuthentication();
 
         return "redirect:/mypage";
     }
