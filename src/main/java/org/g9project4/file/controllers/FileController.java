@@ -77,12 +77,11 @@ public class FileController implements RestExceptionProcessor {
         return new JSONData(data);
     }
 
-    /*
     @GetMapping("/list/{gid}")
     public JSONData getList(@PathVariable("gid") String gid, @RequestParam(name="location", required = false) String location) {
         List<FileInfo> items = infoService.getList(gid, location);
 
         return new JSONData(items);
     }
-     */
+
 }
