@@ -1,6 +1,4 @@
-.dn {
-    display: none !important;
-}
+
 a{
     text-decoration: none;
 }
@@ -45,7 +43,7 @@ a{
 
 /* 공통 버튼 시작*/
 
-/* 공통 버튼 사용법-html:   <button type="submit" class="button button-secondary">검색</button>   */
+/* 공통 버튼 사용법-html:   <button type="submit" class="button button-secondary" >검색</button>   */
 
 
 /* 공통 버튼 스타일 1 */
