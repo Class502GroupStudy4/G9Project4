@@ -1,13 +1,11 @@
-.dn {
-    display: none !important;
-}
+
 a{
     text-decoration: none;
 }
 
 /* 공통 컬러 시작*/
 /* 공통 컬러 사용법-css:    var(--primary-color);
- 타 css파일에 공통컬러 적용시 추가->  @import url('common/css/style.css');
+ 타 css파일에 공통컬러 적용시 추가-> html에 이미 추가 되어 있음
  */
 :root {
    --primary-color: #7d845a; /* Primary 색상- 녹두색 */
@@ -45,7 +43,7 @@ a{
 
 /* 공통 버튼 시작*/
 
-/* 공통 버튼 사용법-html:   <button type="submit" class="button button-secondary">검색</button>   */
+/* 공통 버튼 사용법-html:   <button type="submit" class="button button-secondary" >검색</button>   */
 
 
 /* 공통 버튼 스타일 1 */

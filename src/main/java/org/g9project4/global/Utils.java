@@ -35,6 +35,7 @@ public class Utils { // 빈의 이름 - utils
         }
     }
 
+
     public Map<String, List<String>> getErrorMessages(Errors errors) {//JSON 받을 때는 에러를 직접 가공
         // FieldErrors
 
@@ -78,6 +79,7 @@ public class Utils { // 빈의 이름 - utils
 
         return messages.isEmpty() ? code : messages.get(0);
     }
+
     public String nl2br(String str) {
         return str.replaceAll("\\n", "<br>").replaceAll("\\r", "");
     }
@@ -102,4 +104,18 @@ public class Utils { // 빈의 이름 - utils
         }
         throw new BadRequestException("Wrong contentType");
     }
+
+
+
+    public String url(String url) {
+        List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
+
+        try {
+            return String.format("%s%s", instances.get(0).getUri().toString(), url);
+        } catch (Exception e) {
+            return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
+        }
+    }
+
+
 }
