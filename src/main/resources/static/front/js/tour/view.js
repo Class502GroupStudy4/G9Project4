@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", function() {
         marker: [
 
         ],
-        markerImage: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png",
+        // markerImage: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png",
     };
     mapLib.loadByCategory("AT4", 0, "map1", 1000, 600, options);
     // mapLib.loadByAddress("서울특별시 마포구 신촌로 176", 1, "map1", 1000, 600, options)
