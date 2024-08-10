@@ -23,6 +23,7 @@ public class FileUploadService {
     private final FileInfoRepository fileInfoRepository;
     private final FileProperties fileProperties;
     private final FileInfoService infoService;
+    private final FileInfoService fileInfoService;
 
     public List<FileInfo> upload(MultipartFile[] files, String gid, String location) {
         /**
@@ -66,18 +67,9 @@ public class FileUploadService {
                 fileInfoRepository.flush();
             }
         }
+
+        uploadedFiles.forEach(fileInfoService::addFileInfo);
+
         return uploadedFiles;
-    }
-
-    public void process(String gid, String location) {
-
-        List<FileInfo> items = infoService.getList(gid, location, FileStatus.ALL);
-        items.forEach(i -> i.setDone(true));
-
-        fileInfoRepository.saveAllAndFlush(items);
-    }
-
-    public void process(String gid) {
-        process(gid, null);
     }
 }

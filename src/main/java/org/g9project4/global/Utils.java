@@ -106,7 +106,7 @@ public class Utils { // 빈의 이름 - utils
     }
 
 
-
+/*
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
 
@@ -116,6 +116,8 @@ public class Utils { // 빈의 이름 - utils
             return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
         }
     }
+
+ */
 
 
 }

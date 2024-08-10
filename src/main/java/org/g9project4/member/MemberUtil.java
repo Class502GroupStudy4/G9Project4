@@ -7,6 +7,7 @@ import org.g9project4.member.constants.Authority;
 import org.g9project4.member.entities.Authorities;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.services.MemberInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -37,11 +38,6 @@ public class MemberUtil {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
-
-            if (session.getAttribute("userInfoChanged") != null) {
-                //회원정보를 변경한 경우
-                memberInfo = (MemberInfo) infoService.loadUserByUsername(memberInfo.getEmail());
-            }
 
             return memberInfo.getMember();
         }

@@ -7,6 +7,7 @@
     <h1 th:text="#{내_정보수정}"></h1>
     <form name="frmUpdate" method="POST" th:action="${@utils.url('/mypage/info')}" autocomplete="off" th:object="${requestProfile}">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+        <input type="hidden" name="gid" th:field="*{gid}">
         <dl>
             <dt th:text="#{이메일}"></dt>
             <dd th:text="${loggedMember.email}"></dd>
@@ -39,8 +40,21 @@
                 <div class="error" th:each="err : ${#fields.errors('mobile')}" th:text="${err}"></div>
             </dd>
         </dl>
+        <dl>
+            <dt th:text="#{프로필_이미지}"></dt>
+            <dd>
+                <div class="profile-image fileUploads" data-mode="dragNdrop" th:data-gid="*{gid}" th:data-single="true" th:data-image-only="true">
+                    <div th:if="${myProfileImage != null}" th:object="${myProfileImage}" class="image-file-box" th:id="*{'file-' + seq}">
+                        <div class="xi-close remove" th:data-seq="*{seq}"></div>
+                        <div class="inner" th:style="*{#strings.concat('background: url(', fileUrl, ') no-repeat center center; background-size: cover;')}" th:data-url="*{fileUrl}"></div>
+                    </div>
+                </div>
+                <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}" th:data-single="true" th:data-image-only="true"></button>
+            </dd>
+        </dl>
         <button type="reset" th:text="#{다시입력}"></button>
         <button type="submit" th:text="#{수정하기}"></button>
     </form>
+    <script th:replace="~{common/_file_tpl::image}"></script>
 </section>
 </html>

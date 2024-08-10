@@ -62,7 +62,9 @@ const fileManager = {
                         parent.fileUploadCallback(res.data);
                     }
                 })
-                .catch(err => alert(err.message));
+                .catch(err => {
+                    alert(err.message)
+                });
 
         } catch (e) {
             console.error(e);

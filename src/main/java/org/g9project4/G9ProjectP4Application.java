@@ -7,7 +7,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableDiscoveryClient
 public class G9ProjectP4Application {
 
 	public static void main(String[] args) {

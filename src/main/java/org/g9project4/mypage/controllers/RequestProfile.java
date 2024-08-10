@@ -5,6 +5,9 @@ import lombok.Data;
 
 @Data
 public class RequestProfile {
+
+    private String gid;
+
     @NotBlank
     private String userName;
 
@@ -13,4 +16,5 @@ public class RequestProfile {
     private String confirmPassword;
 
     private String mobile;
+
 }
