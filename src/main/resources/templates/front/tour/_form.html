@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<table th:fragment="placeList">
+    <h1>리스트 보기</h1>
+    <thead>
+    <tr>
+        <th th:text="#{순번}"></th>
+        <th th:text="#{컨텐트ID}"></th>
+        <th th:text="#{장소이름}"></th>
+        <th th:text="#{주소}"></th>
+        <th th:text="#{사진}"></th>
+        <th th:text="#{위도}"></th>
+        <th th:text="#{경도}"></th>
+        <th th:text="#{전화번호}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item,s :${items}" th:object="${item}" class="item" th:id="tourPlace+${s.index}">
+        <td>[[${s.index+1}]]</td>
+        <td th:text="*{contentId}"></td>
+        <td><a th:href="@{/tour/detail/{contentId}(contentId=*{contentId})}" th:text="*{title}"></a></td>
+        <td th:text="*{address}"></td>
+        <td>
+            <img style="height: 100px" th:src="*{firstImage}">
+        </td>
+        <td th:text="*{latitude}"></td>
+        <td th:text="*{longitude}"></td>
+        <td th:text="*{tel}"></td>
+
+    </tr>
+    </tbody>
+</table>
+</html>

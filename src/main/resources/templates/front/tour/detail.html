@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<th:block layout:fragment="addCommonScript">
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f7e5ce6f3b0051af5d9e6eeb83ef6d44&libraries=services"></script>
+</th:block>
+<main layout:fragment="content">
+    <h1>관광지 상세 정보 보기</h1>
+    <section th:object="${items}">
+        <dl>
+            <dt th:text="#{장소}"></dt>
+            <dd th:text="*{title}"></dd>
+        </dl>
+        <dl>
+            <dt th:text="#{홈페이지}"></dt>
+            <dd th:utext="*{homepage}">
+
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{전화번호}"></dt>
+            <dd th:text="*{tel}">
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{사진1}"></dt>
+            <dd>
+                <img style="height:600px" th:src="*{firstimage}">
+            </dd>
+        </dl>
+
+        <dl>
+            <dt th:text="#{설명}"></dt>
+            <dd>
+                <div style="width: 800px;" th:utext="*{@utils.nl2br(overview)}"></div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{주소}"></dt>
+            <dd th:text="*{addr1}"></dd>
+        </dl>
+        <dl>
+            <dt th:text="#{경도}"></dt>
+            <dd th:text="*{mapx}">
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{위도}"></dt>
+            <dd th:text="*{mapy}">
+            </dd>
+        </dl>
+        <div id="map" th:data-lat="*{mapy}" th:data-lng="*{mapx}"></div>
+    </section>
+
+</main>
+</html>
