@@ -1,0 +1,46 @@
+/*헤더 아이프레임 숨김 */
+.dn {
+    display: none;
+}
+
+nav {
+    margin-top: 15px; /* 상단에 15px의 마진 설정 */
+    padding: 0; /* 패딩 제거 */
+    border-top: 1px solid #000; /* 상단 경계선 흰색으로 설정 */
+    border-bottom: 1px solid #000; /* 하단 경계선 흰색으로 설정 */
+    display: flex; /* 플렉스 박스 레이아웃 사용 */
+    align-items: center; /* 수직 정렬을 중앙으로 설정 */
+}
+
+nav > .inner {
+    display: flex;
+    justify-content: center; /* 가로 방향으로 중앙 정렬 */
+    align-items: center; /* 수직 방향으로 중앙 정렬 */
+    height: 60px; /* 높이 설정 */
+    width: 100%; /* 너비를 100%로 설정하여 가로로 꽉 채우기 */
+}
+
+nav > .inner > * {
+    border-radius: 5px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000;
+    line-height: 60px; /* line-height를 맞추어 정렬 */
+    min-width: 200px;
+    padding: 0 10px;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    display: flex;
+    justify-content: center; /* 텍스트 가로 방향으로 가운데 정렬 */
+    align-items: center; /* 텍스트 수직 방향으로 가운데 정렬 */
+    position: relative; /* ::after 가상 요소의 위치를 기준으로 설정 */
+}
+
+nav > .inner > *:hover::after {
+    content: ""; /* 가상 요소의 내용은 빈 문자열 */
+    position: absolute; /* 부모 요소 기준으로 위치를 설정 */
+    bottom: 40px; /* 하단에 위치 (40px에서 8px 두께의 밑줄을 포함) */
+    left: 0; /* 왼쪽부터 시작 */
+    width: 100%; /* 가로 길이를 부모 요소의 전체 너비로 설정 */
+    height: 8px; /* 밑줄의 두께를 8px로 설정 */
+    background-color: #fff; /* 밑줄의 색상을 흰색으로 설정 */
+}
