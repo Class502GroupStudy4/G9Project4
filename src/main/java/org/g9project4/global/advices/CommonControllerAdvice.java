@@ -1,15 +1,18 @@
 package org.g9project4.global.advices;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.file.entities.FileInfo;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice("org.g9project4")// 범위 설정
 @RequiredArgsConstructor
 public class CommonControllerAdvice {//전역에서 확인 가능
+
+
 
     private final MemberUtil memberUtil;
     @ModelAttribute("loggedMember")
@@ -25,13 +28,4 @@ public class CommonControllerAdvice {//전역에서 확인 가능
         return memberUtil.isAdmin();
     }
 
-    @ModelAttribute("myProfileImage")
-    public FileInfo myProfileImage() {
-        if (isLogin()) {
-            Member member = memberUtil.getMember();
-            return member.getProfileImage();
-        }
-
-        return null;
-    }
 }
