@@ -2,7 +2,7 @@
 .sidebar {
     width: 250px; /* 사이드 바의 너비 */
     height: 100vh; /* 사이드 바의 높이, 전체 화면 높이 */
-    background-color: #9c9ca6* 사이드 바 배경색 */
+    background-color: #9c9ca6; /* 사이드 바 배경색 */
     color: white; /* 텍스트 색상 */
     position: fixed; /* 고정 위치 */
     top: 0;
