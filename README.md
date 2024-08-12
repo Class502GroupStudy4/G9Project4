@@ -37,7 +37,7 @@
 ## 🤍USER FLOW
 ![User Flow (1)](https://github.com/user-attachments/assets/7e65c013-65e5-4a6c-bd99-433a051e9dae)
 ## 🖤ERD 구조
-
+![ERD 구조](https://github.com/user-attachments/assets/523a71dc-2bff-44b0-a245-a08ec8654125)
 ## 💜주요 기능 목차
 - 메인화면
 - 계정관리
