@@ -1,0 +1,5 @@
+nav .tour-type-list{
+    display: flex;
+    justify-content: center; /* 가로 방향으로 중앙 정렬 */
+    align-items: center; /* 수직 방향으로 중앙 정렬 */
+}

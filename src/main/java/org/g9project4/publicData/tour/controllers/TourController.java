@@ -29,25 +29,39 @@ public class TourController implements ExceptionProcessor {
     private final TourDetailInfoService detailInfoService;
     private final Utils utils;
 
-    private void addListProcess(Model model, ListData<TourPlace> data){
+    private void addListProcess(Model model, ListData<TourPlace> data) {
         Pagination pagination = data.getPagination();
         //pagination.setBaseURL();
         model.addAttribute("items", data.getItems());
-        model.addAttribute("pagination",pagination);
+        model.addAttribute("pagination", pagination);
     }
+
+    private void commonProcess(String mode, Model model) {
+        if (mode.equals("list")) {
+            model.addAttribute("addCss", List.of("tour/list"));
+        } else if (mode.equals("detail")) {
+            model.addAttribute("addCss", List.of("tour/map"));
+            model.addAttribute("addScript",List.of("tour/detailMap"));
+            model.addAttribute("addCommonScript", List.of("map"));
+        }else if(mode.equals("view")){
+            model.addAttribute("addCss", List.of("tour/map", "tour/sidebar"));
+            model.addAttribute("addScript", List.of("tour/map", "tour/sidebar"));
+        }
+    }
+
     @GetMapping("/view/{id}")
     public String view(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("addCss", List.of("tour/map","tour/sidebar"));
-        model.addAttribute("addScript", List.of("tour/map","tour/sidebar"));
-        return "front/tour/map";
+        commonProcess("view", model);
+        return utils.tpl("/tour/map");
     }
 
     @GetMapping("/list")
     public String list(Model model, @ModelAttribute TourPlaceSearch search) {
         search.setContentType(null);
         ListData<TourPlace> data = placeInfoService.getTotalList(search);
+        commonProcess("list", model);
         addListProcess(model, data);
-        return "front/tour/list";
+        return utils.tpl("/tour/list");
     }
 
     @GetMapping("/list/{type}")
@@ -56,21 +70,20 @@ public class TourController implements ExceptionProcessor {
         try {
             search.setContentType(utils.typeCode(type));
             ListData<TourPlace> data = placeInfoService.getSearchedList(search);
-
+            commonProcess("list", model);
             addListProcess(model, data);
-            return "front/tour/list";
+            return utils.tpl("/tour/list");
         } catch (BadRequestException e) {
             e.printStackTrace();
-            return "redirect:/tour/list";
+            return "redirect:" + utils.redirectUrl("/tour/list");
         }
     }
 
     @GetMapping("/detail/{contentId}")
     public String detail(@PathVariable("contentId") Long contentId, Model model) {
         DetailItem item = detailInfoService.getDetail(contentId);
-        model.addAttribute("addCommonScript", List.of("map"));
-        model.addAttribute("addScript", List.of("tour/detailview"));
+        commonProcess("detail", model);
         model.addAttribute("items", item);
-        return "front/tour/detail";
+        return utils.tpl("/tour/detail");
     }
 }

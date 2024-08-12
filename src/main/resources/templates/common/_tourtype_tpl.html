@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <nav th:fragment="typelist">
-    <ul>
+    <ul class="tour-type-list">
         <li><a th:href="${@utils.redirectUrl('/tour/list')}" th:text="#{홈}"></a></li>
         <li><a th:href="${@utils.redirectUrl('/tour/list/spot')}" th:text="#{관광지}"></a></li>
         <li><a th:href="${@utils.redirectUrl('/tour/list/culture')}" th:text="#{문화시설}"></a></li>

@@ -1,8 +1,3 @@
-
-a{
-    text-decoration: none;
-}
-
 /* 공통 컬러 시작*/
 /* 공통 컬러 사용법-css:    var(--primary-color);
  타 css파일에 공통컬러 적용시 추가-> html에 이미 추가 되어 있음
@@ -135,7 +130,8 @@ body {
 }
 
 main {
-    width: 60%;
+    width: 80%;
+    min-width: 600px;
     margin: 50px auto;
     padding: 20px;
     border-radius: 8px;
