@@ -1,4 +1,11 @@
+.dn {
+    display: none !important;
+}
 
+/* 공통 컬러 시작*/
+/* 공통 컬러 사용법-css:    var(--primary-color);
+ 타 css파일에 공통컬러 적용시 추가->  @import url('common/css/style.css');
+ */
 a{
     text-decoration: none;
 }
