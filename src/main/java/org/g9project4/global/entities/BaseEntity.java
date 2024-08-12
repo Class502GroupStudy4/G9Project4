@@ -2,6 +2,7 @@ package org.g9project4.global.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
+@MappedSuperclass
 public abstract class BaseEntity implements Serializable {
     @CreatedDate
     @Column(updatable = false)
