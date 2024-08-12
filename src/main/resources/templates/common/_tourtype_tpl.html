@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <nav th:fragment="typelist">
     <ul>
-        <li><a href="/" th:text="#{홈}">홈</a></li>
+        <li><a th:href="@{/tour/list}" th:text="#{홈}"></a></li>
         <li><a th:href="@{/tour/list/spot}" th:text="#{관광지}"></a></li>
         <li><a th:href="@{/tour/list/culture}" th:text="#{문화시설}"></a></li>
         <li><a th:href="@{/tour/list/festival}" th:text="#{행사/공연/축제}"></a></li>

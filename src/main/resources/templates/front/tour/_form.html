@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <table th:fragment="placeList">
+    <h1 th:if="${tourPlaceSearch.contentType!=null}" th:text="${#strings.concat(tourPlaceSearch.contentType.getType,' 리스트보기')}"></h1>
     <h1>리스트 보기</h1>
     <thead>
     <tr>
