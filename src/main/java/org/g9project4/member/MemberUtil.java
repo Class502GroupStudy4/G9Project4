@@ -1,9 +1,13 @@
 package org.g9project4.member;
 
 
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.g9project4.member.constants.Authority;
 import org.g9project4.member.entities.Authorities;
 import org.g9project4.member.entities.Member;
+import org.g9project4.member.services.MemberInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -11,7 +15,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class MemberUtil {
+
+    private final HttpSession session;
+    private MemberInfoService infoService;
 
     public boolean isLogin() {
         return getMember() != null;
@@ -26,11 +34,14 @@ public class MemberUtil {
     }
 
     public Member getMember() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo)
-            return memberInfo.getMember();
+        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
-        return null;
+            return memberInfo.getMember();
+        }
+
+            return null;
+        }
     }
-}

@@ -44,6 +44,10 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 	// Thymeleaf extras
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.session:spring-session-data-redis'
+
+
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
@@ -63,11 +67,23 @@ dependencies {
 	implementation 'org.modelmapper:modelmapper:3.2.1'
 
 	// Lombok
+
+	implementation 'org.thymeleaf:thymeleaf-spring6'
+
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
 	// Development tools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.1.0:jakarta'
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.3.2'
+	implementation 'org.springframework.session:spring-session-data-redis:3.3.1'
+
 
 	// Testing
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

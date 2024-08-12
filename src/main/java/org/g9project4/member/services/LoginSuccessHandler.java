@@ -14,7 +14,6 @@ import java.io.IOException;
 
 @Setter
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
-
     private Utils utils;
 
     @Override

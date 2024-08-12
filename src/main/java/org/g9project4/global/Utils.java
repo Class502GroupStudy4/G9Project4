@@ -3,6 +3,8 @@ package org.g9project4.global;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.global.exceptions.BadRequestException;
+import org.g9project4.publicData.tour.constants.ContentType;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.MessageSource;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +31,6 @@ public class Utils { // 빈의 이름 - utils
 
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
-
         try {
             return String.format("%s%s", instances.get(0).getUri().toString(), url);
         } catch (Exception e) {
@@ -36,10 +38,12 @@ public class Utils { // 빈의 이름 - utils
         }
     }
 
+
     public String redirectUrl(String url) {
         String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
         boolean fromGateway = _fromGateway.equals("true");
+
 
         return fromGateway ? request.getScheme() + "://" + gatewayHost + "/app" + url : request.getContextPath() + url;
     }
@@ -82,11 +86,39 @@ public class Utils { // 빈의 이름 - utils
         ms.setUseCodeAsDefaultMessage(true);
         return messages;
     }
-    public String getMessage(String code){
+
+    public String getMessage(String code) {
         List<String> messages = getCodeMessages(new String[]{code});
 
         return messages.isEmpty() ? code : messages.get(0);
     }
+
+    public String nl2br(String str) {
+        return str.replaceAll("\\n", "<br>").replaceAll("\\r", "");
+    }
+
+    public ContentType typeCode(String type) {
+        switch (type) {
+            case ("spot"):
+                return ContentType.TourSpot;
+            case ("culture"):
+                return ContentType.CultureFacility;
+            case ("festival"):
+                return ContentType.Festival;
+            case ("course"):
+                return ContentType.TourCourse;
+            case ("leports"):
+                return ContentType.Leports;
+            case ("stay"):
+                return ContentType.Accommodation;
+            case ("shopping"):
+                return ContentType.Shopping;
+            case ("restaurant"):
+                return ContentType.Restaurant;
+        }
+        throw new BadRequestException("Wrong contentType");
+    }
+
 
     /**
      * 접속 장비가 모바일인지 체크
@@ -97,7 +129,7 @@ public class Utils { // 빈의 이름 - utils
 
         // 모바일 수동 전환 체크, 처리
         HttpSession session = request.getSession();
-        String device = (String)session.getAttribute("device");
+        String device = (String) session.getAttribute("device");
 
         if (StringUtils.hasText(device)) {
             return device.equals("MOBILE");
@@ -122,4 +154,5 @@ public class Utils { // 빈의 이름 - utils
 
         return prefix + path;
     }
+
 }

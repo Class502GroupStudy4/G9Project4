@@ -1,6 +1,7 @@
 package org.g9project4.global.configs;
 
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.Utils;
 import org.g9project4.member.services.LoginFailureHandler;
@@ -34,23 +35,27 @@ public class SecurityConfig {
         loginSuccessHandler.setUtils(utils);
         loginFailureHandler.setUtils(utils);
 
-
         /* 로그인, 로그아웃 S */
         http.formLogin(f -> {
             f.loginPage("/member/login")
                     .usernameParameter("email")
                     .passwordParameter("password")
-                    .successHandler(new LoginSuccessHandler())
-                    .failureHandler(new LoginFailureHandler());
-//                    .successForwardUrl("/")
-//                    .failureUrl("/member/login?error=true");
+                    .successHandler(loginSuccessHandler)
+                    .failureHandler(loginFailureHandler);
+
         });
 
         http.logout(logout -> {
             logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-//                    .logoutSuccessHandler()
-                    .logoutSuccessUrl("/member/login");
+                    .logoutSuccessHandler((req, res, e) -> {
+                        HttpSession session = req.getSession();
+                        session.removeAttribute("device");
+                        res.sendRedirect(req.getContextPath() + "/member/login");
+                    });
+
         });
+
+
         /* 로그인, 로그아웃 E */
         /* 인가(접근 통제) 설정 S*/
         http.authorizeRequests(authorizeRequests -> {
@@ -69,11 +74,11 @@ public class SecurityConfig {
         http.headers(c -> c.frameOptions(f -> f.sameOrigin()));
 
         /*자동 로그인 설정 S*/
-        http.rememberMe(c-> {
+        http.rememberMe(c -> {
             c.rememberMeParameter("autoLogin")
-                    .tokenValiditySeconds(60*60*24*15) // 15일간 유효
+                    .tokenValiditySeconds(60 * 60 * 24 * 15) // 15일간 유효
                     .userDetailsService(memberInfoService) //재로그인할 때 인증을 위해
-                    .authenticationSuccessHandler(new LoginSuccessHandler()); // 자동 로그인 성공-> handler가 처리
+                    .authenticationSuccessHandler(loginSuccessHandler); // 자동 로그인 성공-> handler가 처리
         });
         /*자동 로그인 설정 E*/
 

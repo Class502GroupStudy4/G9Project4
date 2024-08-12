@@ -1,82 +1,52 @@
-var commonLib = commonLib || {};
 
-/**
- * ajax 처리
- *
- * @param method : 요청 메서드 - GET, POST, PUT ...
- * @param url : 요청 URL
- * @param responseType : json - 응답 결과를 json 변환, 아닌 경우는 문자열로 반환
- */
-commonLib.ajaxLoad = function (method, url, params, responseType) {
-    method = !method || !method.trim() ? "GET" : method.toUpperCase();
-    const token = document.querySelector("meta[name='csrf_token']").content;
-    const header = document.querySelector("meta[name='csrf_header']").content;
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open(method, url);
-        xhr.setRequestHeader(header, token);
-
-        xhr.send(params);
-        responseType = responseType ? responseType.toLowerCase() : undefined;
-        if (responseType == 'json') {
-            xhr.responseType = responseType;
+const commonLib = {
+    /**
+     * ajax 요청 공통 기능
+     *
+     * @param url
+     * @param method
+     * @param data
+     * @param headers
+     * @param responseType : 응답 데이터 타입 (text- text로, 그 외에는 JSON)
+     */
+    ajaxLoad(url, method= "GET", data, headers, responseType) {
+        if (!url) {
+            return;
         }
 
-        xhr.onreadystatechange = function () {
-            if (xhr.status == 200 && xhr.readyState == XMLHttpRequest.DONE) {
-                const resultData = responseType == 'json' ? xhr.response : xhr.responseText;
+        const csrfToken = document.querySelector("meta[name='csrf_token']")?.content?.trim();
+        const csrfHeader = document.querySelector("meta[name='csrf_header']")?.content?.trim();
+        let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
+        rootUrl = rootUrl === '/' ? '' : rootUrl;
 
-                resolve(resultData);
-            }
+        url = location.protocol + "//" + location.host + rootUrl + url;
+
+        method = method.toUpperCase();
+        if (method === 'GET') {
+            data = null;
+        }
+
+        if (!(data instanceof FormData) && typeof data !== 'string' && data instanceof Object) {
+            data = JSON.stringify(data);
+        }
+
+        if (csrfHeader && csrfToken) {
+            headers = headers ?? {};
+            headers[csrfHeader] = csrfToken;
+        }
+
+        const options = {
+            method
         };
+        if (data) options.body = data;
+        if (headers) options.headers = headers;
 
-        xhr.onabort = function (err) {
-            reject(err);
-        };
+        return new Promise((resolve, reject) => {
 
-        xhr.onerror = function (err) {
-            reject(err);
-        };
-
-        xhr.ontimeout = function (err) {
-            reject(err);
-        };
-    });
-};
-
-/**
- * 이메일 인증 메일 보내기
- *
- * @param email : 인증할 이메일
- */
-commonLib.sendEmailVerify = function (email) {
-    const {ajaxLoad} = commonLib;
-
-    const url = `/api/email/verify?email=${email}`;
-
-    ajaxLoad("GET", url, null, "json")
-        .then(data => {
-            if (typeof callbackEmailVerify == 'function') { // 이메일 승인 코드 메일 전송 완료 후 처리 콜백
-                console.log("성공");
-                callbackEmailVerify(data);
-            }
-        })
-        .catch(err => console.error(err));
-};
-
-/**
- * 인증 메일 코드 검증 처리
- *
- */
-commonLib.sendEmailVerifyCheck = function (authNum) {
-    const {ajaxLoad} = commonLib;
-    const url = `/api/email/auth_check?authNum=${authNum}`;
-
-    ajaxLoad("GET", url, null, "json")
-        .then(data => {
-            if (typeof callbackEmailVerifyCheck == 'function') { // 인증 메일 코드 검증 요청 완료 후 처리 콜백
-                callbackEmailVerifyCheck(data);
-            }
-        })
-        .catch(err => console.error(err));
+            fetch(url, options)
+                .then(res => responseType === 'text' ? res.text() : res.json()) // res.join() -> JSON / res.text() -> 텍스트
+                .then(data => resolve(data))
+                .catch(err => reject(err));
+        });
+    }
 };

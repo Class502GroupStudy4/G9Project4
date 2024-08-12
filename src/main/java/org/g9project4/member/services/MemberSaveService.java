@@ -1,12 +1,18 @@
 package org.g9project4.member.services;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.file.services.FileUploadDoneService;
+import org.g9project4.file.services.FileUploadService;
+import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Authority;
 import org.g9project4.member.controllers.RequestJoin;
 import org.g9project4.member.entities.Authorities;
 import org.g9project4.member.entities.Member;
+import org.g9project4.member.exceptions.MemberNotFoundException;
 import org.g9project4.member.repositories.AuthoritiesRepository;
 import org.g9project4.member.repositories.MemberRepository;
+import org.g9project4.mypage.controllers.RequestProfile;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,9 +25,12 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class MemberSaveService {
+    private final FileUploadDoneService uploadDoneService;
     private final MemberRepository memberRepository;
     private final AuthoritiesRepository authoritiesRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberUtil memberUtil;
+    private final HttpSession session;
 
     /**
      * 회원 가입 처리
@@ -33,6 +42,32 @@ public class MemberSaveService {
         String hash = passwordEncoder.encode(member.getPassword());
         member.setPassword(hash);
         save(member, List.of(Authority.USER));
+    }
+
+    /**
+     * 회원정보 수정
+     * @param form
+     */
+    public void save(RequestProfile form) {
+        Member member = memberUtil.getMember();
+        String email = member.getEmail();
+        member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        String password = form.getPassword();
+        String mobile = form.getMobile();
+        if (StringUtils.hasText(mobile)) {
+            mobile = mobile.replaceAll("\\D", "");
+        }
+
+        member.setUserName(form.getUserName());
+        member.setMobile(mobile);
+
+        if (StringUtils.hasText(password)) {
+            String hash = passwordEncoder.encode(password);
+            member.setPassword(hash);
+        }
+
+        save(member, null);
+
     }
 
     public void save(Member member, List<Authority> authorities) {
@@ -55,5 +90,9 @@ public class MemberSaveService {
                     .build()).toList();
             authoritiesRepository.saveAllAndFlush(items);
         }
+
+        //파일 업로드 완료 처리
+        System.out.println("여기???");
+        uploadDoneService.process(member.getGid());
     }
 }
