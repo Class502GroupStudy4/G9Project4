@@ -17,7 +17,8 @@
           th:each="cssFile: ${addCss}" th:href="@{/front/css/{file}.css(file=${cssFile})}">
     <th:block layout:fragment="addCss"></th:block>
 
-    <script th:src="${@utils.url('/js/common.js')}"></script>
+    <script th:src="${@utils.url('/common/js/common.js')}"></script>
+    <script th:src="${@utils.url('/front/js/common.js')}"></script>
 <!--    <script th:src="@{/common/js/common.js}"></script>-->
 <!--    <script th:src="@{/front/js/common.js}"></script>-->
     <script th:if="${addScript != null}" th:each="jsFile : ${addScript}"

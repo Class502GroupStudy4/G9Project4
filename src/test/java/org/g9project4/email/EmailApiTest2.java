@@ -1,13 +1,13 @@
-package org.group4.G9Project_P4;
+package org.g9project4.email;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class G9ProjectP4ApplicationTests {
+public class EmailApiTest2 {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void test1() {
 
+    }
 }

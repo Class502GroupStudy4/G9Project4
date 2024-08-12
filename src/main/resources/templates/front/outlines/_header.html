@@ -4,10 +4,10 @@
 <header th:fragment="common">
     <h1>상단 영역</h1>
     <a th:href="@{/}">
-        <button type="submit" th:text="#{메인화면}"></button>
+        <button type="button" th:text="#{메인화면}"></button>
     </a>
     <th:block sec:authorize="isAnonymous()">
-    <a th:href="@{/member/login}">
+    <a th:href="@{@utils.redirectUrl('/member/login')}">
     <button type="submit" th:text="#{로그인}"></button>
 </a>
     <a th:href="@{/member/join}">

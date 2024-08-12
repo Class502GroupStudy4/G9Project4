@@ -2,6 +2,7 @@ package org.g9project4.global.configs;
 
 
 import lombok.RequiredArgsConstructor;
+import org.g9project4.global.Utils;
 import org.g9project4.member.services.LoginFailureHandler;
 import org.g9project4.member.services.LoginSuccessHandler;
 import org.g9project4.member.services.MemberAuthenticationEntryPoint;
@@ -24,9 +25,16 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final MemberInfoService memberInfoService;
+    private final Utils utils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler();
+        LoginFailureHandler loginFailureHandler = new LoginFailureHandler();
+        loginSuccessHandler.setUtils(utils);
+        loginFailureHandler.setUtils(utils);
+
+
         /* 로그인, 로그아웃 S */
         http.formLogin(f -> {
             f.loginPage("/member/login")

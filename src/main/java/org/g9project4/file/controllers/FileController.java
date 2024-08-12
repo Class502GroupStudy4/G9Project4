@@ -20,12 +20,12 @@ public class FileController implements RestExceptionProcessor {
     private final FileUploadService uploadService;
 
     @PostMapping("/upload")//파일은 post 형태로 넘어온다
-    public ResponseEntity<JSONData> upload(@RequestPart("file") MultipartFile[] files,//어떤 필드 인지 알려주는 역할(name값)
-                                           @RequestParam(name = "gid", required = false) String gid,//form 안에 있는 파라미터
-                                           @RequestParam(name = "location", required = false) String location) {
+    public <O> ResponseEntity<JSONData<O>> upload(@RequestPart("file") MultipartFile[] files,//어떤 필드 인지 알려주는 역할(name값)
+                                                  @RequestParam(name = "gid", required = false) String gid,//form 안에 있는 파라미터
+                                                  @RequestParam(name = "location", required = false) String location) {
         List<FileInfo> items = uploadService.upload(files, gid, location);
         HttpStatus status = HttpStatus.CREATED;
-        JSONData data = new JSONData(items);
+        JSONData<O> data = new JSONData<O>(items);
         data.setStatus(status);
 
         return ResponseEntity.status(status).body(data);
