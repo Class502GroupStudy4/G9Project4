@@ -5,6 +5,7 @@
     <h1 th:text="#{회원가입}"></h1>
     <form name="frmRegist" method="post" th:action="@{/member/join}" autocomplete="off" th:object="${requestJoin}">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+        <input type="hidden" name="gid" th:field="*{gid}">
         <dl>
             <dt th:text="#{이메일}"></dt>
             <dd>
@@ -40,6 +41,13 @@
                 <div class="error" th:each="err:${#fields.errors('mobile')}" th:text="${err}"></div>
             </dd>
         </dl>
+        <dl>
+            <dt th:text="#{프로필_이미지}"></dt>
+            <dd>
+                <div class="profile-image fileUploads" data-mode="dragNdrop"></div>
+                <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}" th:data-single="true" th:data-image-only="true"></button>
+            </dd>
+        </dl>
         <div class="terms">
             <div class="tit" th:text="#{회원가입_약관}">
                 약관제목쓰
@@ -56,5 +64,6 @@
             <button type="reset" th:text="#{다시입력}"></button>
         </div>
     </form>
+    <script th:replace="~{common/_file_tpl::image}"></script>
 </main>
 </html>

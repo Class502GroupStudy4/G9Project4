@@ -1,6 +1,7 @@
 package org.g9project4.file.services;
 
 import lombok.RequiredArgsConstructor;
+import org.g9project4.file.constants.FileStatus;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.file.repositories.FileInfoRepository;
 import org.g9project4.global.configs.FileProperties;
@@ -21,6 +22,8 @@ import java.util.UUID;
 public class FileUploadService {
     private final FileInfoRepository fileInfoRepository;
     private final FileProperties fileProperties;
+    private final FileInfoService infoService;
+    private final FileInfoService fileInfoService;
 
     public List<FileInfo> upload(MultipartFile[] files, String gid, String location) {
         /**
@@ -42,7 +45,7 @@ public class FileUploadService {
                     .location(location)
                     .fileName(fileName)
                     .contentType(contentType)
-                    .extenstion(extension)
+                    .extension(extension)
                     .build();
             fileInfoRepository.saveAndFlush(fileInfo);
 
@@ -64,6 +67,9 @@ public class FileUploadService {
                 fileInfoRepository.flush();
             }
         }
+
+        uploadedFiles.forEach(fileInfoService::addFileInfo);
+
         return uploadedFiles;
     }
 }

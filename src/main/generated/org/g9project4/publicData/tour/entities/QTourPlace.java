@@ -19,6 +19,8 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
 
     public static final QTourPlace tourPlace = new QTourPlace("tourPlace");
 
+    public final org.g9project4.global.entities.QBaseEntity _super = new org.g9project4.global.entities.QBaseEntity(this);
+
     public final StringPath address = createString("address");
 
     public final StringPath areaCode = createString("areaCode");
@@ -37,6 +39,12 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
 
     public final StringPath cpyrhtDivCd = createString("cpyrhtDivCd");
 
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;
+
     public final NumberPath<Double> distance = createNumber("distance", Double.class);
 
     public final StringPath firstImage = createString("firstImage");
@@ -48,6 +56,9 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
     public final NumberPath<Double> longitude = createNumber("longitude", Double.class);
 
     public final NumberPath<Integer> mapLevel = createNumber("mapLevel", Integer.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public final NumberPath<Integer> sigugunCode = createNumber("sigugunCode", Integer.class);
 

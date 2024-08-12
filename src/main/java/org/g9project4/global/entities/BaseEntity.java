@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
