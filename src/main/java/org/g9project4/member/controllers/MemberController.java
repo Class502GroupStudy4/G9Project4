@@ -45,7 +45,7 @@ public class MemberController implements ExceptionProcessor {
         commonProcess("join", model);
         model.addAttribute("addCss", "join");
         model.addAttribute("EmailAuthVerified", false); // 이메일 인증 여부 초기화
-        return "front/member/join";
+        return utils.tpl("/member/join");
     }
 
     @PostMapping("/join")
@@ -58,7 +58,7 @@ public class MemberController implements ExceptionProcessor {
         }
         memberSaveService.save(form);
         sessionStatus.setComplete(); // EmailAuthVerified 세션값 비우기
-        return "redirect:"+utils.redirectUrl("/member/login");
+        return "redirect:" + utils.redirectUrl("/member/login");
 
     }
 
@@ -76,6 +76,7 @@ public class MemberController implements ExceptionProcessor {
         }
         return utils.tpl("member/login");
     }
+
     /**
      * 회원 관련 컨트롤러 공통 처리
      *
@@ -83,8 +84,8 @@ public class MemberController implements ExceptionProcessor {
      * @param model
      */
     private void commonProcess(String mode, Model model) {
-        mode = Objects.requireNonNullElse(mode, "join");
-
+        mode = StringUtils.hasText(mode) ? mode : "join";
+        String pageTitle = utils.getMessage("회원가입");
         List<String> addCss = new ArrayList<>();
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
@@ -94,13 +95,7 @@ public class MemberController implements ExceptionProcessor {
             addCommonScript.add("fileManager");
             addCss.add("member/join");
             addScript.add("member/form");
-
-    private void commonProcess(String mode, Model model) {
-        mode = StringUtils.hasText(mode) ? mode : "join";
-        String pageTitle = utils.getMessage("회원가입");
-
-        List<String> addCss = new ArrayList<>();
-        List<String> addScript = new ArrayList<>();
+        }
 
         if (mode.equals("login")) { // 로그인
             pageTitle = utils.getMessage("로그인");
@@ -116,3 +111,4 @@ public class MemberController implements ExceptionProcessor {
         model.addAttribute("addScript", addScript);
     }
 }
+

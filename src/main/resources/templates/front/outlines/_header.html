@@ -8,7 +8,7 @@
     </a>
     <div th:class="member-join-login">
     <th:block sec:authorize="isAnonymous()">
-    <a th:href="@{@utils.redirectUrl('/member/login')}">
+    <a th:href="${@utils.redirectUrl('/member/login')}">
     <button type="submit" th:text="#{로그인}"></button>
 
 </a>
