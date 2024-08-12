@@ -1,4 +1,4 @@
-package org.choongang.tour.controllers;
+package org.g9project4.publicData.tour.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
@@ -7,7 +7,6 @@ import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.BadRequestException;
 import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
-import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
@@ -66,15 +65,6 @@ public class TourController implements ExceptionProcessor {
         }
     }
 
-    @GetMapping("/{type}/search")
-    public String search(@PathVariable(value = "type",required = false) String type, Model model, @ModelAttribute TourPlaceSearch search) {
-        if(type != null) {
-            search.setContentType(utils.typeCode(type));
-        }
-        ListData<TourPlace> data = placeInfoService.getSearchedList(search);
-        addListProcess(model, data);
-        return "front/tour/list";
-    }
     @GetMapping("/detail/{contentId}")
     public String detail(@PathVariable("contentId") Long contentId, Model model) {
         DetailItem item = detailInfoService.getDetail(contentId);

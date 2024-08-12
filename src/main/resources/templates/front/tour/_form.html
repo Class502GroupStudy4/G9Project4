@@ -19,7 +19,7 @@
     <tr th:each="item,s :${items}" th:object="${item}" class="item" th:id="tourPlace+${s.index}">
         <td>[[${s.index+1}]]</td>
         <td th:text="*{contentId}"></td>
-        <td><a th:href="@{/tour/detail/{contentId}(contentId=*{contentId})}" th:text="*{title}"></a></td>
+        <td><a th:href="${@utils('/tour/detail/{contentId}(contentId=*{contentId})')}" th:text="*{title}"></a></td>
         <td th:text="*{address}"></td>
         <td>
             <img style="height: 100px" th:src="*{firstImage}">
