@@ -34,7 +34,6 @@ public class SecurityConfig {
         LoginFailureHandler loginFailureHandler = new LoginFailureHandler();
         loginSuccessHandler.setUtils(utils);
         loginFailureHandler.setUtils(utils);
-
         /* 로그인, 로그아웃 S */
         http.formLogin(f -> {
             f.loginPage("/member/login")
