@@ -18,6 +18,7 @@ import org.springframework.validation.FieldError;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component("utils")
@@ -36,6 +37,19 @@ public class Utils { // 빈의 이름 - utils
         } catch (Exception e) {
             return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
         }
+    }
+/*
+    public String redirectUrl(String url) {
+        String fromGateWay = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
+        String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
+        boolean fromGateway = _fromGateWay.equals("true");
+
+        return fromGateWay ? request.getScheme() + "://" + gatewayHost + "/app" + url : request.getContextPath() + url;
+    }
+    */
+
+    public String redirectUrl(String url) {
+        return null;
     }
 
 

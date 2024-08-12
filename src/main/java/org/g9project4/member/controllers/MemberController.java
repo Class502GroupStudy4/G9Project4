@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
-import org.g9project4.member.MemberUtil;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.member.validators.JoinValidator;
 import org.springframework.stereotype.Controller;
@@ -55,7 +54,7 @@ public class MemberController implements ExceptionProcessor {
 
         memberSaveService.save(form);
 
-        return "redirect:/member/login";
+        return "redirect:" + utils.redirectUrl("/member/login");
     }
 
     @GetMapping("/login")
@@ -67,7 +66,7 @@ public class MemberController implements ExceptionProcessor {
             errors.reject(code, form.getDefaultMessage());
             //비번이 만료인 경우 비번 재설정 페이지 이동
             if (code.equals("CredentialsExpired.Login")) {
-                return "redirect:/member/password/reset ";
+                return "redirect:" + utils.redirectUrl("/member/password/reset");
             }
         }
         return utils.tpl("member/login");
@@ -89,7 +88,7 @@ public class MemberController implements ExceptionProcessor {
         if (mode.equals("join")) {
             addCommonScript.add("fileManager");
             addCss.add("member/join");
-            addScript.add("member/join");
+            addScript.add("member/form");
 
         } else if (mode.equals("login")) {
             addCss.add("member/login");
