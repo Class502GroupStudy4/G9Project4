@@ -49,10 +49,6 @@ public class Utils { // 빈의 이름 - utils
     */
 
     public String redirectUrl(String url) {
-        return null;
-    }
-
-    public String redirectUrl(String url) {
         String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
         boolean fromGateway = _fromGateway.equals("true");
