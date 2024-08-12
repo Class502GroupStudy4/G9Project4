@@ -34,6 +34,10 @@
     - Framework : Springboot
     - DataBase : Oracle
     - ORM :
+## 🤍USER FLOW
+![User Flow (1)](https://github.com/user-attachments/assets/7e65c013-65e5-4a6c-bd99-433a051e9dae)
+## 🖤ERD 구조
+
 ## 💜주요 기능 목차
 - 메인화면
 - 계정관리
