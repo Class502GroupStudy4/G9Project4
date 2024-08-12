@@ -3,6 +3,7 @@ package org.g9project4.member.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.services.MemberSaveService;
@@ -27,7 +28,7 @@ public class MemberController implements ExceptionProcessor {
 
     private final JoinValidator joinValidator;
     private final MemberSaveService memberSaveService;
-    private final MemberUtil memberUtil;
+    private final Utils utils;
 
     @ModelAttribute
     public RequestLogin requestLogin() {
@@ -36,28 +37,29 @@ public class MemberController implements ExceptionProcessor {
 
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form, Model model) {
-
         commonProcess("join", model);
 
-        return "front/member/join";
+        return utils.tpl("member/join");
     }
 
     @PostMapping("/join")
     public String joinPs(@Valid RequestJoin form, Errors errors, Model model) {
+
         commonProcess("join", model);
 
         joinValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
-            return "front/member/join";
+            return utils.tpl("member/join");
         }
+
         memberSaveService.save(form);
+
         return "redirect:/member/login";
     }
 
     @GetMapping("/login")
     public String login(@Valid @ModelAttribute RequestLogin form, Errors errors, Model model) {
-
         commonProcess("login", model);
 
         String code = form.getCode();
@@ -68,9 +70,8 @@ public class MemberController implements ExceptionProcessor {
                 return "redirect:/member/password/reset ";
             }
         }
-        return "front/member/login";
+        return utils.tpl("member/login");
     }
-
     /**
      * 회원 관련 컨트롤러 공통 처리
      *
@@ -79,16 +80,16 @@ public class MemberController implements ExceptionProcessor {
      */
     private void commonProcess(String mode, Model model) {
         mode = Objects.requireNonNullElse(mode, "join");
-        
+
         List<String> addCss = new ArrayList<>();
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
-        
-        addCss.add("member/style"); //회원 공통 스타일
+
+        addCss.add("member/style");  // 회원 공통 스타일
         if (mode.equals("join")) {
             addCommonScript.add("fileManager");
             addCss.add("member/join");
-            addScript.add("member/form");
+            addScript.add("member/join");
 
         } else if (mode.equals("login")) {
             addCss.add("member/login");
@@ -98,7 +99,5 @@ public class MemberController implements ExceptionProcessor {
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
     }
-
-
 
 }
