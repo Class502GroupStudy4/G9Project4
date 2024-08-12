@@ -54,7 +54,9 @@ public class MemberController implements ExceptionProcessor {
 
         memberSaveService.save(form);
 
-        return "redirect:" + utils.redirectUrl("/member/login");
+
+        return "redirect:"+utils.redirectUrl("/member/login");
+
     }
 
     @GetMapping("/login")

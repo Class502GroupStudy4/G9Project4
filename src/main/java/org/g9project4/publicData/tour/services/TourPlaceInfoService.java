@@ -1,9 +1,13 @@
 package org.g9project4.publicData.tour.services;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
@@ -16,6 +20,7 @@ import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -32,6 +37,7 @@ public class TourPlaceInfoService {
     private final RestTemplate restTemplate;
     private final TourPlaceRepository repository;
     private String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
+    private final HttpServletRequest request;
 
     /**
      * 좌표, 거리 기반으로 검색
@@ -63,13 +69,13 @@ public class TourPlaceInfoService {
         return null;
     }
 
-    public ListData<TourPlace> getTotalList(TourPlaceSearch search){
+    public ListData<TourPlace> getTotalList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit < 1 ? 10 : limit;
         int offset = (page - 1) * limit;
 
-        Pagination pagination = new Pagination(page,(int)repository.count(),0,limit);
+        Pagination pagination = new Pagination(page, (int) repository.count(), 0, limit, request);
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QTourPlace tourPlace = QTourPlace.tourPlace;
         List<TourPlace> items = queryFactory.selectFrom(tourPlace)
@@ -83,14 +89,56 @@ public class TourPlaceInfoService {
     public ListData<TourPlace> getSearchedList(TourPlaceSearch search) {
         int offset = search.getPage();
         int limit = search.getLimit();
-        Pagination pagination = new Pagination(offset,(int)repository.count(),0,limit);
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        /* 검색 조건 처리 S */
         QTourPlace tourPlace = QTourPlace.tourPlace;
-        JPAQuery<TourPlace> query = queryFactory.selectFrom(tourPlace).where(tourPlace.contentTypeId.eq(search.getContentType().getId()))
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        if (search.getContentType() != null) {
+            andBuilder.and(tourPlace.contentTypeId.eq(search.getContentType().getId()));
+        }
+        String sopt = search.getSopt();
+        String skey = search.getSkey();
+
+        sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
+
+        if (StringUtils.hasText(skey)) {
+            skey = skey.trim();
+
+            BooleanExpression titleCond = tourPlace.title.contains(skey); // 제목 - subject LIKE '%skey%';
+            BooleanExpression addressCond = tourPlace.address.contains(skey); // 내용 - content LIKE '%skey%';
+
+            if (sopt.equals("TITLE")) { // 여행지 이름
+
+                andBuilder.and(titleCond);
+
+            } else if (sopt.equals("ADDRESS")) { // 주소
+
+                andBuilder.and(addressCond);
+
+            } else if (sopt.equals("TITLE_ADDRESS")) { // 제목 + 내용
+
+                BooleanBuilder orBuilder = new BooleanBuilder();
+                orBuilder.or(titleCond)
+                        .or(addressCond);
+
+                andBuilder.and(orBuilder);
+
+            }
+
+        }
+
+        /* 검색 조건 처리 E */
+
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        int count = queryFactory.selectFrom(tourPlace)
+                .where(andBuilder).fetch().size();
+        JPAQuery<TourPlace> query = queryFactory.selectFrom(tourPlace)
                 .orderBy(tourPlace.contentId.asc())
                 .offset(offset)
-                .limit(limit);
+                .limit(limit)
+                .where(andBuilder);
         List<TourPlace> items = query.fetch();
+        Pagination pagination = new Pagination(offset, count, 0, limit, request);
         return new ListData<>(items, pagination);
     }
 }

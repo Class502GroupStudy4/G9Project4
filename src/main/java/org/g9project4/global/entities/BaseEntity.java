@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@MappedSuperclass
 public abstract class BaseEntity implements Serializable {
     @CreatedDate
     @Column(updatable = false)
