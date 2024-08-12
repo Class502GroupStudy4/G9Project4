@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <table th:fragment="placeList">
+    <h1 th:if="${tourPlaceSearch.contentType!=null}" th:text="${#strings.concat(tourPlaceSearch.contentType.getType,' 리스트보기')}"></h1>
     <h1>리스트 보기</h1>
     <thead>
     <tr>
@@ -18,7 +19,7 @@
     <tr th:each="item,s :${items}" th:object="${item}" class="item" th:id="tourPlace+${s.index}">
         <td>[[${s.index+1}]]</td>
         <td th:text="*{contentId}"></td>
-        <td><a th:href="@{/tour/detail/{contentId}(contentId=*{contentId})}" th:text="*{title}"></a></td>
+        <td><a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}" th:text="*{title}"></a></td>
         <td th:text="*{address}"></td>
         <td>
             <img style="height: 100px" th:src="*{firstImage}">

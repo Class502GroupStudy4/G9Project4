@@ -1,12 +1,3 @@
-/* 전체 설정 */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
-    font-size: 12px;
-}
-
 /* 지도와 메뉴를 포함하는 래퍼 */
 .map_wrap {
     position: relative;
