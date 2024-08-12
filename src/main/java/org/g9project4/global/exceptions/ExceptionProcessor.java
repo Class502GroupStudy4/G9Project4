@@ -18,8 +18,6 @@ public interface ExceptionProcessor {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // 기본 응답 코드 500
         String tpl = "error/error";
 
-
-
         if (e instanceof CommonException commonException) {
             status = commonException.getStatus();
 

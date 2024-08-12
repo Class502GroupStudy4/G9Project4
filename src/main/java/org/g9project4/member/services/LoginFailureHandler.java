@@ -15,7 +15,6 @@ import java.io.IOException;
 
 @Setter
 public class LoginFailureHandler implements AuthenticationFailureHandler {
-
     private Utils utils;
 
     //로그인 실패 시에 유입 되는 메서드
@@ -48,5 +47,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
         //로그인 실패시 로그인 페이지 이동
         response.sendRedirect(utils.redirectUrl("/member/login"));
+
     }
 }

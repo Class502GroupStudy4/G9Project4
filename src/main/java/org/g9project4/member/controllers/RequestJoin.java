@@ -6,8 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 @Data
-public class RequestJoin {
+public class RequestJoin implements Serializable {
     @NotBlank @Email
     private String email;
     @NotBlank @Size(min = 8)
@@ -20,4 +23,6 @@ public class RequestJoin {
     private String mobile;
     @AssertTrue
     private boolean agree;
+
+    private String gid = UUID.randomUUID().toString();
 }

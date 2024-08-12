@@ -21,6 +21,7 @@ public class FileInfo extends BaseMemberEntity {
 
     @Column(length = 45, nullable = false)
     private String gid = UUID.randomUUID().toString();// 그룹 아이디 Unique Id
+
     @Column(length = 45)
     private String location; // 그룹 내에 세분화 된 위치 설정
 
@@ -28,7 +29,7 @@ public class FileInfo extends BaseMemberEntity {
     private String fileName;
 
     @Column(length = 30)
-    private String extenstion;//파일 확장자
+    private String extension;//파일 확장자
 
     @Column(length = 80)
     private String contentType;
@@ -37,6 +38,7 @@ public class FileInfo extends BaseMemberEntity {
 
     @Transient
     private String fileUrl;//파일 접근 URL
+
     @Transient
     private String filePath;//파일 업로드 경로
 }

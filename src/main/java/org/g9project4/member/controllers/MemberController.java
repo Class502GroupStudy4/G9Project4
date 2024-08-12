@@ -12,16 +12,17 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 
 @Slf4j
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@SessionAttributes({"requestLogin", "EmailAuthVerified"})
+@SessionAttributes("requestLogin")
 public class MemberController implements ExceptionProcessor {
 
     private final JoinValidator joinValidator;
@@ -33,63 +34,71 @@ public class MemberController implements ExceptionProcessor {
         return new RequestLogin();
     }
 
-    @ModelAttribute("EmailAuthVerified")
-    public Boolean emailAuthVerified() {
-        return false; // 이메일 인증 여부 초기화
-    }
-
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("join", model);
-        model.addAttribute("addCss", "join");
-        model.addAttribute("EmailAuthVerified", false); // 이메일 인증 여부 초기화
-        return "front/member/join";
+
+        return utils.tpl("member/join");
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors, Model model, SessionStatus sessionStatus) {
-        model.addAttribute("addCss", "join");
+    public String joinPs(@Valid RequestJoin form, Errors errors, Model model) {
+
+        commonProcess("join", model);
+
         joinValidator.validate(form, errors);
-        errors.getAllErrors().forEach(System.out::println);
+
         if (errors.hasErrors()) {
-            return "front/member/join";
+            return utils.tpl("member/join");
         }
+
         memberSaveService.save(form);
-        sessionStatus.setComplete(); // EmailAuthVerified 세션값 비우기
-        return "redirect:/member/login";
+
+
+        return "redirect:"+utils.redirectUrl("/member/login");
+
     }
 
     @GetMapping("/login")
     public String login(@Valid @ModelAttribute RequestLogin form, Errors errors, Model model) {
-        model.addAttribute("addCss", "join");
+        commonProcess("login", model);
+
         String code = form.getCode();
         if (StringUtils.hasText(code)) {
             errors.reject(code, form.getDefaultMessage());
             //비번이 만료인 경우 비번 재설정 페이지 이동
             if (code.equals("CredentialsExpired.Login")) {
-                return "redirect:/member/password/reset ";
+                return "redirect:" + utils.redirectUrl("/member/password/reset");
             }
         }
-        return "front/member/login";
+        return utils.tpl("member/login");
     }
-
+    /**
+     * 회원 관련 컨트롤러 공통 처리
+     *
+     * @param mode
+     * @param model
+     */
     private void commonProcess(String mode, Model model) {
-        mode = StringUtils.hasText(mode) ? mode : "join";
-        String pageTitle = utils.getMessage("회원가입");
+        mode = Objects.requireNonNullElse(mode, "join");
 
         List<String> addCss = new ArrayList<>();
+        List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
-        if (mode.equals("login")) { // 로그인
-            pageTitle = utils.getMessage("로그인");
-
-        } else if (mode.equals("join")) { // 회원가입
+        addCss.add("member/style");  // 회원 공통 스타일
+        if (mode.equals("join")) {
+            addCommonScript.add("fileManager");
             addCss.add("member/join");
-            addScript.add("member/join");
+            addScript.add("member/form");
+
+        } else if (mode.equals("login")) {
+            addCss.add("member/login");
         }
 
-        model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCss", addCss);
+        model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
     }
+
 }
