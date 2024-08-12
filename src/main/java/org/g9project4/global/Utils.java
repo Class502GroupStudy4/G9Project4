@@ -38,6 +38,15 @@ public class Utils { // 빈의 이름 - utils
             return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
         }
     }
+/*
+    public String redirectUrl(String url) {
+        String fromGateWay = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
+        String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
+        boolean fromGateway = _fromGateWay.equals("true");
+
+        return fromGateWay ? request.getScheme() + "://" + gatewayHost + "/app" + url : request.getContextPath() + url;
+    }
+    */
 
     public String redirectUrl(String url) {
         String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
