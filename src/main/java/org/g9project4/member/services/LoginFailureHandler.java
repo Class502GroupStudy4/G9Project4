@@ -17,6 +17,8 @@ import java.io.IOException;
 public class LoginFailureHandler implements AuthenticationFailureHandler {
     private Utils utils;
 
+    private Utils utils;
+
     //로그인 실패 시에 유입 되는 메서드
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
