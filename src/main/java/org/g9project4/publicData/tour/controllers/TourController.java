@@ -58,7 +58,7 @@ public class TourController implements ExceptionProcessor {
     @GetMapping("/list")
     public String list(Model model, @ModelAttribute TourPlaceSearch search) {
         search.setContentType(null);
-        ListData<TourPlace> data = placeInfoService.getTotalList(search);
+        ListData<TourPlace> data = placeInfoService.getSearchedList(search);
         commonProcess("list", model);
         addListProcess(model, data);
         return utils.tpl("/tour/list");
