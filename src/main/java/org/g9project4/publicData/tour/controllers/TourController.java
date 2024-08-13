@@ -49,8 +49,8 @@ public class TourController implements ExceptionProcessor {
         }
     }
 
-    @GetMapping("/view/{id}")
-    public String view(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/view")
+    public String view(Model model) {
         commonProcess("view", model);
         return utils.tpl("/tour/map");
     }
