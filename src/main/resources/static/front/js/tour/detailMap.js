@@ -7,5 +7,5 @@ window.addEventListener('DOMContentLoaded', () => {
         marker: {lat, lng},
         zoom: 4
     };
-    mapLib.load("map", 1000, 600, options);
+    mapLib.load("map", 900, 600, options);
 });
