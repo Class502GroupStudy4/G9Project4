@@ -22,6 +22,8 @@ public class EmailSendService {
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine templateEngine;
 
+    private final EmailHistoryService historyService;
+
     /**
      * 메일 전송
      *
@@ -50,7 +52,6 @@ public class EmailSendService {
         } else { // 템플릿 전송이 아닌 경우 메세지로 대체
             text = message.getMessage();
         }
-
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");

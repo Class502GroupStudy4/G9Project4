@@ -1,4 +1,4 @@
-const commonLib = {
+var commonLib = {
     /**
      * ajax 요청 공통 기능
      *

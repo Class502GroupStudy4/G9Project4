@@ -90,6 +90,8 @@ public class MemberController implements ExceptionProcessor {
         if (mode.equals("join")) {
             addCommonScript.add("fileManager");
             addCss.add("member/join");
+            addCommonScript.add("email");
+            addScript.add("member/join");
             addScript.add("member/form");
 
         } else if (mode.equals("login")) {
