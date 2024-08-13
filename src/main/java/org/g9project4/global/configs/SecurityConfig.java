@@ -28,6 +28,7 @@ public class SecurityConfig {
     private final MemberInfoService memberInfoService;
     private final Utils utils;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler();
