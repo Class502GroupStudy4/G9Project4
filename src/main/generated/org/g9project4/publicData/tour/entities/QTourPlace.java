@@ -47,6 +47,10 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
 
     public final NumberPath<Double> distance = createNumber("distance", Double.class);
 
+    public final NumberPath<Long> favoritePlacePoint1 = createNumber("favoritePlacePoint1", Long.class);
+
+    public final NumberPath<Long> favoritePlacePoint2 = createNumber("favoritePlacePoint2", Long.class);
+
     public final StringPath firstImage = createString("firstImage");
 
     public final StringPath firstImage2 = createString("firstImage2");

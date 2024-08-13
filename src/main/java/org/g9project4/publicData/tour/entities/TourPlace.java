@@ -55,4 +55,7 @@ public class TourPlace extends BaseEntity {
     private Double longitude; // mapx
     private Integer mapLevel;
     private Integer sigugunCode;
+
+    //private Long favoritePlacePoint1;  경미 나중에 쓸거임
+    //private Long favoritePlacePoint2;  경미 나중에 쓸거임
 }
