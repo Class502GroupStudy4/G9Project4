@@ -13,6 +13,7 @@
 
 /* 사이드 바 항목 스타일링 */
 .sidebar-item {
+    margin-top: 50px;
     display: block; /* 링크를 블록으로 설정하여 전체 너비 차지 */
     color: white; /* 링크 텍스트 색상 */
     text-decoration: none; /* 밑줄 제거 */
