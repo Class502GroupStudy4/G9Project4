@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@SessionAttributes("requestLogin")
+@SessionAttributes({"requestLogin", "EmailAuthVerified"})
 public class MemberController implements ExceptionProcessor {
 
     private final JoinValidator joinValidator;
@@ -34,28 +35,30 @@ public class MemberController implements ExceptionProcessor {
         return new RequestLogin();
     }
 
+    @ModelAttribute("EmailAuthVerified")
+    public Boolean emailAuthVerified() {
+        return false; // 이메일 인증 여부 초기화
+    }
+
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("join", model);
-
-        return utils.tpl("member/join");
+        model.addAttribute("addCss", "join");
+        model.addAttribute("EmailAuthVerified", false); // 이메일 인증 여부 초기화
+        return utils.tpl("/member/join");
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors, Model model) {
-
-        commonProcess("join", model);
-
+    public String joinPs(@Valid RequestJoin form, Errors errors, Model model, SessionStatus sessionStatus) {
+        model.addAttribute("addCss", "join");
         joinValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             return utils.tpl("member/join");
         }
-
         memberSaveService.save(form);
-
-
-        return "redirect:"+utils.redirectUrl("/member/login");
+        sessionStatus.setComplete(); // EmailAuthVerified 세션값 비우기
+        return "redirect:" + utils.redirectUrl("/member/login");
 
     }
 
@@ -73,6 +76,7 @@ public class MemberController implements ExceptionProcessor {
         }
         return utils.tpl("member/login");
     }
+
     /**
      * 회원 관련 컨트롤러 공통 처리
      *
@@ -80,8 +84,8 @@ public class MemberController implements ExceptionProcessor {
      * @param model
      */
     private void commonProcess(String mode, Model model) {
-        mode = Objects.requireNonNullElse(mode, "join");
-
+        mode = StringUtils.hasText(mode) ? mode : "join";
+        String pageTitle = utils.getMessage("회원가입");
         List<String> addCss = new ArrayList<>();
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
@@ -91,14 +95,20 @@ public class MemberController implements ExceptionProcessor {
             addCommonScript.add("fileManager");
             addCss.add("member/join");
             addScript.add("member/form");
-
-        } else if (mode.equals("login")) {
-            addCss.add("member/login");
         }
 
+        if (mode.equals("login")) { // 로그인
+            pageTitle = utils.getMessage("로그인");
+            addCss.add("member/login");
+        } else if (mode.equals("join")) { // 회원가입
+            addCss.add("member/join");
+            addScript.add("member/join");
+        }
+
+        model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCss", addCss);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
     }
-
 }
+
