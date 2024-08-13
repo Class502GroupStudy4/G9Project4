@@ -1,10 +1,11 @@
 
 .sidebar {
+    margin-top: 112px;
     width: 250px; /* 사이드 바의 너비 */
     height: 100vh; /* 사이드 바의 높이, 전체 화면 높이 */
     background-color: #9c9ca6; /* 사이드 바 배경색 */
     color: white; /* 텍스트 색상 */
-    position: fixed; /* 고정 위치 */
+    position: absolute;
     top: 0;
     left: 0;
     padding: 20px; /* 사이드 바 내부 여백 */
@@ -13,7 +14,6 @@
 
 /* 사이드 바 항목 스타일링 */
 .sidebar-item {
-    margin-top: 50px;
     display: block; /* 링크를 블록으로 설정하여 전체 너비 차지 */
     color: white; /* 링크 텍스트 색상 */
     text-decoration: none; /* 밑줄 제거 */
