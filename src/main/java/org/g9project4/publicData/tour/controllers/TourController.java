@@ -52,7 +52,7 @@ public class TourController implements ExceptionProcessor {
     @GetMapping("/view")
     public String view(Model model) {
         commonProcess("view", model);
-        return utils.tpl("/tour/map");
+        return utils.tpl("tour/map");
     }
 
     @GetMapping("/list")
@@ -61,7 +61,7 @@ public class TourController implements ExceptionProcessor {
         ListData<TourPlace> data = placeInfoService.getTotalList(search);
         commonProcess("list", model);
         addListProcess(model, data);
-        return utils.tpl("/tour/list");
+        return utils.tpl("tour/list");
     }
 
     @GetMapping("/list/{type}")
@@ -84,6 +84,12 @@ public class TourController implements ExceptionProcessor {
         DetailItem item = detailInfoService.getDetail(contentId);
         commonProcess("detail", model);
         model.addAttribute("items", item);
-        return utils.tpl("/tour/detail");
+        return utils.tpl("tour/detail");
+    }
+
+    @GetMapping("/popup")
+    public String popup() {
+
+        return utils.tpl("tour/popup");
     }
 }
