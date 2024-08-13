@@ -3,6 +3,7 @@ package org.g9project4.mypage.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.digester.ArrayStack;
+import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.services.MemberSaveService;
@@ -27,12 +28,12 @@ public class MyPageController {
     private final ProfileUpdateValidator profileUpdateValidator;
     private final MemberSaveService memberSaveService;
     private final MemberUtil memberUtil;
-
+    private final Utils utils;
     @GetMapping
     public String index(Model model) {
         commonProcess("index", model);
 
-        return "front/mypage/index";
+        return utils.tpl("/mypage/index");
     }
 
     @GetMapping("/info")
@@ -44,7 +45,7 @@ public class MyPageController {
         form.setMobile(member.getMobile());
         form.setGid(member.getGid());
 
-        return "front/mypage/info";
+        return utils.tpl("/mypage/info");
     }
 
 
@@ -55,7 +56,7 @@ public class MyPageController {
         profileUpdateValidator.validate(form,errors);
 
         if (errors.hasErrors()) {
-            return "front/mypage/info";
+            return utils.tpl("/mypage/info");
         }
 
         memberSaveService.save(form);
@@ -64,7 +65,7 @@ public class MyPageController {
 
         //SecurityContextHolder.getContext().setAuthentication();
 
-        return "redirect:/mypage";
+        return "redirect:"+ utils.redirectUrl("/mypage");
     }
 
     private void commonProcess(String mode, Model model) {
