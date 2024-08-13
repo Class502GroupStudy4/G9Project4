@@ -28,12 +28,12 @@
     <th:block layout:fragment="addScript"></th:block>
 </head>
 <body>
-<header th:replace="~{front/outlines/_header::common}"></header>
+<header th:replace="~{front/outlines/mypageHeader::common}"></header>
 <main>
     <aside th:replace="~{front/mypage/_side::menus}"></aside>
     <section layout:fragment="content"></section>
 </main>
-<footer th:replace="~{front/outlines/_footer::common}"></footer>
+<footer th:replace="~{front/outlines/mypageFooter::common}"></footer>
 <iframe name="ifrmHidden" class="dn"></iframe>
 </body>
 </html>

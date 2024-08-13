@@ -2,7 +2,7 @@
 .sidebar {
     margin-top: 112px;
     width: 250px; /* 사이드 바의 너비 */
-    height: 100vh; /* 사이드 바의 높이, 전체 화면 높이 */
+    height: 118%; /* 사이드 바의 높이, 전체 화면 높이 */
     background-color: #9c9ca6; /* 사이드 바 배경색 */
     color: white; /* 텍스트 색상 */
     position: absolute;
@@ -33,4 +33,11 @@
     .menus {
         width: 200px; /* 모바일 장치에서 사이드 바 너비 조정 */
     }
+}
+
+.mypageFooter {
+    position: fixed; /* 화면에 고정된 위치 */
+    bottom: 0; /* 화면 하단에 위치 */
+    left: 0; /* 화면 왼쪽에 위치 */
+    width: 100%;
 }
