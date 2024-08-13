@@ -1,3 +1,41 @@
+html {
+    font-size: 13px;
+}
+
+body {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul, ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+dl, dt, dd {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    border: 0;
+}
+
+dl {
+    display: flex;
+}
+
+dt {
+    width: 180px;
+}
+
+dd {
+    flex-grow: 1;
+}
 /* 공통 컬러 시작*/
 /* 공통 컬러 사용법-css:    var(--primary-color);
  타 css파일에 공통컬러 적용시 추가-> html에 이미 추가 되어 있음
@@ -138,7 +176,7 @@ main {
     /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
 }
 
-h1 {
+h1  {
     text-align: center;
     color: var(--accent-color);
     margin-bottom: 20px;
