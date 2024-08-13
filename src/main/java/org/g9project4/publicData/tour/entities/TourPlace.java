@@ -39,7 +39,7 @@ public class TourPlace extends BaseEntity {
     @Column(length = 150)
     private String address;
 
-    @JoinColumn(name = "areaCode")
+    //@JoinColumn(name = "areaCode")
     private String areaCode;
 
 
