@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<th:block layout:fragment="addCommonScript">
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43a2034cb765c278f32c3be400fa5515&libraries=services"></script>
+</th:block>
+<main layout:fragment="content">
+    <div class="map_wrap">
+        <div id="map"></div>
+
+        <div id="menu_wrap" class="bg_white">
+            <div class="option">
+                <div>
+                    <form onsubmit="searchPlaces(); return false;">
+                        키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15">
+                        <button type="submit">검색하기</button>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <ul id="placesList"></ul>
+            <div id="pagination"></div>
+        </div>
+        <div id="sidebar">
+            <!-- 사이드 바 내용 -->
+            <h2>사이드 바</h2>
+            <ul>
+                <li><a href="#">여행노트</a></li>
+                <li><a href="#">페이지 2</a></li>
+            </ul>
+        </div>
+
+        <button id="toggleBtn">여행노트</button>
+
+    </div>
+    <ul id="category">
+        <li id="BK9" data-order="0">
+            <span class="category_bg bank"></span>
+            은행
+        </li>
+        <li id="MT1" data-order="1">
+            <span class="category_bg mart"></span>
+            마트
+        </li>
+        <li id="PM9" data-order="2">
+            <span class="category_bg pharmacy"></span>
+            약국
+        </li>
+        <li id="OL7" data-order="3">
+            <span class="category_bg oil"></span>
+            주유소
+        </li>
+        <li id="CE7" data-order="4">
+            <span class="category_bg cafe"></span>
+            카페
+        </li>
+        <li id="CS2" data-order="5">
+            <span class="category_bg store"></span>
+            편의점
+        </li>
+    </ul>
+    </div>
+
+</main>
+</html>

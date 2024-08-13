@@ -17,17 +17,22 @@ public class TourPlaceSearch {
     private int page=1;
     private int limit=10; // 0 : 설정에 있는 1페이지 게시글 갯수, 1 이상 -> 지정한 갯수
     /**
-     * 검색 옵션
+     * 필터 옵션
      *
-     * latitude : 위도
-     * longitude : 경도
      * contentType : 관광지 타입
-     * radius : 거리
-     * ALL :
+     *
+     *
      */
     private Double latitude;
     private Double longitude;
     private ContentType contentType;
+    /**
+     * 검색 옵션
+     * TITLE : 여행지 이름
+     * ADDRESS : 주소
+     * TITLE_ADDRESS : 이름 + 주소
+     * ALL:
+     */
     private String sopt; // 검색 옵션
     private String skey; // 검색 키워드
 

@@ -1,9 +1,8 @@
 package org.g9project4.publicData.tour.controllers;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
+import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.BadRequestException;
 import org.g9project4.global.exceptions.ExceptionProcessor;
@@ -15,9 +14,9 @@ import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -29,52 +28,62 @@ public class TourController implements ExceptionProcessor {
     private final TourPlaceInfoService placeInfoService;
     private final TourDetailInfoService detailInfoService;
     private final Utils utils;
-    @PersistenceContext
-    private EntityManager em;
+
+    private void addListProcess(Model model, ListData<TourPlace> data) {
+        Pagination pagination = data.getPagination();
+        //pagination.setBaseURL();
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", pagination);
+    }
+
+    private void commonProcess(String mode, Model model) {
+        if (mode.equals("list")) {
+            model.addAttribute("addCss", List.of("tour/list"));
+        } else if (mode.equals("detail")) {
+            model.addAttribute("addCss", List.of("tour/map"));
+            model.addAttribute("addScript",List.of("tour/detailMap"));
+            model.addAttribute("addCommonScript", List.of("map"));
+        }else if(mode.equals("view")){
+            model.addAttribute("addCss", List.of("tour/map", "tour/sidebar"));
+            model.addAttribute("addScript", List.of("tour/map", "tour/sidebar"));
+        }
+    }
 
     @GetMapping("/view/{id}")
     public String view(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("addCommonScript", List.of("map"));
-        model.addAttribute("addScript", List.of("tour/view"));
-        return "front/tour/view";
+        commonProcess("view", model);
+        return utils.tpl("/tour/map");
     }
 
     @GetMapping("/list")
-    public String list(Model model, TourPlaceSearch search) {
-
-
+    public String list(Model model, @ModelAttribute TourPlaceSearch search) {
+        search.setContentType(null);
         ListData<TourPlace> data = placeInfoService.getTotalList(search);
-        model.addAttribute("items", data.getItems());
-        model.addAttribute("pagination", data.getPagination());
-        return "front/tour/list";
+        commonProcess("list", model);
+        addListProcess(model, data);
+        return utils.tpl("/tour/list");
     }
 
     @GetMapping("/list/{type}")
-    public String list(@PathVariable("type") String type, @RequestParam(value = "page", defaultValue = "10") int page, @RequestParam(value = "size", defaultValue = "10") int size, Model model) {
+    public String list(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
 
         try {
-            TourPlaceSearch search = TourPlaceSearch.builder()
-                    .page(page)
-                    .limit(size)
-                    .contentType(utils.typeCode(type))
-                    .build();
+            search.setContentType(utils.typeCode(type));
             ListData<TourPlace> data = placeInfoService.getSearchedList(search);
-
-            model.addAttribute("items", data.getItems());
-            model.addAttribute("pagination", data.getPagination());
-            return "front/tour/list";
+            commonProcess("list", model);
+            addListProcess(model, data);
+            return utils.tpl("/tour/list");
         } catch (BadRequestException e) {
             e.printStackTrace();
-            return "redirect:/tour/list";
+            return "redirect:" + utils.redirectUrl("/tour/list");
         }
     }
 
     @GetMapping("/detail/{contentId}")
     public String detail(@PathVariable("contentId") Long contentId, Model model) {
         DetailItem item = detailInfoService.getDetail(contentId);
-        model.addAttribute("addCommonScript", List.of("map"));
-        model.addAttribute("addScript", List.of("tour/detailview"));
+        commonProcess("detail", model);
         model.addAttribute("items", item);
-        return "front/tour/detail";
+        return utils.tpl("/tour/detail");
     }
 }
