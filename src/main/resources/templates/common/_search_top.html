@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="search">
-    <h1 th:text="#{여행지_통합검색}"></h1>
+
+    <div class="mainBn">
+    <h2 th:text="#{우리의 국내여행 커뮤니티,}">
+        <span th:text="#{오늘 어디가지?}"></span>
+    </h2>
+    <p class="tit" th:text="#{100만 사용자들의 여행리뷰를 확인하세요.}"></p>
+
     <form id="search_top" name="frmSearch" method="get" autocomplete="off" th:object="${tourPlaceSearch}">
         <select name="sopt" th:field="*{sopt}">
             <option value="TITLE" th:text="#{여행지_이름}"></option>
@@ -11,6 +17,8 @@
         <input type="text" name="skey" th:field="*{skey}"
                th:placeholder="#{검색어를_입력하세요.}">
         <button type="submit" th:text="#{검색하기}"></button>
+
     </form>
+    </div>
 </th:block>
 </html>
