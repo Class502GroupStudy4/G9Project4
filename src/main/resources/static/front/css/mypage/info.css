@@ -61,6 +61,40 @@ input[type="password"] {
     justify-content: center;
 }
 
+.fileUploads > button{
+    display: inline-flex;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    text-align: center;
+}
+
+button[type="fileUploads"] {
+    display: inline-flex;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    text-align: center;
+
+
+
+
+}
+
+
+
+.profile-image .fileUploads:hover {
+    background-color: #218838;
+}
+
 .profile-image .image-file-box {
     position: absolute;
     width: 100%;
@@ -115,23 +149,6 @@ button:hover {
 
 button[type="reset"]:hover {
     background-color: #5a6268;
-}
-
-/* 파일 업로드 버튼 */
-.fileUploads {
-    display: inline-flex;
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 5px;
-    text-align: center;
-}
-
-.fileUploads:hover {
-    background-color: #218838;
 }
 
 /* 오류 메시지 스타일 */
