@@ -103,7 +103,7 @@
                             </div>
                         </div>
                     </a>
-                    <a th:href="${@utils.redirectUrl('/tour/list/course')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list/green')}">
                         <div class="ImgBox">
                             <img th:src="${@utils.url('/images/list/intro03.jpg')}" alt=""/>
                             <div class="txt">
@@ -124,7 +124,7 @@
 
     <a th:href="${@utils.redirectUrl('/tour/list/shopping')}" th:text="#{쇼핑}"></a>
     <a th:href="${@utils.redirectUrl('/tour/list/restaurant')}" th:text="#{음식점}"></a>
-    <a th:href="${@utils.redirectUrl('#')}" th:text="#{미정}"></a>
+    <a th:href="${@utils.redirectUrl('/')}" th:text="#{미정}"></a>
 
 </nav>
 </html>
