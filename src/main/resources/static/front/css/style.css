@@ -140,10 +140,6 @@ nav .inner img {
 }
 
 /* 메인 CSS S*/
-main {
-    padding-top: 100px;
-    min-height: 700px;
-}
 
 header {
     position: fixed;
@@ -155,6 +151,11 @@ header {
     color: white;
     z-index: 1000;
 }
+main {
+    margin-top: 112px;
+    min-height: 700px;
+}
+
 /* 페이징 공통 S */
 .pagination {
     text-align: center;
@@ -205,7 +206,7 @@ header {
 /* 파일 공통 S */
 .image-file-box {
     border: 2px solid #000;
-    width: 204px;
+    width: 200px;
     position: relative;
 }
 
