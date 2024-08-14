@@ -1,5 +1,4 @@
-
-const commonLib = {
+var commonLib = {
     /**
      * ajax 요청 공통 기능
      *
@@ -9,7 +8,7 @@ const commonLib = {
      * @param headers
      * @param responseType : 응답 데이터 타입 (text- text로, 그 외에는 JSON)
      */
-    ajaxLoad(url, method= "GET", data, headers, responseType) {
+    ajaxLoad(url, method = "GET", data, headers, responseType) {
         if (!url) {
             return;
         }

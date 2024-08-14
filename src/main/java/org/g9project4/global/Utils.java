@@ -31,6 +31,7 @@ public class Utils { // 빈의 이름 - utils
 
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
+
         try {
             return String.format("%s%s", instances.get(0).getUri().toString(), url);
         } catch (Exception e) {
@@ -43,7 +44,6 @@ public class Utils { // 빈의 이름 - utils
         String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
         boolean fromGateway = _fromGateway.equals("true");
-
 
         return fromGateway ? request.getScheme() + "://" + gatewayHost + "/app" + url : request.getContextPath() + url;
     }

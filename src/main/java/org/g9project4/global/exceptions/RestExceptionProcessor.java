@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.List;
 import java.util.Map;
 
-public interface RestExceptionProcessor<O> {
+public interface RestExceptionProcessor {
     @ExceptionHandler(Exception.class)
-    default ResponseEntity<JSONData<O>> errorHandler(Exception e) {
+    default ResponseEntity<JSONData> errorHandler(Exception e) {
 
         Object message = e.getMessage();
 
@@ -22,7 +22,7 @@ public interface RestExceptionProcessor<O> {
             if (errorMessages != null) message = errorMessages;
         }
 
-        JSONData<O> data = new JSONData<O>();
+        JSONData data = new JSONData();
         data.setSuccess(false);
         data.setMessage(message);
         data.setStatus(status);
