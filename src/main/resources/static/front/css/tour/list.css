@@ -82,6 +82,9 @@ h2 {
     width: 40px;
     height: 40px;
 }
+.Q2 img:hover{
+    cursor: pointer;
+}
 
 .keyword {
     display: flex;

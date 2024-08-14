@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <nav th:fragment="typelist">
     <section class="secWrap">
 
-    <h3>
-        <span>여행어때</span>에서 여행을 시작하세요!
-    </h3>
+        <h3>
+            <span>여행어때</span>에서 여행을 시작하세요!
+        </h3>
 
         <div class="con">
             <div class="box">
-    <ul class="tour-type-list">
-<!--        <li><a th:href="${@utils.redirectUrl('/tour/list')}" th:text="#{홈}"></a></li>-->
-        <li><a th:href="${@utils.redirectUrl('/tour/list/spot')}" th:text="#{관광지}">
-            <img th:src="${@utils.url('/images/list/city03.jpg')}" alt="관광_이미지" />
-        </a></li>
-        <li><a th:href="${@utils.redirectUrl('/tour/list/culture')}" th:text="#{문화시설}"></a></li>
-        <li><a th:href="${@utils.redirectUrl('/tour/list/festival')}" th:text="#{행사/공연/축제}"></a></li>
+
+                <ul class="tour-type-list">
+                    <!--        <li><a th:href="${@utils.redirectUrl('/tour/list')}" th:text="#{홈}"></a></li>-->
+
+                    <li>
+
+                        <a th:href="${@utils.redirectUrl('/tour/list/spot')}">
+                            <h3>관광</h3>
+                            <img th:src="${@utils.url('/images/list/city03.jpg')}" alt="관광_이미지"/>
+                    </a></li>
 
 
-        <li><a th:href="${@utils.redirectUrl('/tour/list/course')}" th:text="#{여행코스}"></a></li>
-        <li><a th:href="${@utils.redirectUrl('/tour/list/leports')}" th:text="#{레포츠}"></a></li>
-        <li><a th:href="${@utils.redirectUrl('/tour/list/stay')}" th:text="#{숙박}"></a></li>
-        <li><a th:href="${@utils.redirectUrl('/tour/list/shopping')}" th:text="#{쇼핑}"></a></li>
-        <li><a th:href="${@utils.redirectUrl('/tour/list/restaurant')}" th:text="#{음식점}"></a></li>
-    </ul>
-                </div>
+                    <li><a th:href="${@utils.redirectUrl('/tour/list/culture')}" th:text="#{문화시설}"></a></li>
+                    <li><a th:href="${@utils.redirectUrl('/tour/list/festival')}" th:text="#{행사/공연/축제}"></a></li>
+
+
+                    <li><a th:href="${@utils.redirectUrl('/tour/list/course')}" th:text="#{여행코스}"></a></li>
+                    <li><a th:href="${@utils.redirectUrl('/tour/list/leports')}" th:text="#{레포츠}"></a></li>
+                    <li><a th:href="${@utils.redirectUrl('/tour/list/stay')}" th:text="#{숙박}"></a></li>
+                    <li><a th:href="${@utils.redirectUrl('/tour/list/shopping')}" th:text="#{쇼핑}"></a></li>
+                    <li><a th:href="${@utils.redirectUrl('/tour/list/restaurant')}" th:text="#{음식점}"></a></li>
+                </ul>
             </div>
+        </div>
     </section>
 </nav>
 </html>
