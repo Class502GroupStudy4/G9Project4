@@ -41,7 +41,8 @@ public class TourController implements ExceptionProcessor {
 
     private void commonProcess(String mode, Model model) {
         if (mode.equals("list")) {
-            model.addAttribute("addCss", List.of("tour/list"));
+            model.addAttribute("addCommonCss",List.of("banner"));
+            model.addAttribute("addCss", List.of("tour/list","tour/_typelist"));
         } else if (mode.equals("detail")) {
             model.addAttribute("addCss", List.of("tour/map"));
             model.addAttribute("addScript", List.of("tour/detailMap"));

@@ -19,9 +19,15 @@ header {
     left: 0;
     width: 100%;
     min-height: 60px; /* 헤더의 높이를 지정합니다 */
-    background-color: white;
+   /* background-color: white; */
     color: white;
     z-index: 1000;
+    transition:  all 0.5s;
+}
+
+header.on {
+    background: #fff;
+    color: #000;
 }
 /*헤더 상단 로그인 회원가입 버튼 시작 */
 header .site-top > .inner {
@@ -177,7 +183,7 @@ header .dropdown:hover .dropdown-content {
 
 main {
     margin-top: 112px;
-    min-height: 700px;
+    min-height: 1000px;
 }
 
 /* 페이징 공통 S */
