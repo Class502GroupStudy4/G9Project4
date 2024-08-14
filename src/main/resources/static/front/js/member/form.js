@@ -1,3 +1,12 @@
+window.addEventListener("DOMContentLoaded", function() {
+    const removeEl = document.querySelector(".profile-image .remove");
+    if (removeEl) {
+        removeEl.addEventListener("click", function() {
+            deleteProfileImage(this);
+        });
+    }
+});
+
 /**
  * 프로필 이미지 후속 처리
  * 
@@ -25,14 +34,12 @@ function fileUploadCallback(files) {
 
     const removeEl = box.querySelector(".remove");
     removeEl.addEventListener("click", function () {
-        if (!confirm('정말 삭제하겠습니까?')) {
-            return;
-        }
-
-        const seq = this.dataset.seq;
-        fileManager.delete(seq);
+        deleteProfileImage(this);
     });
 }
+
+
+
 
 /**
  * 파일 삭제 후속 처리
@@ -42,4 +49,13 @@ function fileUploadCallback(files) {
 function fileDeleteCallback(file) {
     const targetEl = document.querySelector(".profile-image");
     if (targetEl) targetEl.innerHTML = "";
+}
+
+function deleteProfileImage(el) {
+    if (!confirm('정말 삭제하겠습니까?')) {
+        return;
+    }
+
+    const seq = el.dataset.seq;
+    fileManager.delete(seq);
 }
