@@ -2,6 +2,7 @@ package org.g9project4.email.service;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.email.controllers.EmailMessage;
 import org.g9project4.global.Utils;
 import org.springframework.stereotype.Service;
 

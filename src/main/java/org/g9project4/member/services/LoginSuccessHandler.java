@@ -11,11 +11,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-
 @Setter
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private Utils utils;
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();

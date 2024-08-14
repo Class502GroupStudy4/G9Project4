@@ -22,8 +22,8 @@ public class ApiEmailController {
      * @return
      */
     @GetMapping("/verify")
-    public JSONData<Object> sendVerifyEmail(@RequestParam("email") String email) {
-        JSONData<Object> data = new JSONData<>();
+    public JSONData sendVerifyEmail(@RequestParam("email") String email) {
+        JSONData data = new JSONData();
 
         boolean result = verifyService.sendCode(email);
         data.setSuccess(result);
@@ -39,8 +39,8 @@ public class ApiEmailController {
      * @return
      */
     @GetMapping("/auth_check")
-    public JSONData<Object> checkVerifiedEmail(@RequestParam("authNum") int authNum) {
-        JSONData<Object> data = new JSONData<>();
+    public JSONData checkVerifiedEmail(@RequestParam("authNum") int authNum) {
+        JSONData data = new JSONData();
 
         boolean result = verifyService.check(authNum);
         data.setSuccess(result);
