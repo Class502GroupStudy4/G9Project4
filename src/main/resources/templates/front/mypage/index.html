@@ -1,8 +1,51 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/mypage}">
 <section layout:fragment="content">
     <h1 th:text="#{마이_페이지}"></h1>
+    <div class="section1">
+    <form id="frmIndex" name="frmIndex" method="GET" autocomplete="off" th:object="${requestProfile}">
+
+        <input type="hidden" name="gid" th:field="*{gid}">
+        <dl>
+           <dd>
+                <div class="profile-image fileUploads" data-mode="dragNdrop" th:data-gid="*{gid}" th:data-single="true"
+                     th:data-image-only="true">
+                    <div th:if="${myProfileImage != null}" th:object="${myProfileImage}" class="image-file-box"
+                         th:id="*{'file-' + seq}">
+                        <div class="inner"
+                             th:style="*{#strings.concat('background: url(', fileUrl, ') no-repeat center center; background-size: cover;')}"
+                             th:data-url="*{fileUrl}"></div>
+                    </div>
+                        <span>
+                            <a1 th:text="${loggedMember.userName}"></a1>
+                            <a2>님</a2> <br>
+                            <a3>환영합니다</a3>
+                        </span>
+                </div>
+            </dd>
+        </dl>
+<div class="myprofile">
+        <a4 th:text="#{내_정보}"></a4>
+        <dl>
+            <dt th:text="#{이메일}"></dt>
+            <dd th:text="${loggedMember.email}"></dd>
+        </dl>
+        <dl>
+            <dt th:text="#{회원명}"></dt>
+            <dd th:text="${loggedMember.userName}"></dd>
+        </dl>
+        <dl>
+            <dt th:text="#{휴대전화번호}"></dt>
+            <dd th:text="${loggedMember.mobile}"></dd>
+        </dl>
+</div>
+    </form>
+    <div class="mypage-tour-story">
+        <h2 th:text="#{나의_여행활동}"></h2>
+    </div>
+    </div>
 </section>
+
 </html>

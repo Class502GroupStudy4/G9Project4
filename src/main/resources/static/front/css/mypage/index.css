@@ -1,0 +1,80 @@
+.section1 {
+    display: flex;
+    flex-direction: row; /* 가로 방향으로 배치 */
+    justify-content: space-between; /* 두 요소를 양쪽 끝으로 배치 */
+    align-items: flex-start; /* 상단 정렬 */
+    margin: 10px 20px;
+}
+
+#frmIndex {
+    box-shadow: 2px 2px 5px #34495e;
+    padding: 25px;
+    border-radius: 10px;
+    background: #fff;
+    width: 550px;
+   /* margin: 0 auto auto 20px; */
+    display: flex;
+    flex-direction: row;
+}
+
+#frmIndex > dl > dd> div > span {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#frmIndex > dl > dd> div > span> a1 {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+#frmIndex > dl > dd> div > a2, a3 {
+    font-size: 1.25rem;
+}
+
+#frmIndex .profile-image {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 20px;
+    flex-grow: 1;
+}
+
+#frmIndex .profile-image .inner {
+    border-radius: 100px;
+    margin-bottom: 20px;
+}
+
+#frmIndex .myprofile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 2;
+}
+
+#frmIndex .myprofile > a4 {
+    text-align: start;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+#frmIndex .myprofile > dl {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.mypage-tour-story {
+    box-shadow: 2px 2px 5px #34495e;
+    padding: 25px;
+    border-radius: 10px;
+    background: #fff;
+    width: 800px;
+    height: 500px;
+    /*margin: 20px auto auto 0;*/
+    display: flex;
+    flex-direction: row;
+}
+
+.mypage-tour-story > h2 {
+    font-size: 1.5rem; border-bottom: 2px solid #000; padding-bottom: 20px; line-height: 0.7;
+}
