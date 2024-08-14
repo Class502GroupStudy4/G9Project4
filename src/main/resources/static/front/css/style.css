@@ -29,7 +29,7 @@ nav {
     padding: 0; /* 패딩 제거 */
     border-top: 1px solid #fff; /* 상단 경계선 흰색으로 설정 */
     border-bottom: 1px solid #fff; /* 하단 경계선 흰색으로 설정 */
-    display: flex; /* 플렉스 박스 레이아웃 사용 */
+    /*display: flex; !* 플렉스 박스 레이아웃 사용 *!*/
     box-sizing: border-box; /* 경계선과 패딩이 요소의 전체 너비와 높이에 포함되도록 설정 */
     align-items: center; /* 수직 정렬을 중앙으로 설정 */
 }
@@ -38,7 +38,7 @@ nav > .inner {
     display: flex;
     justify-content: center; /* 가로 방향으로 중앙 정렬 */
     align-items: center; /* 수직 방향으로 중앙 정렬 */
-    height: 60px; /* 높이 설정 */
+    height: 110px; /* 높이 설정 */
     width: 100%; /* 너비를 100%로 설정하여 가로로 꽉 채우기 */
 }
 

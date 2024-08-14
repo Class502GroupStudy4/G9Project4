@@ -1,5 +1,162 @@
-nav .tour-type-list{
+nav .tour-type-list {
     display: flex;
     justify-content: center; /* 가로 방향으로 중앙 정렬 */
     align-items: center; /* 수직 방향으로 중앙 정렬 */
+}
+
+main {
+    padding-left: 0;
+}
+
+.mainBn {
+    margin-top: 57px;
+    height: 454px;
+    background-image: url(../../../images/list/key_bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.bnWrap {
+    width: 1092px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.bnWrap h2, .tit, .city, .map {
+    color: white;
+}
+
+.city a {
+    color: white;
+}
+
+h2 {
+    padding-top: 80px;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.bnWrap h2 span {
+    color: rgba(245, 161, 25, 0.9);
+}
+
+.tit {
+    font-size: 24px;
+    margin-top: 20px;
+    opacity: 0.85;
+}
+
+.srchBox {
+    width: 560px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin-top: 60px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px 20px;
+    padding-bottom: 0px;
+    border-radius: 5px;
+}
+
+.srchBox .srch2 {
+    position: relative;
+}
+
+.srchBox .srch2 input {
+    width: 560px;
+    height: 50px;
+    text-indent: 10px;
+}
+
+.Q2 {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    border: 0;
+    background-color: transparent;
+}
+
+.Q2 img {
+    width: 40px;
+    height: 40px;
+}
+.Q2 img:hover{
+    cursor: pointer;
+}
+
+.keyword {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #fff;
+    margin-top: 8px;
+}
+
+.keyword a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+/*아래부터 typelist */
+
+.secWrap {
+    width: 1092px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.sec1 h3 {
+    margin-top: 80px;
+    margin-bottom: 30px;
+    font-size: 26px;
+    color: #333;
+}
+
+.sec1 h3 span {
+    color: rgba(245, 161, 25, 0.9);
+}
+
+.sec1 .con {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.sec1 h4 {
+    color: #333;
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    line-height: 1;
+}
+
+.sec1 p {
+    text-align: left;
+}
+
+.sec1 h5 {
+    font-size: 14px;
+    color: rgba(245, 161, 25, 0.9);
+    margin-top: 25px;
+    margin-bottom: 70px;
+}
+
+.sec1 .box p {
+    text-align: center;
+    line-height: 1.5;
+}
+
+
+.sec1 .box img {
+    border-radius: 5px;
+    border: 2px solid #f0f0f0;
+}
+
+.sec1 .box:hover img {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+    transition: all 1s;
 }
