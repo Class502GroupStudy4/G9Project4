@@ -49,8 +49,8 @@ public class TourController implements ExceptionProcessor {
         }
     }
 
-    @GetMapping("/view/{id}")
-    public String view(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/view")
+    public String view(Model model) {
         commonProcess("view", model);
         return utils.tpl("/tour/map");
     }
@@ -58,7 +58,7 @@ public class TourController implements ExceptionProcessor {
     @GetMapping("/list")
     public String list(Model model, @ModelAttribute TourPlaceSearch search) {
         search.setContentType(null);
-        ListData<TourPlace> data = placeInfoService.getTotalList(search);
+        ListData<TourPlace> data = placeInfoService.getSearchedList(search);
         commonProcess("list", model);
         addListProcess(model, data);
         return utils.tpl("/tour/list");

@@ -9,7 +9,7 @@
     <h1>관광지 상세 정보 보기</h1>
     <section th:object="${items}">
         <dl>
-            <dt th:text="#{장소}"></dt>
+            <dt th:text="#{여행지_이름}"></dt>
             <dd th:text="*{title}"></dd>
         </dl>
         <dl>
@@ -50,7 +50,9 @@
             <dd th:text="*{mapy}">
             </dd>
         </dl>
-        <div id="map" th:data-lat="*{mapy}" th:data-lng="*{mapx}"></div>
+        <dl>
+            <div id="map" th:data-lat="*{mapy}" th:data-lng="*{mapx}"></div>
+        </dl>
     </section>
 
 </main>
