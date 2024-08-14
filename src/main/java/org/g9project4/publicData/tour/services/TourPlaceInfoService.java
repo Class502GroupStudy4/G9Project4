@@ -105,7 +105,7 @@ public class TourPlaceInfoService {
             skey = skey.trim();
 
             BooleanExpression titleCond = greenPlace.title.contains(skey); // 제목 - subject LIKE '%skey%';
-            BooleanExpression addressCond = greenPlace.addr.contains(skey); // 내용 - content LIKE '%skey%';
+            BooleanExpression addressCond = greenPlace.address.contains(skey); // 내용 - content LIKE '%skey%';
 
             if (sopt.equals("TITLE")) { // 여행지 이름
 
