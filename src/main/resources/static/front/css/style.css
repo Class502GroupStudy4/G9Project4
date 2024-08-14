@@ -1,13 +1,143 @@
+.layout-width {
+    max-width: 1300px;
+    min-width: 1000px;
+    margin: 0 auto;
+}
+
+/*헤더 상단 로그인 회원가입 버튼 시작 */
+header .site-top > .inner {
+    display: flex;
+    justify-content: space-between;
+    height: 35px;
+    align-items: center;
+}
+header .site-top > .inner > .layout-right{
+    justify-content: right;
+}
+.main-top-buttons button {
+    background-color: var(--secondary-color); /* 버튼 배경색 */
+}
 
 
+/*헤더 상단 로그인 회원가입 버튼 끝 */
 
+/* 헤더 메인 메뉴바 시작 */
 
+nav {
+    width: 100%; /* 가로 너비를 100%로 설정하여 부모 요소의 전체 너비를 차지 */
+    margin-top: 15px; /* 상단에 15px의 마진 설정 */
+    padding: 0; /* 패딩 제거 */
+    border-top: 1px solid #fff; /* 상단 경계선 흰색으로 설정 */
+    border-bottom: 1px solid #fff; /* 하단 경계선 흰색으로 설정 */
+    display: flex; /* 플렉스 박스 레이아웃 사용 */
+    box-sizing: border-box; /* 경계선과 패딩이 요소의 전체 너비와 높이에 포함되도록 설정 */
+    align-items: center; /* 수직 정렬을 중앙으로 설정 */
+}
 
+nav > .inner {
+    display: flex;
+    justify-content: center; /* 가로 방향으로 중앙 정렬 */
+    align-items: center; /* 수직 방향으로 중앙 정렬 */
+    height: 110px; /* 높이 설정 */
+    width: 100%; /* 너비를 100%로 설정하여 가로로 꽉 채우기 */
+}
 
+nav > .inner > a {
+    text-decoration: none;
+}
 
+nav > .inner > * {
+    border-radius: 5px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    max-height: 60px;
+    line-height: 60px; /* line-height를 맞추어 정렬 */
+    min-width: 200px;
+    padding: 0 10px;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    display: flex;
+    justify-content: center; /* 텍스트 가로 방향으로 가운데 정렬 */
+    align-items: center; /* 텍스트 수직 방향으로 가운데 정렬 */
+    position: relative; /* ::after 가상 요소의 위치를 기준으로 설정 */
+}
 
+nav > .inner > *:hover::after {
+    content: ""; /* 가상 요소의 내용은 빈 문자열 */
+    position: absolute; /* 부모 요소 기준으로 위치를 설정 */
+    bottom: 40px; /* 하단에 위치 (40px에서 8px 두께의 밑줄을 포함) */
+    left: 0; /* 왼쪽부터 시작 */
+    width: 100%; /* 가로 길이를 부모 요소의 전체 너비로 설정 */
+    height: 8px; /* 밑줄의 두께를 8px로 설정 */
+    /*background-color: #fff; !* 밑줄의 색상을 흰색으로 설정 *!*/
+}
 
+nav .inner img {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+}
 
+/* 드롭다운 컨테이너 스타일 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* 드롭다운 링크 호버 스타일 */
+.dropdown a:hover {
+    color: #fff; /* 호버 시 링크 색상 설정 */
+}
+
+/* 콘텐츠 박스 스타일 */
+.content-box {
+    min-width: 550px;
+    max-width: 700px;
+    min-height: 650px;
+    margin: 50px auto;
+    box-shadow: 2px 2px 10px #414141;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 드롭다운 콘텐츠 스타일 */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #000;
+    min-width: 250px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    left: 0;
+    text-align: center; /* 드롭다운 텍스트 가운데 정렬 */
+}
+
+.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 1.5rem; /* 메뉴 글자 크기 설정 */
+    line-height: 45px; /* 라인 높이 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.dropdown-content a:hover {
+    color: var(--primary-color);
+    background-color: #ffffff; /* 호버 시 배경색 설정 */
+}
+
+/* 드롭다운 컨테이너에 마우스를 올리면 드롭다운 콘텐츠를 보이게 함 */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 헤더 메인 메뉴바 끝 */
+
+/*헤더 아이프레임 숨김 */
+.dn {
+    display: none;
+}
 
 /* 메인 CSS S*/
 
