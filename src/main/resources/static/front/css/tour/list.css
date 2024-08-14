@@ -116,3 +116,47 @@ h2 {
     font-size: 26px;
     color: #333;
 }
+
+.sec1 h3 span {
+    color: rgba(245, 161, 25, 0.9);
+}
+
+.sec1 .con {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.sec1 h4 {
+    color: #333;
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    line-height: 1;
+}
+
+.sec1 p {
+    text-align: left;
+}
+
+.sec1 h5 {
+    font-size: 14px;
+    color: rgba(245, 161, 25, 0.9);
+    margin-top: 25px;
+    margin-bottom: 70px;
+}
+
+.sec1 .box p {
+    text-align: center;
+    line-height: 1.5;
+}
+
+
+.sec1 .box img {
+    border-radius: 5px;
+    border: 2px solid #f0f0f0;
+}
+
+.sec1 .box:hover img {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+    transition: all 1s;
+}
