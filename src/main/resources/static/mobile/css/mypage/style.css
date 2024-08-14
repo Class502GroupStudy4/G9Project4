@@ -1,0 +1,21 @@
+main { display: flex; margin: 112px 0 0; padding: 0; width: 100%; }
+main > aside { width: 200px; background: #596b99; color: #fff; }
+main > section { flex-grow: 1; padding: 25px 50px; }
+h1 { font-size: 2rem; border-bottom: 2px solid #000; padding-bottom: 20px; line-height: 1; }
+
+main > aside > a { display: block; padding: 25px; border-bottom: 1px solid #9c9ca6; color: #fff; font-size: 1.3rem; }
+main > aside > a:hover { background: #34495e; }
+
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='number'] { border: 1px solid #d5d5d5; height: 45px; border-radius: 3px; width: 100%; padding: 0 10px; }
+
+main button { background: #596b99; color: #fff; border: 0; cursor: pointer; height: 45px; width: 100%; border-radius: 3px; font-size: 1.2rem; }
+main button.small { width: auto; height: auto; padding: 10px 25px; }
+
+main button.black { background: #000; }
+
+.button-group { display: flex; width: 500px; margin: 10px auto; }
+.button-group > button { width: 0; flex-grow: 1; }
+.button-group > button + button { margin-left: 5px; }

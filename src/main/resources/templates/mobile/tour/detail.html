@@ -18,9 +18,7 @@
         </dl>
         <dl  th:if="*{addr1!=null && !addr1.trim().equals('')}">
             <dt th:text="#{주소}"></dt>
-            <dd>
-                <address th:text="*{addr1}"></address>
-            </dd>
+            <dd th:text="*{addr1}"></dd>
         </dl>
         <dl th:if="*{tel!=null && !tel.trim().equals('')}">
             <dt th:text="#{전화번호}"></dt>

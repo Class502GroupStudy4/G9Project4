@@ -8,6 +8,7 @@ body {
 
 a {
     text-decoration: none;
+    color: black;
 }
 
 ul, ol {
@@ -160,7 +161,11 @@ body, h1, dl, dt, dd, form, input, button {
     padding: 0;
     box-sizing: border-box;
 }
-
+h2 {
+    padding-top: 80px;
+    font-size: 40px;
+    font-weight: bold;
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
@@ -171,7 +176,7 @@ main {
     width: 100%;
     min-width: 600px;
     margin: 50px auto;
-    padding: 20px;
+    /*padding: 20px;*/
     border-radius: 8px;
     /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
 }
