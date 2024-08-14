@@ -17,11 +17,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GreenPlace {
-    private String addr;
+
+    private String address;
     private String areacode;
     @Id
     private String contentId;
-    private String mainImage;
+    private String firstImage;
     private String cpyrhtDivCd;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime modifiedtime;
