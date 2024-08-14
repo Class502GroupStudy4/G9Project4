@@ -61,7 +61,7 @@ public class TourController implements ExceptionProcessor {
         ListData<TourPlace> data = placeInfoService.getSearchedList(search);
         commonProcess("list", model);
         addListProcess(model, data);
-        return utils.tpl("/tour/list");
+        return utils.tpl("tour/list");
     }
 
     @GetMapping("/list/{type}")
@@ -72,7 +72,7 @@ public class TourController implements ExceptionProcessor {
             ListData<TourPlace> data = placeInfoService.getSearchedList(search);
             commonProcess("list", model);
             addListProcess(model, data);
-            return utils.tpl("/tour/list");
+            return utils.tpl("tour/list");
         } catch (BadRequestException e) {
             e.printStackTrace();
             return "redirect:" + utils.redirectUrl("/tour/list");
@@ -84,6 +84,6 @@ public class TourController implements ExceptionProcessor {
         DetailItem item = detailInfoService.getDetail(contentId);
         commonProcess("detail", model);
         model.addAttribute("items", item);
-        return utils.tpl("/tour/detail");
+        return utils.tpl("tour/detail");
     }
 }
