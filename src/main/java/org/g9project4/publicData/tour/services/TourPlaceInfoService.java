@@ -13,6 +13,8 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
+import org.g9project4.publicData.greentour.entities.GreenPlace;
+import org.g9project4.publicData.greentour.entities.QGreenPlace;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
@@ -85,10 +87,64 @@ public class TourPlaceInfoService {
                 .fetch();
         return new ListData<>(items, pagination);
     }
-
-    public ListData<TourPlace> getSearchedList(TourPlaceSearch search) {
-        int offset = search.getPage();
+    public ListData<GreenPlace> getGreenList(TourPlaceSearch search){
+        int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
+        limit = limit < 1 ? 20 : limit;
+        int offset = page * limit + 1;
+        /* 검색 조건 처리 S */
+        QGreenPlace greenPlace = QGreenPlace.greenPlace;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+
+        String sopt = search.getSopt();
+        String skey = search.getSkey();
+
+        sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
+
+        if (StringUtils.hasText(skey)) {
+            skey = skey.trim();
+
+            BooleanExpression titleCond = greenPlace.title.contains(skey); // 제목 - subject LIKE '%skey%';
+            BooleanExpression addressCond = greenPlace.addr.contains(skey); // 내용 - content LIKE '%skey%';
+
+            if (sopt.equals("TITLE")) { // 여행지 이름
+
+                andBuilder.and(titleCond);
+
+            } else if (sopt.equals("ADDRESS")) { // 주소
+
+                andBuilder.and(addressCond);
+
+            } else if (sopt.equals("TITLE_ADDRESS")) { // 제목 + 내용
+
+                BooleanBuilder orBuilder = new BooleanBuilder();
+                orBuilder.or(titleCond)
+                        .or(addressCond);
+
+                andBuilder.and(orBuilder);
+
+            }
+
+        }
+
+        /* 검색 조건 처리 E */
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        int count = queryFactory.selectFrom(greenPlace)
+                .where(andBuilder).fetch().size();
+        JPAQuery<GreenPlace> query = queryFactory.selectFrom(greenPlace)
+                .orderBy(greenPlace.contentId.asc())
+                .offset(offset)
+                .limit(limit)
+                .where(andBuilder);
+        List<GreenPlace> items = query.fetch();
+        Pagination pagination = new Pagination(page, count, 0, limit, request);
+        return new ListData<>(items, pagination);
+    }
+    public ListData<TourPlace> getSearchedList(TourPlaceSearch search) {
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 20 : limit;
+        int offset = page * limit + 1;
 
         /* 검색 조건 처리 S */
         QTourPlace tourPlace = QTourPlace.tourPlace;
@@ -138,7 +194,7 @@ public class TourPlaceInfoService {
                 .limit(limit)
                 .where(andBuilder);
         List<TourPlace> items = query.fetch();
-        Pagination pagination = new Pagination(offset, count, 0, limit, request);
+        Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
     }
 }
