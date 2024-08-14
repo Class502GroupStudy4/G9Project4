@@ -2,13 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header th:fragment="common">
-    <div class="site-top">
+    <div class="oagahWrap">
         <div class="inner">
-            <div class="layout-left">
-                <a th:href="${@utils.redirectUrl('/')}">
-                    <button type="submit" th:text="#{메인화면}"></button>
-                </a>
-            </div>
+            <h1 class="oagah1">
+                <a th:href="@{${@utils.redirectUrl('/')}}">여행어때</a>
+            </h1>
+
             <div class="layout-right">
                 <th:block sec:authorize="isAnonymous()">
                     <a th:href="${@utils.redirectUrl('/member/login')}">
@@ -20,6 +19,8 @@
                     </a>
                 </th:block>
             </div>
+
+
             <div class="layout-right" sec:authorize="isAuthenticated()">
                 <div th:replace="~{common/_profile_image::image1}"></div>
                 <span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/><br>
@@ -35,6 +36,8 @@
                 </a>
             </div>
         </div>
+
+
         <!-- 메인메뉴바 시작 !!! -->
         <nav>
             <div class="inner layout-width">
