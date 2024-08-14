@@ -206,7 +206,7 @@ main {
 /* 파일 공통 S */
 .image-file-box {
     border: 2px solid #000;
-    width: 204px;
+    width: 200px;
     position: relative;
 }
 
