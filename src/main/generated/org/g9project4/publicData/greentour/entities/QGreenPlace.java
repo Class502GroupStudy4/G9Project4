@@ -19,7 +19,7 @@ public class QGreenPlace extends EntityPathBase<GreenPlace> {
 
     public static final QGreenPlace greenPlace = new QGreenPlace("greenPlace");
 
-    public final StringPath addr = createString("addr");
+    public final StringPath address = createString("address");
 
     public final StringPath areacode = createString("areacode");
 
@@ -27,7 +27,7 @@ public class QGreenPlace extends EntityPathBase<GreenPlace> {
 
     public final StringPath cpyrhtDivCd = createString("cpyrhtDivCd");
 
-    public final StringPath mainImage = createString("mainImage");
+    public final StringPath firstImage = createString("firstImage");
 
     public final DateTimePath<java.time.LocalDateTime> modifiedtime = createDateTime("modifiedtime", java.time.LocalDateTime.class);
 
