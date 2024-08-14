@@ -10,7 +10,8 @@ public enum ContentType {
     Leports(28L,"레포츠"),
     Accommodation(32L,"숙박"),
     Shopping(38L,"쇼핑"),
-    Restaurant(39L,"음식점");
+    Restaurant(39L,"음식점"),
+    GreenTour(1L,"생태");
 
     private final long id;
     private final String type;

@@ -115,6 +115,8 @@ public class Utils { // 빈의 이름 - utils
                 return ContentType.Shopping;
             case ("restaurant"):
                 return ContentType.Restaurant;
+            case("green"):
+                return ContentType.GreenTour;
         }
         throw new BadRequestException("Wrong contentType");
     }
