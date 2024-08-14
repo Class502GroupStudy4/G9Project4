@@ -22,10 +22,16 @@ body {
     background-color: var(--white);
     background: url("https://img.freepik.com/free-photo/low-angle-shot-tall-trees-beautiful-green-forest_181624-7723.jpg?t=st=1723602067~exp=1723605667~hmac=d730937e42d7acff50d13305890334b3a479b08530368f9d71d9c1069db60eec&w=1380") center/cover no-repeat fixed;
     display: flex;
+    flex-direction: column; /* 방향을 세로로 설정 */
+    min-height: 100vh; /* 전체 뷰포트 높이 */
+    margin: 0;
+}
+
+main {
+    flex: 1; /* main 요소가 남은 공간을 차지하게 함 */
+    display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    margin: 0;
 }
 
 form {
@@ -35,7 +41,7 @@ form {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     max-width: var(--max-width);
     width: 100%;
-    box-sizing: border-box; /* 폼의 padding과 border가 width에 포함되도록 설정 */
+    box-sizing: border-box;
 }
 
 h1 {
@@ -153,4 +159,11 @@ button:hover {
 .buttons {
     display: flex;
     justify-content: space-between;
+}
+
+footer-content {
+    background-color: var(--gray);
+    color: var(--white);
+    padding: 1rem;
+    text-align: center;
 }
