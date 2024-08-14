@@ -11,14 +11,14 @@
             <dd>
                 <div>
                     <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
-                    <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드전송}"></button>
+                    <button class="form" th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드전송}"></button>
                 </div>
                 <div class="auth_box">
                     <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
                         <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
                         <span id="auth_count">03:00</span>
-                        <button type="button" id="email_confirm" th:text="#{확인}" disabled></button>
-                        <button type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
+                        <button class="form" type="button" id="email_confirm" th:text="#{확인}" disabled></button>
+                        <button class="form" type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
                     </th:block>
                     <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
                         <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
@@ -59,7 +59,7 @@
             <dt th:text="#{프로필_이미지}"></dt>
             <dd>
                 <div class="profile-image fileUploads" data-mode="dragNdrop"></div>
-                <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}" th:data-single="true" th:data-image-only="true"></button>
+                <button  type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}" th:data-single="true" th:data-image-only="true"></button>
             </dd>
         </dl>
         <div class="terms">
@@ -72,8 +72,8 @@
             <div class="error" th:each="err:${#fields.errors('agree')}" th:text="${err}"></div>
         </div>
         <div class="buttons">
-            <button type="submit" th:text="#{회원가입}"></button>
-            <button type="reset" th:text="#{다시입력}"></button>
+            <button class="form" type="submit" th:text="#{회원가입}"></button>
+            <button class="form" type="reset" th:text="#{다시입력}"></button>
         </div>
     </form>
     <script th:replace="~{common/_file_tpl::image}"></script>
