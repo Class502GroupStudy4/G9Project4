@@ -21,7 +21,7 @@ public class GreenUpdateService {
     private String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
 
     public void greenUpdate() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             String url = String.format("https://apis.data.go.kr/B551011/GreenTourService1/areaBasedList1?numOfRows=30&pageNo=%d&MobileOS=AND&MobileApp=test&_type=json&serviceKey=%s", i, serviceKey);
             ResponseEntity<GreenResult> response = restTemplate.getForEntity(url, GreenResult.class);
             try {
@@ -35,10 +35,10 @@ public class GreenUpdateService {
                 for (GreenItem item : items) {
                     try {
                         GreenPlace greenPlace = GreenPlace.builder()
-                                .addr(item.getAddr())
+                                .address(item.getAddr())
                                 .areacode(item.getAreacode())
                                 .contentId(item.getContentid())
-                                .mainImage(item.getMainimage())
+                                .firstImage(item.getMainimage())
                                 .cpyrhtDivCd(item.getCpyrhtDivCd())
                                 .modifiedtime(item.getModifiedtime())
                                 .sigugunCode(item.getSigungucode())
