@@ -2,6 +2,8 @@ package org.g9project4.publicData.tour.services;
 
 import lombok.RequiredArgsConstructor;
 
+import org.g9project4.file.exceptions.FileNotFoundException;
+import org.g9project4.global.exceptions.DetailNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.global.rests.gov.detailapi.DetailResult;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
@@ -30,6 +32,7 @@ public class TourDetailInfoService {
             }
         } catch (Exception e){
             e.printStackTrace();
+            throw new DetailNotFoundException();
         }
         return null;
     }
