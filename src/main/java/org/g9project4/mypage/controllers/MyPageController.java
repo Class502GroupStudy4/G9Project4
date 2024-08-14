@@ -86,6 +86,7 @@ public class MyPageController {
             addCommonScript.add("fileManager");
             addCss.add("mypage/info");
             addScript.add("member/form");
+            addScript.add("member/_side");
         } else if (mode.equals("mypost")) {
             addCss.add("mypage/mypost");
 

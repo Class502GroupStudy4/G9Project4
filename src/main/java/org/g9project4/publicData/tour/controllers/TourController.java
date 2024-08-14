@@ -52,6 +52,9 @@ public class TourController implements ExceptionProcessor {
         }
     }
 
+
+
+
     private String greenList(TourPlaceSearch search, Model model) {
 
         ListData<GreenPlace> items = null;

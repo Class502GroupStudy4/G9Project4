@@ -1,21 +1,115 @@
-main { display: flex; margin: 112px 0 0; padding: 0; width: 100%; }
-main > aside { width: 200px; background: #596b99; color: #fff; }
-main > section { flex-grow: 1; padding: 25px 50px; }
-h1 { font-size: 2rem; border-bottom: 2px solid #000; padding-bottom: 20px; line-height: 1; }
+main {
+    display: flex;
+    padding: 0;
+    width: 100%;
+}
 
-main > aside > a { display: block; padding: 25px; border-bottom: 1px solid #9c9ca6; color: #fff; font-size: 1.3rem; }
-main > aside > a:hover { background: #34495e; }
+main > aside {
+    background: #596b99;
+    color: #fff;
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px; /* 사이드 바를 숨기기 위해 왼쪽으로 이동 */
+    overflow-x: hidden;
+    transition: left 0.5s ease; /* 사이드바가 왼쪽으로 나타나거나 사라지는 애니메이션 */
+    padding-top: 60px;
+    z-index: 1000;
+}
+
+main > aside.on {
+    left: 0; /* 사이드바가 화면 왼쪽에 표시됩니다. */
+}
+
+main > aside > a {
+    display: block;
+    padding: 25px;
+    border-bottom: 1px solid #9c9ca6;
+    color: #fff;
+    font-size: 1.3rem;
+}
+main > aside > a:hover {
+    background: #34495e;
+}
+
+#toggleBtn-mypage {
+    cursor: pointer;
+    position: fixed;
+    left: -200px; /* 버튼을 화면 왼쪽에 위치시킵니다. */
+    top: 50%; /* 화면의 가운데에 위치시킵니다. */
+    transform: translateY(-50%) rotate(90deg); /* 세로로 회전, 왼쪽 버튼을 위한 조정 */
+    transform-origin: center; /* 회전의 중심을 버튼 중앙으로 설정 */
+    z-index: 1001; /* 버튼이 사이드 바 위에 위치하도록 설정 */
+    background: #596b99;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background 0.3s, left 0.5s;
+}
+
+#toggleBtn-mypage.active {
+    left: 250px; /* 사이드바가 열릴 때 버튼이 사이드바 오른쪽으로 이동 */
+    transform: translateY(-50%) rotate(90deg); /* 버튼 회전 조정 */
+}
+
+main > section {
+    flex-grow: 1;
+    padding: 25px 50px;
+}
+
+h1 {
+    margin-top: 50px;
+    font-size: 2rem;
+    border-bottom: 2px solid #000;
+    padding-bottom: 20px;
+    line-height: 1;
+}
 
 input[type='text'],
 input[type='password'],
 input[type='email'],
-input[type='number'] { border: 1px solid #d5d5d5; height: 45px; border-radius: 3px; width: 100%; padding: 0 10px; }
+input[type='number'] {
+    border: 1px solid #d5d5d5;
+    height: 45px;
+    border-radius: 3px;
+    width: 100%;
+    padding: 0 10px;
+}
 
-main button { background: #596b99; color: #fff; border: 0; cursor: pointer; height: 45px; width: 100%; border-radius: 3px; font-size: 1.2rem; }
-main button.small { width: auto; height: auto; padding: 10px 25px; }
+main button {
+    background: #596b99;
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    height: 45px;
+    width: 100%;
+    border-radius: 3px;
+    font-size: 1.2rem;
+}
 
-main button.black { background: #000; }
+main button.small {
+    width: auto;
+    height: auto;
+    padding: 10px 25px;
+}
 
-.button-group { display: flex; width: 500px; margin: 10px auto; }
-.button-group > button { width: 0; flex-grow: 1; }
-.button-group > button + button { margin-left: 5px; }
+main button.black {
+    background: #000;
+}
+
+.button-group {
+    display: flex;
+    width: 500px;
+    margin: 10px auto;
+}
+
+.button-group > button {
+    width: 0;
+    flex-grow: 1;
+}
+
+.button-group > button + button {
+    margin-left: 5px;
+}
