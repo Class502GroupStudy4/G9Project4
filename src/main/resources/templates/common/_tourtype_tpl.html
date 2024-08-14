@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -10,7 +11,7 @@
                 <span>여행어때</span>에서 여행을 시작하세요!
             </h3>
 
-            /* 메인 3개 끝 */
+
             <div class="con">
                 <div class="box">
                     <!--        <li><a th:href="${@utils.redirectUrl('/tour/list')}" th:text="#{홈}"></a></li>-->
@@ -47,7 +48,7 @@
             </div>
         </div>
     </section>
-        /* 메인 3개 끝 */
+    /* 메인 3개 끝 */
 
 
     <section class="sec2">
@@ -56,20 +57,20 @@
             <p class="tit">다른 여행자들의 리뷰를 참고해 나만의 여행을 계획해보세요!</p>
 
             <div class="row1">
-        <a th:href="${@utils.redirectUrl('/tour/list/course')}">
-            <img th:src="${@utils.url('/images/list/concert.jpg')}" alt=""/>
-            <h4>여행코스</h4>
-        </a>
+                <a th:href="${@utils.redirectUrl('/tour/list/course')}">
+                    <img th:src="${@utils.url('/images/list/concert.jpg')}" alt=""/>
+                    <h4>여행코스</h4>
+                </a>
 
 
-        <a th:href="${@utils.redirectUrl('/tour/list/leports')}" th:text="#{레포츠}"></a>
-        <a th:href="${@utils.redirectUrl('/tour/list/stay')}" th:text="#{숙박}"></a>
+                <a th:href="${@utils.redirectUrl('/tour/list/leports')}" th:text="#{레포츠}"></a>
+                <a th:href="${@utils.redirectUrl('/tour/list/stay')}" th:text="#{숙박}"></a>
 
 
 
             </div>
         </div>
-</section>
+    </section>
 
 
     <a th:href="${@utils.redirectUrl('/tour/list/shopping')}" th:text="#{쇼핑}"></a>
