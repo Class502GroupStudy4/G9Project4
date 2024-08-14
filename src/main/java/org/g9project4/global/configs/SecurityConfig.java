@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +28,7 @@ public class SecurityConfig {
 
     private final MemberInfoService memberInfoService;
     private final Utils utils;
+    private final CorsFilter corsFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,7 +36,6 @@ public class SecurityConfig {
         LoginFailureHandler loginFailureHandler = new LoginFailureHandler();
         loginSuccessHandler.setUtils(utils);
         loginFailureHandler.setUtils(utils);
-
         /* 로그인, 로그아웃 S */
         http.formLogin(f -> {
             f.loginPage("/member/login")
@@ -81,6 +82,8 @@ public class SecurityConfig {
                     .authenticationSuccessHandler(loginSuccessHandler); // 자동 로그인 성공-> handler가 처리
         });
         /*자동 로그인 설정 E*/
+
+        http.addFilter(corsFilter);
 
         return http.build();
     }
