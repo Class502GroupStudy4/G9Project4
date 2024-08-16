@@ -22,22 +22,22 @@ import java.util.List;
 @RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController implements ExceptionProcessor {
-
     private final BoardConfigInfoService configInfoService;
     private final BoardInfoService infoService;
     private final BoardSaveService saveService;
     private final BoardDeleteService deleteService;
     private final Utils utils;
-    
-    private Board board; //게시판 설정
-    private BoardData boardData; //게시글 내용
+
+
+    private Board board; // 게시판 설정
+    private BoardData boardData; // 게시글 내용
 
     /**
      * 글 쓰기
      * @param bid
      * @return
      */
-    @GetMapping
+    @GetMapping("/write/{bid}")
     public String write(@PathVariable("bid") String bid, Model model) {
         commonProcess(bid, "write", model);
 
@@ -45,7 +45,7 @@ public class BoardController implements ExceptionProcessor {
     }
 
     // 글 수정
-    @GetMapping("/update/{seq]")
+    @GetMapping("/update/{seq}")
     public String update(@PathVariable("seq") Long seq) {
 
         return utils.tpl("board/update");
@@ -56,8 +56,9 @@ public class BoardController implements ExceptionProcessor {
     public String save(RequestBoard form, Model model) {
         commonProcess(form.getBid(), form.getMode(), model);
 
+
         // 목록 또는 상세 보기 이동
-        String url = board.getLocationAfterWriting().equals("list") ? "/board/list" + board.getBid() : "/board/view/" + boardData.getSeq();
+        String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
 
         return utils.redirectUrl(url);
     }
@@ -75,50 +76,68 @@ public class BoardController implements ExceptionProcessor {
         return utils.tpl("board/view");
     }
 
+    // 게시글 삭제
     @GetMapping("/delete/{seq}")
-    public String delete(@PathVariable("seq") Long seq) {
+    public String delete(@PathVariable("seq") Long seq, Model model) {
+        commonProcess(seq, "delete", model);
 
-        return null;
+        return utils.redirectUrl("/board/list/" + board.getBid());
     }
+
 
     /**
      * 게시판 설정이 필요한 공통 처리(모든 처리)
-     * 
+     *
      * @param bid : 게시판 아이디
      * @param mode
      * @param model
      */
     private void commonProcess(String bid, String mode, Model model) {
-        board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new); //게시판 설정
+        board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new); // 게시판 설정
 
         List<String> addCss = new ArrayList<>();
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
+        String pageTitle = board.getBName(); // 게시판명 - title 태그 제목
+
         mode = mode == null || !StringUtils.hasText(mode.trim()) ? "write" : mode.trim();
 
-        String skin = board.getSkin(); //스킨
+        String skin = board.getSkin(); // 스킨
 
-        //게시판 공통 Css
+        // 게시판 공통 CSS
         addCss.add("board/style");
 
-        //스킨별 공통 Css
+        // 스킨별 공통 CSS
         addCss.add("board/" + skin + "/style");
 
         if (mode.equals("write") || mode.equals("update")) {
-            //글쓰기, 수정
+            // 글쓰기, 수정
             // 파일 업로드, 에디터 - 공통
             // form.js
-            addCommonScript.add("fileManager");
-            addCommonScript.add("ckeditor5/ckeditor");
+            // 파일 첨부, 에디터 이미지 첨부를 사용하는 경우
+            if (board.isUseUploadFile() || board.isUseUploadImage()) {
+                addCommonScript.add("fileManager");
+            }
+
+            // 에디터 사용의 경우
+            if (board.isUseEditor()) {
+                addCommonScript.add("ckeditor5/ckeditor");
+            }
+
             addScript.add("board/" + skin + "/form");
         }
 
+        // 게시글 제목으로 title을 표시하는 경우
+        if (List.of("view", "update", "delete").contains(mode)) {
+            pageTitle = boardData.getSubject();
+        }
 
         model.addAttribute("addCss", addCss);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
-        model.addAttribute("board", board); //게시판 설정
+        model.addAttribute("board", board); // 게시판 설정
+        model.addAttribute("pageTitle", pageTitle);
     }
 
     /**
