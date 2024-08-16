@@ -43,6 +43,9 @@ public class MyPageController {
         Member member = memberUtil.getMember();
         form.setUserName(member.getUserName());
         form.setMobile(member.getMobile());
+        form.setBirth(member.getBirth());
+        form.setGende(member.getGende());
+        form.setIsForeigner(member.getIsForeigner());
         form.setGid(member.getGid());
 
         return utils.tpl("mypage/info");

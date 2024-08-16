@@ -1,0 +1,219 @@
+/* 지도와 메뉴를 포함하는 래퍼 */
+.map_wrap {
+    position: relative;
+    width: 100%;
+    height: 800px; /* 지도 높이 설정 */
+    overflow: hidden; /* 화면 넘어가는 부분 숨기기 */
+}
+
+/* 지도 영역 */
+#map {
+    width: calc(100% - 300px); /* 메뉴 바의 너비를 제외한 전체 너비 */
+    height: 100%;
+    float: right; /* 오른쪽에 위치시키기 */
+}
+
+/* 메뉴 바 */
+#menu_wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px; /* 메뉴 바 너비 */
+    height: 100%; /* 전체 화면 높이 */
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 1; /* 지도 위에 표시되도록 설정 */
+    font-size: 12px;
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box; /* 패딩 포함 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+}
+#mew-side{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+/* 옵션 박스 */
+#menu_wrap .option {
+    margin-bottom: 10px;
+}
+
+/* 구분선 */
+#menu_wrap hr {
+    margin: 10px 0;
+}
+
+/* 장소 리스트 */
+#placesList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 장소 아이템 */
+#placesList .item {
+    border-bottom: 1px solid #888;
+    padding: 5px 0;
+}
+
+/* 페이지네이션 */
+#pagination {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#pagination a {
+    margin: 0 5px;
+}
+
+#pagination .on {
+    font-weight: bold;
+    cursor: default;
+}
+
+/* 카테고리 박스 */
+#category {
+    position: absolute;
+    top: 10px;
+    left: 300px;
+    border-radius: 5px;
+    border: 1px solid #909090;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+    background: #fff;
+    overflow: hidden;
+    z-index: 2;
+}
+
+#category li {
+    float: left;
+    list-style: none;
+    width: 50px;
+    border-right: 1px solid #acacac;
+    padding: 6px 0;
+    text-align: center;
+    cursor: pointer;
+}
+
+#category li.on {
+    background: #eee;
+}
+
+#category li:hover {
+    background: #ffe6e6;
+    border-left: 1px solid #acacac;
+    margin-left: -1px;
+}
+
+#category li:last-child {
+    margin-right: 0;
+    border-right: 0;
+}
+
+#category li span {
+    display: block;
+    margin: 0 auto 3px;
+    width: 27px;
+    height: 28px;
+}
+
+#category li .category_bg {
+    background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;
+}
+
+#category li .bank {
+    background-position: -10px 0;
+}
+
+#category li .mart {
+    background-position: -10px -36px;
+}
+
+#category li .pharmacy {
+    background-position: -10px -72px;
+}
+
+#category li .oil {
+    background-position: -10px -108px;
+}
+
+#category li .cafe {
+    background-position: -10px -144px;
+}
+
+#category li .store {
+    background-position: -10px -180px;
+}
+
+#category li.on .category_bg {
+    background-position-x: -46px;
+}
+
+/* 장소 정보 오버레이 */
+.placeinfo_wrap {
+    position: absolute;
+    bottom: 28px;
+    left: -150px;
+    width: 300px;
+}
+
+.placeinfo {
+    position: relative;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    background: #fff;
+    box-shadow: 0px 1px 2px #888;
+}
+
+.placeinfo_wrap .after {
+    content: '';
+    position: relative;
+    margin-left: -12px;
+    left: 50%;
+    width: 22px;
+    height: 12px;
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
+}
+
+.placeinfo a, .placeinfo a:hover, .placeinfo a:active {
+    color: #fff;
+    text-decoration: none;
+}
+
+.placeinfo a, .placeinfo span {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.placeinfo span {
+    margin: 5px 5px 0 5px;
+    cursor: default;
+    font-size: 13px;
+}
+
+.placeinfo .title {
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 6px 6px 0 0;
+    margin: -1px -1px 0 -1px;
+    padding: 10px;
+    color: #fff;
+    background: #d95050;
+    background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+}
+
+.placeinfo .tel {
+    color: #0f7833;
+}
+
+.placeinfo .jibun {
+    color: #999;
+    font-size: 11px;
+    margin-top: 0;
+}

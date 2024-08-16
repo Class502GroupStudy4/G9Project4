@@ -1,0 +1,43 @@
+
+.sidebar {
+    margin-top: 112px;
+    width: 250px; /* 사이드 바의 너비 */
+    height: 118%; /* 사이드 바의 높이, 전체 화면 높이 */
+    background-color: #9c9ca6; /* 사이드 바 배경색 */
+    color: white; /* 텍스트 색상 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px; /* 사이드 바 내부 여백 */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+/* 사이드 바 항목 스타일링 */
+.sidebar-item {
+    display: block; /* 링크를 블록으로 설정하여 전체 너비 차지 */
+    color: white; /* 링크 텍스트 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+    padding: 10px 15px; /* 링크 내부 여백 */
+    margin-bottom: 10px; /* 항목 간격 */
+    border-radius: 4px; /* 모서리 둥글기 */
+    transition: background-color 0.3s ease; /* 배경색 변화 애니메이션 */
+}
+
+/* 링크 호버 시 스타일링 */
+.sidebar-item:hover {
+    background-color: #34495e; /* 호버 시 배경색 */
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .menus {
+        width: 200px; /* 모바일 장치에서 사이드 바 너비 조정 */
+    }
+}
+
+.mypageFooter {
+    position: fixed; /* 화면에 고정된 위치 */
+    bottom: 0; /* 화면 하단에 위치 */
+    left: 0; /* 화면 왼쪽에 위치 */
+    width: 100%;
+}
