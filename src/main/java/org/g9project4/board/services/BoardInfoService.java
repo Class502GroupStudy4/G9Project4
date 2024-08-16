@@ -6,16 +6,20 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.board.controllers.BoardDataSearch;
 import org.g9project4.board.entities.BoardData;
 import org.g9project4.board.entities.QBoardData;
+import org.g9project4.board.exceptions.BoardDataNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
 import org.g9project4.global.ListData;
+import org.g9project4.global.Pagination;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +29,7 @@ public class BoardInfoService {
 
     private final JPAQueryFactory queryFactory;
     private final BoardDataRepository repository;
+    private final HttpServletRequest request;
 
     /**
      * 게시글 목록 조회
@@ -35,6 +40,7 @@ public class BoardInfoService {
 
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
+        int offset = (page - 1) * limit;
 
         String sopt = search.getSopt();
         String skey = search.getSkey();
@@ -115,9 +121,40 @@ public class BoardInfoService {
 
             orderSpecifier = new OrderSpecifier(order, pathBuilder.get(_sort[0]));
         }
+
+        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+        orderSpecifiers.add(boardData.notice.desc());
+        if (orderSpecifier != null) {
+            orderSpecifiers.add(orderSpecifier);
+        }
+        orderSpecifiers.add(boardData.createdAt.desc());
         /* 정렬 처리 E */
 
-        return null;
+        /* 목록 조회 처리 S*/
+        List<BoardData> items = queryFactory
+                .selectFrom(boardData)
+                .leftJoin(boardData.board)
+                .fetchJoin()
+                .leftJoin(boardData.member)
+                .fetchJoin()
+                .where(andBuilder)
+                .orderBy(orderSpecifiers.toArray(OrderSpecifier[]::new))
+                .offset(offset)
+                .limit(limit)
+                .fetch();
+
+        //추가 정보 처리
+        items.forEach(this::addInfo);
+
+        /* 목록 조회 처리 E*/
+
+        // 전체 게시글 갯수
+        long total = repository.count(andBuilder);
+
+        //페이징 처리
+        Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
+
+        return new ListData<>(items, pagination);
     }
 
     /**
@@ -141,6 +178,25 @@ public class BoardInfoService {
      */
     public BoardData get(Long seq) {
 
-        return null;
+        BoardData item = repository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
+
+        //추가 데이터 처리
+        addInfo(item);
+
+        return item;
+    }
+
+    /**
+     *  추가 데이터 처리
+     *      - 업로드한 파일 목록
+     *          에디터 이미지 목록, 첨부 파일 이미지 목록
+     *      - 권한 : 글쓰기, 글수정, 글 삭제, 글 조회 가능 여부
+     *      - 댓글...
+     *
+     * @param item
+     */
+
+    public void addInfo(BoardData item) {
+
     }
 }
