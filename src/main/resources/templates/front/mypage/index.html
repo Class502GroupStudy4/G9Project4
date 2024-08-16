@@ -26,26 +26,25 @@
                 </div>
             </dd>
         </dl>
-<div class="myprofile">
-        <a4 th:text="#{내_정보}"></a4>
-        <dl>
-            <dt th:text="#{이메일}"></dt>
-            <dd th:text="${loggedMember.email}"></dd>
-        </dl>
-        <dl>
-            <dt th:text="#{회원명}"></dt>
-            <dd th:text="${loggedMember.userName}"></dd>
-        </dl>
-        <dl>
-            <dt th:text="#{휴대전화번호}"></dt>
-            <dd th:text="${loggedMember.mobile}"></dd>
-        </dl>
-</div>
+        <div class="myprofile">
+            <h3 th:text="#{내_정보}"></h3>
+                <dl>
+                    <dt th:text="#{이메일}"></dt>
+                    <dd th:text="${loggedMember.email}"></dd>
+                </dl>
+                <dl>
+                    <dt th:text="#{회원명}"></dt>
+                    <dd th:text="${loggedMember.userName}"></dd>
+                </dl>
+                <dl>
+                    <dt th:text="#{휴대전화번호}"></dt>
+                    <dd th:text="${loggedMember.mobile}"></dd>
+                </dl>
+        </div>
     </form>
-    <div class="mypage-tour-story">
-        <h2 th:text="#{나의_여행활동}"></h2>
-    </div>
+        <div class="mypage-tour-story">
+            <h2 th:text="#{나의_여행_이야기}"></h2>
+        </div>
     </div>
 </section>
-
 </html>

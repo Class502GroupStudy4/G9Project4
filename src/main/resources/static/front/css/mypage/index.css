@@ -21,6 +21,10 @@
     margin-right: 20px;
 }
 
+#frmIndex > dl > dd > div > .user-greeting {
+    margin-left: 40px;
+}
+
 #frmIndex > dl > dd > div > .user-greeting > .a1 {
     font-size: 1.3rem;
     font-weight: bold;
@@ -58,9 +62,11 @@
     flex-grow: 2;
 }
 
-#frmIndex .myprofile > a4 {
+#frmIndex .myprofile > h3 {
+    padding-bottom: 20px;
+    line-height: 0.5;
     text-align: start;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 30px;
 }
@@ -83,5 +89,11 @@
 }
 
 .mypage-tour-story > h2 {
-    font-size: 1.5rem; border-bottom: 2px solid #000; padding-bottom: 20px; line-height: 0.7;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #000;
+    padding-bottom: 20px;
+    line-height: 0.5;
+    padding-left: 0; /* 기본 padding-left를 0으로 설정 */
+    padding-right: 0; /* 기본 padding-right를 0으로 설정 */
+    padding-top: 0; /* 기본 padding-top을 0으로 설정 */
 }
