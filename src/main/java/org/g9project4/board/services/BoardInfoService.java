@@ -35,9 +35,22 @@ public class BoardInfoService {
         BooleanBuilder andBuilder = new BooleanBuilder();
 
         if(bid != null && StringUtils.hasText(bid.trim())){
-            //게시판별 조회 null 일떄 trim 이면 오류발생
+            //게시판별 조회  trim 일때 null이면 오류발생
             andBuilder.and(boardData.board.bid.eq(bid));
+        }else if(bids != null && !bids.isEmpty()){
+            andBuilder.and(boardData.board.bid.in(bids));
         }
+
+        /*
+        조건 검색 처리
+        sop -All : 통합검색(제목 + 내용 + 글작성자(작성자, 회원명))
+        subject : 제목검색
+        content : 내용검색
+        subject_content: 제목 + 내용 검색
+        name : 이름( 작성자, 회원명)
+         */
+        sopt = sopt != null && StringUtils.hasText(sopt.trim()) ? sopt.trim() : "ALL";
+        if(skey !=null && StringUtils.hasText(skey.trim())){}
         /* 검색 처리 e */
         return null;
     }
