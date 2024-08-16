@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class BoardDataSearch extends CommonSearch {
+    private int limit;
     private String bid; //게시판 ID
     private List<String> bids; //게세판 ID 여려개
 
