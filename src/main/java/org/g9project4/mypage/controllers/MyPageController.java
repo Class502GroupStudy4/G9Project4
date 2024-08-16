@@ -85,11 +85,11 @@ public class MyPageController {
         List<String> addScript = new ArrayList<>();
 
         addCss.add("mypage/style");
+        addScript.add("member/_side");
         if (mode.equals("info")) {
             addCommonScript.add("fileManager");
             addCss.add("mypage/info");
             addScript.add("member/form");
-            addScript.add("member/_side");
         } else if (mode.equals("mypost")) {
             addCss.add("mypage/mypost");
 
