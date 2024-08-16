@@ -13,8 +13,8 @@ public class BoardConfigInfoServiceTest {
     private BoardConfigInfoService infoService;
 
     @Test
-    void boardConfigTest(){
-        Optional <Board> board = infoService.get("freetalk");
+    void boardConfigTest() {
+        Optional<Board> board = infoService.get("freetalk");
         System.out.println(board);
     }
 }

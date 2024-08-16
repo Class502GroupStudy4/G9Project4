@@ -13,9 +13,7 @@ import org.g9project4.board.controllers.RequestBoard;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
 import org.g9project4.board.entities.QBoardData;
-
-import org.g9project4.board.exceiptions.BoardDataNotFoundException;
-import org.g9project4.board.exceiptions.BoardNotfoundException;
+import org.g9project4.board.exceptions.BoardDataNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
@@ -48,19 +46,20 @@ public class BoardInfoService {
      */
     public ListData<BoardData> getList(BoardDataSearch search, DeleteStatus status) {
 
+
         String bid = search.getBid();
         List<String> bids = search.getBids(); // 게시판 여러개 조회
 
         //게시판 설정 조회
-        Board board = bid != null && StringUtils.hasText(bid.trim()) ? configInfoService.get(bid.trim()).orElseThrow(BoardNotfoundException::new) : new Board();
+        Board board = bid != null && StringUtils.hasText(bid.trim()) ? configInfoService.get(bid.trim()).orElseThrow(BoardDataNotFoundException::new) : new Board();
+
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit > 0 ? limit : board.getRowsPerPage();
 
-
         int offset = (page - 1) * limit;
 
-        // 삭제가 되지 않은 게시글 목록이 기본 값
+        //삭제가 되지 않은 게시글 목록이 기본값
         status = Objects.requireNonNullElse(status, DeleteStatus.UNDELETED);
 
         String sopt = search.getSopt();
@@ -71,13 +70,13 @@ public class BoardInfoService {
         /* 검색 처리 S */
         QBoardData boardData = QBoardData.boardData;
         BooleanBuilder andBuilder = new BooleanBuilder();
-
-        // 삭제, 미삭제 게시글 조회 처리
+        
+        //삭제, 미삭제 게시글 조회 처리
         if (status != DeleteStatus.ALL) {
             if (status == DeleteStatus.UNDELETED) {
-                andBuilder.and(boardData.deletedAt.isNull()); // 미삭된 게시글
+                andBuilder.and(boardData.deletedAt.isNull()); //미삭제된 게시글
             } else {
-                andBuilder.and(boardData.deletedAt.isNotNull()); // 삭제된 게시글
+                andBuilder.and(boardData.deletedAt.isNotNull()); //삭제된 게시글
             }
         }
 
@@ -181,8 +180,8 @@ public class BoardInfoService {
         long total = repository.count(andBuilder);
 
         // 페이징 처리
-
         int ranges = utils.isMobile() ? board.getPageCountMobile() : board.getPageCountPc();
+
         Pagination pagination = new Pagination(page, (int)total, ranges, limit, request);
 
         return new ListData<>(items, pagination);
@@ -216,12 +215,12 @@ public class BoardInfoService {
         QBoardData boardData = QBoardData.boardData;
         andBuilder.and(boardData.seq.eq(seq));
 
-        // 삭제, 미삭제 게시글 조회 처리
+        //삭제, 미삭제 게시글 조회 처리
         if (status != DeleteStatus.ALL) {
             if (status == DeleteStatus.UNDELETED) {
-                andBuilder.and(boardData.deletedAt.isNull()); // 미삭된 게시글
+                andBuilder.and(boardData.deletedAt.isNull()); //미삭제된 게시글
             } else {
-                andBuilder.and(boardData.deletedAt.isNotNull()); // 삭제된 게시글
+                andBuilder.and(boardData.deletedAt.isNotNull()); //삭제된 게시글
             }
         }
 

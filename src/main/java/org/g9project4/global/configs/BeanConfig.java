@@ -13,11 +13,12 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class BeanConfig {
 
+    private final EntityManager em;
+
     @Bean
-    public JPAQueryFactory jpaQueryFactory(){
+    public JPAQueryFactory jpaQueryFactory() {
         return new JPAQueryFactory(em);
     }
-    private final EntityManager em;
 
     @Bean
     public ObjectMapper objectMapper() {

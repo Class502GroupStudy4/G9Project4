@@ -3,8 +3,7 @@ package org.g9project4.board.controllers;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
-
-import org.g9project4.board.exceiptions.BoardNotfoundException;
+import org.g9project4.board.exceptions.BoardNotFoundException;
 import org.g9project4.board.services.BoardConfigInfoService;
 import org.g9project4.board.services.BoardDeleteService;
 import org.g9project4.board.services.BoardInfoService;
@@ -82,7 +81,6 @@ public class BoardController implements ExceptionProcessor {
     public String delete(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "delete", model);
 
-
         return utils.redirectUrl("/board/list/" + board.getBid());
     }
 
@@ -95,13 +93,13 @@ public class BoardController implements ExceptionProcessor {
      * @param model
      */
     private void commonProcess(String bid, String mode, Model model) {
-        board = configInfoService.get(bid).orElseThrow(BoardNotfoundException::new); // 게시판 설정
+        board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new); // 게시판 설정
 
         List<String> addCss = new ArrayList<>();
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
-        String pageTitle = board.getBName(); //게시판명 -title 태그 제목
+        String pageTitle = board.getBName(); // 게시판명 - title 태그 제목
 
         mode = mode == null || !StringUtils.hasText(mode.trim()) ? "write" : mode.trim();
 
@@ -129,7 +127,9 @@ public class BoardController implements ExceptionProcessor {
 
             addScript.add("board/" + skin + "/form");
         }
-        if(List.of("view", "update","delete").contains(mode)){
+
+        // 게시글 제목으로 title을 표시하는 경우
+        if (List.of("view", "update", "delete").contains(mode)) {
             pageTitle = boardData.getSubject();
         }
 
@@ -137,7 +137,7 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
         model.addAttribute("board", board); // 게시판 설정
-        model.addAttribute("pageTitle",pageTitle);
+        model.addAttribute("pageTitle", pageTitle);
     }
 
     /**

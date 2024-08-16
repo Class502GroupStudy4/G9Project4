@@ -7,9 +7,11 @@ import java.util.List;
 
 @Data
 public class BoardDataSearch extends CommonSearch {
-    private int limit;
-    private String bid; //게시판 ID
-    private List<String> bids; //게세판 ID 여려개
 
-    private String sort; //정렬조건
+    private int limit;
+
+    private String bid; // 게시판 ID
+    private List<String> bids; // 게시한 ID 여러개
+
+    private String sort; // 정렬 조건
 }
