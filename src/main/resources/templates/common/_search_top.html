@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="search">
-    <h1 th:text="#{여행지_통합검색}"></h1>
-    <form id="search_top" name="frmSearch" method="get" autocomplete="off" th:object="${tourPlaceSearch}">
-        <select name="sopt" th:field="*{sopt}">
-            <option value="TITLE" th:text="#{여행지_이름}"></option>
-            <option value="ADDRESS" th:text="#{주소}"></option>
-            <option value="TITLE_ADDRESS" th:text="#{전체}"></option>
-        </select>
-        <input type="text" name="skey" th:field="*{skey}"
-               th:placeholder="#{검색어를_입력하세요.}">
-        <button type="submit" th:text="#{검색하기}"></button>
-    </form>
+    <div class="mainBn">
+        <div class="bnWrap">
+            <h2>
+                우리의 국내여행 커뮤니티, <span>여행 어때?</span>
+            </h2>
+            <p class="tit" th:text="#{100만_사용자들의_여행리뷰를_확인하세요.}"></p>
+            <div class="srchBox">
+                <div class="srch2">
+                    <form id="search_top" name="frmSearch" method="get" autocomplete="off"
+                          th:action="${@utils.redirectUrl('tour/list')}" th:object="${tourPlaceSearch}">
+                        <input type="hidden" th:field="*{sopt}" th:value="TITLE_ADDRESS">
+                        <!--                <select name="sopt" th:field="*{sopt}">
+                                            <option value="TITLE" th:text="#{여행지}"></option>
+                                            <option value="ADDRESS" th:text="#{주소}"></option>
+                                            <option value="TITLE_ADDRESS" th:text="#{전체}"></option>
+                                        </select>-->
+                        <input type="text" name="skey" th:field="*{skey}"
+                               th:placeholder="#{여행지로_검색}">
+                        <button class="Q2" type="submit">
+                            <img src="../../../images/list/icon_search1.gif" alt="검색하기"/>
+                        </button>
+                    </form>
+                    <div class="keyword">
+                        <div class="city">
+                            추천 키워드: <a href="#">#부산,</a> <a href="#">#광안리</a>, <a href="#">#포항</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
 </html>

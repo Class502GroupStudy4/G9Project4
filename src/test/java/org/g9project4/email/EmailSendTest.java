@@ -1,6 +1,6 @@
 package org.g9project4.email;
 
-import org.g9project4.email.service.EmailMessage;
+import org.g9project4.email.controllers.EmailMessage;
 import org.g9project4.email.service.EmailSendService;
 import org.g9project4.email.service.EmailVerifyService;
 import org.junit.jupiter.api.DisplayName;

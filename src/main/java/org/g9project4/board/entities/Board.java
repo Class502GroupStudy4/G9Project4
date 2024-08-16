@@ -65,23 +65,23 @@ public class Board extends BaseMemberEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(length=20, nullable = false)
-    private Authority listAccessType = Authority.All; // 권한 설정 - 글목록
+    private Authority listAccessType = Authority.ALL; // 권한 설정 - 글목록
 
     @Enumerated(EnumType.STRING)
     @Column(length=20, nullable = false)
-    private Authority viewAccessType = Authority.All; // 권한 설정 - 글보기
+    private Authority viewAccessType = Authority.ALL; // 권한 설정 - 글보기
 
     @Enumerated(EnumType.STRING)
     @Column(length=20, nullable = false)
-    private Authority writeAccessType = Authority.All; // 권한 설정 - 글쓰기
+    private Authority writeAccessType = Authority.ALL; // 권한 설정 - 글쓰기
 
     @Enumerated(EnumType.STRING)
     @Column(length=20, nullable = false)
-    private Authority replyAccessType = Authority.All; // 권한 설정 - 답글
+    private Authority replyAccessType = Authority.ALL; // 권한 설정 - 답글
 
     @Enumerated(EnumType.STRING)
     @Column(length=20, nullable = false)
-    private Authority commentAccessType = Authority.All; // 권한 설정 - 댓글
+    private Authority commentAccessType = Authority.ALL; // 권한 설정 - 댓글
 
     @Lob
     private String htmlTop; // 게시판 상단 HTML
