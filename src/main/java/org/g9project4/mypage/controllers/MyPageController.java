@@ -33,7 +33,7 @@ public class MyPageController {
     public String index(Model model) {
         commonProcess("index", model);
 
-        return utils.tpl("/mypage/index");
+        return utils.tpl("mypage/index");
     }
 
     @GetMapping("/info")
@@ -43,9 +43,12 @@ public class MyPageController {
         Member member = memberUtil.getMember();
         form.setUserName(member.getUserName());
         form.setMobile(member.getMobile());
+        form.setBirth(member.getBirth());
+        form.setGende(member.getGende());
+        form.setIsForeigner(member.getIsForeigner());
         form.setGid(member.getGid());
 
-        return utils.tpl("/mypage/info");
+        return utils.tpl("mypage/info");
     }
 
 
@@ -56,7 +59,7 @@ public class MyPageController {
         profileUpdateValidator.validate(form,errors);
 
         if (errors.hasErrors()) {
-            return utils.tpl("/mypage/info");
+            return utils.tpl("mypage/info");
         }
 
         memberSaveService.save(form);
@@ -66,6 +69,14 @@ public class MyPageController {
         //SecurityContextHolder.getContext().setAuthentication();
 
         return "redirect:"+ utils.redirectUrl("/mypage");
+    }
+
+
+    @GetMapping("/mypost")
+    public String mypost(Model model) {
+        commonProcess("mypost", model);
+
+        return utils.tpl("mypage/mypost");
     }
 
     private void commonProcess(String mode, Model model) {
@@ -78,6 +89,8 @@ public class MyPageController {
             addCommonScript.add("fileManager");
             addCss.add("mypage/info");
             addScript.add("member/form");
+        } else if (mode.equals("mypost")) {
+            addCss.add("mypage/mypost");
         }
 
         model.addAttribute("addCommonScript", addCommonScript);

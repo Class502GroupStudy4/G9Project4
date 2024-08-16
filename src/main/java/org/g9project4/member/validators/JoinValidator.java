@@ -29,6 +29,7 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
          * 2. 비밀번호, 비밀번호 확인 일치 여부
          * 3. 비밀번호 복잡성 체크
          * 4. 휴대전화번호 형식 체크
+         * 5. 추가된 출생일 정확성체크 필요???
          */
 
         RequestJoin form = (RequestJoin) target;
@@ -55,5 +56,7 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
         if (!mobileCheck(mobile)) {
             errors.rejectValue("mobile", "Mobile");
         }
+
+
     }
 }

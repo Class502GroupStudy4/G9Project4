@@ -8,39 +8,39 @@
 <main layout:fragment="content">
     <h1>관광지 상세 정보 보기</h1>
     <section th:object="${items}">
-        <dl>
+        <dl  th:if="*{title!=null && !title.trim().equals('')}">
             <dt th:text="#{여행지_이름}"></dt>
             <dd th:text="*{title}"></dd>
         </dl>
-        <dl>
+        <dl th:if="*{homepage!=null && !homepage.trim().equals('')}">
             <dt th:text="#{홈페이지}"></dt>
-            <dd th:utext="*{homepage}">
-
+            <dd th:utext="*{homepage}"></dd>
+        </dl>
+        <dl  th:if="*{addr1!=null && !addr1.trim().equals('')}">
+            <dt th:text="#{주소}"></dt>
+            <dd>
+                <address th:text="*{addr1}"></address>
             </dd>
         </dl>
-        <dl>
+        <dl th:if="*{tel!=null && !tel.trim().equals('')}">
             <dt th:text="#{전화번호}"></dt>
             <dd th:text="*{tel}">
             </dd>
         </dl>
-        <dl>
+        <dl th:if="*{firstimage!=null && !firstimage.trim().equals('')}">
             <dt th:text="#{사진1}"></dt>
             <dd>
                 <img style="height:600px" th:src="*{firstimage}">
             </dd>
         </dl>
 
-        <dl>
+        <dl th:if="*{overview!=null && !overview.trim().equals('')}">
             <dt th:text="#{설명}"></dt>
             <dd>
                 <div style="width: 800px;" th:utext="*{@utils.nl2br(overview)}"></div>
             </dd>
         </dl>
-        <dl>
-            <dt th:text="#{주소}"></dt>
-            <dd th:text="*{addr1}"></dd>
-        </dl>
-        <dl>
+        <!--<dl>
             <dt th:text="#{경도}"></dt>
             <dd th:text="*{mapx}">
             </dd>
@@ -49,8 +49,8 @@
             <dt th:text="#{위도}"></dt>
             <dd th:text="*{mapy}">
             </dd>
-        </dl>
-        <dl>
+        </dl>-->
+        <dl th:if="*{mapx!=null}">
             <div id="map" th:data-lat="*{mapy}" th:data-lng="*{mapx}"></div>
         </dl>
     </section>
