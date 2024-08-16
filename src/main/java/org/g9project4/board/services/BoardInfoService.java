@@ -34,10 +34,10 @@ public class BoardInfoService {
         QBoardData boardData = QBoardData.boardData;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-        if(bid != null && StringUtils.hasText(bid.trim())){
-            //게시판별 조회  trim 일때 null이면 오류발생
-            andBuilder.and(boardData.board.bid.eq(bid));
-        }else if(bids != null && !bids.isEmpty()){
+        if(bid != null && StringUtils.hasText(bid.trim()) && bids != null && bids.isEmpty()){
+            bids = List.of(bid);
+
+        }if(bids != null && !bids.isEmpty()){
             andBuilder.and(boardData.board.bid.in(bids));
         }
 
