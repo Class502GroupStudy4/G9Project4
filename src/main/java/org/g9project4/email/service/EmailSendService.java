@@ -3,6 +3,8 @@ package org.g9project4.email.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.email.controllers.EmailMessage;
+import org.g9project4.email.entities.EmailHistory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import java.util.Objects;
 public class EmailSendService {
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine templateEngine;
+
+    private final EmailHistoryService historyService;
 
     /**
      * 메일 전송
@@ -38,24 +42,31 @@ public class EmailSendService {
             tplData = Objects.requireNonNullElse(tplData, new HashMap<>());
             Context context = new Context();
 
-            tplData.put("to", message.to());
-            tplData.put("subject", message.subject());
-            tplData.put("message", message.message());
+            tplData.put("to", message.getTo());
+            tplData.put("subject", message.getSubject());
+            tplData.put("message", message.getMessage());
 
             context.setVariables(tplData);
 
             text = templateEngine.process("email/" + tpl, context);
         } else { // 템플릿 전송이 아닌 경우 메세지로 대체
-            text = message.message();
+            text = message.getMessage();
         }
-
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-            mimeMessageHelper.setTo(message.to()); // 메일 수신자
-            mimeMessageHelper.setSubject(message.subject());  // 메일 제목
+            mimeMessageHelper.setTo(message.getTo()); // 메일 수신자
+            mimeMessageHelper.setSubject(message.getSubject());  // 메일 제목
             mimeMessageHelper.setText(text, true); // 메일 내용
             javaMailSender.send(mimeMessage);
+
+            EmailHistory history = EmailHistory
+                    .builder()
+                    .to(message.getTo())
+                    .subject(message.getSubject())
+                    .message(message.getMessage())
+                    .build();
+
             return true;
         } catch (MessagingException e) {
             e.printStackTrace();

@@ -94,9 +94,6 @@ const fileManager = {
                 console.error(err);
             }
         })();
-
-
-
     },
     /**
      * 파일 조회

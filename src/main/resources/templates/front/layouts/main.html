@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+
     <meta name="csrf_token" th:content="${_csrf.token}">
     <meta name="csrf_header" th:content="${_csrf.headerName}">
     <title>
@@ -10,12 +11,15 @@
         th:text="${#strings.concat(pageTitle, ' - ')}"></th:block>
         사이트 제목
     </title>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+
+    <th:block layout:fragment="addCommonCss"></th:block>
+    <link th:if="${addCommonCss != null}" rel="stylesheet" type="text/css" th:each="cssFile : ${addCommonCss}" th:href="${@utils.url(#strings.concat('/common/css/', cssFile, '.css'))}"></link>
     <link rel="stylesheet" type="text/css" th:href="${@utils.url('/common/css/style.css')}">
     <link rel="stylesheet" type="text/css" th:href="${@utils.url('/front/css/style.css')}">
     <link th:if="${addCss != null}" rel="stylesheet" type="text/css"
           th:each="cssFile: ${addCss}" th:href="${@utils.url(#strings.concat('/front/css/', cssFile, '.css'))}">
     <th:block layout:fragment="addCss"></th:block>
-
 
     <th:block layout:fragment="addCommonScript"></th:block>
     <script th:if="${addCommonScript != null}" th:each="jsFile : ${addCommonScript}" th:src="${@utils.url(#strings.concat('/common/js/', jsFile, '.js'))}"></script>
