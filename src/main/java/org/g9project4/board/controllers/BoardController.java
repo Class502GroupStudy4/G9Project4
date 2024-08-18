@@ -30,7 +30,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardInfoService infoService;
     private final BoardSaveService saveService;
     private final BoardDeleteService deleteService;
-    private  final BoardValidator validator;
+    private final BoardValidator validator;
     private final Utils utils;
 
 
@@ -52,10 +52,11 @@ public class BoardController implements ExceptionProcessor {
     // 글 수정
     @GetMapping("/update/{seq}")
     public String update(@PathVariable("seq") Long seq, Model model) {
-        commonProcess(seq,"update", model);
+        commonProcess(seq, "update", model);
 
         RequestBoard form = infoService.getForm(boardData);
         model.addAttribute("requestBoard", form);
+
         return utils.tpl("board/update");
     }
 
@@ -64,9 +65,11 @@ public class BoardController implements ExceptionProcessor {
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
-        commonProcess(form.getBid(), form.getMode(), model);
+        commonProcess(form.getBid(), mode, model);
+
         validator.validate(form, errors);
-        if(errors.hasErrors()){
+
+        if (errors.hasErrors()) {
             return utils.tpl("board/" + mode);
         }
 
@@ -79,15 +82,19 @@ public class BoardController implements ExceptionProcessor {
     @GetMapping("/list/{bid}")
     public String list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(bid, "list", model);
+
         ListData<BoardData> data = infoService.getList(bid, search);
+
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
+
         return utils.tpl("board/list");
     }
 
     @GetMapping("/view/{seq}")
     public String view(@PathVariable("seq") Long seq, Model model) {
-        commonProcess(seq,"view", model);
+        commonProcess(seq, "view", model);
+
         return utils.tpl("board/view");
     }
 
@@ -95,6 +102,7 @@ public class BoardController implements ExceptionProcessor {
     @GetMapping("/delete/{seq}")
     public String delete(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "delete", model);
+
         deleteService.delete(seq);
 
         return utils.redirectUrl("/board/list/" + board.getBid());
@@ -144,7 +152,7 @@ public class BoardController implements ExceptionProcessor {
             addScript.add("board/" + skin + "/form");
         }
 
-        // 게시글 제목으로 title을 표시하는 경우
+        // 게시글 제목으로 title을 표시 하는 경우
         if (List.of("view", "update", "delete").contains(mode)) {
             pageTitle = boardData.getSubject();
         }
