@@ -83,10 +83,10 @@ const fileManager = {
 
         (async () => {
             try {
-                const fileInfo = await ajaxLoad(`/file/delete/${seq}`, 'DELETE');
+                const res = await ajaxLoad(`/file/delete/${seq}`, 'DELETE');
 
                 if (typeof parent.fileDeleteCallback === 'function') {
-                    parent.fileDeleteCallback(fileInfo);
+                    parent.fileDeleteCallback(res.data);
                 }
 
             } catch (err) {

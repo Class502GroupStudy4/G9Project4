@@ -13,6 +13,7 @@ import org.g9project4.board.validators.BoardValidator;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
+import org.g9project4.member.MemberUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -31,6 +32,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardSaveService saveService;
     private final BoardDeleteService deleteService;
     private final BoardValidator validator;
+    private final MemberUtil memberUtil;
     private final Utils utils;
 
 
@@ -43,8 +45,11 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/write/{bid}")
-    public String write(@PathVariable("bid") String bid, Model model) {
+    public String write(@PathVariable("bid") String bid, @ModelAttribute RequestBoard form, Model model) {
         commonProcess(bid, "write", model);
+
+        form.setGuest(!memberUtil.isLogin());
+        if (memberUtil.isLogin()) form.setPoster(memberUtil.getMember().getUserName());
 
         return utils.tpl("board/write");
     }
@@ -76,7 +81,7 @@ public class BoardController implements ExceptionProcessor {
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
 
-        return utils.redirectUrl(url);
+        return "redirect:" + utils.redirectUrl(url);
     }
 
     @GetMapping("/list/{bid}")
