@@ -50,7 +50,12 @@ public class TourPlaceInfoService {
      * @param search
      * @return
      */
-    public List<TourPlace> getLocBasedList(TourPlaceSearch search) {
+    public ListData<TourPlace> getLocBasedList(TourPlaceSearch search) {
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
+
         double lat = search.getLatitude();
         double lon = search.getLongitude();
         int radius = search.getRadius();
@@ -63,8 +68,9 @@ public class TourPlaceInfoService {
                 if (!ids.isEmpty()) {
                     QTourPlace tourPlace = QTourPlace.tourPlace;
                     List<TourPlace> items = (List<TourPlace>) repository.findAll(tourPlace.contentId.in(ids), Sort.by(asc("contentId")));
-
-                    return items;
+                    int count = items.size();
+                    Pagination pagination = new Pagination(page, count, 0, limit, request);
+                    return new ListData<>(items, pagination);
                 } // endif
             } // endif
         } catch (Exception e) {
@@ -175,7 +181,7 @@ public class TourPlaceInfoService {
 
                 andBuilder.and(addressCond);
 
-            } else if (sopt.equals("TITLE_ADDRESS")||sopt.equals("ALL")) { // 제목 + 내용
+            } else if (sopt.equals("TITLE_ADDRESS") || sopt.equals("ALL")) { // 제목 + 내용
                 BooleanBuilder orBuilder = new BooleanBuilder();
                 orBuilder.or(titleCond)
                         .or(addressCond);
@@ -207,7 +213,6 @@ public class TourPlaceInfoService {
         if (contentTypeId != null) {
             ContentType type = ContentType.getList().stream().filter(c -> c.getId() == contentTypeId.longValue()).findFirst().orElse(null);
             item.setContentType(type);
-
         }
     }
 }
