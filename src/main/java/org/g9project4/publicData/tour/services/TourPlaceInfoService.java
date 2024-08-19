@@ -87,7 +87,8 @@ public class TourPlaceInfoService {
                 .fetch();
         return new ListData<>(items, pagination);
     }
-    public ListData<GreenPlace> getGreenList(TourPlaceSearch search){
+
+    public ListData<GreenPlace> getGreenList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit < 1 ? 20 : limit;
@@ -140,11 +141,11 @@ public class TourPlaceInfoService {
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
     }
+
     public ListData<TourPlace> getSearchedList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
-        limit = limit < 1 ? 20 : limit;
-        int offset = page * limit + 1;
+        int offset = (page - 1) * limit;
 
         /* 검색 조건 처리 S */
         QTourPlace tourPlace = QTourPlace.tourPlace;
@@ -154,7 +155,6 @@ public class TourPlaceInfoService {
         }
         String sopt = search.getSopt();
         String skey = search.getSkey();
-
         sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
 
         if (StringUtils.hasText(skey)) {
@@ -171,14 +171,11 @@ public class TourPlaceInfoService {
 
                 andBuilder.and(addressCond);
 
-            } else if (sopt.equals("TITLE_ADDRESS")) { // 제목 + 내용
-
+            } else if (sopt.equals("TITLE_ADDRESS")||sopt.equals("ALL")) { // 제목 + 내용
                 BooleanBuilder orBuilder = new BooleanBuilder();
                 orBuilder.or(titleCond)
                         .or(addressCond);
-
                 andBuilder.and(orBuilder);
-
             }
 
         }

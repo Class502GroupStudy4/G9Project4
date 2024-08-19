@@ -6,7 +6,7 @@
         <div class="inner">
             <div class="layout-left">
                 <a class="main-logo" th:href="${@utils.redirectUrl('/')}">
-                    <i class="xi-home"></i>
+                    <img th:src="${@utils.url('/images/mainLogo.png')}" th:alt="#{메인로고}" class="main-logo"></img>
                     <!--                    <img class="main-logo" th:src="${@utils.url('/common/image/korea.png')}" th:alt="#{mainImage}">-->
                 </a>
             </div>

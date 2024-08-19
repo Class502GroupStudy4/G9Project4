@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.g9project4.global.RequestPage;
+import org.g9project4.global.CommonSearch;
 import org.g9project4.publicData.tour.constants.ContentType;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TourPlaceSearch extends RequestPage {
+public class TourPlaceSearch extends CommonSearch {
     /**
      * 필터 옵션
      *
