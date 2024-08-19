@@ -53,6 +53,8 @@ function fileUploadCallback(files) {
                 insertEditorEl.addEventListener("click", (e) => insertEditor(e.currentTarget.dataset.url));
             }
         }
+        const { fileManager } = commonLib;
+        const removeEl = el.querySelector(".remove")
     }
 
     //에디터 본문에 이미지 추가

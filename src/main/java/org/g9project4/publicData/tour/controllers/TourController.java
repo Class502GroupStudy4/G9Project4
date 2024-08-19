@@ -67,6 +67,10 @@ public class TourController implements ExceptionProcessor {
 
         return utils.tpl("tour/list");
     }
+    @GetMapping("/popup")
+    public String popup(Model model) {
+        return utils.tpl("tour/popup");
+    }
 
     @GetMapping("/view")
     public String view(Model model) {
@@ -108,4 +112,5 @@ public class TourController implements ExceptionProcessor {
         model.addAttribute("items", item);
         return utils.tpl("tour/detail");
     }
+
 }

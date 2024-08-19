@@ -26,6 +26,16 @@ public class Utils { // 빈의 이름 - utils
     private final HttpServletRequest request;
     private final DiscoveryClient discoveryClient;
 
+    private static final ResourceBundle commonsBundle;
+    private static final ResourceBundle validationsBundle;
+    private static final ResourceBundle errorsBundle;
+
+    static {
+        commonsBundle = ResourceBundle.getBundle("messages.commons");
+        validationsBundle = ResourceBundle.getBundle("messages.validations");
+        errorsBundle = ResourceBundle.getBundle("messages.errors");
+    }
+
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
 
@@ -33,6 +43,25 @@ public class Utils { // 빈의 이름 - utils
             return String.format("%s%s", instances.get(0).getUri().toString(), url);
         } catch (Exception e) {
             return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
+        }
+    }
+    public static String getMessage(String code, String type) {
+        try {
+            type = StringUtils.hasText(type) ? type : "validations";
+
+            ResourceBundle bundle = null;
+            if (type.equals("commons")) {
+                bundle = commonsBundle;
+            } else if (type.equals("errors")) {
+                bundle = errorsBundle;
+            } else {
+                bundle = validationsBundle;
+            }
+
+            return bundle.getString(code);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
     }
 
