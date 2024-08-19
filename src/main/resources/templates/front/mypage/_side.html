@@ -2,8 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/mypage}">
-<aside class="sidebar" th:fragment="menus">
-    <a th:href="${@utils.redirectUrl('/mypage/info')}" th:text="#{내_정보수정}" class="sidebar-item"></a>
-    <a th:href="${@utils.redirectUrl('/mypage/mypost')}" th:text="#{내_게시글}" class="sidebar-item"></a>
-</aside>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<th:block th:fragment="menus">
+    <aside class="sidebar" >
+        <a th:href="${@utils.redirectUrl('/mypage')}"
+           th:text="#{마이_페이지}" class="sidebar-item"></a>
+        <a th:href="${@utils.redirectUrl('/mypage/info')}" th:text="#{내_정보수정}" class="sidebar-item"></a>
+        <a th:href="${@utils.redirectUrl('/mypage/mypost')}" th:text="#{내_게시글}" class="sidebar-item"></a>
+
+        <button type="button" id="toggleBtn-mypage">
+            <i class="xi-pacman"></i>
+        </button>
+    </aside>
+</th:block>
 </html>
