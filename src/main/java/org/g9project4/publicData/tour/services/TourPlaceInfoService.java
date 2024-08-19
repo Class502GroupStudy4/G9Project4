@@ -15,6 +15,7 @@ import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.publicData.greentour.entities.GreenPlace;
 import org.g9project4.publicData.greentour.entities.QGreenPlace;
+import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
