@@ -30,7 +30,7 @@ public class MyPageController {
     private final MemberUtil memberUtil;
     private final Utils utils;
     @GetMapping
-    public String index(Model model) {
+    public String index(@ModelAttribute RequestProfile form, Model model) {
         commonProcess("index", model);
 
         return utils.tpl("mypage/index");
@@ -85,12 +85,16 @@ public class MyPageController {
         List<String> addScript = new ArrayList<>();
 
         addCss.add("mypage/style");
+        addScript.add("member/_side");
         if (mode.equals("info")) {
             addCommonScript.add("fileManager");
             addCss.add("mypage/info");
             addScript.add("member/form");
         } else if (mode.equals("mypost")) {
             addCss.add("mypage/mypost");
+
+        } else if (mode.equals("index")) {
+            addCss.add("mypage/index");
         }
 
         model.addAttribute("addCommonScript", addCommonScript);

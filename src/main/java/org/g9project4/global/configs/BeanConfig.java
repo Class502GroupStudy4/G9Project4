@@ -19,7 +19,6 @@ public class BeanConfig {
     public JPAQueryFactory jpaQueryFactory() {
         return new JPAQueryFactory(em);
     }
-
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();

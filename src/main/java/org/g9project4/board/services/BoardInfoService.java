@@ -1,6 +1,7 @@
 package org.g9project4.board.services;
 
 import com.querydsl.core.BooleanBuilder;
+
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,11 +41,13 @@ public class BoardInfoService {
     private final HttpServletRequest request;
     private final Utils utils;
 
+
     /**
      * 게시글 목록 조회
      *
      * @return
      */
+
     public ListData<BoardData> getList(BoardDataSearch search, DeleteStatus status) {
 
 
@@ -64,7 +68,6 @@ public class BoardInfoService {
 
         String sopt = search.getSopt();
         String skey = search.getSkey();
-
 
 
         /* 검색 처리 S */
@@ -92,6 +95,7 @@ public class BoardInfoService {
          * 조건 검색 처리
          *
          * sopt - ALL : 통합검색(제목 + 내용 + 글작성자(작성자, 회원명))
+
          *       SUBJECT : 제목검색
          *       CONTENT : 내용검색
          *       SUBJECT_CONTENT: 제목 + 내용 검색
