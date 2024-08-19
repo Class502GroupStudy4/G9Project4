@@ -43,7 +43,7 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/write/{bid}")
-    public String write(@PathVariable("bid") String bid, Model model) {
+    public String write(@PathVariable("bid") String bid, @ModelAttribute RequestBoard form, Model model) {
         commonProcess(bid, "write", model);
 
         return utils.tpl("board/write");
@@ -76,7 +76,7 @@ public class BoardController implements ExceptionProcessor {
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
 
-        return utils.redirectUrl(url);
+        return "redirect:" + utils.redirectUrl(url);
     }
 
     @GetMapping("/list/{bid}")
