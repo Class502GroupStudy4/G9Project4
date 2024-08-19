@@ -6,7 +6,7 @@
         <div class="inner">
             <div class="layout-left">
                 <a class="main-logo" th:href="${@utils.redirectUrl('/')}">
-                    <i class="xi-home"></i>
+                    <img th:src="${@utils.url('/images/mainLogo.png')}" th:alt="#{메인로고}" class="main-logo"></img>
                     <!--                    <img class="main-logo" th:src="${@utils.url('/common/image/korea.png')}" th:alt="#{mainImage}">-->
                 </a>
             </div>
@@ -18,15 +18,7 @@
                             <a th:href="${@utils.redirectUrl('/tour/list')}" th:text="#{여행지정보}"></a>
                         </h5>
                         <div class="dropdown-content">
-                            <a th:href="${@utils.redirectUrl('/tour/list/spot')}" th:text="#{관광}"></a>
-                            <a th:href="${@utils.redirectUrl('/tour/list/culture')}" th:text="#{문화시설}"></a>
-                            <a th:href="${@utils.redirectUrl('/tour/list/festival')}" th:text="#{행사/공연/축제}"></a>
-                            <a th:href="${@utils.redirectUrl('/tour/list/course')}" th:text="#{여행코스}"></a>
-                            <a th:href="${@utils.redirectUrl('/tour/list/leports')}" th:text="#{레포츠}"></a>
-                            <a th:href="${@utils.redirectUrl('/tour/list/stay')}" th:text="#{호텔}"></a>
-                            <a th:href="${@utils.redirectUrl('/tour/list/shopping')}" th:text="#{쇼핑}"></a>
-                            <a th:href="${@utils.redirectUrl('/tour/list/restaurant')}" th:text="#{레스토랑}"></a>
-                            <a th:href="${@utils.redirectUrl('/tour/list/green')}" th:text="#{생태}"></a>
+                            <a th:each="type,s: ${@contentType}" th:object="${@contentType}" class="item" th:id="contentType+${s.index}" th:text="${type.getType()}" th:href="${@utils.redirectUrl('/tour/list/'+type.getName())}"></a>
                         </div>
                     </div>
                     <div class="dropdown">
