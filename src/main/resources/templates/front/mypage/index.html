@@ -52,6 +52,16 @@
     </form>
         <div class="mypage-tour-story">
             <h2 th:text="#{나의_여행_이야기}"></h2>
+            <dl>
+                내가 최근에 관심 가진 여행지
+                <h3>검색 기록</h3>
+                <div th:each="record : ${searchHistory}">
+                    <p>검색어: <span th:text="${record.searchTerm}"></span></p>
+                    <p>시간: <span th:text="${#dates.format(record.searchTime, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                </div>
+                <br>
+                내가 관심 있는 여행 이야기 (=좋아요 누른 게시글, 좋아요 취소 기능도 구현 필요)
+            </dl>
         </div>
     </div>
 </section>
