@@ -91,7 +91,7 @@ input[type="checkbox"] {
     margin-top: 0.25rem;
 }
 
-button {
+.form {
     background-color: var(--blue);
     color: var(--white);
     border: none;

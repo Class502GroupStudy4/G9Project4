@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <th:block th:replace="~{common/_search_top::search}"></th:block>
+<!--메인 배너 -->
+    <div class="banner">
+        <img th:src="${@utils.url('/images/background/waterfall.png')}" alt="Banner Image" class="banner-image active">
+        <img th:src="${@utils.url('/images/background/castle.png')}" alt="Banner Image" class="banner-image">
+        <img th:src="${@utils.url('/images/background/salung.png')}" alt="Banner Image" class="banner-image">
+        <img th:src="${@utils.url('/images/background/img_1.png')}" alt="Banner Image" class="banner-image">
+        <img th:src="${@utils.url('/images/background/img_2.png')}" alt="Banner Image" class="banner-image">
+        <img th:src="${@utils.url('/images/background/img_3.png')}" alt="Banner Image" class="banner-image">
+        <img th:src="${@utils.url('/images/background/img_4.png')}" alt="Banner Image" class="banner-image">
+        <img th:src="${@utils.url('/images/background/img_5.png')}" alt="Banner Image" class="banner-image">
+    </div>
+<!--메인 배너 끝-->
+</main>
+</html>

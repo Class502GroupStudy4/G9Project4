@@ -1,267 +1,28 @@
-/*첫 이미지 배너 및 검색 */
-
-.tour-type-list {
-    /*display: flex;*/
-    display: block;
-    justify-content: center; /* 가로 방향으로 중앙 정렬 */
-    align-items: center; /* 수직 방향으로 중앙 정렬 */
-}
-
-main {
-    padding-left: 0;
-}
-
-.mainBn {
-    margin-top: 57px;
-    height: 454px;
-    background-image: url(../../../images/list/key_bg.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-}
-
-.bnWrap {
-    width: 1092px;
-    margin-right: auto;
-    margin-left: auto;
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR:wght@200..900&display=swap');
+/* table CSS Start*/
+table {
+    table-layout: auto;
+    align-content: center;
+    width: 80%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-left: 20px;
     text-align: center;
 }
-
-.bnWrap h2, .tit, .city, .map {
-    color: white;
+table * {
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
 }
+table td{
+    border-top: 1px solid black;
 
-.city a {
-    color: white;
 }
-
-h2 {
-    padding-top: 80px;
-    font-size: 40px;
-    font-weight: bold;
+.table-image{
+    min-width: 300px;
+    max-width: 400px;
 }
-
-.bnWrap h2 span {
-    color: rgba(245, 161, 25, 0.9);
+img{
+   width: 90% ;
 }
-
-.tit {
-    font-size: 24px;
-    margin-top: 20px;
-    opacity: 0.85;
-}
-
-.srchBox {
-    width: 560px;
-    height: 100px;
-    background-color: rgba(0, 0, 0, 0.7);
-    margin-top: 60px;
-    margin-right: auto;
-    margin-left: auto;
-    padding: 20px 20px;
-    padding-bottom: 0px;
-    border-radius: 5px;
-}
-
-.srchBox .srch2 {
-    position: relative;
-}
-
-.srchBox .srch2 input {
-    width: 560px;
-    height: 50px;
-    text-indent: 10px;
-}
-
-.Q2 {
-    position: absolute;
-    right: 10px;
-    top: 5px;
-    border: 0;
-    background-color: transparent;
-}
-
-.Q2 img {
-    width: 40px;
-    height: 40px;
-}
-.Q2 img:hover{
-    cursor: pointer;
-}
-
-.keyword {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    color: #fff;
-    margin-top: 8px;
-}
-
-.keyword a:hover {
-    text-decoration: underline;
-}
-
-
-
-
-/*아래부터 typelist */
-
-.secWrap {
-    width: 1092px;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
-}
-
-.sec1 h3 {
-    margin-top: 80px;
-    margin-bottom: 30px;
-    font-size: 26px;
-    color: #333;
-}
-
-.sec1 h3 span {
-    color: rgba(245, 161, 25, 0.9);
-}
-
-.sec1 .con {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.sec1 h4 {
-    color: #333;
-    font-size: 18px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    line-height: 1;
-}
-
-.sec1 p {
-    text-align: left;
-}
-
-.sec1 h5 {
-    font-size: 14px;
-    color: rgba(245, 161, 25, 0.9);
-    margin-top: 25px;
-    margin-bottom: 70px;
-}
-
-.sec1 .box p {
-    text-align: center;
-    line-height: 1.5;
-}
-
-
-.sec1 .box img {
-    border-radius: 5px;
-    border: 2px solid #f0f0f0;
-}
-
-.sec1 .box:hover img {
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* 더 크고 어두운 그림자 */
-    transform: scale(1.05); /* 이미지를 약간 확대 */
-    transition: all 0.4s ease-in-out;
-}
-
-
-
-
-
-
-
-
-/*아래부터 typelist 6개 배너 */
-
-
-
-.sec2 {
-    background-color: #f0f0f0;
-    padding-bottom: 70px;
-}
-
-.sec2 h3 {
-    line-height: 1;
-    padding-top: 70px;
-    margin-bottom: 10px;
-    font-size: 26px;
-    color: #333;
-}
-
-.sec2 .tit {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 30px;
-    line-height: 1;
-}
-
-.sec2 .row1, .sec2 .row2 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px; /* 항목 간의 간격을 추가 */
-    margin-bottom: 24px; /* 행 간의 공백 추가 */
-}
-
-.sec2 .box {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px; /* 박스 내부 항목 간의 간격 추가 */
-    width: 100%;
-}
-
-.sec2 .box a {
-    flex: 1 1 calc(33.333% - 16px); /* 3개씩 나열되도록 설정 */
-    box-sizing: border-box;
-    margin-bottom: 16px; /* 각 이미지 아래쪽에 공백 추가 */
-}
-
-.sec2 .ImgBox {
-    width: 100%;
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-}
-
-.sec2 .ImgBox img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 이미지 비율 유지 */
-    transition: transform 2s;
-}
-
-.sec2 .ImgBox:hover img {
-    transform: scale(1.5);
-}
-
-.sec2 .txt {
-    height: 48px;
-    display: flex;
-    align-items: center;
-    padding-left: 15px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-image: linear-gradient(transparent, black);
-    box-sizing: border-box;
-}
-
-.sec2 .txt h4 {
-    color: rgba(245, 161, 25, 0.9);
-}
-
-.sec2 .txt p {
-    color: white;
-}
-
-.sec2 .more {
-    padding: 12px;
-    background-color: #fff;
-    width: 346px;
-    border: 1px solid #ccc;
-    margin: 0 auto;
-    font-size: 14px;
-    color: #666;
-    border-radius: 5px;
-}
+/* table CSS End*/
