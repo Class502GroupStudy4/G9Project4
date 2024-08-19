@@ -24,12 +24,103 @@
 - 2024.07.31 ~ 2024.08.31
   
 ## 🧡멤버 구성
-- 김민수
-- 김영산
-- 박유정
-- 이경미
-- 이인석
-- 장성준
+ <table>
+        <thead>
+            <tr>
+                <th>멤버</th>
+                <th>이름</th>
+                <th>프로필</th>
+                <th>담당 업무</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="title">조장</td>
+                <td><b>이인석</b></td>
+                <td align="center">
+                    <a href="https://github.com/inseokLee999">
+                        <img src="https://avatars.githubusercontent.com/u/145332250?v=4" width="100px;" alt="이인석"/>
+                        <br />
+                        <span class="profile-link">@inseokLee999</span>
+                    </a>
+                </td>
+                <td class="description">
+                    여행지 정보, 여행지 추천
+                </td>
+            </tr>
+            <tr>
+                <td class="title">조원</td>
+                <td><b>김민수</b></td>
+                <td align="center">
+                    <a href="https://github.com/minsukim002">
+                        <img src="https://avatars.githubusercontent.com/u/163953823?v=4" width="100px;" alt="김민수"/>
+                        <br />
+                        <span class="profile-link">@minsukim002</span>
+                    </a>
+                </td>
+                <td class="description">
+                    관리자 페이지, 메인화면 CSS 담당
+                </td>
+            </tr>
+            <tr>
+                <td class="title">조원</td>
+                <td><b>김영산</b></td>
+                <td align="center">
+                    <a href="https://github.com/youngsan01">
+                        <img src="https://avatars.githubusercontent.com/u/163953821?v=4" width="100px;" alt="김영산"/>
+                        <br />
+                        <span class="profile-link">@youngsan01</span>
+                    </a>
+                </td>
+                <td class="description">
+                    회원가입, 이메일 검증
+                </td>
+            </tr>
+            <tr>
+                <td class="title">조원</td>
+                <td><b>박유정</b></td>
+                <td align="center">
+                    <a href="https://github.com/yoojung275">
+                        <img src="https://avatars.githubusercontent.com/u/164983371?v=4" width="100px;" alt="박유정"/>
+                        <br />
+                        <span class="profile-link">@yoojung275</span>
+                    </a>
+                </td>
+                <td class="description">
+                    마이 페이지, 게시판
+                </td>
+            </tr>
+            <tr>
+                <td class="title">조원</td>
+                <td><b>이경미</b></td>
+                <td align="center">
+                    <a href="https://github.com/irine3355">
+                        <img src="https://avatars.githubusercontent.com/u/163012731?v=4" width="100px;" alt="이경미"/>
+                        <br />
+                        <span class="profile-link">@irine3355</span>
+                    </a>
+                </td>
+                <td class="description">
+                    여행지 추천
+                </td>
+            </tr>
+            <tr>
+                <td class="title">조원</td>
+                <td><b>장성준</b></td>
+                <td align="center">
+                    <a href="https://github.com/jangjangji">
+                        <img src="https://avatars.githubusercontent.com/u/134360817?v=4" width="100px;" alt="장성준"/>
+                        <br />
+                        <span class="profile-link">@jangjangji</span>
+                    </a>
+                </td>
+                <td class="description">
+                    관리자 페이지, 여행 지도
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
   
 ## 💛개발 환경
 - Front
