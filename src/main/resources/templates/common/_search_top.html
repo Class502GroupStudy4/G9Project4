@@ -10,7 +10,7 @@
             <div class="srchBox">
                 <div class="srch2">
                     <form id="search_top" name="frmSearch" method="get" autocomplete="off"
-                          th:action="${@utils.redirectUrl('tour/list')}" th:object="${tourPlaceSearch}">
+                          th:action="${@utils.redirectUrl('/tour/list')}" th:object="${tourPlaceSearch}">
                         <input type="hidden" th:field="*{sopt}" th:value="TITLE_ADDRESS">
                         <!--                <select name="sopt" th:field="*{sopt}">
                                             <option value="TITLE" th:text="#{여행지}"></option>
@@ -20,7 +20,7 @@
                         <input type="text" name="skey" th:field="*{skey}"
                                th:placeholder="#{여행지로_검색}">
                         <button class="Q2" type="submit">
-                            <img src="../../../images/list/icon_search1.gif" alt="검색하기"/>
+                            <i class="xi-search"></i>
                         </button>
                     </form>
                     <div class="keyword">
