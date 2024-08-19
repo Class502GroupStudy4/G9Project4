@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
+import org.g9project4.global.exceptions.BadRequestException;
+import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.publicData.greentour.entities.GreenPlace;
@@ -67,6 +69,7 @@ public class TourPlaceInfoService {
             } // endif
         } catch (Exception e) {
             e.printStackTrace();
+            throw new TourPlaceNotFoundException();
         }
 
         return null;
@@ -192,7 +195,19 @@ public class TourPlaceInfoService {
                 .limit(limit)
                 .where(andBuilder);
         List<TourPlace> items = query.fetch();
+
+        items.forEach(this::addInfo);
+
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
+    }
+
+    private void addInfo(TourPlace item) {
+        Long contentTypeId = item.getContentTypeId();
+        if (contentTypeId != null) {
+            ContentType type = ContentType.getList().stream().filter(c -> c.getId() == contentTypeId.longValue()).findFirst().orElse(null);
+            item.setContentType(type);
+
+        }
     }
 }

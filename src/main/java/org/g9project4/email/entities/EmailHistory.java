@@ -19,7 +19,7 @@ public class EmailHistory {
     @Id @GeneratedValue
     private Long seq;
 
-    @Column(length=100)
+    @Column(length=100, name="_to")
     private String to;
 
     private String subject;
