@@ -8,7 +8,6 @@ import org.g9project4.board.entities.BoardData;
 import org.g9project4.board.exceiptions.BoardDataNotFoundException;
 import org.g9project4.board.exceiptions.BoardNotfoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
-import org.g9project4.board.repositories.BoardRepository;
 import org.g9project4.file.services.FileUploadDoneService;
 import org.g9project4.member.MemberUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,8 +22,7 @@ public class BoardSaveService {
 
     private final HttpServletRequest request;
     private final PasswordEncoder encoder;
-    // 수정할 땐 상관없지만 추가할때는 Board 설정 데이터 필요
-    private final BoardRepository boardRepository;
+    private final BoardConfigInfoService configInfoService;
     private final BoardDataRepository boardDataRepository;
     private final MemberUtil memberUtil;
     private final FileUploadDoneService doneService;
@@ -42,7 +40,7 @@ public class BoardSaveService {
             data = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
         } else { // 글 작성
             String bid = form.getBid();
-            Board board =boardRepository.findById(bid).orElseThrow(BoardNotfoundException::new);
+            Board board = configInfoService.get(bid).orElseThrow(BoardNotfoundException::new);
 
             data = BoardData.builder()
                     .gid(gid)
@@ -53,7 +51,6 @@ public class BoardSaveService {
                     .build();
 
         }
-
 
         /* 글 작성, 글 수정 공통 S */
         data.setPoster(form.getPoster());
