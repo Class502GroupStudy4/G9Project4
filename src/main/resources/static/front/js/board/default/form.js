@@ -53,14 +53,36 @@ function fileUploadCallback(files) {
                 insertEditorEl.addEventListener("click", (e) => insertEditor(e.currentTarget.dataset.url));
             }
         }
+
+        //파일 삭제 이벤트 처리
+        const removeEl = el.querySelector(".remove");
+        removeEl.addEventListener("click", () => {
+            if (confirm('정말 삭제하겠습니까?')) {
+                fileManager.delete(seq);
+            }
+        });
+
     }
 
-    //에디터 본문에 이미지 추가
+    // 에디터 본문에 이미지 추가
     if (imageUrls.length > 0) {
-        editor.execute("insertImage", { source:imageUrls });
+        insertEditor(imageUrls);
     }
 }
 
-function insertEditor() {
+function insertEditor(source) {
+    editor.execute("insertImage", { source });
+}
 
+/**
+ * 파일 삭제 후속 처리
+ *
+ */
+function fileDeleteCallback(file) {
+    if (!file) return;
+
+    const { seq } = file;
+
+    const el = document.getElementById(`file-${seq}`);
+    el.parentElement.removeChild(el);
 }
