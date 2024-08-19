@@ -30,7 +30,7 @@
 <body>
 <header th:replace="~{front/outlines/_header::common}"></header>
 <main>
-    <aside th:replace="~{front/mypage/_side::menus}"></aside>
+    <th:block th:replace="~{front/mypage/_side::menus}"></th:block>
     <section layout:fragment="content"></section>
 </main>
 <footer th:replace="~{front/outlines/_footer::common}"></footer>
