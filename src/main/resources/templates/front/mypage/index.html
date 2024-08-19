@@ -33,12 +33,20 @@
                     <dd th:text="${loggedMember.email}"></dd>
                 </dl>
                 <dl>
-                    <dt th:text="#{회원명}"></dt>
-                    <dd th:text="${loggedMember.userName}"></dd>
-                </dl>
-                <dl>
                     <dt th:text="#{휴대전화번호}"></dt>
                     <dd th:text="${loggedMember.mobile}"></dd>
+                </dl>
+                <dl>
+                    <dt th:text="#{출생일}"></dt>
+                    <dd th:text="${loggedMember.birth}"></dd>
+                </dl>
+                <dl>
+                    <dt th:text="#{성별}"></dt>
+                    <dd th:text="${loggedMember.gende}"></dd>
+                </dl>
+                <dl>
+                    <dt th:text="#{외국인여부}"></dt>
+                    <dd th:text="${loggedMember.isForeigner}"></dd>
                 </dl>
         </div>
     </form>
