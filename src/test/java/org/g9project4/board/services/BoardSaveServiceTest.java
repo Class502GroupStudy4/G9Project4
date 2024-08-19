@@ -4,15 +4,13 @@ package org.g9project4.board.services;
 import org.g9project4.board.controllers.RequestBoard;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
-import org.g9project4.board.repositories.BoardRepository;
-import org.g9project4.member.constants.Authority;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.UUID;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -21,8 +19,7 @@ public class BoardSaveServiceTest {
     @Autowired
     private BoardSaveService saveService;
 
-    @Autowired
-    private BoardRepository boardRepository;
+
 
     private Board board;
 
@@ -45,7 +42,7 @@ public class BoardSaveServiceTest {
 //                .replyAccessType(Authority.ALL)
 //                .locationAfterWriting("list")
 //                .build();
-        boardRepository.saveAndFlush(board);
+
     }
     @Test
     void saveTest(){
