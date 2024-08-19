@@ -22,8 +22,8 @@
             <a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}" th:text="*{title}"></a>
         </td>
         <td class="table-address" th:text="*{address}"></td>
-        <td class="table-image">
-            <img class="firstImage" th:src="*{firstImage}">
+        <td class="table-image" >
+            <a th:href="*{@utils.redirectUrl('/tour/detail/'+contentId)}"><img class="firstImage" th:src="*{firstImage}" th:alt="#{이미지가_존재하지_않습니다.}"></a>
         </td>
         <td th:text="*{tel}"></td>
 
