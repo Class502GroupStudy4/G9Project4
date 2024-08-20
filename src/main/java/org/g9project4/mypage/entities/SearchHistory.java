@@ -21,9 +21,12 @@ public class SearchHistory {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;  // 사용자를 참조하는 엔티티
 
-    @Column(name = "search_term", nullable = false)
-    private String searchTerm;
+    @Column(name = "search_query")
+    private String searchQuery; // 검색어
 
-    @Column(name = "search_time", nullable = false)
-    private LocalDateTime searchTime;
+    @Column(name = "search_options")
+    private String searchOptions; // 검색 조건 (JSON 또는 문자열 형태로 저장 가능)
+
+    @Column(name = "search_time")
+    private LocalDateTime searchTime; // 검색 시간
 }

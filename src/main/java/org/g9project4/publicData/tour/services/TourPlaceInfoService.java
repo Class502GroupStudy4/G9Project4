@@ -13,6 +13,9 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
+import org.g9project4.member.entities.Member;
+import org.g9project4.mypage.entities.SearchHistory;
+import org.g9project4.mypage.repositories.SearchHistoryRepository;
 import org.g9project4.publicData.greentour.entities.GreenPlace;
 import org.g9project4.publicData.greentour.entities.QGreenPlace;
 import org.g9project4.publicData.tour.constants.ContentType;
@@ -27,6 +30,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Order.asc;
@@ -42,13 +46,18 @@ public class TourPlaceInfoService {
     private String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
     private final HttpServletRequest request;
 
+    private final SearchHistoryRepository searchHistoryRepository;
+
     /**
      * 좌표, 거리 기반으로 검색
      *
      * @param search
      * @return
      */
-    public List<TourPlace> getLocBasedList(TourPlaceSearch search) {
+    public List<TourPlace> getLocBasedList(TourPlaceSearch search, Member member) {
+        // 검색 기록 저장
+        saveSearchHistory(search, member);
+
         double lat = search.getLatitude();
         double lon = search.getLongitude();
         int radius = search.getRadius();
@@ -70,6 +79,15 @@ public class TourPlaceInfoService {
         }
 
         return null;
+    }
+
+    private void saveSearchHistory(TourPlaceSearch search, Member member) {
+        SearchHistory history = new SearchHistory();
+        history.setMember(member);
+        history.setSearchQuery(search.getSkey());
+        history.setSearchOptions(search.toString()); // 조건을 JSON으로 변환할 수도 있음
+        history.setSearchTime(LocalDateTime.now());
+        searchHistoryRepository.save(history);
     }
 
     public ListData<TourPlace> getTotalList(TourPlaceSearch search) {

@@ -56,7 +56,7 @@
                 내가 최근에 관심 가진 여행지
                 <h3>검색 기록</h3>
                 <div th:each="record : ${searchHistory}">
-                    <p>검색어: <span th:text="${record.searchTerm}"></span></p>
+                    <p>검색어: <span th:text="${record.searchQuery}"></span></p>
                     <p>시간: <span th:text="${#dates.format(record.searchTime, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
                 </div>
                 <br>

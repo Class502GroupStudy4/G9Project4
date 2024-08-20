@@ -26,7 +26,9 @@ public class QSearchHistory extends EntityPathBase<SearchHistory> {
 
     public final org.g9project4.member.entities.QMember member;
 
-    public final StringPath searchTerm = createString("searchTerm");
+    public final StringPath searchOptions = createString("searchOptions");
+
+    public final StringPath searchQuery = createString("searchQuery");
 
     public final DateTimePath<java.time.LocalDateTime> searchTime = createDateTime("searchTime", java.time.LocalDateTime.class);
 
