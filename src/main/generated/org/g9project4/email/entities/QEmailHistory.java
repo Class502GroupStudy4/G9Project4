@@ -23,11 +23,11 @@ public class QEmailHistory extends EntityPathBase<EmailHistory> {
 
     public final StringPath message = createString("message");
 
+    public final StringPath sendTo = createString("sendTo");
+
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public final StringPath subject = createString("subject");
-
-    public final StringPath to = createString("to");
 
     public QEmailHistory(String variable) {
         super(EmailHistory.class, forVariable(variable));

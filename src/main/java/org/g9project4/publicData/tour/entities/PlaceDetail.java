@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class PlaceDetail {
     @Id
     private Long contentId;
-    private Long contentTypeId;
+    private String contentTypeId;
 
     private String title;
 

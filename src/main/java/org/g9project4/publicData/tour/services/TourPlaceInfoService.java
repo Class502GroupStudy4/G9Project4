@@ -27,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.data.domain.Sort.Order.asc;
 
@@ -149,9 +150,7 @@ public class TourPlaceInfoService {
         /* 검색 조건 처리 S */
         QTourPlace tourPlace = QTourPlace.tourPlace;
         BooleanBuilder andBuilder = new BooleanBuilder();
-        if (search.getContentType() != null) {
-            andBuilder.and(tourPlace.contentTypeId.eq(search.getContentType().getId()));
-        }
+
         String sopt = search.getSopt();
         String skey = search.getSkey();
 
@@ -197,4 +196,12 @@ public class TourPlaceInfoService {
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
     }
+
+/*. 경미: 특히 null 상태에서 메서드를 호출하거나 double로 자동 변환할 때 NullPointerException이 발생할 수 있기에 추가 */
+    public double processDistance(TourPlace tourPlace) {
+        Optional<Double> optionalDistance = Optional.ofNullable(tourPlace.getDistance());
+        return optionalDistance.orElse(0.0);  // distance가 null일 경우 0.0으로 대체
+    }
+
+
 }

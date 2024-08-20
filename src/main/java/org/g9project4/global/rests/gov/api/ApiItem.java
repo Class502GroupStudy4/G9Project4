@@ -17,7 +17,7 @@ public class ApiItem {
     private String cat2;
     private String cat3;
     private Long contentid;
-    private Long contenttypeid;
+    private String contenttypeid;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime createtime;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
@@ -29,7 +29,7 @@ public class ApiItem {
     private Double mapx;
     private Double mapy;
     private Integer mlevel;
-    private Integer sigungucode;
+
     private String tel;
     private String title;
 

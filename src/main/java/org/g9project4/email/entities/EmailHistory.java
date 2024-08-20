@@ -20,7 +20,7 @@ public class EmailHistory {
     private Long seq;
 
     @Column(length=100)
-    private String to;
+    private String sendTo;
 
     private String subject;
 

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DetailItem {
     private String contentid;
-    private String contenttypeid;
+    private String contenttypeId;
     private String title;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime createdtime;
@@ -30,7 +30,7 @@ public class DetailItem {
     private String firstimage2;
     private String cpyrhtDivCd;
     private String areacode;
-    private Integer sigungucode;
+    private String sigungucode;
     private String cat1;
     private String cat2;
     private String cat3;

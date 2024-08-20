@@ -1,5 +1,6 @@
-package org.g9project4.publicData.tour.entities;
+package org.g9project4.tourvisit.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,55 +8,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.g9project4.global.entities.BaseEntity;
 
+import java.time.LocalDate;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table( )
-public class TourPlace extends BaseEntity {
+@Builder
+public class SigunguVisit extends BaseEntity {
+//Locgovisit
+
     @Id
-    private Long contentId;
-    private String contentTypeId;
+    @Column(length=10)
+    private String sigunguCode;
 
-    @Column(length = 30)
-    private String category1;
-
-    @Column(length = 30)
-    private String category2;
-
-    @Column(length = 30)
-    private String category3;
-
-    @Column(length = 100)
-    private String title;
-
-    @Column(length = 120)
-    private String tel;
-
-    @Column(length = 150)
-    private String address;
-
-    //@JoinColumn(name = "areaCode")
-    private String areaCode;
+    @Column(length=50)
+    private String sigunguName;
 
 
-    private boolean bookTour;
-    private Double distance;
-
-    private String firstImage;
-    private String firstImage2;
-
-    @Column(length = 30)
-    private String cpyrhtDivCd;
-    private Double latitude; // mapy
-    private Double longitude; // mapx
-    private Integer  mapLevel;
-
-
-    private String sigunguCode2;
-    private Integer placePointValue; //장소별 점수
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="areaCode")
+    private SidoVisit sidoVisit;
 
     private Double type1D1; // 현지인 일별통계 현지인관광객구분명
     private Double type2D1; // 외지인 일별통계
@@ -80,4 +53,6 @@ public class TourPlace extends BaseEntity {
     private Double type1Y1;  // 현지인 일별통계 현지인관광객구분명
     private Double type2Y1; // 외지인 일별통계
     private Double type3Y1; //외국인 일별통계
+
+
 }

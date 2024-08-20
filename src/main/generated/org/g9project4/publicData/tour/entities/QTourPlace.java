@@ -35,7 +35,7 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
 
     public final NumberPath<Long> contentId = createNumber("contentId", Long.class);
 
-    public final NumberPath<Long> contentTypeId = createNumber("contentTypeId", Long.class);
+    public final StringPath contentTypeId = createString("contentTypeId");
 
     public final StringPath cpyrhtDivCd = createString("cpyrhtDivCd");
 
@@ -46,10 +46,6 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
     public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;
 
     public final NumberPath<Double> distance = createNumber("distance", Double.class);
-
-    public final NumberPath<Long> favoritePlacePoint1 = createNumber("favoritePlacePoint1", Long.class);
-
-    public final NumberPath<Long> favoritePlacePoint2 = createNumber("favoritePlacePoint2", Long.class);
 
     public final StringPath firstImage = createString("firstImage");
 
@@ -64,11 +60,49 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final NumberPath<Integer> sigugunCode = createNumber("sigugunCode", Integer.class);
+    public final NumberPath<Integer> placePointValue = createNumber("placePointValue", Integer.class);
+
+    public final StringPath sigunguCode2 = createString("sigunguCode2");
 
     public final StringPath tel = createString("tel");
 
     public final StringPath title = createString("title");
+
+    public final NumberPath<Double> type1D1 = createNumber("type1D1", Double.class);
+
+    public final NumberPath<Double> type1M1 = createNumber("type1M1", Double.class);
+
+    public final NumberPath<Double> type1M3 = createNumber("type1M3", Double.class);
+
+    public final NumberPath<Double> type1M6 = createNumber("type1M6", Double.class);
+
+    public final NumberPath<Double> type1W1 = createNumber("type1W1", Double.class);
+
+    public final NumberPath<Double> type1Y1 = createNumber("type1Y1", Double.class);
+
+    public final NumberPath<Double> type2D1 = createNumber("type2D1", Double.class);
+
+    public final NumberPath<Double> type2M1 = createNumber("type2M1", Double.class);
+
+    public final NumberPath<Double> type2M3 = createNumber("type2M3", Double.class);
+
+    public final NumberPath<Double> type2M6 = createNumber("type2M6", Double.class);
+
+    public final NumberPath<Double> type2W1 = createNumber("type2W1", Double.class);
+
+    public final NumberPath<Double> type2Y1 = createNumber("type2Y1", Double.class);
+
+    public final NumberPath<Double> type3D1 = createNumber("type3D1", Double.class);
+
+    public final NumberPath<Double> type3M1 = createNumber("type3M1", Double.class);
+
+    public final NumberPath<Double> type3M3 = createNumber("type3M3", Double.class);
+
+    public final NumberPath<Double> type3M6 = createNumber("type3M6", Double.class);
+
+    public final NumberPath<Double> type3W1 = createNumber("type3W1", Double.class);
+
+    public final NumberPath<Double> type3Y1 = createNumber("type3Y1", Double.class);
 
     public QTourPlace(String variable) {
         super(TourPlace.class, forVariable(variable));

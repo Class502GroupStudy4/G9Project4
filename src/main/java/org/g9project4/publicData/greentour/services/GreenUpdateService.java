@@ -41,7 +41,7 @@ public class GreenUpdateService {
                                 .firstImage(item.getMainimage())
                                 .cpyrhtDivCd(item.getCpyrhtDivCd())
                                 .modifiedtime(item.getModifiedtime())
-                                .sigugunCode(item.getSigungucode())
+                                .sigunguCode(item.getSigungucode())
                                 .subTitle(item.getSubtitle())
                                 .summary(item.getSummary())
                                 .tel(item.getTel())
