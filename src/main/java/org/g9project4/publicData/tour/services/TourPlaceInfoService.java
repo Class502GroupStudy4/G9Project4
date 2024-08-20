@@ -13,6 +13,7 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
+import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
 import org.g9project4.mypage.entities.SearchHistory;
 import org.g9project4.mypage.repositories.SearchHistoryRepository;
@@ -40,9 +41,10 @@ import static org.springframework.data.domain.Sort.Order.asc;
 public class TourPlaceInfoService {
     @PersistenceContext
     private EntityManager em;
-
+    private final MemberUtil memberUtil;
     private final RestTemplate restTemplate;
     private final TourPlaceRepository repository;
+
     private String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
     private final HttpServletRequest request;
 
@@ -54,9 +56,9 @@ public class TourPlaceInfoService {
      * @param search
      * @return
      */
-    public List<TourPlace> getLocBasedList(TourPlaceSearch search, Member member) {
+    public ListData<TourPlace> getLocBasedList(TourPlaceSearch search) {
         // 검색 기록 저장
-        saveSearchHistory(search, member);
+        saveSearchHistory(search);
 
         double lat = search.getLatitude();
         double lon = search.getLongitude();
@@ -71,7 +73,9 @@ public class TourPlaceInfoService {
                     QTourPlace tourPlace = QTourPlace.tourPlace;
                     List<TourPlace> items = (List<TourPlace>) repository.findAll(tourPlace.contentId.in(ids), Sort.by(asc("contentId")));
 
-                    return items;
+                   // long total = repository.count(tourPlace.contentId.in(ids));
+
+                    return new ListData<>(items, null);
                 } // endif
             } // endif
         } catch (Exception e) {
@@ -81,9 +85,9 @@ public class TourPlaceInfoService {
         return null;
     }
 
-    private void saveSearchHistory(TourPlaceSearch search, Member member) {
+    private void saveSearchHistory(TourPlaceSearch search) {
         SearchHistory history = new SearchHistory();
-        history.setMember(member);
+        history.setMember(memberUtil.getMember());
         history.setSearchQuery(search.getSkey());
         history.setSearchOptions(search.toString()); // 조건을 JSON으로 변환할 수도 있음
         history.setSearchTime(LocalDateTime.now());
