@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DetailItem {
-    private String contentid;
+    private Long contentid;
     private String contenttypeid;
     private String title;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
