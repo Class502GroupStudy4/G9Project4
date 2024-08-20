@@ -26,7 +26,7 @@ layout:decorate="~{front/layouts/main}">
         </div>
 
         <div class="error global" th:each="err: ${#fields.globalErrors()}" th:text="${err}"></div>
-        <button type="submit" th:text="로그인"></button>
+        <button class="login-button" type="submit" th:text="로그인"></button>
     </form>
 </main>
 </html>

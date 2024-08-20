@@ -1,14 +1,12 @@
-window.addEventListener("DOMContentLoaded", function () {
-
+window.addEventListener("DOMContentLoaded", function() {
     /* 인증 코드 전송 S */
     const emailVerifyEl = document.getElementById("email_verify"); // 인증코드 전송
     const emailConfirmEl = document.getElementById("email_confirm"); // 확인 버튼
     const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
     const authNumEl = document.getElementById("auth_num"); // 인증코드
     if (emailVerifyEl) {
-        emailVerifyEl.addEventListener("click", function () {
-            console.log("버튼 눌림");
-            const {ajaxLoad, sendEmailVerify} = commonLib;
+        emailVerifyEl.addEventListener("click", function() {
+            const { ajaxLoad, sendEmailVerify } = commonLib;
             const email = frmRegist.email.value.trim();
             if (!email) {
                 alert('이메일을 입력하세요.');
@@ -16,50 +14,40 @@ window.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            /* 이메일 확인 전 이미 가입된 이메일인지 여부 체크 S */
-            ajaxLoad("GET", `/api/member/email_dup_check?email=${email}`, null, "json")
-                .then(data => {
-                    if (data.success) { // 중복이메일인 경우
-                        alert("이미 가입된 이메일입니다.");
-                        frmRegist.email.focus();
-                    } else { // 중복이메일이 아닌 경우
-                        sendEmailVerify(email); // 이메일 인증 코드 전송
-                        this.disabled = frmRegist.email.readonly = true;
+            sendEmailVerify(email); // 이메일 인증 코드 전송
+            this.disabled = true;
+            frmRegist.email.setAttribute("readonly", true);
 
-                        /* 인증코드 재전송 처리 S */
-                        if (emailReVerifyEl) {
-                            emailReVerifyEl.addEventListener("click", function () {
-                                sendEmailVerify(email);
-                            });
-                        }
-
-                        /* 인증코드 재전송 처리 E */
-
-                        /* 인증번호 확인 처리 S */
-                        if (emailConfirmEl && authNumEl) {
-                            emailConfirmEl.addEventListener("click", function () {
-                                const authNum = authNumEl.value.trim();
-                                if (!authNum) {
-                                    alert("인증코드를 입력하세요.");
-                                    authNumEl.focus();
-                                    return;
-                                }
-
-                                // 인증코드 확인 요청
-                                const {sendEmailVerifyCheck} = commonLib;
-                                sendEmailVerifyCheck(authNum);
-                            });
-                        }
-                        /* 인증번호 확인 처리 E */
-                    }
+            /* 인증코드 재전송 처리 S */
+            if (emailReVerifyEl) {
+                emailReVerifyEl.addEventListener("click", function() {
+                    sendEmailVerify(email);
                 });
+            }
 
-            /* 이메일 확인 전 이미 가입된 이메일인지 여부 체크 E */
+            /* 인증코드 재전송 처리 E */
+
+            /* 인증번호 확인 처리 S */
+            if (emailConfirmEl && authNumEl) {
+                emailConfirmEl.addEventListener("click", function() {
+                    const authNum = authNumEl.value.trim();
+                    if (!authNum) {
+                        alert("인증코드를 입력하세요.");
+                        authNumEl.focus();
+                        return;
+                    }
+
+                    // 인증코드 확인 요청
+                    const { sendEmailVerifyCheck } = commonLib;
+                    sendEmailVerifyCheck(authNum);
+                });
+            }
+            /* 인증번호 확인 처리 E */
+
         });
     }
     /* 인증 코드 전송 E */
 });
-
 
 /**
  * 이메일 인증 메일 전송 후 콜백 처리
@@ -102,7 +90,7 @@ function callbackEmailVerifyCheck(data) {
         emailVerifyEl.parentElement.removeChild(emailVerifyEl);
 
         // 3. 이메일 입력 항목 readonly 속성으로 변경
-        frmRegist.email.readonly = true;
+        frmRegist.email.setAttribute("readonly", true);
 
         // 4. 인증 성공시 인증코드 입력 영역 제거, 5. 인증 코드 입력 영역에 "확인된 이메일 입니다."라고 출력 처리
         const authBoxEl = document.querySelector(".auth_box");
@@ -118,8 +106,8 @@ function callbackEmailVerifyCheck(data) {
  *
  */
 const authCount = {
-    intervalId: null,
-    count: 60 * 3, // 유효시간 3분
+    intervalId : null,
+    count : 60 * 3, // 유효시간 3분
     /**
      * 인증 코드 유효시간 시작
      *
@@ -130,7 +118,7 @@ const authCount = {
 
         this.initialize(); // 초기화 후 시작
 
-        this.intervalId = setInterval(function () {
+        this.intervalId = setInterval(function() {
 
             authCount.count--;
             if (authCount.count < 0) {
@@ -141,14 +129,15 @@ const authCount = {
                 const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
                 const emailVerifyEl = document.getElementById("email_verify"); // 인증코드 전송
                 emailConfirmEl.disabled = emailReVerifyEl.disabled = true;
-                emailVerifyEl.disabled = frmJoin.email.readonly = false;
+                emailVerifyEl.disabled = false;
+                frmRegist.email.removeAttribute("readonly");
                 return;
             }
 
             const min = Math.floor(authCount.count / 60);
             const sec = authCount.count - min * 60;
 
-            countEl.innerHTML = `${("" + min).padStart(2, '0')}:${("" + sec).padStart(2, '0')}`;
+            countEl.innerHTML=`${("" + min).padStart(2, '0')}:${("" + sec).padStart(2, '0')}`;
         }, 1000);
     },
 
@@ -162,10 +151,54 @@ const authCount = {
         const emailConfirmEl = document.getElementById("email_confirm"); // 확인 버튼
         const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
         emailConfirmEl.disabled = emailReVerifyEl.disabled = false;
-        emailVerifyEl.disabled = frmJoin.email.readonly = true;
+        emailVerifyEl.disabled = true;
+        frmRegist.email.setAttribute("readonly", true);
 
         this.count = 60 * 3;
         if (this.intervalId) clearInterval(this.intervalId);
         countEl.innerHTML = "03:00";
     }
 };
+
+/**
+ * 프로필 이미지 업로드 후속 처리
+ *
+ */
+function fileUploadCallback(files) {
+    if (files.length === 0) {
+        return;
+    }
+
+    const file = files[0];
+    let html = document.getElementById("image-file-tpl").innerHTML;
+    html = html.replace(/\[seq\]/g, file.seq)
+        .replace(/\[fileUrl\]/g, file.fileUrl);
+
+    const domParser = new DOMParser();
+    const dom = domParser.parseFromString(html, 'text/html');
+    const box = dom.querySelector(".image-file-box");
+
+    const targetEl = document.querySelector(".profile-image");
+    targetEl.innerHTML = "";
+    targetEl.append(box);
+
+    const removeEl = box.querySelector(".remove");
+    removeEl.addEventListener("click", function() {
+        if (!confirm('정말 삭제 하겠습니까?')) {
+            return;
+        }
+
+        const seq = this.dataset.seq;
+        fileManager.delete(seq);
+    });
+}
+
+
+/**
+ * 파일 삭제 후 후속 처리
+ *
+ */
+function fileDeleteCallback(file) {
+    const targetEl = document.querySelector(".profile-image");
+    if (targetEl) targetEl.innerHTML = "";
+}
