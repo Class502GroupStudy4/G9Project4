@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=G9Project&fontSize=90&animation=fadeIn&fontAlignY=38&desc=한국관광공사%20데이터를%20활용한%20이용자%20맞춤형%20여행%20정보%20제공%20사이트&descAlignY=65&descAlign=62)
+![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=G9Project&fontSize=90&animation=fadeIn&fontAlignY=38&desc=G9PR0JECT팀의%204번째%20프로젝트,%20우리의%20국내여행%20커뮤니티%20"여기어때?"&descAlignY=65&descAlign=56)
 
 <div align = "center">
 <a href="http://maratanghuru.xyz/app" target="_blank">
