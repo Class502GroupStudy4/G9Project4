@@ -19,3 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {
     setInterval(changeImage, 5000); // 초마다 이미지 전환
 });
 /*메인페이지 상단 바탕이미지 끝 */
+
+
+
+
+

@@ -19,8 +19,6 @@
 }
 
 body {
-    background-color: var(--white);
-    background: url("https://img.freepik.com/free-photo/low-angle-shot-tall-trees-beautiful-green-forest_181624-7723.jpg?t=st=1723602067~exp=1723605667~hmac=d730937e42d7acff50d13305890334b3a479b08530368f9d71d9c1069db60eec&w=1380") center/cover no-repeat fixed;
     margin: 0;
     position: relative; /* footer-content의 위치를 기준으로 설정 */
     min-height: 100vh; /* 전체 페이지 높이 설정 */
