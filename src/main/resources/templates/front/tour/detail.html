@@ -50,8 +50,8 @@
             <dd th:text="*{mapy}">
             </dd>
         </dl>-->
-        <dl th:if="*{mapx!=null}">
-            <div id="map" th:data-lat="*{mapy}" th:data-lng="*{mapx}"></div>
+        <dl th:if="*{mapx!=null || addr1!=null}">
+            <div id="map" th:data-lat="*{mapy}" th:data-lng="*{mapx}" th:data-address="*{addr1}"></div>
         </dl>
     </section>
 

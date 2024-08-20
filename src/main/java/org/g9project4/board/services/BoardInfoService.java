@@ -16,6 +16,7 @@ import org.g9project4.board.entities.BoardData;
 import org.g9project4.board.entities.QBoardData;
 import org.g9project4.board.exceptions.BoardDataNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
+import org.g9project4.board.repositories.BoardRepository;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
@@ -27,6 +28,7 @@ import org.springframework.util.StringUtils;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,8 +40,13 @@ public class BoardInfoService {
     private final JPAQueryFactory queryFactory;
     private final BoardDataRepository repository;
     private final BoardConfigInfoService configInfoService;
+    private final BoardRepository boardRepository;
     private final HttpServletRequest request;
     private final Utils utils;
+
+    public List<Board> getBoardList(){
+        return boardRepository.findAll().stream().toList();
+    }
 
 
     /**

@@ -20,7 +20,7 @@ const mapLib = {
         mapEl.style.width = `${width}px`;
         mapEl.style.height = `${height}px`;
 
-        let { center, marker, markerImage } = options;
+        let {center, marker, markerImage} = options;
 
         // 지도 가운데 좌표 처리
         const zoom = options?.zoom ?? 3; // 기본값 3
@@ -36,8 +36,8 @@ const mapLib = {
         if (marker) {
             if (!Array.isArray(marker)) marker = [marker];
             const markers = marker.map(m => {
-                const { lat, lng, image, info } = m;
-                const opt = { position: new kakao.maps.LatLng(lat, lng)};
+                const {lat, lng, image, info} = m;
+                const opt = {position: new kakao.maps.LatLng(lat, lng)};
 
 
                 // 마커 이미지 처리
@@ -51,7 +51,7 @@ const mapLib = {
 
                 // 인포 윈도우 처리
                 if (info?.content) {
-                    const { content, clickable, removable } = info;
+                    const {content, clickable, removable} = info;
 
                     const infoWindow = new kakao.maps.InfoWindow({
                         content,
@@ -59,7 +59,7 @@ const mapLib = {
                     });
 
                     if (clickable) { // 마커 클릭시 노출
-                        kakao.maps.event.addListener(_marker, "click", function() {
+                        kakao.maps.event.addListener(_marker, "click", function () {
                             if (_marker.isInfoWindowOpen) {
                                 infoWindow.close();
                                 _marker.isInfoWindowOpen = false;
@@ -72,7 +72,6 @@ const mapLib = {
                         infoWindow.open(map, _marker);
                     }
                 }
-
 
 
                 _marker.setMap(map);
@@ -89,9 +88,9 @@ const mapLib = {
      */
     loadCurrentLocation(mapId, width = 300, height = 300, options) {
         navigator.geolocation.getCurrentPosition(pos => {
-            const { latitude, longitude } = pos.coords;
+            const {latitude, longitude} = pos.coords;
             options = options ?? {};
-            options.center = { lat: latitude, lng: longitude };
+            options.center = {lat: latitude, lng: longitude};
 
             mapLib.load(mapId, width, height, options);
         });
@@ -110,7 +109,7 @@ const mapLib = {
                 items = cnt > 0 ? items.slice(0, cnt + 1) : items;
 
                 options = options ?? {};
-                options.center = { lat: items[0].y, lng: items[0].x };
+                options.center = {lat: items[0].y, lng: items[0].x};
                 options.marker = [];
 
                 items.forEach(item => {
@@ -137,12 +136,17 @@ const mapLib = {
                 items = cnt > 0 ? items.slice(0, cnt + 1) : items;
 
                 options = options ?? {};
-                options.center = { lat: items[0].y, lng: items[0].x };
+                options.center = {lat: items[0].y, lng: items[0].x};
                 options.marker = [];
 
                 items.forEach(item => {
                     options.marker.push({lat: item.y, lng: item.x});
                 });
+            } else {
+                let parts = address.split(" ");
+                parts.pop();
+                let joinAddress = parts.join(" ");
+                this.loadByAddress(joinAddress, cnt, mapId, width, height, options);
             }
 
             mapLib.load(mapId, width, height, options);
@@ -157,16 +161,16 @@ const mapLib = {
 
         const ps = new kakao.maps.services.Places();
 
-        ps.categorySearch(category.trim(), placesSearchCB, {useMapBounds:true});
+        ps.categorySearch(category.trim(), placesSearchCB, {useMapBounds: true});
 
-        function placesSearchCB (items, status, pagination) {
+        function placesSearchCB(items, status, pagination) {
             console.log(pagination);
             if (status === kakao.maps.services.Status.OK) {
                 // cnt가 0이면 전체 목록, 1 이상이면 갯수 제한
                 items = cnt > 0 ? items.slice(0, cnt + 1) : items;
 
                 options = options ?? {};
-                options.center = { lat: items[0].y, lng: items[0].x };
+                options.center = {lat: items[0].y, lng: items[0].x};
                 options.marker = [];
 
                 items.forEach(item => {
