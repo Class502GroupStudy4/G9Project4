@@ -126,8 +126,8 @@ public class TourController implements ExceptionProcessor {
             search.setLatitude(37.566826);
             search.setLongitude(126.9786567);
             search.setRadius(1000);
-            ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
-            addListProcess(model,data);
+            //ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
+            //addListProcess(model,data);
         }catch(Exception e){
             e.printStackTrace();
             throw new TourPlaceNotFoundException();

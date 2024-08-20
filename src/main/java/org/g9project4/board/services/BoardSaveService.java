@@ -36,7 +36,7 @@ public class BoardSaveService {
 
         BoardData data = null;
         Long seq = form.getSeq();
-        if(seq != null & mode.equals("update")){ // 글 수정
+        if(seq != null && mode.equals("update")){ // 글 수정
             data = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
         } else { // 글 작성
             String bid = form.getBid();
