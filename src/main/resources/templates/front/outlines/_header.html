@@ -30,10 +30,13 @@
                             <a th:href="${@utils.redirectUrl('/tour/list/spot')}" th:text="#{관광}"></a>
                         </div>
                     </div>
-                    <div>
+                    <div class="dropdown">
                         <h5>
-                            <a th:href="${@utils.redirectUrl('#')}" th:text="#{게시판}"></a>
+                            <a th:text="#{게시판}"></a>
                         </h5>
+                        <div class="dropdown-content">
+                            <a th:each="board:${@boardInfoService.getBoardList()}" class="item" th:id="boardName+${board.getBName()}" th:text="${board.getBName()}" th:href="${@utils.redirectUrl('/board/list/'+board.getBid())}"></a>
+                        </div>
                     </div>
                     <div>
                         <h5>

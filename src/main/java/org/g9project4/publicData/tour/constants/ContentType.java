@@ -38,4 +38,5 @@ public enum ContentType {
     public static List<ContentType> getList() {
         return List.of(TourSpot, CultureFacility, Festival, TourCourse, Leports, Accommodation, Shopping, Restaurant, GreenTour);
     }
+    //public static String getName
 }
