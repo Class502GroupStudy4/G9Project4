@@ -53,6 +53,11 @@ public class BoardController implements ExceptionProcessor {
 
         return utils.tpl("board/write");
     }
+    @GetMapping("/write/popup/{bid}")
+    public String viewPopup(@PathVariable("bid") String bid, @ModelAttribute RequestBoard form, Model model) {
+        commonProcess(bid, "write", model);
+        return utils.tpl("board/planPopUp");
+    }
 
     // 글 수정
     @GetMapping("/update/{seq}")
@@ -102,6 +107,7 @@ public class BoardController implements ExceptionProcessor {
 
         return utils.tpl("board/view");
     }
+
 
     // 게시글 삭제
     @GetMapping("/delete/{seq}")
