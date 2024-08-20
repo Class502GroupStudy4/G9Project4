@@ -1,5 +1,6 @@
 package org.g9project4.email.service;
 
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +53,7 @@ public class EmailSendService {
         } else { // 템플릿 전송이 아닌 경우 메세지로 대체
             text = message.getMessage();
         }
+
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
@@ -66,6 +68,8 @@ public class EmailSendService {
                     .subject(message.getSubject())
                     .message(message.getMessage())
                     .build();
+
+            historyService.save(history);
 
             return true;
         } catch (MessagingException e) {

@@ -8,7 +8,6 @@ window.addEventListener('DOMContentLoaded', () => {
         zoom: 4
     };
     if (options.center.lat !== undefined) {
-        console.log("center");
         mapLib.load("map", 900, 600, options);
     } else if (address !== undefined) {
         try{
