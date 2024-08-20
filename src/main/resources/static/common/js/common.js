@@ -132,7 +132,7 @@ const commonLib = {
 commonLib.sendEmailVerify = function(email) {
     const { ajaxLoad } = commonLib;
 
-    const url = `/email/verify?email=${email}`;
+    const url = `/api/email/verify?email=${email}`;
 
     ajaxLoad(url, "GET", null, null, "json")
         .then(data => {
@@ -149,7 +149,7 @@ commonLib.sendEmailVerify = function(email) {
  */
 commonLib.sendEmailVerifyCheck = function(authNum) {
     const { ajaxLoad } = commonLib;
-    const url = `/email/auth_check?authNum=${authNum}`;
+    const url = `/api/email/auth_check?authNum=${authNum}`;
 
     ajaxLoad(url, "GET", null, null, "json")
         .then(data => {
