@@ -52,7 +52,7 @@ public class TourPlace extends BaseEntity {
     private Double latitude; // mapy
     private Double longitude; // mapx
     private Integer mapLevel;
-    private Integer sigugunCode;
+    private Integer sigunguCode;
 
 
     @Transient
