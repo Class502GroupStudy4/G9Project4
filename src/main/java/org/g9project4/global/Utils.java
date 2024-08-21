@@ -125,8 +125,13 @@ public class Utils { // 빈의 이름 - utils
         return messages.isEmpty() ? code : messages.get(0);
     }
 
+    /**
+     * 줄개행 문자(\n, \n\r) -> <br>
+     * @param str
+     * @return
+     */
     public String nl2br(String str) {
-        return str.replaceAll("\\n", "<br>").replaceAll("\\r", "");
+        return str.replace("\n", "<br>").replace("\r", "");
     }
 
     public ContentType typeCode(String type) {

@@ -84,6 +84,10 @@ public class BoardController implements ExceptionProcessor {
 
 
         boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
+        if (mode.equals("update")) {
+            BoardData data = (BoardData)model.getAttribute("boardData");
+            isGuest = data.getMember() == null;
+        }
         form.setGuest(isGuest);
         if(mode.equals("update")){
             BoardData data= (BoardData) model.getAttribute("boardData");
@@ -108,6 +112,11 @@ public class BoardController implements ExceptionProcessor {
         saveService.save(form);
         status.setComplete();
         session.removeAttribute("boardData");
+
+
+        status.setComplete();
+        session.removeAttribute("boardData");
+
 
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();

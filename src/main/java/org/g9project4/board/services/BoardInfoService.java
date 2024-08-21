@@ -296,11 +296,14 @@ public class BoardInfoService {
      * @param item
      */
     public void addInfo(BoardData item) {
-        String gid = item.getGid();
 
+        //업로드한 파일 목록 S
+        String gid = item.getGid();
         List<FileInfo> editorImages = fileInfoService.getList(gid, "editor");
         List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
+
         item.setEditorImages(editorImages);
         item.setAttachFiles(attachFiles);
+        //업로드한 파일 목록 E
     }
 }
