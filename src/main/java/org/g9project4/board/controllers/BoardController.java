@@ -22,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -49,6 +48,7 @@ public class BoardController implements ExceptionProcessor {
 
     /**
      * 글 쓰기
+     *
      * @param bid
      * @return
      */
@@ -81,16 +81,14 @@ public class BoardController implements ExceptionProcessor {
         commonProcess(form.getBid(), mode, model);
 
 
-
-
         boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
         if (mode.equals("update")) {
-            BoardData data = (BoardData)model.getAttribute("boardData");
+            BoardData data = (BoardData) model.getAttribute("boardData");
             isGuest = data.getMember() == null;
         }
         form.setGuest(isGuest);
-        if(mode.equals("update")){
-            BoardData data= (BoardData) model.getAttribute("boardData");
+        if (mode.equals("update")) {
+            BoardData data = (BoardData) model.getAttribute("boardData");
 
 
             isGuest = data.getMember() == null;
@@ -157,7 +155,7 @@ public class BoardController implements ExceptionProcessor {
     /**
      * 게시판 설정이 필요한 공통 처리(모든 처리)
      *
-     * @param bid : 게시판 아이디
+     * @param bid   : 게시판 아이디
      * @param mode
      * @param model
      */
@@ -181,6 +179,7 @@ public class BoardController implements ExceptionProcessor {
         addCss.add("board/" + skin + "/style");
 
         if (mode.equals("write") || mode.equals("update")) {
+            addCss.add("board/" + skin + "/form");
             // 글쓰기, 수정
             // 파일 업로드, 에디터 - 공통
             // form.js
@@ -211,7 +210,7 @@ public class BoardController implements ExceptionProcessor {
 
     /**
      * 게시글 번호가 경로 변수로 들어오는 공통 처리
-     *  게시판 설정 + 게시글 내용
+     * 게시판 설정 + 게시글 내용
      *
      * @param seq
      * @param mode
