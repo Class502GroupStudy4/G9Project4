@@ -42,6 +42,7 @@ public class BoardInfoService {
     private final BoardConfigInfoService configInfoService;
     private final BoardRepository boardRepository;
     private final HttpServletRequest request;
+    private final ModelMapper modelMapper;
     private final Utils utils;
 
     public List<Board> getBoardList(){
@@ -266,13 +267,13 @@ public class BoardInfoService {
     public RequestBoard getForm(Long seq, DeleteStatus status) {
         BoardData item = get(seq, status);
 
-        return getForm(item, status);
+        return getForm(item);
     }
 
-    public RequestBoard getForm(BoardData item, DeleteStatus status) {
-        System.out.println("item : " + item);
+    public RequestBoard getForm(BoardData item) {
 
-        RequestBoard form = new ModelMapper().map(item, RequestBoard.class);
+        RequestBoard form = modelMapper.map(item, RequestBoard.class);
+        form.setBid(item.getBoard().getBid());
 
         form.setGuest(item.getMember() == null);
 
@@ -281,10 +282,6 @@ public class BoardInfoService {
 
     public RequestBoard getForm(Long seq) {
         return getForm(seq, DeleteStatus.UNDELETED);
-    }
-
-    public RequestBoard getForm(BoardData item) {
-        return getForm(item, DeleteStatus.UNDELETED);
     }
     /**
      *  추가 데이터 처리
