@@ -28,11 +28,69 @@
     box-sizing: border-box; /* 패딩 포함 */
     overflow-y: auto; /* 세로 스크롤 활성화 */
 }
-#mew-side{
+
+/* 사이드 바 스타일 */
+#sidebar {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 1;
+    width: 300px; /* 사이드 바 너비 */
+    height: 100%; /* 전체 화면 높이 */
+    background: #f9f9f9; /* 배경 색상 */
+    padding: 20px; /* 여백 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    z-index: 2; /* 지도 위에 표시되도록 설정 */
+}
+
+/* 사이드 바 리스트 스타일 */
+.sidebar-list {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 패딩 제거 */
+    margin: 0; /* 마진 제거 */
+}
+
+.sidebar-list li {
+    margin-bottom: 15px; /* 리스트 아이템 간격 */
+}
+
+/* 버튼 스타일 */
+.styled-button {
+    display: inline-block;
+    width: 200px; /* 버튼 너비 고정 */
+    height: 50px; /* 버튼 높이 고정 */
+    padding: 12px 0; /* 상하 패딩 */
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #6F4F28; /* 연갈색 배경 */
+    border: none;
+    border-radius: 8px; /* 둥근 모서리 */
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* 부드러운 전환 효과 */
+}
+
+/* 버튼 호버 상태 */
+.styled-button:hover {
+    background-color: #c49c8c; /* 호버 시 어두운 연갈색 */
+    transform: scale(1.05); /* 버튼 커지기 효과 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+/* 버튼 클릭 상태 */
+.styled-button:active {
+    background-color: #a67c5e; /* 클릭 시 더 어두운 연갈색 */
+    transform: scale(0.95); /* 버튼 작아지기 효과 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 효과 */
+}
+
+/* 버튼 비활성화 상태 */
+.styled-button:disabled {
+    background-color: #b0bec5; /* 비활성화 상태 색상 */
+    color: #fff;
+    cursor: not-allowed; /* 비활성화 상태 커서 */
+    box-shadow: none; /* 비활성화 상태 그림자 제거 */
 }
 
 /* 옵션 박스 */
@@ -76,7 +134,7 @@
 /* 카테고리 박스 */
 #category {
     position: absolute;
-    top: 10px;
+    top: 110px;
     left: 300px;
     border-radius: 5px;
     border: 1px solid #909090;

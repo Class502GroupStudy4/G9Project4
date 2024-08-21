@@ -42,11 +42,11 @@ public class Member extends BaseEntity implements Serializable {
     @Column(nullable = false)
     private Gender gende;  //  성별 (MALE, FEMALE)
 
-    @Column(nullable = false)
+    @NotNull
     private Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Authorities> authorities;
 
     @Transient

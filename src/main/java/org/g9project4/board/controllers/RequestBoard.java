@@ -2,7 +2,9 @@ package org.g9project4.board.controllers;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.g9project4.file.entities.FileInfo;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -22,7 +24,7 @@ public class RequestBoard {
     @NotBlank
     private String poster; //작성자
 
-    private boolean guest;
+    private boolean guest; //비회원
     private String guestPw; //비회원 비밀번호(수정, 삭제)
 
     @NotBlank
@@ -42,5 +44,8 @@ public class RequestBoard {
 
     private String longText1;
     private String longText2;
+
+    private List<FileInfo> editorImages;
+    private List<FileInfo> attachFiles;
 
 }

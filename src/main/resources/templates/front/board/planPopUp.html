@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
+<form name="frmSave" method="post" th:action="${@utils.redirectUrl('/board/save')}" autocomplete="off" th:object="${requestBoard}">
+    <input type="hidden" name="mode" th:value="write">
+    <input type="hidden" name="bid" th:value="${board.bid}">
 <th:block th:fragment="form" th:object="${requestBoard}">
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <input type="hidden" name="gid" th:field="*{gid}">
@@ -49,27 +53,20 @@
         <dt th:text="#{이미지_업로드}"></dt>
         <dd>
             <button type="button" class="fileUploads" th:data-gid="*{gid}" data-location="editor" data-image-only="true" th:text="#{이미지_선택}"></button>
-            <div class="uploaded-files" id="uploaded-files-editor">
-                <div th:if="${editorImages != null}" th:each="file : *{editorImages}" class="file-item" th:id="${'file-' + file.seq}">
-                    <a th:href="${@utils.redirectUrl('/file/download/' + file.seq)}" th:text="${file.fileName}"></a>
-                    <i class="xi-file-upload insert-editor" th:data-url="${file.fileUrl}"></i>
-                    <i class="xi-close remove" th:data-seq="${file.seq}"></i>
-                </div>
-            </div>
+            <div class="uploaded-files" id="uploaded-files-editor"></div>
         </dd>
     </dl>
     <dl th:if="${board.useUploadFile}">
         <dt th:text="#{파일_첨부}"></dt>
         <dd>
             <button type="button" class="fileUploads" th:data-gid="*{gid}" data-location="attach" th:text="#{파일_선택}"></button>
-            <div class="uploaded-files" id="uploaded-files-attach">
-                <div th:if="*{attachFiles != null}" th:each="file : *{attachFiles}" class="file-item" th:id="${'file-' + file.seq}">
-                    <a th:href="${@utils.redirectUrl('/file/download/' + file.seq)}" th:text="${file.fileName}"></a>
-                    <i class="xi-close remove" th:data-seq="${file.seq}"></i>
-                </div>
-            </div>
+            <div class="uploaded-files" id="uploaded-files-attach"></div>
         </dd>
     </dl>
+    <div class="button-group">
+        <button type="reset" th:text="#{다시입력}"></button>
+        <button type="submit" th:text="#{작성하기}"></button>
+    </div>
 
     <script th:replace="~{common/_file_tpl::attach}"></script>
     <script th:replace="~{common/_file_tpl::editor}"></script>

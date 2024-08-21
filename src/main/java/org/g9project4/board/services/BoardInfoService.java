@@ -17,6 +17,8 @@ import org.g9project4.board.entities.QBoardData;
 import org.g9project4.board.exceptions.BoardDataNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
 import org.g9project4.board.repositories.BoardRepository;
+import org.g9project4.file.entities.FileInfo;
+import org.g9project4.file.services.FileInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
@@ -40,8 +42,10 @@ public class BoardInfoService {
     private final JPAQueryFactory queryFactory;
     private final BoardDataRepository repository;
     private final BoardConfigInfoService configInfoService;
+    private final FileInfoService fileInfoService;
     private final BoardRepository boardRepository;
     private final HttpServletRequest request;
+    private final ModelMapper modelMapper;
     private final Utils utils;
 
     public List<Board> getBoardList(){
@@ -266,11 +270,14 @@ public class BoardInfoService {
     public RequestBoard getForm(Long seq, DeleteStatus status) {
         BoardData item = get(seq, status);
 
-        return getForm(item, status);
+        return getForm(item);
     }
 
-    public RequestBoard getForm(BoardData item, DeleteStatus status) {
-       RequestBoard form = new ModelMapper().map(item, RequestBoard.class);
+    public RequestBoard getForm(BoardData item) {
+
+        RequestBoard form = modelMapper.map(item, RequestBoard.class);
+        form.setBid(item.getBoard().getBid());
+
         form.setGuest(item.getMember() == null);
 
         return form;
@@ -278,10 +285,6 @@ public class BoardInfoService {
 
     public RequestBoard getForm(Long seq) {
         return getForm(seq, DeleteStatus.UNDELETED);
-    }
-
-    public RequestBoard getForm(BoardData item) {
-        return getForm(item, DeleteStatus.UNDELETED);
     }
     /**
      *  추가 데이터 처리
@@ -294,5 +297,13 @@ public class BoardInfoService {
      */
     public void addInfo(BoardData item) {
 
+        //업로드한 파일 목록 S
+        String gid = item.getGid();
+        List<FileInfo> editorImages = fileInfoService.getList(gid, "editor");
+        List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
+
+        item.setEditorImages(editorImages);
+        item.setAttachFiles(attachFiles);
+        //업로드한 파일 목록 E
     }
 }
