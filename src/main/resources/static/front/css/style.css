@@ -93,7 +93,7 @@ header nav > .inner > * {
     color: #fff;
     max-height: 60px;
     line-height: 60px; /* line-height를 맞추어 정렬 */
-    min-width: 200px;
+    min-width: 170px;
     padding: 0 10px;
     text-align: center; /* 텍스트 가운데 정렬 */
     display: flex;
@@ -186,6 +186,7 @@ header .dropdown:hover .dropdown-content {
 main {
     margin-top: 155px;
     min-height: 1000px;
+    width: 80%;
 }
 .Q2 {
     line-height: 50px;

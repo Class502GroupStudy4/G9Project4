@@ -57,7 +57,6 @@ public class BoardInfoService {
         return boardRepository.findAll(Sort.by(desc("listOrder"))).stream().toList();
     }
 
-
     /**
      * 게시글 목록 조회
      *
