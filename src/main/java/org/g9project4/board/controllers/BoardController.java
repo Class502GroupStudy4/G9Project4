@@ -66,7 +66,7 @@ public class BoardController implements ExceptionProcessor {
 
         RequestBoard form = infoService.getForm(boardData);
         model.addAttribute("requestBoard", form);
-
+        saveService.save(form);
         return utils.tpl("board/update");
     }
 
@@ -82,6 +82,7 @@ public class BoardController implements ExceptionProcessor {
         if (errors.hasErrors()) {
             return utils.tpl("board/" + mode);
         }
+        saveService.save(form);
 
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
