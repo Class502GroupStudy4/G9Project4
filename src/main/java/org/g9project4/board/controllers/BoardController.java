@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -41,7 +42,6 @@ public class BoardController implements ExceptionProcessor {
     private final BoardValidator validator;
     private final MemberUtil memberUtil;
     private final Utils utils;
-
 
 
     private Board board; // 게시판 설정
@@ -85,7 +85,6 @@ public class BoardController implements ExceptionProcessor {
             BoardData data = (BoardData)model.getAttribute("boardData");
             isGuest = data.getMember() == null;
         }
-
         form.setGuest(isGuest);
 
         validator.validate(form, errors);
@@ -98,7 +97,6 @@ public class BoardController implements ExceptionProcessor {
             form.setEditorImages(editorImages);
             form.setAttachFiles(attachFiles);
 
-
             return utils.tpl("board/" + mode);
         }
 
@@ -107,6 +105,7 @@ public class BoardController implements ExceptionProcessor {
 
         status.setComplete();
         session.removeAttribute("boardData");
+
 
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
