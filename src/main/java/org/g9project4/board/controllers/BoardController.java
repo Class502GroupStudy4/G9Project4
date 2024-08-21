@@ -10,6 +10,9 @@ import org.g9project4.board.services.BoardDeleteService;
 import org.g9project4.board.services.BoardInfoService;
 import org.g9project4.board.services.BoardSaveService;
 import org.g9project4.board.validators.BoardValidator;
+import org.g9project4.file.constants.FileStatus;
+import org.g9project4.file.entities.FileInfo;
+import org.g9project4.file.services.FileInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,6 +35,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardInfoService infoService;
     private final BoardSaveService saveService;
     private final BoardDeleteService deleteService;
+    private final FileInfoService fileInfoService;
     private final BoardValidator validator;
     private final MemberUtil memberUtil;
     private final Utils utils;
@@ -75,8 +80,17 @@ public class BoardController implements ExceptionProcessor {
         validator.validate(form, errors);
 
         if (errors.hasErrors()) {
+            // 업로드된 파일 목록 - editor, attach
+            String gid = form.getGid();
+            List<FileInfo> editorImages = fileInfoService.getList(gid, "editor", FileStatus.ALL);
+            List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach", FileStatus.ALL);
+            form.setEditorImages(editorImages);
+            form.setAttachFiles(attachFiles);
+
             return utils.tpl("board/" + mode);
         }
+
+        saveService.save(form);
 
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
