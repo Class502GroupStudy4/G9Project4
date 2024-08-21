@@ -21,6 +21,10 @@ main > aside.on {
     left: 0; /* 사이드바가 화면 왼쪽에 표시됩니다. */
 }
 
+main > aside .main-logo{
+    max-height: 150px;
+}
+
 main > aside > a {
     display: block;
     padding: 25px;
