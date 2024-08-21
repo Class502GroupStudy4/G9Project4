@@ -18,6 +18,7 @@ function fileUploadCallback(files) {
         return;
     }
 
+
     //에디터에 첨부할 이미지 URL
     const imageUrls = [];
 
