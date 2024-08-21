@@ -11,12 +11,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
+import org.g9project4.global.exceptions.BadRequestException;
+import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
-import org.g9project4.member.MemberUtil;
-import org.g9project4.member.entities.Member;
-import org.g9project4.mypage.entities.SearchHistory;
-import org.g9project4.mypage.repositories.SearchHistoryRepository;
 import org.g9project4.publicData.greentour.entities.GreenPlace;
 import org.g9project4.publicData.greentour.entities.QGreenPlace;
 import org.g9project4.publicData.tour.constants.ContentType;
@@ -31,7 +29,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Order.asc;
@@ -41,14 +38,11 @@ import static org.springframework.data.domain.Sort.Order.asc;
 public class TourPlaceInfoService {
     @PersistenceContext
     private EntityManager em;
-    private final MemberUtil memberUtil;
+
     private final RestTemplate restTemplate;
     private final TourPlaceRepository repository;
-
     private String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
     private final HttpServletRequest request;
-
-    private final SearchHistoryRepository searchHistoryRepository;
 
     /**
      * 좌표, 거리 기반으로 검색
@@ -57,8 +51,10 @@ public class TourPlaceInfoService {
      * @return
      */
     public ListData<TourPlace> getLocBasedList(TourPlaceSearch search) {
-        // 검색 기록 저장
-        saveSearchHistory(search);
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
 
         double lat = search.getLatitude();
         double lon = search.getLongitude();
@@ -72,26 +68,17 @@ public class TourPlaceInfoService {
                 if (!ids.isEmpty()) {
                     QTourPlace tourPlace = QTourPlace.tourPlace;
                     List<TourPlace> items = (List<TourPlace>) repository.findAll(tourPlace.contentId.in(ids), Sort.by(asc("contentId")));
-
-                   // long total = repository.count(tourPlace.contentId.in(ids));
-
-                    return new ListData<>(items, null);
+                    int count = items.size();
+                    Pagination pagination = new Pagination(page, count, 0, limit, request);
+                    return new ListData<>(items, pagination);
                 } // endif
             } // endif
         } catch (Exception e) {
             e.printStackTrace();
+            throw new TourPlaceNotFoundException();
         }
 
         return null;
-    }
-
-    private void saveSearchHistory(TourPlaceSearch search) {
-        SearchHistory history = new SearchHistory();
-        history.setMember(memberUtil.getMember());
-        history.setSearchQuery(search.getSkey());
-        history.setSearchOptions(search.toString()); // 조건을 JSON으로 변환할 수도 있음
-        history.setSearchTime(LocalDateTime.now());
-        searchHistoryRepository.save(history);
     }
 
     public ListData<TourPlace> getTotalList(TourPlaceSearch search) {
@@ -194,7 +181,7 @@ public class TourPlaceInfoService {
 
                 andBuilder.and(addressCond);
 
-            } else if (sopt.equals("TITLE_ADDRESS")||sopt.equals("ALL")) { // 제목 + 내용
+            } else if (sopt.equals("TITLE_ADDRESS") || sopt.equals("ALL")) { // 제목 + 내용
                 BooleanBuilder orBuilder = new BooleanBuilder();
                 orBuilder.or(titleCond)
                         .or(addressCond);
@@ -214,7 +201,18 @@ public class TourPlaceInfoService {
                 .limit(limit)
                 .where(andBuilder);
         List<TourPlace> items = query.fetch();
+
+        items.forEach(this::addInfo);
+
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
+    }
+
+    private void addInfo(TourPlace item) {
+        Long contentTypeId = item.getContentTypeId();
+        if (contentTypeId != null) {
+            ContentType type = ContentType.getList().stream().filter(c -> c.getId() == contentTypeId.longValue()).findFirst().orElse(null);
+            item.setContentType(type);
+        }
     }
 }

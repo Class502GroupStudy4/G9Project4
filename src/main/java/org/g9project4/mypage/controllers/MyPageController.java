@@ -2,15 +2,11 @@ package org.g9project4.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.digester.ArrayStack;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.services.MemberSaveService;
-import org.g9project4.mypage.entities.SearchHistory;
-import org.g9project4.mypage.services.SearchHistoryService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.g9project4.member.entities.QMember.member;
-
 @Controller
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
@@ -33,7 +27,6 @@ public class MyPageController {
     private final MemberSaveService memberSaveService;
     private final MemberUtil memberUtil;
     private final Utils utils;
-    private final SearchHistoryService searchHistoryService;
 
     @GetMapping
     public String index(@ModelAttribute RequestProfile form, Model model) {
@@ -46,12 +39,6 @@ public class MyPageController {
         form.setGende(member.getGende());
         form.setIsForeigner(member.getIsForeigner());
         form.setGid(member.getGid());
-
-        // 검색 기록 조회
-        Long memberSeq = member.getSeq();  // 현재 로그인한 사용자의 seq
-        List<SearchHistory> searchHistory = searchHistoryService.getSearchHistory(memberSeq);
-        model.addAttribute("searchHistory", searchHistory);
-        model.addAttribute("form", form);
 
         return utils.tpl("mypage/index");
     }
