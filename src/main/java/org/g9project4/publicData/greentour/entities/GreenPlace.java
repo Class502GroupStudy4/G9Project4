@@ -33,4 +33,5 @@ public class GreenPlace {
     private String tel;
     private String telName;
     private String title;
+    private String contentType = "생태";
 }

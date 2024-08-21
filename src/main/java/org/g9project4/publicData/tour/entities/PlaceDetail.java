@@ -6,17 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.g9project4.global.rests.gov.detailapi.DetailItem;
+import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
 
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlaceDetail {
-    @Id
-    private Long contentId;
-    private Long contentTypeId;
-
-    private String title;
-
+public class PlaceDetail<DetailItem, DetailPetItem> {
+    private DetailItem detailItem;
+    private DetailPetItem detailPetItem;
 }

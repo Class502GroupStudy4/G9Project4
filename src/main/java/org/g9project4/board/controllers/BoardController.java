@@ -220,7 +220,8 @@ public class BoardController implements ExceptionProcessor {
         boardData = infoService.get(seq);
 
         model.addAttribute("boardData", boardData);
-
+        Board board = (Board) model.getAttribute("board");
+//        model.addAttribute("items",infoService.getList(board.getBid(),));
         commonProcess(boardData.getBoard().getBid(), mode, model);
     }
 }

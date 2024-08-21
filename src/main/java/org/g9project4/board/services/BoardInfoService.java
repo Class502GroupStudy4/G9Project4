@@ -13,6 +13,7 @@ import org.g9project4.board.controllers.BoardDataSearch;
 import org.g9project4.board.controllers.RequestBoard;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
+import org.g9project4.board.entities.QBoard;
 import org.g9project4.board.entities.QBoardData;
 import org.g9project4.board.exceptions.BoardDataNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
@@ -24,6 +25,7 @@ import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.constants.DeleteStatus;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -33,6 +35,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import static org.springframework.data.domain.Sort.Order.asc;
+import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @Transactional
@@ -49,9 +54,8 @@ public class BoardInfoService {
     private final Utils utils;
 
     public List<Board> getBoardList(){
-        return boardRepository.findAll().stream().toList();
+        return boardRepository.findAll(Sort.by(desc("listOrder"))).stream().toList();
     }
-
 
     /**
      * 게시글 목록 조회

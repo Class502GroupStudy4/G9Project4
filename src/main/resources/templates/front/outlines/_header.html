@@ -35,7 +35,7 @@
                             <a th:text="#{게시판}"></a>
                         </h5>
                         <div class="dropdown-content">
-                            <a th:each="board:${@boardInfoService.getBoardList()}" class="item" th:id="boardName+${board.getBName()}" th:text="${board.getBName()}" th:href="${@utils.redirectUrl('/board/list/'+board.getBid())}"></a>
+                            <a th:each="board:${@boardInfoService.getBoardList()}" class="item" th:if="${board.active}" th:id="boardName+${board.getBName()}" th:text="${board.getBName()}" th:href="${@utils.redirectUrl('/board/list/'+board.getBid())}"></a>
                         </div>
                     </div>
                     <div>
