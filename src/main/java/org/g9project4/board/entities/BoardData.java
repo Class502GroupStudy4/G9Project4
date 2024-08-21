@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.g9project4.file.entities.FileInfo;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.member.entities.Member;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -14,28 +17,29 @@ import org.g9project4.member.entities.Member;
 @NoArgsConstructor @AllArgsConstructor
 @Table(indexes = @Index(name="idx_board_data", columnList = "notice DESC, createdAt DESC"))
 public class BoardData extends BaseEntity {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long seq;
 
-    @Column(length=65, nullable = false, updatable = false)
+    @Column(length = 65, nullable = false, updatable = false)
     private String gid;
 
-    @JoinColumn(name="bid")
+    @JoinColumn(name = "bid")
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @Column(length=65)
+    @Column(length = 65)
     private String guestPw; // 비회원 비밀번호(수정, 삭제)
 
-    @Column(length=60)
+    @Column(length = 60)
     private String category; // 게시글 분류
 
     private boolean notice; // 공지글 여부
 
-    @Column(length=40, nullable = false)
+    @Column(length = 40, nullable = false)
     private String poster;
 
     @Column(nullable = false)
@@ -48,7 +52,7 @@ public class BoardData extends BaseEntity {
     private int viewCount; // 조회수
     private boolean editorView; // 에디터를 사용해서 글 작성했는지 여부
 
-    @Column(length=20, updatable = false)
+    @Column(length = 20, updatable = false)
     private String ip; // IP 주소
 
     @Column(updatable = false)
@@ -58,13 +62,13 @@ public class BoardData extends BaseEntity {
     private Long num2; // 정수 추가 필드2
     private Long num3; // 정수 추가 필드3
 
-    @Column(length=100)
+    @Column(length = 100)
     private String text1; // 한줄 텍스트 추가 필드1
 
-    @Column(length=100)
+    @Column(length = 100)
     private String text2; // 한줄 텍스트 추가 필드2
 
-    @Column(length=100)
+    @Column(length = 100)
     private String text3; // 한줄 텍스트 추가 필드3
 
     @Lob
@@ -72,4 +76,23 @@ public class BoardData extends BaseEntity {
 
     @Lob
     private String longText2; // 여러줄 텍스트 추가 필드2
+
+    @Transient // 에디터 첨부 이미지 파일 목록
+    private List<FileInfo> editorImages;
+
+    @Transient //첨부 파일 목록
+    private List<FileInfo> attachFiles;
+
+    @Transient
+    private boolean editable; // 수정, 삭제 가능 여부
+    
+    @Transient
+    private boolean commentable; //댓글 수정, 삭제 가능 여부
+
+    @Transient
+    private boolean viewable; // 상세쪽 조회 가능 여부
+
+    @Transient
+    private boolean listable; //목록쪽 조획 가능 여부
+
 }

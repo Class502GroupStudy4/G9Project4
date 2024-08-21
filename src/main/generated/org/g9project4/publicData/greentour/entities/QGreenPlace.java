@@ -25,6 +25,8 @@ public class QGreenPlace extends EntityPathBase<GreenPlace> {
 
     public final StringPath contentId = createString("contentId");
 
+    public final StringPath contentType = createString("contentType");
+
     public final StringPath cpyrhtDivCd = createString("cpyrhtDivCd");
 
     public final StringPath firstImage = createString("firstImage");

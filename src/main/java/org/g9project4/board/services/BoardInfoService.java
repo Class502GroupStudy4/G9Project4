@@ -13,15 +13,19 @@ import org.g9project4.board.controllers.BoardDataSearch;
 import org.g9project4.board.controllers.RequestBoard;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
+import org.g9project4.board.entities.QBoard;
 import org.g9project4.board.entities.QBoardData;
 import org.g9project4.board.exceptions.BoardDataNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
 import org.g9project4.board.repositories.BoardRepository;
+import org.g9project4.file.entities.FileInfo;
+import org.g9project4.file.services.FileInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.constants.DeleteStatus;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -32,6 +36,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static org.springframework.data.domain.Sort.Order.asc;
+import static org.springframework.data.domain.Sort.Order.desc;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -40,14 +47,15 @@ public class BoardInfoService {
     private final JPAQueryFactory queryFactory;
     private final BoardDataRepository repository;
     private final BoardConfigInfoService configInfoService;
+    private final FileInfoService fileInfoService;
     private final BoardRepository boardRepository;
     private final HttpServletRequest request;
+    private final ModelMapper modelMapper;
     private final Utils utils;
 
     public List<Board> getBoardList(){
-        return boardRepository.findAll().stream().toList();
+        return boardRepository.findAll(Sort.by(desc("listOrder"))).stream().toList();
     }
-
 
     /**
      * 게시글 목록 조회
@@ -266,11 +274,14 @@ public class BoardInfoService {
     public RequestBoard getForm(Long seq, DeleteStatus status) {
         BoardData item = get(seq, status);
 
-        return getForm(item, status);
+        return getForm(item);
     }
 
-    public RequestBoard getForm(BoardData item, DeleteStatus status) {
-       RequestBoard form = new ModelMapper().map(item, RequestBoard.class);
+    public RequestBoard getForm(BoardData item) {
+
+        RequestBoard form = modelMapper.map(item, RequestBoard.class);
+        form.setBid(item.getBoard().getBid());
+
         form.setGuest(item.getMember() == null);
 
         return form;
@@ -278,10 +289,6 @@ public class BoardInfoService {
 
     public RequestBoard getForm(Long seq) {
         return getForm(seq, DeleteStatus.UNDELETED);
-    }
-
-    public RequestBoard getForm(BoardData item) {
-        return getForm(item, DeleteStatus.UNDELETED);
     }
     /**
      *  추가 데이터 처리
@@ -294,5 +301,13 @@ public class BoardInfoService {
      */
     public void addInfo(BoardData item) {
 
+        //업로드한 파일 목록 S
+        String gid = item.getGid();
+        List<FileInfo> editorImages = fileInfoService.getList(gid, "editor");
+        List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
+
+        item.setEditorImages(editorImages);
+        item.setAttachFiles(attachFiles);
+        //업로드한 파일 목록 E
     }
 }
