@@ -52,7 +52,7 @@ public class BoardValidator implements Validator, PasswordValidator {
          */
         String mode = form.getMode();
         mode = StringUtils.hasText(mode) ? mode : "write";
-        if (mode.equals("update") && form.getSeq() == null || form.getSeq() < 1L) {
+        if (mode.equals("update") && (form.getSeq() == null || form.getSeq() < 1L)) {
             errors.rejectValue("seq", "NotBlank");
         }
 
