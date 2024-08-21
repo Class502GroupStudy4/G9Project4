@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -57,11 +58,6 @@ public class BoardController implements ExceptionProcessor {
 
         return utils.tpl("board/write");
     }
-    @GetMapping("/write/popup/{bid}")
-    public String viewPopup(@PathVariable("bid") String bid, @ModelAttribute RequestBoard form, Model model) {
-        commonProcess(bid, "write", model);
-        return utils.tpl("board/planPopUp");
-    }
 
     // 글 수정
     @GetMapping("/update/{seq}")
@@ -70,7 +66,7 @@ public class BoardController implements ExceptionProcessor {
 
         RequestBoard form = infoService.getForm(boardData);
         model.addAttribute("requestBoard", form);
-        saveService.save(form);
+
         return utils.tpl("board/update");
     }
 
@@ -81,21 +77,22 @@ public class BoardController implements ExceptionProcessor {
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);
 
+        boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
+        form.setGuest(isGuest);
+
         validator.validate(form, errors);
 
         if (errors.hasErrors()) {
-            //업로드된 파일 목록 - editor, attach
+            // 업로드된 파일 목록 - editor, attach
             String gid = form.getGid();
             List<FileInfo> editorImages = fileInfoService.getList(gid, "editor", FileStatus.ALL);
-            List<FileInfo> attachFiles = fileInfoService.getList(gid,"attach", FileStatus.ALL);
+            List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach", FileStatus.ALL);
             form.setEditorImages(editorImages);
             form.setAttachFiles(attachFiles);
 
-            boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
-            form.setGuest(isGuest);
-
             return utils.tpl("board/" + mode);
         }
+
         saveService.save(form);
 
         // 목록 또는 상세 보기 이동
@@ -122,7 +119,6 @@ public class BoardController implements ExceptionProcessor {
 
         return utils.tpl("board/view");
     }
-
 
     // 게시글 삭제
     @GetMapping("/delete/{seq}")
