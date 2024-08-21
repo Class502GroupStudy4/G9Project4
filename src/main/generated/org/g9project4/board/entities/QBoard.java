@@ -32,10 +32,10 @@ public class QBoard extends EntityPathBase<Board> {
     public final EnumPath<org.g9project4.member.constants.Authority> commentAccessType = createEnum("commentAccessType", org.g9project4.member.constants.Authority.class);
 
     //inherited
-    public final StringPath createBy = _super.createBy;
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+    public final StringPath createdBy = _super.createdBy;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;

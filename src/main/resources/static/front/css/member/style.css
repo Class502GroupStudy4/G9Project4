@@ -160,7 +160,7 @@ button:hover {
     justify-content: space-between;
 }
 
-footer-content {
+.footer-content {
     background-color: var(--gray);
     color: var(--white);
     padding: 1rem;
