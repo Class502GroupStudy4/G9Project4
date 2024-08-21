@@ -7,6 +7,8 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -20,10 +22,12 @@ public class BeanConfig {
 
     private final EntityManager em;
 
+    @Lazy
     @Bean
     public JPAQueryFactory jpaQueryFactory() {
         return new JPAQueryFactory(em);
     }
+
     @Lazy
     @Bean
     public ObjectMapper objectMapper() {
@@ -35,14 +39,22 @@ public class BeanConfig {
 
     @Lazy
     @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        return modelMapper;
+    }
+
+    @Lazy
+    @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
+    @Lazy
     @Bean
     public List<ContentType> contentType() {
         return ContentType.getList();
     }
-  
-
 }
