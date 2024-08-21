@@ -21,10 +21,10 @@ public class QBaseMemberEntity extends EntityPathBase<BaseMemberEntity> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final StringPath createBy = createString("createBy");
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
+    public final StringPath createdBy = createString("createdBy");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;
