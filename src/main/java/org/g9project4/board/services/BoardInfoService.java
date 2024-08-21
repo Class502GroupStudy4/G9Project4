@@ -1,7 +1,6 @@
 package org.g9project4.board.services;
 
 import com.querydsl.core.BooleanBuilder;
-
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -15,8 +14,10 @@ import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
 import org.g9project4.board.entities.QBoardData;
 import org.g9project4.board.exceptions.BoardDataNotFoundException;
+import org.g9project4.board.exceptions.BoardNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
-import org.g9project4.board.repositories.BoardRepository;
+import org.g9project4.file.entities.FileInfo;
+import org.g9project4.file.services.FileInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
@@ -26,9 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,29 +39,24 @@ public class BoardInfoService {
     private final JPAQueryFactory queryFactory;
     private final BoardDataRepository repository;
     private final BoardConfigInfoService configInfoService;
-    private final BoardRepository boardRepository;
+    private final FileInfoService fileInfoService;
     private final HttpServletRequest request;
+    private final ModelMapper modelMapper;
     private final Utils utils;
-
-    public List<Board> getBoardList(){
-        return boardRepository.findAll().stream().toList();
-    }
-
 
     /**
      * 게시글 목록 조회
      *
      * @return
      */
-
     public ListData<BoardData> getList(BoardDataSearch search, DeleteStatus status) {
 
 
         String bid = search.getBid();
         List<String> bids = search.getBids(); // 게시판 여러개 조회
 
-        //게시판 설정 조회
-        Board board = bid != null && StringUtils.hasText(bid.trim()) ? configInfoService.get(bid.trim()).orElseThrow(BoardDataNotFoundException::new) : new Board();
+        // 게시판 설정 조회
+        Board board = bid != null && StringUtils.hasText(bid.trim()) ? configInfoService.get(bid.trim()).orElseThrow(BoardNotFoundException::new) : new Board();
 
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
@@ -70,23 +64,24 @@ public class BoardInfoService {
 
         int offset = (page - 1) * limit;
 
-        //삭제가 되지 않은 게시글 목록이 기본값
+        // 삭제가 되지 않은 게시글 목록이 기본 값
         status = Objects.requireNonNullElse(status, DeleteStatus.UNDELETED);
 
         String sopt = search.getSopt();
         String skey = search.getSkey();
 
 
+
         /* 검색 처리 S */
         QBoardData boardData = QBoardData.boardData;
         BooleanBuilder andBuilder = new BooleanBuilder();
-        
-        //삭제, 미삭제 게시글 조회 처리
+
+        // 삭제, 미삭제 게시글 조회 처리
         if (status != DeleteStatus.ALL) {
             if (status == DeleteStatus.UNDELETED) {
-                andBuilder.and(boardData.deletedAt.isNull()); //미삭제된 게시글
+                andBuilder.and(boardData.deletedAt.isNull()); // 미삭된 게시글
             } else {
-                andBuilder.and(boardData.deletedAt.isNotNull()); //삭제된 게시글
+                andBuilder.and(boardData.deletedAt.isNotNull()); // 삭제된 게시글
             }
         }
 
@@ -102,7 +97,6 @@ public class BoardInfoService {
          * 조건 검색 처리
          *
          * sopt - ALL : 통합검색(제목 + 내용 + 글작성자(작성자, 회원명))
-
          *       SUBJECT : 제목검색
          *       CONTENT : 내용검색
          *       SUBJECT_CONTENT: 제목 + 내용 검색
@@ -226,12 +220,12 @@ public class BoardInfoService {
         QBoardData boardData = QBoardData.boardData;
         andBuilder.and(boardData.seq.eq(seq));
 
-        //삭제, 미삭제 게시글 조회 처리
+        // 삭제, 미삭제 게시글 조회 처리
         if (status != DeleteStatus.ALL) {
             if (status == DeleteStatus.UNDELETED) {
-                andBuilder.and(boardData.deletedAt.isNull()); //미삭제된 게시글
+                andBuilder.and(boardData.deletedAt.isNull()); // 미삭된 게시글
             } else {
-                andBuilder.and(boardData.deletedAt.isNotNull()); //삭제된 게시글
+                andBuilder.and(boardData.deletedAt.isNotNull()); // 삭제된 게시글
             }
         }
 
@@ -266,13 +260,13 @@ public class BoardInfoService {
     public RequestBoard getForm(Long seq, DeleteStatus status) {
         BoardData item = get(seq, status);
 
-        return getForm(item, status);
+        return getForm(item);
     }
 
-    public RequestBoard getForm(BoardData item, DeleteStatus status) {
-        System.out.println("item : " + item);
+    public RequestBoard getForm(BoardData item) {
 
-        RequestBoard form = new ModelMapper().map(item, RequestBoard.class);
+        RequestBoard form = modelMapper.map(item, RequestBoard.class);
+        form.setBid(item.getBoard().getBid());
 
         form.setGuest(item.getMember() == null);
 
@@ -283,9 +277,6 @@ public class BoardInfoService {
         return getForm(seq, DeleteStatus.UNDELETED);
     }
 
-    public RequestBoard getForm(BoardData item) {
-        return getForm(item, DeleteStatus.UNDELETED);
-    }
     /**
      *  추가 데이터 처리
      *      - 업로드한 파일 목록
@@ -297,5 +288,13 @@ public class BoardInfoService {
      */
     public void addInfo(BoardData item) {
 
+        // 업로드한 파일 목록 S
+        String gid = item.getGid();
+        List<FileInfo> editorImages = fileInfoService.getList(gid, "editor");
+        List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
+
+        item.setEditorImages(editorImages);
+        item.setAttachFiles(attachFiles);
+        // 업로드한 파일 목록 E
     }
 }

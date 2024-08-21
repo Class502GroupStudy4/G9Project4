@@ -1,5 +1,6 @@
 package org.g9project4.board.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.board.entities.Board;
@@ -21,8 +22,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
+@SessionAttributes({"boardData"})
 public class BoardController implements ExceptionProcessor {
     private final BoardConfigInfoService configInfoService;
     private final BoardInfoService infoService;
@@ -39,6 +41,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardValidator validator;
     private final MemberUtil memberUtil;
     private final Utils utils;
+
 
 
     private Board board; // 게시판 설정
@@ -72,12 +75,17 @@ public class BoardController implements ExceptionProcessor {
 
     // 글 작성, 수정 처리
     @PostMapping("/save")
-    public String save(@Valid RequestBoard form, Errors errors, Model model) {
+    public String save(@Valid RequestBoard form, Errors errors, Model model, SessionStatus status, HttpSession session) {
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);
 
         boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
+        if (mode.equals("update")) {
+            BoardData data = (BoardData)model.getAttribute("boardData");
+            isGuest = data.getMember() == null;
+        }
+
         form.setGuest(isGuest);
 
         validator.validate(form, errors);
@@ -90,10 +98,15 @@ public class BoardController implements ExceptionProcessor {
             form.setEditorImages(editorImages);
             form.setAttachFiles(attachFiles);
 
+
             return utils.tpl("board/" + mode);
         }
 
         saveService.save(form);
+
+
+        status.setComplete();
+        session.removeAttribute("boardData");
 
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
