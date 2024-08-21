@@ -48,3 +48,25 @@ form {
 
 }
 
+.social-icons {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    gap: 10px; /* 아이콘 간격 */
+    margin-top: 20px; /* 상단 여백 */
+}
+
+.social-icons a {
+    color: #000; /* 기본 아이콘 색상 */
+    font-size: 0.5rem; /* 아이콘 크기 */
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #007bff; /* 호버 시 색상 변경 */
+}
+
+.social-icons img {
+    width: 35px;  /* 아이콘 크기 */
+    height: 35px;
+    transition: transform 0.3s ease;
+}
