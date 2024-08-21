@@ -46,7 +46,7 @@ public class Member extends BaseEntity implements Serializable {
     private Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Authorities> authorities;
 
     @Transient
