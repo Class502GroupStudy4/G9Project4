@@ -77,6 +77,9 @@ public class BoardController implements ExceptionProcessor {
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);
 
+        boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
+        form.setGuest(isGuest);
+
         validator.validate(form, errors);
 
         if (errors.hasErrors()) {
