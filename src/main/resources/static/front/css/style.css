@@ -39,7 +39,9 @@ header .site-top > .inner {
 header .site-top > .inner > .layout-right {
     justify-content: right;
 }
-
+header .main-logo{
+    max-height: 150px;
+}
 .main-top-buttons button {
     background-color: var(--secondary-color); /* 버튼 배경색 */
 }
@@ -182,10 +184,16 @@ header .dropdown:hover .dropdown-content {
 
 
 main {
-    margin-top: 112px;
+    margin-top: 155px;
     min-height: 1000px;
 }
-
+.Q2 {
+    line-height: 50px;
+}
+.xi-search {
+    font-size: 25px;
+    line-height: 100%;
+}
 /* 페이징 공통 S */
 .pagination {
     text-align: center;
