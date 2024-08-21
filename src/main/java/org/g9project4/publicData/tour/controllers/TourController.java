@@ -14,6 +14,7 @@ import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
+import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class TourController implements ExceptionProcessor {
     private final TourPlaceInfoService placeInfoService;
     private final TourDetailInfoService detailInfoService;
     private final Utils utils;
+    private final SearchHistoryService historyService;
 
     private void addListProcess(Model model, ListData<TourPlace> data) {
         Pagination pagination = data.getPagination();
@@ -94,6 +96,8 @@ public class TourController implements ExceptionProcessor {
         ListData<TourPlace> data = placeInfoService.getSearchedList(search);
         commonProcess("list", model);
         addListProcess(model, data);
+        historyService.saveTour(search.getSkey());
+
         return utils.tpl("tour/list");
     }
 
@@ -108,6 +112,9 @@ public class TourController implements ExceptionProcessor {
             ListData<TourPlace> data = placeInfoService.getSearchedList(search);
             commonProcess("list", model);
             addListProcess(model, data);
+            System.out.println(search);
+//            historyService.saveTour(search.getSkey());
+
             return utils.tpl("tour/list");
         } catch (BadRequestException e) {
             e.printStackTrace();

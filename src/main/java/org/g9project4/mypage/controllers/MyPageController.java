@@ -7,6 +7,8 @@ import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
+import org.g9project4.search.entities.SearchHistory;
+import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.g9project4.search.entities.QSearchHistory.searchHistory;
+
 @Controller
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ public class MyPageController {
     private final MemberSaveService memberSaveService;
     private final MemberUtil memberUtil;
     private final Utils utils;
+    private final SearchHistoryService searchHistoryService;
 
     @GetMapping
     public String index(@ModelAttribute RequestProfile form, Model model) {
@@ -39,6 +44,10 @@ public class MyPageController {
         form.setGende(member.getGende());
         form.setIsForeigner(member.getIsForeigner());
         form.setGid(member.getGid());
+
+        List<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
+
+        model.addAttribute("searchHistory", searchHistory);
 
         return utils.tpl("mypage/index");
     }

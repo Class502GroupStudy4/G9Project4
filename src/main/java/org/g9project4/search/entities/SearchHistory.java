@@ -12,7 +12,8 @@ import org.g9project4.search.constatnts.SearchType;
 @Data
 @Entity
 @Builder
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @IdClass(SearchHistoryId.class)
 public class SearchHistory extends BaseEntity {
     @Id
