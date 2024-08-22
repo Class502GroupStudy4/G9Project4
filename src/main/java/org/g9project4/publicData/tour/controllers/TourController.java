@@ -8,13 +8,14 @@ import org.g9project4.global.exceptions.BadRequestException;
 import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
+import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
 import org.g9project4.publicData.greentour.entities.GreenPlace;
 import org.g9project4.publicData.tour.constants.ContentType;
+import org.g9project4.publicData.tour.entities.PlaceDetail;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
-import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,6 @@ public class TourController implements ExceptionProcessor {
     private final TourPlaceInfoService placeInfoService;
     private final TourDetailInfoService detailInfoService;
     private final Utils utils;
-    private final SearchHistoryService historyService;
 
     private void addListProcess(Model model, ListData<TourPlace> data) {
         Pagination pagination = data.getPagination();
@@ -70,7 +70,6 @@ public class TourController implements ExceptionProcessor {
 
 
     private String greenList(TourPlaceSearch search, Model model) {
-
         ListData<GreenPlace> items = null;
         try {
             items = placeInfoService.getGreenList(search);
@@ -82,6 +81,10 @@ public class TourController implements ExceptionProcessor {
         model.addAttribute("pagination", items.getPagination());
 
         return utils.tpl("tour/list");
+    }
+    @GetMapping("/popup")
+    public String popup(Model model) {
+        return utils.tpl("tour/popup");
     }
 
     @GetMapping("/view")
@@ -96,8 +99,6 @@ public class TourController implements ExceptionProcessor {
         ListData<TourPlace> data = placeInfoService.getSearchedList(search);
         commonProcess("list", model);
         addListProcess(model, data);
-        historyService.saveTour(search.getSkey());
-
         return utils.tpl("tour/list");
     }
 
@@ -112,9 +113,6 @@ public class TourController implements ExceptionProcessor {
             ListData<TourPlace> data = placeInfoService.getSearchedList(search);
             commonProcess("list", model);
             addListProcess(model, data);
-            System.out.println(search);
-//            historyService.saveTour(search.getSkey());
-
             return utils.tpl("tour/list");
         } catch (BadRequestException e) {
             e.printStackTrace();
@@ -140,7 +138,7 @@ public class TourController implements ExceptionProcessor {
 
     @GetMapping("/detail/{contentId}")
     public String detail(@PathVariable("contentId") Long contentId, Model model) {
-        DetailItem item = detailInfoService.getDetail(contentId);
+        PlaceDetail<DetailItem, DetailPetItem> item = detailInfoService.getDetail(contentId);
         commonProcess("detail", model);
         model.addAttribute("items", item);
         return utils.tpl("tour/detail");

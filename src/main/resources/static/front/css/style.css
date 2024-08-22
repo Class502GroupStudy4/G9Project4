@@ -40,7 +40,10 @@ header .site-top > .inner > .layout-right {
     float: right;
 }
 header .main-logo{
-    max-height: 150px;
+    max-height: 130px;
+    max-width: 130px;
+    min-height: 100px;
+    min-width: 100px;
 }
 .main-top-buttons button {
     background-color: var(--secondary-color); /* 버튼 배경색 */
