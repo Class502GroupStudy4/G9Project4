@@ -29,6 +29,7 @@ public class MyPageController {
     private final MemberSaveService memberSaveService;
     private final MemberUtil memberUtil;
     private final Utils utils;
+
     @GetMapping
     public String index(@ModelAttribute RequestProfile form, Model model) {
         commonProcess("index", model);
@@ -56,7 +57,7 @@ public class MyPageController {
     public String updateInfo(@Valid RequestProfile form, Errors errors, Model model) {
         commonProcess("info", model);
 
-        profileUpdateValidator.validate(form,errors);
+        profileUpdateValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             return utils.tpl("mypage/info");
@@ -65,10 +66,9 @@ public class MyPageController {
         memberSaveService.save(form);
 
 
-
         //SecurityContextHolder.getContext().setAuthentication();
 
-        return "redirect:"+ utils.redirectUrl("/mypage");
+        return "redirect:" + utils.redirectUrl("/mypage");
     }
 
 

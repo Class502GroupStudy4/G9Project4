@@ -37,7 +37,7 @@ header .site-top > .inner {
 }
 
 header .site-top > .inner > .layout-right {
-    justify-content: right;
+    float: right;
 }
 header .main-logo{
     max-height: 150px;
@@ -76,7 +76,7 @@ header nav {
 
 header nav > .inner {
     display: flex;
-    justify-content: center; /* 가로 방향으로 중앙 정렬 */
+    justify-content: space-around; /* 가로 방향으로 중앙 정렬 */
     align-items: center; /* 수직 방향으로 중앙 정렬 */
     height: 50px; /* 높이 설정 */
     width: 100%; /* 너비를 100%로 설정하여 가로로 꽉 채우기 */
@@ -167,7 +167,12 @@ header .dropdown-content a:hover {
     color: var(--primary-color);
     background-color: #f8f8f8; /* 호버 시 배경색 설정 */
 }
-
+header .my-account{
+    padding-left: 80px;
+}
+header .my-account > .dropdown-content{
+    min-width: 180px;
+}
 /* 드롭다운 컨테이너에 마우스를 올리면 드롭다운 콘텐츠를 보이게 함 */
 header .dropdown:hover .dropdown-content {
     display: block;
