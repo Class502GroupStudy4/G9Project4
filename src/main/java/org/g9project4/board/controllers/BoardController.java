@@ -190,6 +190,7 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
+            addCss.add("board/" + skin + "/form");
         }
 
         // 게시글 제목으로 title을 표시 하는 경우
