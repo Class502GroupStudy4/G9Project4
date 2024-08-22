@@ -19,7 +19,7 @@ header {
     left: 0;
     width: 100%;
     min-height: 60px; /* 헤더의 높이를 지정합니다 */
-   /* background-color: white; */
+    /* background-color: white; */
     color: white;
     z-index: 1000;
     transition:  all 0.5s;
@@ -187,7 +187,7 @@ header .dropdown:hover .dropdown-content {
 main {
     margin-top: 155px;
     min-height: 1000px;
-    width: 80%;
+    width: 100%;
 }
 .Q2 {
     line-height: 50px;

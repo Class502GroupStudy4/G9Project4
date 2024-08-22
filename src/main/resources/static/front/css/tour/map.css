@@ -93,48 +93,10 @@
     box-shadow: none; /* 비활성화 상태 그림자 제거 */
 }
 
-/* 옵션 박스 */
-#menu_wrap .option {
-    margin-bottom: 10px;
-}
-
-/* 구분선 */
-#menu_wrap hr {
-    margin: 10px 0;
-}
-
-/* 장소 리스트 */
-#placesList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* 장소 아이템 */
-#placesList .item {
-    border-bottom: 1px solid #888;
-    padding: 5px 0;
-}
-
-/* 페이지네이션 */
-#pagination {
-    text-align: center;
-    margin-top: 10px;
-}
-
-#pagination a {
-    margin: 0 5px;
-}
-
-#pagination .on {
-    font-weight: bold;
-    cursor: default;
-}
-
 /* 카테고리 박스 */
 #category {
     position: absolute;
-    top: 110px;
+    top: 190px;
     left: 300px;
     border-radius: 5px;
     border: 1px solid #909090;
@@ -274,4 +236,86 @@
     color: #999;
     font-size: 11px;
     margin-top: 0;
+}
+
+
+/* 검색창 내부 폼 스타일 */
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    top: 150px; /* 부모 요소에서 100px 아래로 위치 */
+    z-index: 1000; /* 검색창이 지도 위에 위치하도록 설정 */
+    background-color: rgba(255, 255, 255, 0.9); /* 배경색 추가 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    position: absolute; /* 절대 위치로 설정 */
+}
+
+/* 검색 폼 내부 스타일 */
+#search_form {
+    width: 300px; /* 검색창 너비 조절 */
+    display: flex;
+}
+
+#search_form input[type="text"] {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+    width: 70%; /* 너비 비율 조정 */
+}
+
+#search_form input[type="text"]::placeholder {
+    color: #999;
+}
+
+.search-button {
+    padding: 0 15px;
+    font-size: 18px;
+    background-color: #6F4F28;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #c49c8c;
+}
+
+/* 검색 아이콘 스타일 */
+.search-button i {
+    font-size: 18px;
+}
+/* 검색 결과 컨테이너 */
+.search-results {
+    position: absolute;
+    top: 60px; /* 검색창 바로 아래 위치 */
+    left: 0;
+    width: 100%; /* 검색창과 동일한 너비 */
+    max-height: 700px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 스크롤 활성화 */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    z-index: 1001; /* 검색창보다 위에 위치 */
+}
+
+/* 검색 결과 테이블 스타일 */
+.search-results table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.search-results table td, .search-results table th {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.search-results table tr:hover {
+    background-color: #f5f5f5;
 }
