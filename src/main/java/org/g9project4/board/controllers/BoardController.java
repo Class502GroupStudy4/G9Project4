@@ -18,6 +18,7 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.member.MemberUtil;
+import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -38,9 +39,12 @@ public class BoardController implements ExceptionProcessor {
     private final BoardSaveService saveService;
     private final BoardDeleteService deleteService;
     private final FileInfoService fileInfoService;
+    private final SearchHistoryService historyService;
+
     private final BoardValidator validator;
     private final MemberUtil memberUtil;
     private final Utils utils;
+
 
 
     private Board board; // 게시판 설정
@@ -48,7 +52,6 @@ public class BoardController implements ExceptionProcessor {
 
     /**
      * 글 쓰기
-     *
      * @param bid
      * @return
      */
@@ -66,7 +69,7 @@ public class BoardController implements ExceptionProcessor {
     @GetMapping("/update/{seq}")
     public String update(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "update", model);
-//게시글 데이터
+
         RequestBoard form = infoService.getForm(boardData);
         model.addAttribute("requestBoard", form);
 
@@ -80,19 +83,13 @@ public class BoardController implements ExceptionProcessor {
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);
 
-
         boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
         if (mode.equals("update")) {
-            BoardData data = (BoardData) model.getAttribute("boardData");
+            BoardData data = (BoardData)model.getAttribute("boardData");
             isGuest = data.getMember() == null;
         }
+
         form.setGuest(isGuest);
-        if (mode.equals("update")) {
-            BoardData data = (BoardData) model.getAttribute("boardData");
-
-
-            isGuest = data.getMember() == null;
-        }
 
         validator.validate(form, errors);
 
@@ -104,17 +101,15 @@ public class BoardController implements ExceptionProcessor {
             form.setEditorImages(editorImages);
             form.setAttachFiles(attachFiles);
 
+
             return utils.tpl("board/" + mode);
         }
 
         saveService.save(form);
-        status.setComplete();
-        session.removeAttribute("boardData");
 
 
         status.setComplete();
         session.removeAttribute("boardData");
-
 
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
@@ -125,6 +120,8 @@ public class BoardController implements ExceptionProcessor {
     @GetMapping("/list/{bid}")
     public String list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(bid, "list", model);
+
+        historyService.saveBoard(search.getSkey());
 
         ListData<BoardData> data = infoService.getList(bid, search);
 
@@ -155,7 +152,7 @@ public class BoardController implements ExceptionProcessor {
     /**
      * 게시판 설정이 필요한 공통 처리(모든 처리)
      *
-     * @param bid   : 게시판 아이디
+     * @param bid : 게시판 아이디
      * @param mode
      * @param model
      */
@@ -179,7 +176,6 @@ public class BoardController implements ExceptionProcessor {
         addCss.add("board/" + skin + "/style");
 
         if (mode.equals("write") || mode.equals("update")) {
-            addCss.add("board/" + skin + "/form");
             // 글쓰기, 수정
             // 파일 업로드, 에디터 - 공통
             // form.js
@@ -210,7 +206,7 @@ public class BoardController implements ExceptionProcessor {
 
     /**
      * 게시글 번호가 경로 변수로 들어오는 공통 처리
-     * 게시판 설정 + 게시글 내용
+     *  게시판 설정 + 게시글 내용
      *
      * @param seq
      * @param mode
@@ -220,8 +216,7 @@ public class BoardController implements ExceptionProcessor {
         boardData = infoService.get(seq);
 
         model.addAttribute("boardData", boardData);
-        Board board = (Board) model.getAttribute("board");
-//        model.addAttribute("items",infoService.getList(board.getBid(),));
+
         commonProcess(boardData.getBoard().getBid(), mode, model);
     }
 }
