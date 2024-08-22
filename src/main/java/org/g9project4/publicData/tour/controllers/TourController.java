@@ -83,8 +83,11 @@ public class TourController implements ExceptionProcessor {
     }
 
     @GetMapping("/view")
-    public String view(Model model) {
+    public String view(Model model, @ModelAttribute TourPlaceSearch search) {
+        search.setContentType(null);
+        ListData<TourPlace> data = placeInfoService.getSearchedList(search);
         commonProcess("view", model);
+        addListProcess(model, data);
         return utils.tpl("/tour/map");
     }
 
