@@ -19,7 +19,9 @@
             <div class="right">
                 <th:block th:text="#{조회수}"></th:block>
                 : <span th:text="*{viewCount > 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA'): viewCount}"></span>
+                <br>
                 IP: <span th:text="*{ip}"></span>
+                <br>
                 <th:block th:text="#{작성일시}"></th:block>
                 :
                 <span th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm:ss')}"></span>

@@ -20,8 +20,13 @@
 .left{
     float: left;
 }
-.right{
+.right {
     float: right;
+    text-align: right;
+}
+
+.links {
+    text-align: right;
 }
 /*List CSS End*/
 /*View Css Start*/
@@ -38,4 +43,14 @@
 .contents{
     min-height: 500px;
 }
+
+.sbtn{
+    width: 70px;
+    height: 30px;
+    color: #222;
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+
 /*View Css End*/
