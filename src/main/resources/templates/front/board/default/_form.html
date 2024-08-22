@@ -11,7 +11,7 @@
     <dl>
         <dt th:text="#{작성자}"></dt>
         <dd>
-            <input type="text" name="poster" th:field="*{poster}">
+            <input type="text" name="poster" placeholder="작성자를 입력해주세요." th:field="*{poster}">
             <div class="error" th:each="err : ${#fields.errors('poster')}" th:text="${err}"></div>
         </dd>
     </dl>
@@ -25,7 +25,7 @@
     <dl th:if="*{ guest }">
         <dt th:text="#{비밀번호}"></dt>
         <dd>
-            <input type="password" name="guestPw" th:field="*{guestPw}">
+            <input type="password" name="guestPw" placeholder="비밀번호를 입력해주세요." th:field="*{guestPw}">
             <div class="error" th:each="err : ${#fields.errors('guestPw')}" th:text="${err}"></div>
         </dd>
     </dl>
@@ -33,7 +33,7 @@
     <dl>
         <dt th:text="#{제목}"></dt>
         <dd>
-            <input type="text" name="subject" th:field="*{subject}">
+            <input type="text" name="subject" class="title" placeholder="제목을 입력해주세요." th:field="*{subject}">
             <div class="error" th:each="err : ${#fields.errors('subject')}" th:text="${err}"></div>
         </dd>
     </dl>
@@ -41,7 +41,7 @@
     <dl>
         <dt th:text="#{내용}"></dt>
         <dd>
-            <textarea name="content" th:field="*{content}" id="content"></textarea>
+            <textarea name="content" th:field="*{content}" id="content" placeholder="내용을 입력해주세요"></textarea>
             <div class="error" th:each="err : ${#fields.errors('content')}" th:text="${err}"></div>
         </dd>
     </dl>
@@ -70,12 +70,7 @@
             </div>
         </dd>
     </dl>
-    <div class="social-icons">
-        <a href="https://facebook.com" target="_blank"><img src="/images/facebook-icon.png" alt="Facebook"></a>
-        <a href="https://twitter.com" target="_blank"><img src="/images/twitter-icon.png" alt="Twitter"></a>
-        <a href="https://kakao.com" target="_blank"><img src="/images/kakao-icon.png" alt="KakaoTalk"></a>
-        <a href="https://naver.com" target="_blank"><img src="/images/naver-icon.jpeg" alt="Naver"></a>
-    </div>
+
     <script th:replace="~{common/_file_tpl::attach}"></script>
     <script th:replace="~{common/_file_tpl::editor}"></script>
 </th:block>
