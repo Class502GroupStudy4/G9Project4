@@ -21,13 +21,7 @@
     float: left;
 }
 .right {
-    float: none; /* float 해제 */
-    text-align: right;
-    margin-top: -20px; /* 필요에 따라 위로 올리기 */
-}
-
-.links {
-    text-align: right;
+    float: right;
 }
 /*List CSS End*/
 /*View Css Start*/
@@ -60,5 +54,12 @@
     font-size: 0.9rem;
 }
 
-
+.right {
+    float: none; /* float 해제 */
+    text-align: right;
+    margin-top: -20px; /* 필요에 따라 위로 올리기 */
+}
+.links {
+    text-align: right;
+}
 /*View Css End*/
