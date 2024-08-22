@@ -41,13 +41,13 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
         String mobile = form.getMobile();
 //      1. 이미 가입된 회원인지 체크
         if(memberRepository.exists(email)){
-            errors.rejectValue("email","Duplicated");
+//            errors.rejectValue("email","Duplicated");
         }
 
         // 이메일 인증 여부 체크
         Boolean emailVerified = (Boolean)session.getAttribute("EmailAuthVerified");
         if (emailVerified == null || !emailVerified) {
-            errors.rejectValue("email","NotVerified");
+//            errors.rejectValue("email","NotVerified");
         }
 
         //2. 비밀번호, 비밀번호 확인 일치 여부

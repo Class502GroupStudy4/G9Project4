@@ -1,0 +1,37 @@
+/*List CSS Start*/
+.table_rows > .table_head *{
+    font-weight: 200;
+    font-size: 20px;
+}
+
+.table_rows {
+    width: 80%;
+    align-content: center;
+}
+.table_rows td{
+    text-align: center;
+    min-width: 150px;
+    border-bottom: 1px solid #f2f2f2;
+}
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+/*List CSS End*/
+/*View Css Start*/
+.subject{
+    font-weight: 400;
+    font-size: 2rem;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+.post-info{
+    font-size: 1.2rem;
+    min-height: 40px;
+}
+.contents{
+    min-height: 500px;
+}
+/*View Css End*/
