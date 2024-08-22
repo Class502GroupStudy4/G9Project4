@@ -13,10 +13,6 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
 
-
-
-
-
     <meta name="csrf_token" th:content="${_csrf.token}">
     <meta name="csrf_header" th:content="${_csrf.headerName}">
     <title>
@@ -25,21 +21,25 @@
         사이트 제목
     </title>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <th:block layout:fragment="addCommonCss"></th:block>
-    <link th:if="${addCommonCss != null}" rel="stylesheet" type="text/css" th:each="cssFile : ${addCommonCss}" th:href="${@utils.url(#strings.concat('/common/css/', cssFile, '.css'))}"></link>
+    <link th:if="${addCommonCss != null}" rel="stylesheet" type="text/css" th:each="cssFile : ${addCommonCss}"
+          th:href="${@utils.url(#strings.concat('/common/css/', cssFile, '.css'))}"></link>
     <link rel="stylesheet" type="text/css" th:href="${@utils.url('/common/css/style.css')}">
     <link rel="stylesheet" type="text/css" th:href="${@utils.url('/front/css/style.css')}">
     <link th:if="${addCss != null}" rel="stylesheet" type="text/css"
           th:each="cssFile: ${addCss}" th:href="${@utils.url(#strings.concat('/front/css/', cssFile, '.css'))}">
     <th:block layout:fragment="addCss"></th:block>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <th:block layout:fragment="addCommonScript"></th:block>
-    <script th:if="${addCommonScript != null}" th:each="jsFile : ${addCommonScript}" th:src="${@utils.url(#strings.concat('/common/js/', jsFile, '.js'))}"></script>
+    <script th:if="${addCommonScript != null}" th:each="jsFile : ${addCommonScript}"
+            th:src="${@utils.url(#strings.concat('/common/js/', jsFile, '.js'))}"></script>
 
     <script th:src="${@utils.url('/common/js/common.js')}"></script>
     <script th:src="${@utils.url('/front/js/common.js')}"></script>
-    <script th:if="${addScript != null}" th:each="jsFile : ${addScript}" th:src="${@utils.url(#strings.concat('/front/js/', jsFile, '.js'))}"></script>
+    <script th:if="${addScript != null}" th:each="jsFile : ${addScript}"
+            th:src="${@utils.url(#strings.concat('/front/js/', jsFile, '.js'))}"></script>
     <th:block layout:fragment="addScript"></th:block>
 </head>
 <body>
