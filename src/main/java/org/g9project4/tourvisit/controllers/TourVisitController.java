@@ -10,7 +10,11 @@ import org.g9project4.global.exceptions.BadRequestException;
 
 
 //import org.g9project4.tourvisit.services.VisitInfoService;
+import org.g9project4.publicData.tour.constants.ContentType;
+import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.publicData.tour.services.TourPlaceInfoService;
+import org.g9project4.tourvisit.services.TourplacePointService;
 import org.g9project4.tourvisit.services.VisitInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +30,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TourVisitController {
 
-  private final VisitInfoService visitInfoService;
+
+  private final TourPlaceInfoService placeInfoService;
     private final Utils utils;
 
     private void addListProcess(Model model, ListData<TourPlace> data) {
@@ -38,38 +43,36 @@ public class TourVisitController {
 
     private void commonProcess(String mode, Model model) {
         if (mode.equals("list")) {
-            model.addAttribute("addCss", List.of("tourvisit/list"));
-        } else if (mode.equals("detail")) {
-            model.addAttribute("addCss", List.of("tour/map"));
-            model.addAttribute("addScript", List.of("tour/detailMap"));
-            model.addAttribute("addCommonScript", List.of("map"));
+            model.addAttribute("addCss", List.of("tourvisit/list","tourvisit/_typelist"));
         }
     }
 
-
-    // 일반 목록을 가져오는 메서드
     @GetMapping("/list")
-    public String list(Model model, @ModelAttribute VisitSearch search) {
+    public String list(Model model, @ModelAttribute TourPlaceSearch search) {
         search.setContentType(null);
-        ListData<TourPlace> data = visitInfoService.getSearchedList(search);
+        ListData<TourPlace> data = placeInfoService.getTotalVisitList(search);
         commonProcess("list", model);
         addListProcess(model, data);
-        return utils.tpl("tourvisit/list"); // Thymeleaf 템플릿 이름
+        return utils.tpl("tourvisit/list");
     }
 
-    // 타입별 목록을 가져오는 메서드
+
+    //추천
     @GetMapping("/list/{type}")
-    public String list(@PathVariable("type") String type, @ModelAttribute VisitSearch search, Model model) {
+    public String list(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
+
         try {
             search.setContentType(utils.typeCode(type));
-            ListData<TourPlace> data = visitInfoService.getSearchedList(search);
+
+            ListData<TourPlace> data = placeInfoService.getTotalVisitList(search);
             commonProcess("list", model);
             addListProcess(model, data);
-            return "/list"; // Thymeleaf 템플릿 이름
+            return utils.tpl("tourvisit/list");
         } catch (BadRequestException e) {
             e.printStackTrace();
-            return "redirect:" + utils.redirectUrl("/tourvisit/list");
+            return "redirect:" + utils.redirectUrl("tourvisit/list");
         }
+
     }
 
 

@@ -35,7 +35,7 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
 
     public final NumberPath<Long> contentId = createNumber("contentId", Long.class);
 
-    public final StringPath contentTypeId = createString("contentTypeId");
+    public final NumberPath<Long> contentTypeId = createNumber("contentTypeId", Long.class);
 
     public final StringPath cpyrhtDivCd = createString("cpyrhtDivCd");
 

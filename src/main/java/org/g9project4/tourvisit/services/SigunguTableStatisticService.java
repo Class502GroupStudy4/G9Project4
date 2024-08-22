@@ -6,6 +6,7 @@ import org.g9project4.global.rests.gov.sigunguapi.ApiResult;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.tourvisit.entities.SigunguTable;
 import org.g9project4.tourvisit.repositories.SigunguTableRepository;
+import org.g9project4.tourvisit.entities.SigunguTable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,9 +18,9 @@ import java.util.stream.Collectors;
 public class SigunguTableStatisticService {
 
 
-
     private final RestTemplate restTemplate;
-    private final SigunguTableRepository tableRepository;
+    private final SigunguTableRepository sigunguTableRepository;
+//    private final SigunguTableRepository tableRepository;
 
     private String serviceKey = "RtrIIdYjcb3IXn1a/zF7itGWY5ZFS3IEj85ohFx/snuKG9hYABL5Tn8jEgCEaCw6uEIHvUz30yF4n0GGP6bVIA==";
     //    @Scheduled(fixedRate = 1L, timeUnit = TimeUnit.DAYS)
@@ -52,8 +53,8 @@ public class SigunguTableStatisticService {
             }
         }
 
-        // Save all sigunguTables to the database and return the saved list
-        return tableRepository.saveAllAndFlush(sigunguTables);
+    //    Save all sigunguTables to the database and return the saved list
+        return sigunguTableRepository.saveAllAndFlush(sigunguTables);
     }
 
     private SigunguTable convertToSigunguTable(ApiData apiData) {
@@ -63,5 +64,6 @@ public class SigunguTableStatisticService {
         sigunguTable.setSidoCode(apiData.getSidoCode() != null ? apiData.getSidoCode().toString() : null);
         return sigunguTable;
     }
+
 
 }

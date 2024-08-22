@@ -1,13 +1,13 @@
 package org.g9project4.tourvisit.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.g9project4.global.entities.BaseEntity;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -24,6 +24,7 @@ public class SidoVisit extends BaseEntity  {
     private String areaCode;
     @Column(length = 50)
     private String areaName;  //
+
 
     private Double type1D1; // 현지인 일별통계 현지인관광객구분명
     private Double type2D1; // 외지인 일별통계

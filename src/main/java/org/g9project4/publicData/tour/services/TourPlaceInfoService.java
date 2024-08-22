@@ -28,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.domain.Sort.Order.asc;
 
@@ -72,6 +73,38 @@ public class TourPlaceInfoService {
         return null;
     }
 
+    //여행추천-핫플추천 탑20곳:  여행지 점수 내림차순으로 정렬
+    public ListData<TourPlace> getTotalVisitList(TourPlaceSearch search) {
+        // 페이지 번호와 한 페이지당 항목 수를 설정합니다.
+        int page = Math.max(search.getPage(), 1);
+        int limit = 10;  // 한 페이지당 10개의 항목을 보여줍니다.
+
+        // 오프셋 계산
+        int offset = (page - 1) * limit;
+
+        // JPA 쿼리 작성
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QTourPlace tourPlace = QTourPlace.tourPlace;
+
+        // placePointValue 기준으로 내림차순 정렬하여 상위 20개의 항목을 가져옵니다.
+        List<TourPlace> items = queryFactory.selectFrom(tourPlace)
+                .orderBy(tourPlace.placePointValue.desc())  // placePointValue 기준 내림차순 정렬
+                .limit(20)  // 최대 20개의 항목만 가져옵니다.
+                .fetch();
+
+        // 상위 20개 항목에서 필요한 페이지의 10개 항목을 가져옵니다.
+        List<TourPlace> paginatedItems = items.stream()
+                .skip(offset)
+                .limit(limit)
+                .collect(Collectors.toList());
+
+        // 페이지네이션 설정
+        Pagination pagination = new Pagination(page, (int) items.size(), 0, limit, request);
+
+        // 가져온 데이터를 반환
+        return new ListData<>(paginatedItems, pagination);
+    }
+
     public ListData<TourPlace> getTotalList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
@@ -87,12 +120,15 @@ public class TourPlaceInfoService {
                 .limit(limit)
                 .fetch();
         return new ListData<>(items, pagination);
+
     }
+
     public ListData<GreenPlace> getGreenList(TourPlaceSearch search){
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit < 1 ? 20 : limit;
         int offset = page * limit + 1;
+
         /* 검색 조건 처리 S */
         QGreenPlace greenPlace = QGreenPlace.greenPlace;
         BooleanBuilder andBuilder = new BooleanBuilder();
@@ -141,6 +177,8 @@ public class TourPlaceInfoService {
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
     }
+
+
     public ListData<TourPlace> getSearchedList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();

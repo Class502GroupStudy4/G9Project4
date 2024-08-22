@@ -17,7 +17,7 @@ public class ApiItem {
     private String cat2;
     private String cat3;
     private Long contentid;
-    private String contenttypeid;
+    private Long contenttypeid;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime createtime;
     @JsonFormat(pattern = "yyyyMMddHHmmss")

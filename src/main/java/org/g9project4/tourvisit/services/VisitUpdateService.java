@@ -28,17 +28,10 @@ public class VisitUpdateService {
         QSigunguVisit sigunguVisit = QSigunguVisit.sigunguVisit;
         QTourPlace tourPlace = QTourPlace.tourPlace;
 
-        // 쿼리 생성 확인 추가 km
-        JPAQuery<SigunguVisit> query = queryFactory.selectFrom(sigunguVisit);
-        if (query == null) {
-            throw new RuntimeException("JPAQuery is null. Check queryFactory and sigunguVisit.");
-        }
-
-// 쿼리 실행
         List<SigunguVisit> items = queryFactory.selectFrom(sigunguVisit)
-                .leftJoin(sigunguVisit.sidoVisit) // 엔티티를 조인
-                .fetchJoin() // 조인된 엔티티를 함께 로딩
-                .fetch(); // 쿼리 실행
+                .leftJoin(sigunguVisit.sidoVisit)
+                .fetchJoin()
+                .fetch();
 
         for (SigunguVisit item : items) {
             if (item.getSidoVisit() == null) continue;
@@ -76,7 +69,4 @@ public class VisitUpdateService {
 
             tourPlaceRepository.saveAllAndFlush(places);
         }
-    }
-
-
-}
+}}

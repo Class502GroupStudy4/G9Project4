@@ -14,6 +14,8 @@ import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
+import org.g9project4.tourvisit.controllers.VisitSearch;
+import org.g9project4.tourvisit.services.VisitInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,8 @@ public class TourController implements ExceptionProcessor {
     private final TourPlaceInfoService placeInfoService;
     private final TourDetailInfoService detailInfoService;
     private final Utils utils;
+
+    private final VisitInfoService visitInfoService;
 
     private void addListProcess(Model model, ListData<TourPlace> data) {
         Pagination pagination = data.getPagination();
@@ -73,7 +77,6 @@ public class TourController implements ExceptionProcessor {
         commonProcess("view", model);
         return utils.tpl("/tour/map");
     }
-
     @GetMapping("/list")
     public String list(Model model, @ModelAttribute TourPlaceSearch search) {
         search.setContentType(null);
@@ -101,11 +104,29 @@ public class TourController implements ExceptionProcessor {
         }
     }
 
-    @GetMapping("/detail/{contentId}")
-    public String detail(@PathVariable("contentId") Long contentId, Model model) {
-        DetailItem item = detailInfoService.getDetail(contentId);
-        commonProcess("detail", model);
-        model.addAttribute("items", item);
-        return utils.tpl("tour/detail");
+    @GetMapping("/list/loc/{type}")
+    public String distanceList(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
+        try{
+            commonProcess("getLocation",model);
+            search.setLatitude(37.566826);
+            search.setLongitude(126.9786567);
+            search.setRadius(1000);
+           // ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
+          //  addListProcess(model,data);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new TourPlaceNotFoundException();
+        }
+        return utils.tpl("tour/list");
     }
+
+//    @GetMapping("/detail/{contentId}")
+//    public String detail(@PathVariable("contentId") Long contentId, Model model) {
+//        PlaceDetail<DetailItem> item = detailInfoService.getDetail(contentId);
+//        commonProcess("detail", model);
+//        model.addAttribute("items", item);
+//        return utils.tpl("tour/detail");
+//    }
 }
+
+

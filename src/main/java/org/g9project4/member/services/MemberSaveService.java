@@ -22,7 +22,6 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MemberSaveService {
     private final FileUploadDoneService uploadDoneService;

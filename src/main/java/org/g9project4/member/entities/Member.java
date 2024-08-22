@@ -6,6 +6,7 @@ import lombok.*;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.member.constants.Gender;
+import org.g9project4.publicData.tour.entities.TourPlace;
 
 import java.io.Serializable;
 import java.time.LocalDate;

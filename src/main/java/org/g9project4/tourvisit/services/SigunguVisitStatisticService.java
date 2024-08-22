@@ -1,7 +1,10 @@
 package org.g9project4.tourvisit.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.g9project4.global.rests.gov.api.ApiBody2;
+import org.g9project4.global.rests.gov.api.ApiHeader;
+import org.g9project4.global.rests.gov.api.ApiResponse2;
 import org.g9project4.global.rests.gov.api.ApiResult2;
 import org.g9project4.tourvisit.entities.SidoVisit;
 import org.g9project4.tourvisit.entities.SigunguVisit;
@@ -18,10 +21,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SigunguVisitStatisticService {
-
     private final RestTemplate restTemplate;
     private final SigunguVisitRepository repository1;
     private final SidoVisitRepository repository2;
@@ -65,9 +68,9 @@ public class SigunguVisitStatisticService {
                 Map<String, Object> visitData = data.getOrDefault(sigunguCode, new HashMap<>());
                 visitData.put("sigunguName", item.get("signguNm"));
 
-                double type1 = (double)visitData.getOrDefault("type1", 0.0); // 현지인
-                double type2 = (double)visitData.getOrDefault("type2", 0.0); // 외지인
-                double type3 = (double)visitData.getOrDefault("type3", 0.0);
+                double type1 = (double) visitData.getOrDefault("type1", 0.0); // 현지인
+                double type2 = (double) visitData.getOrDefault("type2", 0.0); // 외지인
+                double type3 = (double) visitData.getOrDefault("type3", 0.0);
 
                 String divNm = item.get("touDivNm");
                 double num = Double.valueOf(Objects.requireNonNullElse(item.get("touNum"), "0.0"));
@@ -91,11 +94,11 @@ public class SigunguVisitStatisticService {
         for (Map.Entry<String, Map<String, Object>> entry : data.entrySet()) {
             String sigunguCode = entry.getKey();
             Map<String, Object> visitData = entry.getValue();
-            String sigunguName = (String)visitData.get("signguName");
+            String sigunguName = (String) visitData.get("sigunguName");
 
-            double type1 = (double)visitData.getOrDefault("type1", 0.0);
-            double type2 = (double)visitData.getOrDefault("type2", 0.0);
-            double type3 = (double)visitData.getOrDefault("type3", 0.0);
+            double type1 = (double) visitData.getOrDefault("type1", 0.0);
+            double type2 = (double) visitData.getOrDefault("type2", 0.0);
+            double type3 = (double) visitData.getOrDefault("type3", 0.0);
 
             SigunguVisit item = repository1.findById(sigunguCode).orElseGet(SigunguVisit::new);
             item.setSigunguCode(sigunguCode);
@@ -141,27 +144,93 @@ public class SigunguVisitStatisticService {
         // 통계 데이터 업데이트
     }
 
-    private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
 
-        String serviceKey = "RtrIIdYjcb3IXn1a/zF7itGWY5ZFS3IEj85ohFx/snuKG9hYABL5Tn8jEgCEaCw6uEIHvUz30yF4n0GGP6bVIA==";
+
+    // LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR라는 오류는 API 호출 제한을 초과했음 에로로 인한 수정
+    private static final int MAX_RETRIES = 3;
+    private static final long RETRY_DELAY_MS = 60000; // 60초
+
+    private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
+        String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String url = String.format("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json",
+                serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
 
-        String url = String.format("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json", serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
+        log.info("Request URL: {}", url); // 요청 URL 로깅
 
-        ResponseEntity<ApiResult2> response = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
+        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                ResponseEntity<ApiResult2> response = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
+                log.info("Response Status: {}", response.getStatusCode()); // 응답 상태 코드 로깅
 
-        if (!response.getStatusCode().is2xxSuccessful()) {
-            return null;
+                if (!response.getStatusCode().is2xxSuccessful()) {
+                    log.error("Failed to fetch data from API. Status code: {}", response.getStatusCode());
+                    continue; // 재시도
+                }
+
+                ApiResult2 result = response.getBody();
+                if (result == null) {
+                    log.error("API result is null.");
+                    continue; // 재시도
+                }
+
+                ApiResponse2 apiResponse = result.getResponse();
+                if (apiResponse == null) {
+                    log.error("API response is null.");
+                    continue; // 재시도
+                }
+
+                ApiHeader header = apiResponse.getHeader();
+                if (header == null) {
+                    log.error("API response header is null.");
+                    continue; // 재시도
+                }
+
+                if (!header.getResultCode().equals("0000")) {
+                    log.error("API response error. Result code: {}", header.getResultCode());
+                    continue; // 재시도
+                }
+
+                return result; // 성공
+            } catch (Exception e) {
+                log.error("Error occurred during API call: {}", e.getMessage());
+            }
+
+            try {
+                Thread.sleep(RETRY_DELAY_MS); // 대기 후 재시도
+            } catch (InterruptedException e) {
+                log.error("Interrupted during retry delay: {}", e.getMessage());
+            }
         }
 
-        ApiResult2 result = response.getBody();
-        if (!result.getResponse().getHeader().getResultCode().equals("0000")) {
-            return null;
-        }
-
-        return result;
+        log.error("Failed to fetch data after {} attempts", MAX_RETRIES);
+        return null;
     }
+
+    //원 코드
+
+//    private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
+//
+//        String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+//
+//        String url = String.format("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json", serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
+//
+//        ResponseEntity<ApiResult2> response = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
+//
+//        if (!response.getStatusCode().is2xxSuccessful()) {
+//            return null;
+//        }
+//
+//        ApiResult2 result = response.getBody();
+//        if (!result.getResponse().getHeader().getResultCode().equals("0000")) {
+//            return null;
+//        }
+//
+//        return result;
+//    }
 
     // 일별 통계
     @Scheduled(cron = "0 0 3 * * *")  // 매일 새벽 1시

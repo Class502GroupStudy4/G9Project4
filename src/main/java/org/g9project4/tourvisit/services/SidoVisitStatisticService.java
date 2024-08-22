@@ -189,4 +189,5 @@ public class SidoVisitStatisticService {
     public void updateSidoVisit1Y() {
         updateSidoVisit("1Y");
     }
+
 }

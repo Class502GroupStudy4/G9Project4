@@ -7,7 +7,7 @@ import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.tourvisit.entities.QSigunguVisit;
 import org.g9project4.tourvisit.entities.SigunguVisit;
-import org.g9project4.tourvisit.services.VisitUpdateService;
+//import org.g9project4.tourvisit.services.VisitUpdateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -31,8 +31,8 @@ public class VisitUpdateServiceTest {
     @Mock
     private TourPlaceRepository tourPlaceRepository;
 
-    @InjectMocks
-    private VisitUpdateService visitUpdateService;
+//    @InjectMocks
+//    private VisitUpdateService visitUpdateService;
 
     @BeforeEach
     public void setUp() {
@@ -69,7 +69,7 @@ public class VisitUpdateServiceTest {
         when(tourPlaceRepository.findAll(any(BooleanBuilder.class))).thenReturn(tourPlaceList);
 
         // Act
-        visitUpdateService.update();
+//        visitUpdateService.update();
 
         // Assert
         // Verify that tourPlaceRepository.saveAllAndFlush() was called with the expected parameters

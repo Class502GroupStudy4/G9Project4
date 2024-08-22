@@ -1,25 +1,29 @@
 package org.g9project4.tourvisit;
 
 
-import jakarta.transaction.Transactional;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.g9project4.publicData.tour.entities.QTourPlace;
+import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.ApiUpdateService;
-import org.g9project4.tourvisit.services.TourPlaceRepositoryCustomImpl;
-import org.g9project4.tourvisit.services.SidoVisitStatisticService;
-import org.g9project4.tourvisit.services.SigunguTableStatisticService;
-import org.g9project4.tourvisit.services.SigunguVisitStatisticService;
-import org.g9project4.tourvisit.services.VisitUpdateService;
+//import org.g9project4.tourvisit.services.TourPlaceRepositoryCustomImpl;
+import org.g9project4.tourvisit.services.*;
+//import org.g9project4.tourvisit.services.SigunguTableStatisticService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import java.util.List;
 
-@Transactional
+import static org.junit.jupiter.api.Assertions.*;
+
+
 @SpringBootTest
+//@ActiveProfiles("test")
 public class DataTransfer {
 
     @Autowired
@@ -40,8 +44,16 @@ public class DataTransfer {
     @Autowired
     private SigunguTableStatisticService tableService;
 
+
     @Autowired
-    private TourPlaceRepositoryCustomImpl impl;
+    private JPAQueryFactory queryFactory;
+
+    @Autowired
+    private TourplacePointService pointService;
+
+    @PersistenceContext
+    private EntityManager em;
+
 
     @Test
     void test1() {
@@ -65,8 +77,8 @@ public class DataTransfer {
 
     @Test
     void test3() {
-     //   apiUpdateService.update();
-      visitUpdateService.update();
+
+        visitUpdateService.update();
     }
 
     @Test
@@ -79,31 +91,25 @@ public class DataTransfer {
     @Test
     void test5() {
         tableService.update();
-
     }
+
+
+
 
     @Test
-   void test6() {
-        // Call the method to update SigunguCode2
+    void test7() {
 
+        pointService.update();
 
-   impl.updateSigunguCode2();
-
-    }
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    void testExtractSigunguNameFromAddress() {
-        // Test cases with various address formats
-        assertEquals("경기도광주시", impl.extractSigunguNameFromAddress("경기도 광주시 이배재로 493 (목현동)"));
-        assertEquals("서울특별시강남구", impl.extractSigunguNameFromAddress("서울특별시 강남구 테헤란로 123"));
-        assertEquals("부산광역시해운대구", impl.extractSigunguNameFromAddress("부산광역시 해운대구 우동 456"));
-        // Add more test cases as needed
     }
 }
+
+
+
+// ContentType별로 내림차순 정렬된 리스트를 가져옵니다.
+//List<QTourPlace> sortedTourPlaces = impl.getContenttypeIdPointList();
+//        System.out.println("Sorted TourPlaces by placePointValue:");
+//        sortedTourPlaces.forEach(System.out::println);
+
 
 

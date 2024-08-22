@@ -18,7 +18,7 @@ import java.util.List;
 public class VisitSearch extends  RequestPage {
 
 
-    private String contentTypeId;
+    private Long contentTypeId;
 
    private String sigunguCode;
     private Long contentId;

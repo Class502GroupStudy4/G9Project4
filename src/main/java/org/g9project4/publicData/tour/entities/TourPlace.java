@@ -13,11 +13,11 @@ import org.g9project4.global.entities.BaseEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table( )
+@Table(name="TOUR_PLACE2")
 public class TourPlace extends BaseEntity {
     @Id
     private Long contentId;
-    private String contentTypeId;
+    private Long contentTypeId;
 
     @Column(length = 30)
     private String category1;
@@ -31,7 +31,7 @@ public class TourPlace extends BaseEntity {
     @Column(length = 100)
     private String title;
 
-    @Column(length = 120)
+    @Column(length = 150)
     private String tel;
 
     @Column(length = 150)
