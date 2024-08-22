@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<table th:fragment="placeList" class="tour-list">
+    <h1 th:if="${tourPlaceSearch.contentType!=null}"
+        th:text="${#strings.concat(tourPlaceSearch.contentType.getType,' 리스트보기')}"></h1>
+    <h1>리스트 보기</h1>
+    <ul class="list_thumType place" th:each="item, s:${items}" th:object="${item}">
+        <li class="bdr_nor"
+            th:attr="data-lat=*{latitude}, data-lng=*{longitude}"
+            onclick="handlePlaceClick(this)">
+            <div class="place-photo">
+                <a th:href=""><img class="firstImage" th:src="*{firstImage}" th:alt="#{이미지가_존재하지_않습니다.}"></a>
+            </div>
+            <div class="place-tit">
+                <a th:href="" th:text="*{title}"></a>
+            </div>
+            <p class="place-address" th:text="*{address}"></p>
+            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>
+        </li>
+    </ul>
+</table>
+<script src="/front/js/tour/map.js"></script>
+</html>

@@ -186,4 +186,44 @@ window.addEventListener("DOMContentLoaded", function() {
             el.className = 'on';
         }
     }
+
+
+    function handlePlaceClick(element) {
+        // data-lat와 data-lng 속성에서 좌표를 가져옵니다
+        var lat = parseFloat(element.getAttribute('data-lat'));
+        var lng = parseFloat(element.getAttribute('data-lng'));
+
+        // 새로운 마커의 위치를 설정합니다
+        var markerPosition = new kakao.maps.LatLng(lat, lng);
+
+        // 기존 마커를 지웁니다 (만약 한 개의 마커만 표시하려고 한다면)
+        removeMarker2();
+
+        // 새로운 마커를 추가합니다
+        var marker = addMarker2(markerPosition);
+
+        // 지도 중심을 클릭한 장소로 이동시킵니다
+        map2.setCenter(markerPosition);
+
+        // 마커를 배열에 저장합니다
+        markers2.push(marker);
+    }
+
+// 마커를 추가하는 함수 (기존의 addMarker2 함수 사용)
+    function addMarker2(position) {
+        var marker = new kakao.maps.Marker({
+            position: position
+        });
+
+        marker.setMap(map2); // 지도에 마커를 표시합니다
+        return marker;
+    }
+
+// 기존의 removeMarker2 함수
+    function removeMarker2() {
+        for (var i = 0; i < markers2.length; i++) {
+            markers2[i].setMap(null);
+        }
+        markers2 = [];
+    }
 });

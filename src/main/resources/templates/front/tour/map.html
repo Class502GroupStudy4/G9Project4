@@ -16,7 +16,7 @@
         <!-- 검색 결과 컨테이너 -->
         <div id="search-results" class="search-results">
             <!-- 검색 결과 내용이 여기에 삽입됩니다 -->
-            <table th:replace="~{front/tour/_form::placeList}"></table>
+            <table th:replace="~{front/tour/_form2::placeList}"></table>
             <th:block th:replace="~{common/_pagination::pagination}"></th:block>
         </div>
     </div>
@@ -67,5 +67,9 @@
         </li>
     </ul>
 
+    <script type="text/javascript">
+        var mapData = [[${data}]];
+    </script>
+    <script src="/front/js/tour/map.js"></script>
 </main>
 </html>
