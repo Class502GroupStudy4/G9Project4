@@ -111,9 +111,11 @@ body.dark-theme {
     padding: 0;
     margin: 0;
 }
-main{
+
+main {
     width: 100% !important;
 }
+
 html {
     scroll-behavior: smooth;
 }
@@ -169,8 +171,6 @@ input {
 }
 
 
-
-
 /*=============== HOME ===============*/
 .home {
     position: relative;
@@ -188,6 +188,7 @@ input {
     object-fit: cover;
     z-index: -1;
 }
+
 /* 텍스트 및 소셜 아이콘이 나란히 배치된 컨테이너 */
 .home__container {
     display: flex;
@@ -309,10 +310,28 @@ input {
     background: none;
 }
 
-.ri-arrow-right-line{
+.ri-arrow-right-line {
     color: white;
 }
 
+/*special-box S*/
+.bg {
+    background: url("https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=dea079de-8bf6-4558-b788-f9d7e85ef30c") 50% center no-repeat rgb(255, 255, 255);
+    height: 415px;
+}
+.cont{
+    margin-top: -415px;
+    height: 418px;
+}
+.swiper {
+    width: 600px;
+    height: 300px;
+}
+.swiper-pagination{
+    height: 30px;
+    width:30px;
+}
+/*special-box E*/
 /*=============== ABOUT ===============*/
 .about__container {
     display: flex; /* Flexbox를 사용하여 자식 요소를 나란히 배치 */
