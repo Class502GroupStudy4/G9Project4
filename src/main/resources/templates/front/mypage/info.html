@@ -43,7 +43,7 @@
         <dl>
             <dt th:text="#{출생일}"></dt>
             <dd>
-                <input type="date" name="birth" th:field="*{birth}" required>
+                <input type="date" name="birth" th:value="*{birth}"  required>
                 <div class="error" th:each="err:${#fields.errors('birth')}" th:text="${err}"></div>
             </dd>
         </dl>
