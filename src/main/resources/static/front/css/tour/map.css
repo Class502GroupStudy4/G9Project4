@@ -319,3 +319,53 @@
 .search-results table tr:hover {
     background-color: #f5f5f5;
 }
+.wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+.wrap * {padding: 0;margin: 0;}
+.wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+.wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+.info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+.info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+.info .close:hover {cursor: pointer;}
+.info .body {position: relative;overflow: hidden;}
+.info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+.info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+.info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+.info .link {color: #5085BB;}
+/* 링크 강조를 위한 스타일 */
+.desc a {
+    color: #007bff; /* 링크의 기본 색상 */
+    font-weight: bold; /* 링크의 폰트 굵기 */
+    text-decoration: none; /* 기본 underline 제거 */
+}
+
+.desc a:hover {
+    color: #0056b3; /* 마우스를 올렸을 때 색상 */
+    text-decoration: underline; /* 마우스를 올렸을 때 underline 추가 */
+}
+
+.desc a:visited {
+    color: #0056b3; /* 방문한 링크의 색상 */
+}
+
+.photo-button {
+    position: absolute; /* 절대 위치 지정 */
+    bottom: 20px; /* 버튼의 아래쪽 여백 */
+    right: 20px;  /* 버튼의 오른쪽 여백 */
+    width: 50px;  /* 버튼의 너비 */
+    height: 50px; /* 버튼의 높이 */
+    background-image: url('/images/myloc.png'); /* 버튼 배경에 이미지 설정 */
+    background-size: cover; /* 배경 이미지가 버튼 크기에 맞게 조절됨 */
+    background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+    border: none; /* 버튼 테두리 제거 */
+    border-radius: 50%; /* 버튼을 둥글게 */
+    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 버튼에 그림자 추가 */
+    z-index: 10; /* 버튼을 다른 요소들 위에 표시 */
+}
+
+
+.photo-button:focus {
+    outline: none; /* 버튼 포커스 시 기본 테두리 제거 */
+}
