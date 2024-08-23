@@ -1,4 +1,5 @@
 package org.g9project4.calendar;
+import lombok.RequiredArgsConstructor;
 import org.g9project4.global.Utils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,9 @@ import java.util.*;
 
 @Lazy
 @Controller
+@RequiredArgsConstructor
 public class Calendar {
+    private final Utils utils;
     /**
      * 달력 데이터
      *
@@ -97,13 +100,13 @@ public class Calendar {
     public List<String> getYoils() {
 
         return Arrays.asList(
-                Utils.getMessage("일", "commons"),
-                Utils.getMessage("월", "commons"),
-                Utils.getMessage("화", "commons"),
-                Utils.getMessage("수", "commons"),
-                Utils.getMessage("목", "commons"),
-                Utils.getMessage("금", "commons"),
-                Utils.getMessage("토", "commons")
+                utils.getMessage("일"),
+                utils.getMessage("월"),
+                utils.getMessage("화"),
+                utils.getMessage("수"),
+                utils.getMessage("목"),
+                utils.getMessage("금"),
+                utils.getMessage("토")
         );
     }
 }
