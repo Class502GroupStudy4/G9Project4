@@ -57,6 +57,7 @@ public class TourController implements ExceptionProcessor {
         } else if (mode.equals("view")) {
             addCss.addAll(List.of("tour/map","tour/sidebar"));
             addScript.addAll(List.of("tour/map","tour/sidebar"));
+
         } else if(mode.equals("geoLocation")){
             addCommonCss.add("banner");
             addCss.addAll(List.of("tour/list","tour/_typelist"));
@@ -88,9 +89,12 @@ public class TourController implements ExceptionProcessor {
     }
 
     @GetMapping("/view")
-    public String view(Model model) {
+    public String view(Model model, @ModelAttribute TourPlaceSearch search) {
+        search.setContentType(null);
+        ListData<TourPlace> data = placeInfoService.getSearchedList(search);
         commonProcess("view", model);
-        return utils.tpl("/tour/map");
+        addListProcess(model, data);
+        return utils.tpl("tour/map");
     }
 
     @GetMapping("/list")
