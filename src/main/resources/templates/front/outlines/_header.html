@@ -51,7 +51,7 @@
                 </div>
             </nav>
             <div class="dropdown layout-right my-account">
-                <a th:for="mypage" th:href="${@utils.redirectUrl('mypage')}">
+                <a th:for="mypage" th:href="${@utils.redirectUrl('/mypage')}">
                     <i th:id="mypage" class="xi-profile-o"></i></a>
                 <div class=" dropdown-content" sec:authorize="isAnonymous()">
                     <a th:href="${@utils.redirectUrl('/member/login')}" th:text="#{로그인}">
