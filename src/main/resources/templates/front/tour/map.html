@@ -3,26 +3,28 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 
-<main layout:fragment="content">
+<main layout:fragment="content" class="tour-map">
+    <div class="search-form">
+        <form id="search_form" name="frmSearch" method="get" autocomplete="off"
+              th:action="${@utils.redirectUrl('/tour/view')}" th:object="${tourPlaceSearch}">
+            <input type="hidden" th:value="TITLE_ADDRESS" name="sopt">
+            <input type="text" name="skey" th:field="*{skey}" th:placeholder="#{여행지로_검색}">
+            <button class="search-button" type="submit">
+                <i class="xi-search"></i>
+            </button>
+        </form>
+        <!-- 검색 결과 컨테이너 -->
+        <div id="search-results" class="search-results">
+            <!-- 검색 결과 내용이 여기에 삽입됩니다 -->
+            <table th:replace="~{front/tour/_form::searchSidebar}"></table>
+            <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+        </div>
+    </div>
     <th:block layout:fragment="addCommonScript">
         <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43a2034cb765c278f32c3be400fa5515&libraries=services"></script>
     </th:block>
     <div class="map_wrap">
         <div id="map"></div>
-
-        <div id="menu_wrap" class="bg_white">
-            <div class="option">
-                <div>
-                    <form onsubmit="searchPlaces(); return false;">
-                        키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15">
-                        <button type="submit">검색하기</button>
-                    </form>
-                </div>
-            </div>
-            <hr>
-            <ul id="placesList"></ul>
-            <div id="pagination"></div>
-        </div>
         <div id="sidebar">
             <!-- 사이드 바 내용 -->
             <h2>사이드 바</h2>
