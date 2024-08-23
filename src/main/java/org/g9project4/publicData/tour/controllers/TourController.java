@@ -1,6 +1,8 @@
 package org.g9project4.publicData.tour.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.g9project4.config.controllers.ApiConfig;
+import org.g9project4.config.service.ConfigInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
@@ -33,7 +35,14 @@ public class TourController implements ExceptionProcessor {
     private final TourPlaceRepository tourPlaceRepository;
     private final TourPlaceInfoService placeInfoService;
     private final TourDetailInfoService detailInfoService;
+    private final ConfigInfoService configInfoService;
+
     private final Utils utils;
+
+    @ModelAttribute("apiKeys")
+    public ApiConfig getApiKeys() {
+        return configInfoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
+    }
 
     private void addListProcess(Model model, ListData<TourPlace> data) {
         Pagination pagination = data.getPagination();
@@ -49,21 +58,17 @@ public class TourController implements ExceptionProcessor {
         List<String> addScript = new ArrayList<>();
         if (mode.equals("list")) {
             addCommonCss.add("banner");
-            addCss.addAll(List.of("tour/list","tour/_typelist"));
+            addCss.addAll(List.of("tour/list", "tour/_typelist"));
+            addScript.add("tour/locBased");
         } else if (mode.equals("detail")) {
             addCss.add("tour/map");
             addScript.add("tour/detailMap");
             addCommonScript.add("map");
         } else if (mode.equals("view")) {
-            addCss.addAll(List.of("tour/map","tour/sidebar"));
-            addScript.addAll(List.of("tour/map","tour/sidebar"));
-
-        } else if(mode.equals("geoLocation")){
-            addCommonCss.add("banner");
-            addCss.addAll(List.of("tour/list","tour/_typelist"));
-            addScript.add("tour/locBased");
+            addCss.addAll(List.of("tour/map", "tour/sidebar"));
+            addScript.addAll(List.of("tour/map", "tour/sidebar"));
         }
-        model.addAttribute("addCss",addCss);
+        model.addAttribute("addCss", addCss);
         model.addAttribute("addCommonCss", addCommonCss);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
@@ -83,6 +88,7 @@ public class TourController implements ExceptionProcessor {
 
         return utils.tpl("tour/list");
     }
+
     @GetMapping("/popup")
     public String popup(Model model) {
         return utils.tpl("tour/popup");
@@ -108,7 +114,6 @@ public class TourController implements ExceptionProcessor {
 
     @GetMapping("/list/{type}")
     public String list(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
-
         try {
             search.setContentType(utils.typeCode(type));
             if (search.getContentType() == ContentType.GreenTour) {
@@ -126,14 +131,14 @@ public class TourController implements ExceptionProcessor {
 
     @GetMapping("/list/loc/{type}")
     public String distanceList(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
-        try{
-            commonProcess("getLocation",model);
+        try {
+            commonProcess("getLocation", model);
             search.setLatitude(37.566826);
             search.setLongitude(126.9786567);
             search.setRadius(1000);
             ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
-            addListProcess(model,data);
-        }catch(Exception e){
+            addListProcess(model, data);
+        } catch (Exception e) {
             e.printStackTrace();
             throw new TourPlaceNotFoundException();
         }

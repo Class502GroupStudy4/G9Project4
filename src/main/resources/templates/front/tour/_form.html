@@ -4,7 +4,12 @@
     <h1 th:if="${tourPlaceSearch.contentType!=null}"
         th:text="${#strings.concat(tourPlaceSearch.contentType.getType,' 리스트보기')}"></h1>
     <h1>리스트 보기</h1>
-    <h4 th:if="${pagination!=null}" th:text="${'검색된 항목 : '+pagination.total}"></h4>
+    <div>
+        <h4 th:if="${pagination!=null}" th:text="${'검색된 항목 : '+pagination.total}"></h4>
+        <div class="sbtn">
+            <button id="search-distance" th:text="#{거리순}"></button>
+        </div>
+    </div>
     <ul class="list_thumType place" th:each="item, s:${items}" th:object="${item}">
         <li class="bdr_nor">
             <div class="place-photo">
