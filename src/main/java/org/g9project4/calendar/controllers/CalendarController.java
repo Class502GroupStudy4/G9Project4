@@ -30,7 +30,7 @@ public class CalendarController {
 
 
         model.addAttribute("addCss", new String[] { "calendar/style"});
-        model.addAttribute("addCommonScript", new String[] { "calendar" });
+        model.addAttribute("addCommonScript", new String[] { "calender/calendar" });
 
         return utils.tpl("calendar/index");
     }

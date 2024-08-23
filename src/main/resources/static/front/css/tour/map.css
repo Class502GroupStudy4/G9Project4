@@ -1,4 +1,7 @@
 /* 지도와 메뉴를 포함하는 래퍼 */
+.tour-map{
+    width: 100%;
+}
 .map_wrap {
     position: relative;
     width: 100%;

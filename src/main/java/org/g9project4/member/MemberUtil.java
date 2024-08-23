@@ -8,6 +8,7 @@ import org.g9project4.member.entities.Authorities;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.repositories.MemberRepository;
 import org.g9project4.member.services.MemberInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -19,9 +20,6 @@ import java.util.List;
 public class MemberUtil {
 
     private final MemberRepository repository;
-
-    private final HttpSession session;
-    private MemberInfoService infoService;
 
     public boolean isLogin() {
         return getMember() != null;
@@ -49,6 +47,6 @@ public class MemberUtil {
             }
         }
 
-            return member;
-        }
+        return member;
     }
+}
