@@ -1,6 +1,7 @@
 package org.g9project4.publicData.tour.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
@@ -11,11 +12,7 @@ import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.publicData.greentour.entities.GreenPlace;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.publicData.tour.entities.TourPlace;
-import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
-import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
-import org.g9project4.tourvisit.controllers.VisitSearch;
-import org.g9project4.tourvisit.services.VisitInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,12 +26,10 @@ import java.util.List;
 @RequestMapping("/tour")
 @RequiredArgsConstructor
 public class TourController implements ExceptionProcessor {
-    private final TourPlaceRepository tourPlaceRepository;
+
     private final TourPlaceInfoService placeInfoService;
-    private final TourDetailInfoService detailInfoService;
     private final Utils utils;
 
-    private final VisitInfoService visitInfoService;
 
     private void addListProcess(Model model, ListData<TourPlace> data) {
         Pagination pagination = data.getPagination();
@@ -77,26 +72,62 @@ public class TourController implements ExceptionProcessor {
         commonProcess("view", model);
         return utils.tpl("/tour/map");
     }
+
+
     @GetMapping("/list")
-    public String list(Model model, @ModelAttribute TourPlaceSearch search) {
-        search.setContentType(null);
+    public String list(@ModelAttribute TourPlaceSearch search, Model model) {
+        // 기본 정렬 기준과 방향 설정
+        String sortField = search.getSort() != null ? search.getSort() : "contentId";
+        String sortDirection = search.getSortDirection() != null ? search.getSortDirection() : "asc";
+
+        // 특정 필드에 대해 정렬 방향을 설정
+        if ("contentId".equals(sortField)) {
+            sortDirection = "asc"; // contentId는 오름차순
+        } else if ("placePointValue".equals(sortField)) {
+            sortDirection = "desc"; // placePointValue는 내림차순
+        }
+
+        search.setSort(sortField);
+        search.setSortDirection(sortDirection);
+
+        // 데이터 가져오기
         ListData<TourPlace> data = placeInfoService.getSearchedList(search);
+
+        // 공통 처리 및 데이터 추가
         commonProcess("list", model);
         addListProcess(model, data);
-        return utils.tpl("tour/list");
+        // 템플릿 반환
+        return utils.tpl("tour/list"); // 템플릿 경로 수정 필요시 조정
     }
+
 
     @GetMapping("/list/{type}")
     public String list(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
-
         try {
+            // ContentType을 설정
             search.setContentType(utils.typeCode(type));
+
+            // 정렬 기준 및 방향 처리
+            String sortField = (search.getSort() != null && !search.getSort().isEmpty()) ? search.getSort() : "contentId";
+            String sortDirection = (search.getSortDirection() != null && !search.getSortDirection().isEmpty()) ? search.getSortDirection() : "asc";
+
+            // 설정된 정렬 기준과 방향을 search 객체에 설정
+            search.setSort(sortField);
+            search.setSortDirection(sortDirection);
+
+            // GreenTour 타입에 대한 별도 처리
             if (search.getContentType() == ContentType.GreenTour) {
                 return greenList(search, model);
             }
+
+            // 데이터 가져오기
             ListData<TourPlace> data = placeInfoService.getSearchedList(search);
+
+            // 공통 처리 및 데이터 추가
             commonProcess("list", model);
             addListProcess(model, data);
+
+            // 템플릿 반환
             return utils.tpl("tour/list");
         } catch (BadRequestException e) {
             e.printStackTrace();
@@ -119,6 +150,8 @@ public class TourController implements ExceptionProcessor {
         }
         return utils.tpl("tour/list");
     }
+
+
 
 //    @GetMapping("/detail/{contentId}")
 //    public String detail(@PathVariable("contentId") Long contentId, Model model) {

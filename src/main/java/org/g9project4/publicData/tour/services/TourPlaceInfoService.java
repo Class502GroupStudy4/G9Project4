@@ -1,6 +1,7 @@
 package org.g9project4.publicData.tour.services;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import com.querydsl.jpa.impl.JPAQuery;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
+import org.g9project4.global.exceptions.BadRequestException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.publicData.greentour.entities.GreenPlace;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.springframework.data.domain.Sort.Order.asc;
+import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @RequiredArgsConstructor
@@ -61,7 +63,7 @@ public class TourPlaceInfoService {
                 List<Long> ids = response.getBody().getResponse().getBody().getItems().getItem().stream().map(ApiItem::getContentid).toList();
                 if (!ids.isEmpty()) {
                     QTourPlace tourPlace = QTourPlace.tourPlace;
-                    List<TourPlace> items = (List<TourPlace>) repository.findAll(tourPlace.contentId.in(ids), Sort.by(asc("contentId")));
+                    List<TourPlace> items = (List<TourPlace>) repository.findAll(tourPlace.contentId.in(ids), Sort.by(desc("contentId")));
 
                     return items;
                 } // endif
@@ -73,37 +75,6 @@ public class TourPlaceInfoService {
         return null;
     }
 
-    //여행추천-핫플추천 탑20곳:  여행지 점수 내림차순으로 정렬
-    public ListData<TourPlace> getTotalVisitList(TourPlaceSearch search) {
-        // 페이지 번호와 한 페이지당 항목 수를 설정합니다.
-        int page = Math.max(search.getPage(), 1);
-        int limit = 10;  // 한 페이지당 10개의 항목을 보여줍니다.
-
-        // 오프셋 계산
-        int offset = (page - 1) * limit;
-
-        // JPA 쿼리 작성
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QTourPlace tourPlace = QTourPlace.tourPlace;
-
-        // placePointValue 기준으로 내림차순 정렬하여 상위 20개의 항목을 가져옵니다.
-        List<TourPlace> items = queryFactory.selectFrom(tourPlace)
-                .orderBy(tourPlace.placePointValue.desc())  // placePointValue 기준 내림차순 정렬
-                .limit(20)  // 최대 20개의 항목만 가져옵니다.
-                .fetch();
-
-        // 상위 20개 항목에서 필요한 페이지의 10개 항목을 가져옵니다.
-        List<TourPlace> paginatedItems = items.stream()
-                .skip(offset)
-                .limit(limit)
-                .collect(Collectors.toList());
-
-        // 페이지네이션 설정
-        Pagination pagination = new Pagination(page, (int) items.size(), 0, limit, request);
-
-        // 가져온 데이터를 반환
-        return new ListData<>(paginatedItems, pagination);
-    }
 
     public ListData<TourPlace> getTotalList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
@@ -115,7 +86,7 @@ public class TourPlaceInfoService {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QTourPlace tourPlace = QTourPlace.tourPlace;
         List<TourPlace> items = queryFactory.selectFrom(tourPlace)
-                .orderBy(tourPlace.contentId.asc())
+                .orderBy(tourPlace.placePointValue.desc())
                 .offset(offset)
                 .limit(limit)
                 .fetch();
@@ -182,15 +153,21 @@ public class TourPlaceInfoService {
     public ListData<TourPlace> getSearchedList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
-        limit = limit < 1 ? 20 : limit;
-        int offset = page * limit + 1;
+        limit = limit < 1 ? 20 : limit; // 기본값 설정
+        int offset = (page - 1) * limit; // 페이지 오프셋 수정
 
-        /* 검색 조건 처리 S */
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QTourPlace tourPlace = QTourPlace.tourPlace;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-        String sopt = search.getSopt();
-        String skey = search.getSkey();
+        // 검색 조건 처리
+        String sopt = (search.getSopt() != null && !search.getSopt().isEmpty()) ? search.getSopt().toUpperCase() : "ALL";
+        String skey = (search.getSkey() != null) ? search.getSkey().trim() : "";
+
+        if (search.getContentType() != null) {
+            andBuilder.and(tourPlace.contentTypeId.eq(search.getContentType().getId()));
+        }
+
 
         sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
 
@@ -208,37 +185,47 @@ public class TourPlaceInfoService {
 
                 andBuilder.and(addressCond);
 
-            } else if (sopt.equals("TITLE_ADDRESS")) { // 제목 + 내용
-
+            } else if (sopt.equals("TITLE_ADDRESS") || sopt.equals("ALL")) { // 제목 + 내용
                 BooleanBuilder orBuilder = new BooleanBuilder();
                 orBuilder.or(titleCond)
                         .or(addressCond);
-
                 andBuilder.and(orBuilder);
-
             }
 
         }
 
-        /* 검색 조건 처리 E */
 
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        int count = queryFactory.selectFrom(tourPlace)
-                .where(andBuilder).fetch().size();
+        // 총 항목 수 계산
+        long totalCount = queryFactory.selectFrom(tourPlace)
+                .where(andBuilder)
+                .fetchCount();
+
+        // 정렬 기준 및 방향 처리
+        String sortField = (search.getSort() != null && !search.getSort().isEmpty()) ? search.getSort() : "contentId";
+        String sortDirection = (search.getSortDirection() != null && !search.getSortDirection().isEmpty()) ? search.getSortDirection() : "asc";
+
         JPAQuery<TourPlace> query = queryFactory.selectFrom(tourPlace)
-                .orderBy(tourPlace.contentId.asc())
+                .where(andBuilder)
+                .orderBy(getOrderSpecifier(sortField, sortDirection, tourPlace))
                 .offset(offset)
-                .limit(limit)
-                .where(andBuilder);
+                .limit(limit);
+
+        // 항목 데이터 가져오기
         List<TourPlace> items = query.fetch();
-        Pagination pagination = new Pagination(page, count, 0, limit, request);
+
+        // 페이지네이션 설정
+        Pagination pagination = new Pagination(page, (int) totalCount, 0, limit, request);
+
         return new ListData<>(items, pagination);
     }
 
-/*. 경미: 특히 null 상태에서 메서드를 호출하거나 double로 자동 변환할 때 NullPointerException이 발생할 수 있기에 추가 */
-    public double processDistance(TourPlace tourPlace) {
-        Optional<Double> optionalDistance = Optional.ofNullable(tourPlace.getDistance());
-        return optionalDistance.orElse(0.0);  // distance가 null일 경우 0.0으로 대체
+    // 정렬 필드와 방향을 기반으로 OrderSpecifier 생성
+    private OrderSpecifier<?> getOrderSpecifier(String sortField, String sortDirection, QTourPlace tourPlace) {
+        if ("placePointValue".equals(sortField)) {
+            return "desc".equalsIgnoreCase(sortDirection) ? tourPlace.placePointValue.desc() : tourPlace.placePointValue.asc();
+        }
+        // 기본 정렬 필드
+        return "desc".equalsIgnoreCase(sortDirection) ? tourPlace.contentId.desc() : tourPlace.contentId.asc();
     }
 
 

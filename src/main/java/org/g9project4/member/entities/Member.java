@@ -6,6 +6,7 @@ import lombok.*;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.member.constants.Gender;
+import org.g9project4.member.constants.Interests;
 import org.g9project4.publicData.tour.entities.TourPlace;
 
 import java.io.Serializable;
@@ -15,9 +16,11 @@ import java.util.List;
 @Data
 @Entity
 @Builder
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member extends BaseEntity implements Serializable {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long seq;
 
     @Column(length = 45, nullable = false)
@@ -26,13 +29,13 @@ public class Member extends BaseEntity implements Serializable {
     @Column(length = 65, unique = true, nullable = false)
     private String email;
 
-    @Column(length = 65,nullable = false)
+    @Column(length = 65, nullable = false)
     private String password;
 
-    @Column(length = 40,nullable = false)
+    @Column(length = 40, nullable = false)
     private String userName;
 
-    @Column(length=15,nullable = false)
+    @Column(length = 15, nullable = false)
     private String mobile;
 
     @Column(nullable = false)
@@ -46,6 +49,11 @@ public class Member extends BaseEntity implements Serializable {
     @Column(nullable = false)
     private Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
 
+    //@NotNull
+//    @Enumerated(EnumType.STRING) // Enum 값을 데이터베이스에 문자열로 저장
+//    @Column(nullable = false)
+//    private Interests interests; // 관심사 (맛집 | 호캉스 | 박물관 | 캠핑 | 등산 | 자연 | 예술 | 강/바다 | 아이와 함께 | 온가족 함께 | 연인과 함께 | 낚시)
+//                                //MATJIB, HOCANCE, MUSEUM, CAMPING, HIKING, NATURE, ART, SEA, WITHCHILD, WITHFAMILY, WITHLOVER, FISHING
     @ToString.Exclude
     @OneToMany(mappedBy = "member")
     private List<Authorities> authorities;

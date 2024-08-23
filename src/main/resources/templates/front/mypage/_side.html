@@ -5,5 +5,7 @@
 <aside class="sidebar" th:fragment="menus">
     <a th:href="${@utils.redirectUrl('/mypage/info')}" th:text="#{내_정보수정}" class="sidebar-item"></a>
     <a th:href="${@utils.redirectUrl('/mypage/mypost')}" th:text="#{내_게시글}" class="sidebar-item"></a>
+    <a th:href="${@utils.redirectUrl('/mypage/myplace')}" th:text="#{맞춤여행지}" class="sidebar-item"></a>
+    <a th:href="${@utils.redirectUrl('/mypage/visitplace')}" th:text="#{방문기록_맞춤여행지}" class="sidebar-item"></a>
 </aside>
 </html>

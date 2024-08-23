@@ -34,4 +34,8 @@ public class TourPlaceSearch extends RequestPage {
 
     private List<Long> seq; // 게시글 번호
     private Integer radius = 1000;
+
+    // 추가된 정렬 기준
+    private String sort; // 정렬 기준 (예: "contentId", "placePointValue")
+    private String sortDirection; // 정렬 방향 (예: "asc" 또는 "desc")
 }
