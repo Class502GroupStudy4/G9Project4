@@ -97,6 +97,7 @@ public class PlannerController implements ExceptionProcessor {
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "write";
         List<String> addCss = new ArrayList<>();
+        List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
         addCss.add("planner/style");
         //플래너 작성, 수정
