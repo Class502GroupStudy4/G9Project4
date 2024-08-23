@@ -298,5 +298,13 @@ main {
     width: 100%;
     height: 100%;
 }
-
 /* 프로필 공통 E */
+
+/* 찜하기 */
+.wishlist-toggle {
+    cursor: pointer;
+}
+
+.wishlist-toggle.on {
+    color: blue;
+}
