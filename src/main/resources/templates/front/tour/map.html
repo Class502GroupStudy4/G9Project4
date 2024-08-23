@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{front/layouts/main2}">
+      layout:decorate="~{front/layouts/main}">
 
-<main layout:fragment="content">
+<main layout:fragment="content" class="tour-map">
     <div class="search-form">
         <form id="search_form" name="frmSearch" method="get" autocomplete="off"
               th:action="${@utils.redirectUrl('/tour/view')}" th:object="${tourPlaceSearch}">
