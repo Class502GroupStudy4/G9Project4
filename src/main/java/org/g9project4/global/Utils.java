@@ -45,27 +45,6 @@ public class Utils { // 빈의 이름 - utils
             return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
         }
     }
-    public static String getMessage(String code, String type) {
-        try {
-            type = StringUtils.hasText(type) ? type : "validations";
-
-            ResourceBundle bundle = null;
-            if (type.equals("commons")) {
-                bundle = commonsBundle;
-            } else if (type.equals("errors")) {
-                bundle = errorsBundle;
-            } else {
-                bundle = validationsBundle;
-            }
-
-            return bundle.getString(code);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-
     public String redirectUrl(String url) {
         String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
