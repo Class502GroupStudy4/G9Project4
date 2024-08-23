@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.g9project4.member.constants.Authority;
 import org.g9project4.member.entities.Authorities;
 import org.g9project4.member.entities.Member;
+import org.g9project4.member.repositories.MemberRepository;
 import org.g9project4.member.services.MemberInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -17,6 +17,8 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class MemberUtil {
+
+    private final MemberRepository repository;
 
     private final HttpSession session;
     private MemberInfoService infoService;
@@ -37,11 +39,16 @@ public class MemberUtil {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        Member member = null;
         if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
-            return memberInfo.getMember();
+            member = memberInfo.getMember();
+            if (member == null) {
+                member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
+                memberInfo.setMember(member);
+            }
         }
 
-            return null;
+            return member;
         }
     }
