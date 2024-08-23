@@ -20,10 +20,8 @@ import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +55,9 @@ public class TourController implements ExceptionProcessor {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
         if (mode.equals("list")) {
-            addCommonCss.add("banner");
+            addCss.addAll(List.of("tour/list", "tour/_typelist"));
+            addScript.add("tour/locBased");
+        } else if (mode.equals("geolocation")) {
             addCss.addAll(List.of("tour/list", "tour/_typelist"));
             addScript.add("tour/locBased");
         } else if (mode.equals("detail")) {
@@ -115,7 +115,7 @@ public class TourController implements ExceptionProcessor {
     @GetMapping("/list/{type}")
     public String list(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
         try {
-            search.setContentType(utils.typeCode(type));
+            if (StringUtils.hasText(type)) search.setContentType(utils.typeCode(type));
             if (search.getContentType() == ContentType.GreenTour) {
                 return greenList(search, model);
             }
@@ -129,13 +129,15 @@ public class TourController implements ExceptionProcessor {
         }
     }
 
-    @GetMapping("/list/loc/{type}")
-    public String distanceList(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
+    @GetMapping("/distance/list")
+    public String distanceList(/*@PathVariable(name = "type", required = false) String type,*/ @RequestParam("latitude") Double latitude,
+                                                                                               @RequestParam("longitude") Double longitude,
+                                                                                               @RequestParam(name = "radius", required = false) Integer radius, @ModelAttribute TourPlaceSearch search, Model model) {
         try {
-            commonProcess("getLocation", model);
-            search.setLatitude(37.566826);
-            search.setLongitude(126.9786567);
-            search.setRadius(1000);
+            commonProcess("geolocation", model);
+            search.setLatitude(latitude);
+            search.setLongitude(longitude);
+            search.setRadius(radius);
             ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
             addListProcess(model, data);
         } catch (Exception e) {

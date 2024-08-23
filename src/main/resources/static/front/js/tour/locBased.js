@@ -5,15 +5,28 @@ window.addEventListener("DOMContentLoaded", function () {
                 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
                 navigator.geolocation.getCurrentPosition(function (position) {
 
-                    var lat = position.coords.latitude, // 위도
-                        lon = position.coords.longitude; // 경도
-                    console.log(lat,lon);
-                    const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?MobileOS=and&MobileApp=test&_type=json&mapX=${lon}&mapY=${lat}&radius=1000&serviceKey=n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7%2FO8PURKNOFmsHrqUp2glA%3D%3D`;
-                    const options = {
-                        method : "GET",
+                    const currentLocation = {
+                        latitude: position.coords.latitude, // 위도
+                        longitude: position.coords.longitude,// 경도
+                        radius: 1000
                     }
-                    fetch(url,options).then(function (response) {
-                        console.log(response.json());
+                    const queryString = new URLSearchParams(currentLocation).toString();
+                    console.log(queryString);
+                    fetch(`/tour/distance/list?${queryString}`, {
+                        method: 'GET',
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error;
+                            }
+                            console.log(response.text());
+                        })
+                        .then(data => {
+                            // 페이지 이동
+                            // 예를 들어, '/tour/details'로 이동
+                            window.location.href = `/tour/distance/list?${queryString}`;  // 원하는 URL로 변경 가능
+                        }).catch(error => {
+                        console.log(error);
                     })
                 });
             }

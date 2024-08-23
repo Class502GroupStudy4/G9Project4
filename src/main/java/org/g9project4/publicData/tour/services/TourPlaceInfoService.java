@@ -67,9 +67,15 @@ public class TourPlaceInfoService {
                 List<Long> ids = response.getBody().getResponse().getBody().getItems().getItem().stream().map(ApiItem::getContentid).toList();
                 if (!ids.isEmpty()) {
                     QTourPlace tourPlace = QTourPlace.tourPlace;
-                    List<TourPlace> items = (List<TourPlace>) repository.findAll(tourPlace.contentId.in(ids), Sort.by(asc("contentId")));
-                    int count = items.size();
+                    JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+                    List<TourPlace> items = queryFactory.selectFrom(tourPlace)
+                            .where(tourPlace.contentId.in(ids))
+                            .offset(offset)
+                            .limit(limit)
+                            .fetch();
+                    int count = ids.size();
                     Pagination pagination = new Pagination(page, count, 0, limit, request);
+                    System.out.println(pagination.toString());
                     return new ListData<>(items, pagination);
                 } // endif
             } // endif
