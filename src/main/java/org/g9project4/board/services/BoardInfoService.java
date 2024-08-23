@@ -16,6 +16,7 @@ import org.g9project4.board.entities.QBoardData;
 import org.g9project4.board.exceptions.BoardDataNotFoundException;
 import org.g9project4.board.exceptions.BoardNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
+import org.g9project4.board.repositories.BoardRepository;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.file.services.FileInfoService;
 import org.g9project4.global.CommonSearch;
@@ -26,6 +27,7 @@ import org.g9project4.global.constants.DeleteStatus;
 import org.g9project4.wishlist.constants.WishType;
 import org.g9project4.wishlist.services.WishListService;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -33,6 +35,8 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @Transactional
@@ -43,10 +47,15 @@ public class BoardInfoService {
     private final BoardDataRepository repository;
     private final BoardConfigInfoService configInfoService;
     private final FileInfoService fileInfoService;
-    private final WishListService wishListService;
+    private final BoardRepository boardRepository;
     private final HttpServletRequest request;
     private final ModelMapper modelMapper;
     private final Utils utils;
+    private final WishListService wishListService;
+
+    public List<Board> getBoardList(){
+        return boardRepository.findAll(Sort.by(desc("listOrder"))).stream().toList();
+    }
 
     /**
      * 게시글 목록 조회
