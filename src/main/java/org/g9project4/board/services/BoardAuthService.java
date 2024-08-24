@@ -13,6 +13,8 @@ import org.g9project4.member.constants.Authority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 @Service
 @Setter
 @RequiredArgsConstructor
@@ -44,21 +46,21 @@ public class BoardAuthService {
             board = boardData.getBoard();
         }
 
-        //게시글 목록 접근 권한 체크
+        // 게시글 목록 접근 권한 체크
         Authority authority = board.getListAccessType();
-        if (mode.equals("list") && authority == Authority.USER && !memberUtil.isLogin()) {
+        if (mode.equals("list") && ((authority == Authority.USER && !memberUtil.isLogin()) || (authority == Authority.ADMIN && !memberUtil.isAdmin()))) {
             throw new UnAuthorizedException();
         }
 
-        //게시글 보기 접근 권한 체크
+        // 게시글 보기 접근 권한 체크
         Authority viewAuthority = board.getViewAccessType();
-        if (mode.equals("view") && viewAuthority == Authority.USER && !memberUtil.isLogin()) {
+        if (mode.equals("view") && ((viewAuthority == Authority.USER && !memberUtil.isLogin()) || (viewAuthority == Authority.ADMIN && !memberUtil.isAdmin()))) {
             throw new UnAuthorizedException();
         }
 
         // 글쓰기 접근 권한 체크
         Authority writeAuthority = board.getWriteAccessType();
-        if (mode.equals("write") && writeAuthority == Authority.USER && !memberUtil.isLogin()) {
+        if (mode.equals("write") && ((writeAuthority == Authority.USER && !memberUtil.isLogin()) || (writeAuthority == Authority.ADMIN && !memberUtil.isAdmin()))) {
             throw new UnAuthorizedException();
         }
 
@@ -68,11 +70,13 @@ public class BoardAuthService {
          *          - 비회원 게시글은 인증 여부 체크 -> 인증 X -> 비밀번호 확인 페이지로 이동 검증
          *          - 검증 완료된 경우, 문제 X
          */
-        if (!boardData.isEditable()) {
+        if (List.of("update", "delete").contains(mode) && !boardData.isEditable()) {
             if (boardData.getMember() == null) {
                 //비회원 게시글 - 비밀번호 검증 필요
                 throw new GuestPasswordCheckException();
             }
+
+            throw new UnAuthorizedException();
         }
 
     }
