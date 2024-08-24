@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.board.controllers.BoardDataSearch;
 import org.g9project4.board.controllers.RequestBoard;
@@ -24,6 +25,9 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.constants.DeleteStatus;
+import org.g9project4.member.MemberUtil;
+import org.g9project4.member.constants.Authority;
+import org.g9project4.member.entities.Member;
 import org.g9project4.wishlist.constants.WishType;
 import org.g9project4.wishlist.services.WishListService;
 import org.modelmapper.ModelMapper;
@@ -50,6 +54,7 @@ public class BoardInfoService {
     private final BoardRepository boardRepository;
     private final HttpServletRequest request;
     private final ModelMapper modelMapper;
+    private final MemberUtil memberUtil;
     private final Utils utils;
     private final WishListService wishListService;
 
@@ -83,7 +88,8 @@ public class BoardInfoService {
         String sopt = search.getSopt();
         String skey = search.getSkey();
 
-
+        List<String> categories = search.getCategory();
+        Boolean notice = search.getNotice();
 
         /* 검색 처리 S */
         QBoardData boardData = QBoardData.boardData;
@@ -104,6 +110,16 @@ public class BoardInfoService {
 
         if (bids != null && !bids.isEmpty()){ // 게시판 여러개 조회
             andBuilder.and(boardData.board.bid.in(bids));
+        }
+
+        // 분류 검색 처리
+        if (categories != null && !categories.isEmpty()) {
+            andBuilder.and(boardData.category.in(categories));
+        }
+
+        // 공지글 검색
+        if (notice != null) {
+            andBuilder.and(boardData.notice.eq(notice));
         }
 
         /**
@@ -348,5 +364,72 @@ public class BoardInfoService {
         item.setEditorImages(editorImages);
         item.setAttachFiles(attachFiles);
         // 업로드한 파일 목록 E
+
+        /* 게시글 권한 정보 처리 S */
+        boolean editable = false, commentable = false, mine = false;
+
+        // 관리자는 모든 권한 가능
+        if (memberUtil.isAdmin()) {
+            editable = commentable = true;
+        }
+
+        // 회원 - 직접 작성한 게시글인 경우만 수정,삭제(editable)
+        Member boardMember = item.getMember(); // 게시글을 작성한 회원
+        Member loggedMember = item.getMember(); // 로그인한 회원
+        if (boardMember != null && memberUtil.isLogin() && boardMember.getEmail().equals(loggedMember.getEmail())) {
+            editable = true; // 수정, 삭제 가능
+            mine = true; // 게시글 소유자
+        }
+
+        // 비회원 - 비회원 비밀번호를 검증한 경우 - 게시글 소유자, 수정, 삭제 가능
+        // 비회원이 비밀번호를 검증한 경우 세션 키 : confirmed_board_data_게시글번호, 값 true
+        HttpSession session = request.getSession();
+        Boolean guestConfirmed = (Boolean)session.getAttribute("confirm_board_data_" + item.getSeq());
+        if (boardMember == null && guestConfirmed != null && guestConfirmed) { // 비회원 비밀번호가 인증된 경우
+            editable = true;
+            mine = true;
+        }
+
+        // 댓글 작성 가능 여부 - 전체 : 모두 가능(비회원 + 회원 + 관리자), 회원 + 관리자 , 관리자
+        Board board = item.getBoard();
+        Authority authority = board.getCommentAccessType();
+        if (authority == Authority.ALL || memberUtil.isAdmin()) {
+            commentable = true;
+        }
+
+        if (authority == Authority.USER && memberUtil.isLogin()) {
+            commentable = true;
+        }
+
+        item.setEditable(editable);
+        item.setCommentable(commentable);
+        item.setMine(mine);
+
+        /* 게시글 권한 정보 처리 E */
+
+        // 게시글 버튼 노출 권한 처리 S
+        boolean showEdit = false, showList= false, showDelete = false;
+
+        Authority editAuthority = board.getWriteAccessType(); // 글작성, 수정 권한
+        Authority listAuthority = board.getListAccessType(); // 글목록 보기 권한
+
+
+        if (editAuthority == Authority.ALL || boardMember == null ||
+                (editAuthority == Authority.USER && memberUtil.isLogin())) { // 수정 삭제 권한이 ALL인 경우, 비회원인 경우, 회원만 가능한 경우 + 로그인한 경우 수정, 삭제 버튼 클릭시 비회원 검증 하므로 노출
+            showEdit = showDelete = true;
+        }
+
+        if (listAuthority == Authority.ALL || (listAuthority == Authority.USER && memberUtil.isLogin())) {
+            showList = true;
+        }
+
+        if (memberUtil.isAdmin()) { // 관리자는 모든 권한 가능
+            showEdit = showDelete = showList = true;
+        }
+
+        item.setShowEdit(showEdit);
+        item.setShowDelete(showDelete);
+        item.setShowList(showList);
+        // 게시글 버튼 노출 권한 처리 E
     }
 }

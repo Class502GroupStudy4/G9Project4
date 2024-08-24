@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
 import org.g9project4.board.exceptions.BoardNotFoundException;
-import org.g9project4.board.services.BoardConfigInfoService;
-import org.g9project4.board.services.BoardDeleteService;
-import org.g9project4.board.services.BoardInfoService;
-import org.g9project4.board.services.BoardSaveService;
+import org.g9project4.board.services.*;
 import org.g9project4.board.validators.BoardValidator;
 import org.g9project4.file.constants.FileStatus;
 import org.g9project4.file.entities.FileInfo;
@@ -40,6 +37,8 @@ public class BoardController implements ExceptionProcessor {
     private final BoardDeleteService deleteService;
     private final FileInfoService fileInfoService;
     private final SearchHistoryService historyService;
+    private final BoardViewCountService viewCountService;
+    private final BoardAuthService authService;
 
     private final BoardValidator validator;
     private final MemberUtil memberUtil;
@@ -49,6 +48,11 @@ public class BoardController implements ExceptionProcessor {
 
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글 내용
+
+    @ModelAttribute("mainClass")
+    public String mainClass() {
+        return "board-main layout-width";
+    }
 
     /**
      * 글 쓰기
@@ -132,8 +136,16 @@ public class BoardController implements ExceptionProcessor {
     }
 
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model) {
+    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(seq, "view", model);
+
+        if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
+            ListData<BoardData> data = infoService.getList(board.getBid(), search);
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
+        }
+
+        viewCountService.update(seq); // 조회수 증가
 
         return utils.tpl("board/view");
     }
@@ -206,6 +218,12 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("addScript", addScript);
         model.addAttribute("board", board); // 게시판 설정
         model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("mode", mode);
+
+        //권한 체크
+        authService.check(mode, board.getBid());
+        authService.setBoard(board);
+        authService.setBoardData(boardData);
     }
 
     /**
@@ -218,6 +236,10 @@ public class BoardController implements ExceptionProcessor {
      */
     private void commonProcess(Long seq, String mode, Model model) {
         boardData = infoService.get(seq);
+
+        authService.check(mode, seq); //권한 체크
+        authService.setBoardData(boardData);
+        authService.setBoard(boardData.getBoard());
 
         model.addAttribute("boardData", boardData);
 
