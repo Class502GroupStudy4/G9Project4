@@ -169,6 +169,9 @@ public class BoardController implements ExceptionProcessor {
 
         String skin = board.getSkin(); // 스킨
 
+        // 게시판 공통 JS - wish.js 연결
+        addCommonScript.add("wish");
+
         // 게시판 공통 CSS
         addCss.add("board/style");
 

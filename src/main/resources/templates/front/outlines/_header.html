@@ -57,14 +57,14 @@
             <div class="dropdown layout-right my-account">
                 <a th:for="mypage" th:href="${@utils.redirectUrl('/mypage')}">
                     <i th:id="mypage" class="xi-profile-o"></i></a>
-                <div class=" dropdown-content" sec:authorize="isAnonymous()">
+                <div class=" dropdown-content" th:if="${!isLogin}">
                     <a th:href="${@utils.redirectUrl('/member/login')}" th:text="#{로그인}">
                     </a>
 
                     <a th:href="${@utils.redirectUrl('/member/join')}" th:text="#{회원가입}">
                     </a>
                 </div>
-                <div class="dropdown-content" sec:authorize="isAuthenticated()">
+                <div class="dropdown-content" th:if="${isLogin}">
                     <div th:replace="~{common/_profile_image::image1}"></div>
                     <span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/><br>
                     <a th:href="${@utils.redirectUrl('/member/logout')}">
