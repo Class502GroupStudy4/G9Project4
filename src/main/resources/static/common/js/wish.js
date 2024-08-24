@@ -34,6 +34,13 @@ window.addEventListener("DOMContentLoaded", function() {
     for (const el of els) {
         el.addEventListener("click", function() {
             const classList = this.classList;
+
+            // 로그인이 필요한 경우
+            if (classList.contains("required-login")) {
+
+                return;
+            }
+
             const { seq, type } = this.dataset;
             if (!seq || !type) {
                 return;
