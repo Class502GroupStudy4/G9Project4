@@ -101,8 +101,8 @@ public class PlannerController implements ExceptionProcessor {
         List<String> addScript = new ArrayList<>();
         addCss.add("planner/style");
         //플래너 작성, 수정
-        if (List.of("write", "update").contains(mode)) {
-            addCss.add("planner/form");
+            if (List.of("write", "update").contains(mode)) {
+                addCss.add("planner/form");
             addScript.add("planner/form");
         }
         model.addAttribute("addCss", addCss);
