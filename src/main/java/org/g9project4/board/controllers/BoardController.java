@@ -15,10 +15,8 @@ import org.g9project4.file.entities.FileInfo;
 import org.g9project4.file.services.FileInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Utils;
-import org.g9project4.global.exceptions.CommonException;
 import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.UnAuthorizedException;
-import org.g9project4.global.exceptions.script.AlertBackException;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
@@ -35,8 +33,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
-@SessionAttributes({"boardData"})
+@SessionAttributes({"boardData", "board"})
 public class BoardController implements ExceptionProcessor {
+
     private final BoardConfigInfoService configInfoService;
     private final BoardInfoService infoService;
     private final BoardSaveService saveService;
@@ -50,8 +49,10 @@ public class BoardController implements ExceptionProcessor {
     private final MemberUtil memberUtil;
     private final Utils utils;
 
+
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글 내용
+
 
     @ModelAttribute("mainClass")
     public String mainClass() {
@@ -161,7 +162,7 @@ public class BoardController implements ExceptionProcessor {
 
         deleteService.delete(seq);
 
-        return utils.redirectUrl("/board/list/" + board.getBid());
+        return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
     }
 
 
@@ -185,7 +186,7 @@ public class BoardController implements ExceptionProcessor {
 
         String skin = board.getSkin(); // 스킨
 
-        // 게시판 공통 JS - wish.js 연결
+        // 게시판 공통 JS
         addCommonScript.add("wish");
 
         // 게시판 공통 CSS
@@ -209,7 +210,6 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
-            addCss.add("board/" + skin + "/form");
         }
 
         // 게시글 제목으로 title을 표시 하는 경우
@@ -224,10 +224,10 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("mode", mode);
 
-        //권한 체크
-        authService.check(mode, board.getBid());
-        authService.setBoard(board);
-        authService.setBoardData(boardData);
+        // 권한 체크
+        if (List.of("write", "list").contains(mode)) {
+            authService.check(mode, board.getBid());
+        }
     }
 
     /**
@@ -239,15 +239,14 @@ public class BoardController implements ExceptionProcessor {
      * @param model
      */
     private void commonProcess(Long seq, String mode, Model model) {
+
         boardData = infoService.get(seq);
 
-        authService.check(mode, seq); //권한 체크
-        authService.setBoardData(boardData);
-        authService.setBoard(boardData.getBoard());
-
         model.addAttribute("boardData", boardData);
-
+        model.addAttribute("board", boardData.getBoard());
         commonProcess(boardData.getBoard().getBid(), mode, model);
+
+        authService.check(mode, seq); // 권한 체크
     }
 
     @Override
@@ -269,7 +268,7 @@ public class BoardController implements ExceptionProcessor {
             mv.setViewName(utils.tpl("board/password"));
             return mv;
         }
-
+        e.printStackTrace();
         return ExceptionProcessor.super.errorHandler(e, request);
     }
 }
