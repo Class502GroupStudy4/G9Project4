@@ -8,16 +8,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ApiUpdateTest {
     @Autowired
     private ApiUpdateService apiUpdateService;
-    @Autowired
-    private AreaCodeUpdateService areaCodeUpdateService;
 
+    private String sKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
     @Test
     public void test() {
-        apiUpdateService.update();
+        apiUpdateService.update(sKey);
     }
 
     @Test
     public void test2() {
-        areaCodeUpdateService.update();
+        apiUpdateService.areaCodeUpdate(sKey);
+    }
+    @Test
+    public void test3(){
+        apiUpdateService.categoryUpdate(sKey);
     }
 }

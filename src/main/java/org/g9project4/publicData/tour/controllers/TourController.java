@@ -11,7 +11,7 @@ import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
-import org.g9project4.publicData.greentour.entities.GreenPlace;
+import org.g9project4.publicData.tour.entities.GreenPlace;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.publicData.tour.entities.PlaceDetail;
 import org.g9project4.publicData.tour.entities.TourPlace;

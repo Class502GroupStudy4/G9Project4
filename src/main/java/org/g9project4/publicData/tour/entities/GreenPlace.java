@@ -1,4 +1,4 @@
-package org.g9project4.publicData.greentour.entities;
+package org.g9project4.publicData.tour.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
