@@ -15,6 +15,7 @@
 
     <meta name="csrf_token" th:content="${_csrf.token}">
     <meta name="csrf_header" th:content="${_csrf.headerName}">
+    <meta name="rootUrl" th:content="${@utils.redirectUrl('/')}">
     <title>
         <th:block th:if="${pageTitle != null}"
         th:text="${#strings.concat(pageTitle, ' - ')}"></th:block>
