@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.g9project4.global.CommonSearch;
 import org.g9project4.publicData.tour.constants.ContentType;
-import org.g9project4.publicData.tour.entities.AreaCode;
-import org.g9project4.publicData.tour.entities.SigunguCode;
+import org.g9project4.publicData.tour.constants.OrderBy;
 
 import java.util.List;
 
@@ -40,12 +39,8 @@ public class TourPlaceSearch extends CommonSearch {
     private Double latitude;
     private Double longitude;
     private Integer radius = 1000;
-    /**
-     * 검색 옵션
-     * TITLE : 여행지 이름
-     * ADDRESS : 주소
-     * TITLE_ADDRESS : 이름 + 주소
-     * ALL:
-     */
-    private List<Long> seq; // 게시글 번호
+    private OrderBy orderBy;
+
+
+    private String contentId; // 게시글 번호
 }

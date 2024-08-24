@@ -1,5 +1,7 @@
 package org.g9project4.publicData.tour.services;
 
+import org.g9project4.publicData.tour.repositories.CategoryRepository;
+import org.g9project4.publicData.tour.repositories.SigunguCodeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,7 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ApiUpdateTest {
     @Autowired
     private ApiUpdateService apiUpdateService;
-
+    @Autowired
+    private SigunguCodeRepository sigunguCodeRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
     private String sKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
     @Test
     public void test() {
@@ -17,10 +22,13 @@ public class ApiUpdateTest {
 
     @Test
     public void test2() {
-        apiUpdateService.areaCodeUpdate(sKey);
+        apiUpdateService.categoryUpdate( sKey);
     }
     @Test
     public void test3(){
-        apiUpdateService.categoryUpdate(sKey);
+    }
+    @Test
+    public void test4(){
+        categoryRepository.findDistinctCategory1().forEach(System.out::println);
     }
 }
