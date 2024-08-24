@@ -132,8 +132,14 @@ public class BoardController implements ExceptionProcessor {
     }
 
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model) {
+    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(seq, "view", model);
+
+        if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
+            ListData<BoardData> data = infoService.getList(board.getBid(), search);
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
+        }
 
         return utils.tpl("board/view");
     }
@@ -169,6 +175,9 @@ public class BoardController implements ExceptionProcessor {
 
         String skin = board.getSkin(); // 스킨
 
+        // 게시판 공통 JS
+        addCommonScript.add("wish");
+
         // 게시판 공통 CSS
         addCss.add("board/style");
 
@@ -190,7 +199,6 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
-            addCss.add("board/" + skin + "/form");
         }
 
         // 게시글 제목으로 title을 표시 하는 경우
