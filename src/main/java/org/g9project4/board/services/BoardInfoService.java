@@ -47,6 +47,7 @@ public class BoardInfoService {
     private final BoardDataRepository repository;
     private final BoardConfigInfoService configInfoService;
     private final FileInfoService fileInfoService;
+
     private final BoardRepository boardRepository;
     private final HttpServletRequest request;
     private final ModelMapper modelMapper;
