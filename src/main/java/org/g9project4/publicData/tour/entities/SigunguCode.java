@@ -1,9 +1,8 @@
 package org.g9project4.publicData.tour.entities;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AreaCode {
+@IdClass(SigunguCodeId.class)
+public class SigunguCode {
     @Id
-    @Column(length = 10)
     private String areaCode;
-    @Column(length = 30, nullable = false)
+    @Id
+    private String sigunguCode;
     private String name;
+
 }

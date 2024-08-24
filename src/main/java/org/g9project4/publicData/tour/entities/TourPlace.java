@@ -42,7 +42,6 @@ public class TourPlace extends BaseEntity {
 
 
     private boolean bookTour;
-    private Double distance;
 
     private String firstImage;
     private String firstImage2;
@@ -57,4 +56,7 @@ public class TourPlace extends BaseEntity {
 
     @Transient
     public ContentType contentType;
+
+    @Transient
+    public Double distance;
 }

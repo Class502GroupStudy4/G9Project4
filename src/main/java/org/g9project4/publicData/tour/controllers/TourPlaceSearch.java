@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.g9project4.global.CommonSearch;
 import org.g9project4.publicData.tour.constants.ContentType;
+import org.g9project4.publicData.tour.entities.AreaCode;
 
 import java.util.List;
 
@@ -16,11 +17,20 @@ import java.util.List;
 public class TourPlaceSearch extends CommonSearch {
     /**
      * 필터 옵션
-     *
-     * contentType : 관광지 타입
-     *
+     * 1. 태그들
+     * 1-1 ContentType
+     * 1-2 AreaCode
+     *      1.구 소분류(시군구 코드)
+     * 1-3 Category
+     *      1. category1
+     *      2. category2
+     *      3. category3
+     * 2. 검색 키워드
+     * 3. 정렬 이름순, 최신순, 거리순, 인기순
      *
      */
+    private AreaCode areaCode;
+    private Integer sigunguCode;
     private Double latitude;
     private Double longitude;
     private ContentType contentType;

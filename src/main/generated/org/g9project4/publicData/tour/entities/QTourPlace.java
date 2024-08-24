@@ -45,8 +45,6 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;
 
-    public final NumberPath<Double> distance = createNumber("distance", Double.class);
-
     public final StringPath firstImage = createString("firstImage");
 
     public final StringPath firstImage2 = createString("firstImage2");

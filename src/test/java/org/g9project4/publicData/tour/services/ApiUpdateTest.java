@@ -8,9 +8,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ApiUpdateTest {
     @Autowired
     private ApiUpdateService apiUpdateService;
+    @Autowired
+    private AreaCodeUpdateService areaCodeUpdateService;
 
     @Test
     public void test() {
         apiUpdateService.update();
+    }
+
+    @Test
+    public void test2() {
+        areaCodeUpdateService.update();
     }
 }
