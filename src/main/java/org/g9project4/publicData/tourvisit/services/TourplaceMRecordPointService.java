@@ -38,14 +38,13 @@ public class TourplaceMRecordPointService {
     private final EntityManager em;
     private final HttpServletRequest request;
     private final MemberUtil memberUtil;
+    private final VisitRecordRepository visitRecordRepository;
 
-    @Autowired
-    private VisitRecordRepository visitRecordRepository;
 
     // 여행 추천 - 회원 방문기록 + 검색키워드 기반 + 베이스 점수 계산
     public ListData<TourPlace> getTopTourPlacesByRecord(TourPlaceSearch search, LocalDate currentDate) {
         QTourPlace qTourPlace = QTourPlace.tourPlace;
-        QMember qMember = QMember.member;
+       // QMember qMember = QMember.member;
 
         // 현재 로그인한 멤버의 정보를 가져옵니다.
         Member currentMember = memberUtil.getMember(); // 로그인된 멤버 정보
@@ -60,10 +59,8 @@ public class TourplaceMRecordPointService {
         // 각 TourPlace에 대해 최종 점수를 계산하고 리스트를 생성합니다.
         List<TourPlace> topTourPlaces = tourPlaces.stream()
                 .map(tourPlace -> {
-                    // 각 Member별로 mRecordPoint를 계산
-                    int mRecordPoint = currentMember.stream()
-                            .mapToInt(member -> calculatePlacePointValue(tourPlace, currentMember, currentDate))
-                            .sum();
+                    // mRecordPoint를 계산하기 위해 단일 Member 객체를 사용
+                    int mRecordPoint = calculatePlacePointValue(tourPlace, currentMember, currentDate);
 
                     // 최종 점수 계산
                     int finalPointValue = tourPlace.getPlacePointValue() + mRecordPoint;
@@ -86,16 +83,17 @@ public class TourplaceMRecordPointService {
         int offset = (page - 1) * limit;
 
         Pagination pagination = new Pagination(page, (int) repository.count(), 0, limit, request);
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QTourPlace tourPlace = QTourPlace.tourPlace;
-        List<TourPlace> items = queryFactory.selectFrom(tourPlace)
-                .orderBy(tourPlace.placePointValue.desc())
+
+        // 최종 페이지의 항목 가져오기
+        List<TourPlace> items = queryFactory.selectFrom(qTourPlace)
+                .orderBy(qTourPlace.placePointValue.desc())
                 .offset(offset)
                 .limit(limit)
                 .fetch();
-        return new ListData<>(items, pagination);
 
+        return new ListData<>(items, pagination);
     }
+
 
     private int calculatePlacePointValue(TourPlace tourPlace, Member member, LocalDate currentDate) {
         int basePointValue = 0;
