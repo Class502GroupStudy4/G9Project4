@@ -6,6 +6,8 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
+import org.g9project4.member.constants.Interest;
+import org.g9project4.member.entities.Interests;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/mypage")
@@ -55,8 +58,8 @@ public class MyPageController {
         form.setBirth(member.getBirth());
         form.setGende(member.getGende());
         form.setIsForeigner(member.getIsForeigner());
-        form.setInterests(member.getInterests());
         form.setGid(member.getGid());
+        form.setInterests(member.getInterests());
 
         return utils.tpl("mypage/info");
     }
