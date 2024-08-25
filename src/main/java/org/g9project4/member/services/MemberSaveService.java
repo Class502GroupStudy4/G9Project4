@@ -3,11 +3,13 @@ package org.g9project4.member.services;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.file.services.FileUploadDoneService;
-import org.g9project4.file.services.FileUploadService;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Authority;
+import org.g9project4.member.constants.Gender;
+import org.g9project4.member.constants.Interest;
 import org.g9project4.member.controllers.RequestJoin;
 import org.g9project4.member.entities.Authorities;
+import org.g9project4.member.entities.Interests;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.exceptions.MemberNotFoundException;
 import org.g9project4.member.repositories.AuthoritiesRepository;
@@ -16,10 +18,14 @@ import org.g9project4.mypage.controllers.RequestProfile;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +36,7 @@ public class MemberSaveService {
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
     private final HttpSession session;
-
+   // private List<Interests> interests;
     /**
      * 회원 가입 처리
      *
@@ -45,6 +51,7 @@ public class MemberSaveService {
 
     /**
      * 회원정보 수정
+     *
      * @param form
      */
     public void save(RequestProfile form) {
@@ -53,6 +60,12 @@ public class MemberSaveService {
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
         String password = form.getPassword();
         String mobile = form.getMobile();
+        LocalDate birth = form.getBirth();
+        Gender gende = form.getGende();
+        Boolean isForeigner = form.getIsForeigner();
+
+
+
         if (StringUtils.hasText(mobile)) {
             mobile = mobile.replaceAll("\\D", "");
         }
@@ -65,9 +78,26 @@ public class MemberSaveService {
             member.setPassword(hash);
         }
 
-        save(member, null);
+        member.setBirth(birth);
+        member.setGende(gende);
+        member.setIsForeigner(isForeigner);
 
+        // 기존 interests 삭제
+        member.getInterests().clear();
+
+        // RequestProfile form에서 Interests 목록 가져오기
+        Interest interest = form.getInterests(); // Interest 객체 하나를 가져오는 경우
+
+        // Interest enum 객체를 사용하여 Interests 객체를 생성
+        List<Interests> newInterests = Collections.singletonList(
+                new Interests(member, interest) // Interest enum 객체를 전달
+        );
+
+        member.setInterests(newInterests);
+
+        save(member, null);
     }
+
 
     public void save(Member member, List<Authority> authorities) {
         //휴대폰 번호 숫자만 기록

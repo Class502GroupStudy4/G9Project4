@@ -1,18 +1,24 @@
 package org.g9project4.publicData.tourvisit.services;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
+import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.entities.QMember;
 import org.g9project4.member.entities.VisitRecord;
 import org.g9project4.member.repositories.MemberRepository;
+
 import org.g9project4.member.repositories.VisitRecordRepository;
+import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -28,25 +34,35 @@ import java.util.stream.Collectors;
 public class TourplaceMRecordPointService {
     private final JPAQueryFactory queryFactory;
     private final MemberRepository memberRepository;
-    private final TourPlaceRepository tourPlaceRepository;
+    private final TourPlaceRepository repository;
+    private final EntityManager em;
+    private final HttpServletRequest request;
+    private final MemberUtil memberUtil;
+
+    @Autowired
+    private VisitRecordRepository visitRecordRepository;
 
     // 여행 추천 - 회원 방문기록 + 검색키워드 기반 + 베이스 점수 계산
-    public ListData<TourPlace> getTopTourPlacesByMemberSeq(LocalDate currentDate, int pageNumber, int pageSize) {
+    public ListData<TourPlace> getTopTourPlacesByRecord(TourPlaceSearch search, LocalDate currentDate) {
         QTourPlace qTourPlace = QTourPlace.tourPlace;
+        QMember qMember = QMember.member;
+
+        // 현재 로그인한 멤버의 정보를 가져옵니다.
+        Member currentMember = memberUtil.getMember(); // 로그인된 멤버 정보
+
+
 
         // 모든 TourPlace 항목을 가져옵니다.
         List<TourPlace> tourPlaces = queryFactory.selectFrom(qTourPlace)
                 .fetch();
 
-        // 모든 Member 항목을 가져옵니다.
-        List<Member> allMembers = memberRepository.findAll();
 
         // 각 TourPlace에 대해 최종 점수를 계산하고 리스트를 생성합니다.
         List<TourPlace> topTourPlaces = tourPlaces.stream()
                 .map(tourPlace -> {
                     // 각 Member별로 mRecordPoint를 계산
-                    int mRecordPoint = allMembers.stream()
-                            .mapToInt(member -> calculatePlacePointValue(tourPlace, member, currentDate))
+                    int mRecordPoint = currentMember.stream()
+                            .mapToInt(member -> calculatePlacePointValue(tourPlace, currentMember, currentDate))
                             .sum();
 
                     // 최종 점수 계산
@@ -64,18 +80,21 @@ public class TourplaceMRecordPointService {
         // 전체 항목 수 계산 (최대 20개로 제한)
         int totalItems = topTourPlaces.size();
 
-        // 페이지 번호와 크기에 따른 페이징 적용
-        List<TourPlace> paginatedTopTourPlaces = topTourPlaces.stream()
-                .skip((pageNumber - 1) * pageSize) // 페이지 계산
-                .limit(pageSize) // 페이지 크기 적용 (한 페이지당 10개)
-                .collect(Collectors.toList());
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
 
-        // Pagination 객체 생성
-        int totalPages = (int) Math.ceil((double) totalItems / pageSize);
-        Pagination pagination = new Pagination(pageNumber, totalItems, totalPages, pageSize, null);
+        Pagination pagination = new Pagination(page, (int) repository.count(), 0, limit, request);
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QTourPlace tourPlace = QTourPlace.tourPlace;
+        List<TourPlace> items = queryFactory.selectFrom(tourPlace)
+                .orderBy(tourPlace.placePointValue.desc())
+                .offset(offset)
+                .limit(limit)
+                .fetch();
+        return new ListData<>(items, pagination);
 
-        // ListData로 변환하여 반환
-        return new ListData<>(paginatedTopTourPlaces, pagination);
     }
 
     private int calculatePlacePointValue(TourPlace tourPlace, Member member, LocalDate currentDate) {
@@ -108,8 +127,7 @@ public class TourplaceMRecordPointService {
         return Math.min(basePointValue, 300); // Apply daily limit
     }
 
-    private List<VisitRecord> fetchVisitRecords(Long memberId, LocalDate currentDate) {
-        // 방문 기록 가져오는 로직 (현재는 빈 리스트 반환)
-        return Collections.emptyList();
+    public List<VisitRecord> fetchVisitRecords(Long seq, LocalDate currentDate) {
+        return visitRecordRepository.findByMemberAndVisitDate(seq, currentDate);
     }
 }

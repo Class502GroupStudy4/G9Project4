@@ -3,8 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/mypage}">
 <section layout:fragment="content">
-    <h1 th:text="#{맞춤여행지}"></h1>
-    <p>현재 날짜: <span th:text="${currentDate}"></span></p>
+    <h1 th:text="#{관심사_맞춤여행지}"></h1>
     <table th:replace="~{front/mypage/_form::placeList}"></table>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>

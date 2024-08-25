@@ -10,5 +10,5 @@ import java.util.List;
 public interface VisitRecordRepository extends JpaRepository<VisitRecord, Long>, QuerydslPredicateExecutor<VisitRecord> {
 
     // 메서드는 특정 회원(memberId)과 방문 날짜(visitDate)를 기준으로 VisitRecord 엔티티를 조회하는 데 사용됩니다.
-//    List<VisitRecord> findByMemberIdAndVisitDate(Long seq, LocalDate visitDate);
+   List<VisitRecord> findByMemberAndVisitDate(Long seq, LocalDate visitDate);
 }

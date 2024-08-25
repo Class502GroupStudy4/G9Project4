@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <table th:fragment="placeList" class="tour-list">
-    <h1 th:if="${data != null}" th:text="${#strings.concat('여행지 리스트보기')}"></h1>
+    <h1 th:if="${tourPlaceSearch != null and tourPlaceSearch.contentType != null}"
+        th:text="${#strings.concat(tourPlaceSearch.contentType.getType(), ' 리스트보기')}"></h1>
 
     <h1>리스트 보기</h1>
 
+    <div class="sort">
+        <!-- Sort by ID (ascending)-->
+        <a th:href="@{${baseURL}(page=1, limit=10, sort='contentId', sortDirection='asc')}" th:text="#{ID 순}"></a>
+        <!-- Sort by Popularity (descending) -->
+        <a th:href="@{${baseURL}(page=1, limit=10, sort='placePointValue', sortDirection='desc')}" th:text="#{인기 순}"></a>
+    </div>
     <thead>
     <tr>
         <th th:text="#{순번}"></th>
@@ -13,12 +20,12 @@
         <th th:text="#{주소}"></th>
         <th th:text="#{사진}"></th>
         <th th:text="#{전화번호}"></th>
-        <th th:text="#{tourPointValue}"></th>
+        <th th:text="#{여행지점수}"></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="item,s :${items}" th:object="${item}" class="item" th:id="tourPlace+${s.index}">
-        <td class="table-index">[[${s.index+1}]]</td>
+    <tr th:each="item,s : ${data.items}" th:object="${item}" class="item" th:id="tourPlace+${s.index}">
+        <td class="table-index">[[${s.index + 1}]]</td>
         <td class="table-contentId" th:text="*{contentId}"></td>
         <td class="table-title">
             <a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}" th:text="*{title}"></a>

@@ -66,6 +66,26 @@
             </dd>
         </dl>
 
+        <dl>
+            <dt th:text="#{관심사}"></dt>
+            <dd>
+                <input type="checkbox" name="interests" th:field="*{interests}" value="MATJIB"> 맛집
+                <input type="checkbox" name="interests" th:field="*{interests}" value="HOCANCE"> 호캉스
+                <input type="checkbox" name="interests" th:field="*{interests}" value="MUSEUM"> 박물관
+                <input type="checkbox" name="interests" th:field="*{interests}" value="CAMPING"> 캠핑
+                <input type="checkbox" name="interests" th:field="*{interests}" value="HIKING"> 등산
+                <input type="checkbox" name="interests" th:field="*{interests}" value="NATURE"> 자연
+                <input type="checkbox" name="interests" th:field="*{interests}" value="ART"> 예술
+                <input type="checkbox" name="interests" th:field="*{interests}" value="SEA"> 강/바다
+                <input type="checkbox" name="interests" th:field="*{interests}" value="WITHCHILD"> 아이와 함께
+                <input type="checkbox" name="interests" th:field="*{interests}" value="WITHFAMILY"> 온가족 함께
+                <input type="checkbox" name="interests" th:field="*{interests}" value="WITHLOVER"> 연인과 함께
+                <input type="checkbox" name="interests" th:field="*{interests}" value="FISHING"> 낚시
+
+                <div class="error" th:each="err:${#fields.errors('interests')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+
 
 
         <dl>

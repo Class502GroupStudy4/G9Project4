@@ -1,4 +1,4 @@
-package org.g9project4.tourvisit;
+package org.g9project4.publicData.tourvisit;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -42,6 +42,8 @@ public class DataTransfer {
 
     @PersistenceContext
     private EntityManager em;
+
+
 
 
     @Test
@@ -91,6 +93,10 @@ public class DataTransfer {
         pointService.update();
 
     }
+
+
+
+
 }
 
 

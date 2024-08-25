@@ -1,11 +1,9 @@
 package org.g9project4.mypage.controllers;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
 import lombok.Data;
 import org.g9project4.member.constants.Gender;
+import org.g9project4.member.constants.Interest;
 
 import java.time.LocalDate;
 
@@ -28,5 +26,7 @@ public class RequestProfile {
     private Gender gende;  // 성별 (MALE, FEMALE)
 
     private Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
+
+    private Interest interests; //관심사
 
 }
