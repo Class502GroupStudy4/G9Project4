@@ -35,4 +35,32 @@
         </div>
     </div>
 </th:block>
+<form th:fragment="totalSearch" name="frmTotalSearch" th:object="${tourPlaceSearch}">
+    <div>
+        <span>지역 : </span>
+<!--        <input type="radio" name="areaCode" th:value="${areaCode}">-->
+    </div>
+    <div>
+        유형 :
+<!--        <input type="checkbox" name="contentType" th:value="${contentType}">-->
+    </div>
+    <div>
+        카테고리 :
+<!--        <input th:each="cat : ${category1}" type="radio" name="categories" th:value="${cat}">-->
+    </div>
+    <div>
+        정렬 기준 :
+<!--        <input type="radio" name="orderBy" th:value="${orderBy}">-->
+    </div>
+<!--    <div>-->
+<!--        <th:block th:each="auth:${authorityList}">-->
+<!--            <label>-->
+<!--                <input type="radio" th:name="${'authority'+status.index}" th:value="${auth}"-->
+<!--                       th:text="${auth}"-->
+<!--                       th:checked="${item.authorities.get(0).getAuthority().name == auth.name}">-->
+<!--            </label>-->
+<!--        </th:block>-->
+<!--    </div>-->
+    <button type="submit">검색</button>
+</form>
 </html>

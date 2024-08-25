@@ -1,14 +1,12 @@
 package org.g9project4.publicData.tour.services;
 
 import lombok.RequiredArgsConstructor;
-
 import org.g9project4.global.exceptions.CategoryNotFoundException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.global.rests.gov.areacodeapi.Code;
 import org.g9project4.global.rests.gov.areacodeapi.CodeResult;
 import org.g9project4.global.rests.gov.categoryapi.CategoryItem;
-import org.g9project4.global.rests.gov.categoryapi.CategoryItems;
 import org.g9project4.global.rests.gov.categoryapi.CategoryResult;
 import org.g9project4.global.rests.gov.greenapi.GreenItem;
 import org.g9project4.global.rests.gov.greenapi.GreenResult;
@@ -69,6 +67,8 @@ public class ApiUpdateService {
                                 .category1(item.getCat1())
                                 .category2(item.getCat2())
                                 .category3(item.getCat3())
+                                .modifiedTime(item.getModifiedtime())
+                                .createdTime(item.getCreatedtime())
                                 .title(item.getTitle())
                                 .tel(item.getTel())
                                 .address(address)

@@ -11,11 +11,13 @@ import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
-import org.g9project4.publicData.tour.entities.GreenPlace;
 import org.g9project4.publicData.tour.constants.ContentType;
-import org.g9project4.publicData.tour.entities.PlaceDetail;
-import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.publicData.tour.entities.*;
+import org.g9project4.publicData.tour.repositories.AreaCodeRepository;
+import org.g9project4.publicData.tour.repositories.CategoryRepository;
+import org.g9project4.publicData.tour.repositories.SigunguCodeRepository;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
+import org.g9project4.publicData.tour.services.NewTourPlaceInfoService;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.springframework.stereotype.Controller;
@@ -34,13 +36,39 @@ public class TourController implements ExceptionProcessor {
     private final TourPlaceInfoService placeInfoService;
     private final TourDetailInfoService detailInfoService;
     private final ConfigInfoService configInfoService;
-
+    private final NewTourPlaceInfoService newTourPlaceInfoService;
     private final Utils utils;
+    private final AreaCodeRepository areaCodeRepository;
+    private final SigunguCodeRepository sigunguCodeRepository;
+    private final CategoryRepository categoryRepository;
 
     @ModelAttribute("apiKeys")
     public ApiConfig getApiKeys() {
         return configInfoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
     }
+
+    /*
+    @ModelAttribute("areaCodes")
+    public List<AreaCode> getAreaCodes(){
+        return areaCodeRepository.findAll();
+    }
+    @ModelAttribute("sigunguCodes")
+    public List<SigunguCode> getSigunguCodes(String areaCode){
+        return sigunguCodeRepository.findAllByAreaCode(areaCode);
+    }
+    @ModelAttribute("category1")
+    public List<String> getCategory1(){
+        return categoryRepository.findDistinctCategory1();
+    }
+    @ModelAttribute("category2")
+    public List<String> getCategory2(String category1){
+        return categoryRepository.findDistinctCategory2ByCategory1(category1);
+    }
+    @ModelAttribute("category3")
+    public List<String> getCategory3(String category2){
+        return categoryRepository.findDistinctCategory3ByCategory2(category2);
+    }
+    */
 
     private void addListProcess(Model model, ListData<TourPlace> data) {
         Pagination pagination = data.getPagination();
@@ -143,6 +171,18 @@ public class TourController implements ExceptionProcessor {
         } catch (Exception e) {
             e.printStackTrace();
             throw new TourPlaceNotFoundException();
+        }
+        return utils.tpl("tour/list");
+    }
+
+    @GetMapping("/new")
+    public String newList(@ModelAttribute TourPlaceSearch search, Model model) {
+        try {
+            ListData<TourPlace> data = newTourPlaceInfoService.getSearchedList(search);
+            commonProcess("list", model);
+            addListProcess(model, data);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return utils.tpl("tour/list");
     }
