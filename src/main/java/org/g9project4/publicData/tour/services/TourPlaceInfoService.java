@@ -1,7 +1,6 @@
 package org.g9project4.publicData.tour.services;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import com.querydsl.jpa.impl.JPAQuery;
@@ -12,19 +11,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
-import org.g9project4.global.exceptions.BadRequestException;
 import org.g9project4.global.exceptions.TourPlaceNotFoundException;
-import org.g9project4.global.exceptions.BadRequestException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
-import org.g9project4.publicData.greentour.entities.GreenPlace;
-import org.g9project4.publicData.greentour.entities.QGreenPlace;
+import org.g9project4.publicData.tour.entities.GreenPlace;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
+import org.g9project4.publicData.tour.entities.QGreenPlace;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -32,10 +28,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static org.springframework.data.domain.Sort.Order.desc;
+import static org.springframework.data.domain.Sort.Order.asc;
 
 @Service
 @RequiredArgsConstructor
@@ -91,7 +85,6 @@ public class TourPlaceInfoService {
         return null;
     }
 
-
     public ListData<TourPlace> getTotalList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
@@ -102,20 +95,18 @@ public class TourPlaceInfoService {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QTourPlace tourPlace = QTourPlace.tourPlace;
         List<TourPlace> items = queryFactory.selectFrom(tourPlace)
-                .orderBy(tourPlace.placePointValue.desc())
+                .orderBy(tourPlace.contentId.asc())
                 .offset(offset)
                 .limit(limit)
                 .fetch();
         return new ListData<>(items, pagination);
-
     }
 
-    public ListData<GreenPlace> getGreenList(TourPlaceSearch search){
+    public ListData<GreenPlace> getGreenList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit < 1 ? 20 : limit;
         int offset = page * limit + 1;
-
         /* 검색 조건 처리 S */
         QGreenPlace greenPlace = QGreenPlace.greenPlace;
         BooleanBuilder andBuilder = new BooleanBuilder();
@@ -165,8 +156,6 @@ public class TourPlaceInfoService {
         return new ListData<>(items, pagination);
     }
 
-
-
     public ListData<TourPlace> getSearchedList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
@@ -176,7 +165,7 @@ public class TourPlaceInfoService {
         QTourPlace tourPlace = QTourPlace.tourPlace;
         BooleanBuilder andBuilder = new BooleanBuilder();
         if (search.getContentType() != null) {
-            andBuilder.and(tourPlace.contentTypeId.eq(search.getContentType().getId()));
+//            andBuilder.and(tourPlace.contentTypeId.eq(search.getContentType().getId()));
         }
         String sopt = search.getSopt();
         String skey = search.getSkey();
@@ -222,18 +211,6 @@ public class TourPlaceInfoService {
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
     }
-
-
-    // 정렬 필드와 방향을 기반으로 OrderSpecifier 생성
-    private OrderSpecifier<?> getOrderSpecifier(String sortField, String sortDirection, QTourPlace tourPlace) {
-        if ("placePointValue".equals(sortField)) {
-            return "desc".equalsIgnoreCase(sortDirection) ? tourPlace.placePointValue.desc() : tourPlace.placePointValue.asc();
-        }
-        // 기본 정렬 필드
-        return "desc".equalsIgnoreCase(sortDirection) ? tourPlace.contentId.desc() : tourPlace.contentId.asc();
-    }
-
-
 
     private void addInfo(TourPlace item) {
         Long contentTypeId = item.getContentTypeId();

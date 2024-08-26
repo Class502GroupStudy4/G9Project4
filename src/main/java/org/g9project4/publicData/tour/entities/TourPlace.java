@@ -1,6 +1,9 @@
 package org.g9project4.publicData.tour.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +16,8 @@ import org.g9project4.publicData.tour.constants.ContentType;
 //import org.g9project4.member.entities.VisitRecord;
 
 import java.util.List;
+
+import java.time.LocalDateTime;
 
 
 @Data
@@ -35,6 +40,8 @@ public class TourPlace extends BaseEntity {
     @Column(length = 30)
     private String category3;
 
+    private LocalDateTime modifiedTime;
+    private LocalDateTime createdTime;
     @Column(length = 100)
     private String title;
 
@@ -49,7 +56,6 @@ public class TourPlace extends BaseEntity {
 
 
     private boolean bookTour;
-    private Double distance;
 
     private String firstImage;
     private String firstImage2;
@@ -64,10 +70,9 @@ public class TourPlace extends BaseEntity {
 
     @Transient
     public ContentType contentType;
-  //  private Integer  mapLevel;
 
+    public Double distance;
 
-    private String sigunguCode2;
     private Integer placePointValue; //장소별 점수
 
     private Double type1D1; // 현지인 일별통계 현지인관광객구분명
