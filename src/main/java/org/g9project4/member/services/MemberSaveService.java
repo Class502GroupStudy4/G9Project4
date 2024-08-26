@@ -1,6 +1,7 @@
 package org.g9project4.member.services;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.file.services.FileUploadDoneService;
 import org.g9project4.member.MemberUtil;
@@ -9,6 +10,7 @@ import org.g9project4.member.constants.Gender;
 import org.g9project4.member.constants.Interest;
 import org.g9project4.member.controllers.RequestJoin;
 import org.g9project4.member.entities.Authorities;
+
 import org.g9project4.member.entities.Interests;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.exceptions.MemberNotFoundException;
@@ -22,9 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -36,7 +36,7 @@ public class MemberSaveService {
     private final AuthoritiesRepository authoritiesRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
-   private final InterestsRepository interestsRepository;
+    private final InterestsRepository interestsRepository;
 
     /**
      * 회원 가입 처리
@@ -48,6 +48,7 @@ public class MemberSaveService {
         String hash = passwordEncoder.encode(member.getPassword());
         member.setPassword(hash);
         save(member, List.of(Authority.USER));
+
     }
 
     /**
@@ -68,7 +69,6 @@ public class MemberSaveService {
         Boolean isForeigner = form.getIsForeigner();
 
 
-
         if (StringUtils.hasText(mobile)) {
             mobile = mobile.replaceAll("\\D", "");
         }
@@ -85,21 +85,20 @@ public class MemberSaveService {
         member.setGende(gende);
         member.setIsForeigner(isForeigner);
 
+        save(member, null);
+    }
 
-        // 기존 관심사 데이터 삭제
-        interestsRepository.deleteByMember(member); // Use repository to delete existing interests
+    @Transactional
+    public void saveInterests(Member member, List<Interest> interests) {
 
-        final Member finalMember = member;
+        interestsRepository.deleteByMember(member);
 
-        // RequestProfile form에서 Interest 목록 가져오기
-        List<Interests> newInterestsEntities = form.getInterests().stream()
-                .map(interest -> new Interests(finalMember, interest.getInterest()))
+        // Convert the List<Interest> to List<Interests>
+        List<Interests> newInterests = interests.stream()
+                .map(interest -> new Interests(member, interest))
                 .collect(Collectors.toList());
 
-        // Save new interests
-        interestsRepository.saveAllAndFlush(newInterestsEntities);
-
-        save(member, null);
+        interestsRepository.saveAllAndFlush(newInterests);
     }
 
 
@@ -128,4 +127,7 @@ public class MemberSaveService {
         System.out.println("여기???");
         uploadDoneService.process(member.getGid());
     }
+
+
 }
+

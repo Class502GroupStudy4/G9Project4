@@ -20,6 +20,7 @@ import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,15 +36,20 @@ public class TourplaceInterestsPointService {
     private final HttpServletRequest request;
     private final EntityManager em;
     private final MemberUtil memberUtil;
-    private InterestsRepository interestsRepository;
+    private final InterestsRepository interestsRepository;
 
     // 여행 추천 - 관심사 기반 + 베이스 점수 계산
-    public ListData<TourPlace> getTopTourPlacesByInterests(TourPlaceSearch search, Member loggedMember) {
+    public ListData<TourPlace> getTopTourPlacesByInterests(TourPlaceSearch search, Member member) {
 
-        if (loggedMember == null) {
+        if (member == null) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
-        List<Interest> interests = getInterestsForMember(loggedMember);
+        List<Interest> interests = getInterestsForMember(member);
+
+        if (interests.isEmpty()) {
+            // Handle case where there are no interests
+            return new ListData<>(Collections.emptyList(), new Pagination(1, 0, 0, search.getLimit(), request));
+        }
 
         QTourPlace qTourPlace = QTourPlace.tourPlace;
 
@@ -81,12 +87,17 @@ public class TourplaceInterestsPointService {
 
     private List<Interest> getInterestsForMember(Member member) {
         // 회원의 관심사 데이터 조회
-        return interestsRepository.findByMember(member).stream()
+
+        List<Interests> interestsEntities = interestsRepository.findByMember(member);
+
+        return interestsEntities.stream()
                 .map(Interests::getInterest)
                 .collect(Collectors.toList());
+
     }
 
-    private boolean filterByInterests(TourPlace tourPlace, List<Interest>  interests) {
+
+    private boolean filterByInterests(TourPlace tourPlace, List<Interest> interests) {
         // 관심사에 따라 필터링 수행
 
         if (interests.contains("MATJIB") && tourPlace.getContentTypeId() == 12) {
@@ -183,7 +194,7 @@ public class TourplaceInterestsPointService {
         return false;
     }
 
-    private int calculateInterestPoints(TourPlace tourPlace,List<Interest> interests) {
+    private int calculateInterestPoints(TourPlace tourPlace, List<Interest> interests) {
         int interestCount = 0;
         boolean isMatjibIncluded = false;
         boolean isHocanceIncluded = false;
@@ -289,7 +300,6 @@ public class TourplaceInterestsPointService {
         if (interests.contains("FISHING") && tourPlace.getTitle().contains("낚시")) {
             isFishingIncluded = true;
         }
-
 
 
         if (isMatjibIncluded) {

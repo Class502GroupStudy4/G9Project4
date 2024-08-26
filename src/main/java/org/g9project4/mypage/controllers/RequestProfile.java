@@ -1,7 +1,10 @@
 package org.g9project4.mypage.controllers;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.g9project4.member.constants.Gender;
 import org.g9project4.member.constants.Interest;
 import org.g9project4.member.entities.Interests;
@@ -10,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
+//@NoArgsConstructor @AllArgsConstructor
 public class RequestProfile {
 
     private String gid;
@@ -29,7 +33,10 @@ public class RequestProfile {
 
     private Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
 
-    private List<Interests> interests; //관심사
+    private List<Interest> interests;
+
+    // Other fields and methods
+
 
 
 //    데이터 전송: 클라이언트와의 데이터 전송에서 단순한 이넘 값을 사용하는 것이 더 효율적일 수 있습니다. 이 경우 List<Interest>를 사용하는 것이 좋습니다.

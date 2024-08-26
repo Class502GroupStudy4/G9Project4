@@ -32,4 +32,7 @@ public class Interests implements Serializable {
         this.member = member;
         this.interest = interest;
     }
+    public Interest getInterest() {
+        return interest;
+    }
 }

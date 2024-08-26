@@ -16,4 +16,9 @@ public class InterestsId implements Serializable {
     private Member member;
     private Interest interest;
 
+
+//    public void setMember(Member member) {
+//        this.memberSeq = member.getSeq();
+//    }
+
 }

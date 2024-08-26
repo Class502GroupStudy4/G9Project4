@@ -6,9 +6,12 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
+import org.g9project4.member.constants.Interest;
 import org.g9project4.member.entities.Member;
+import org.g9project4.member.repositories.InterestsRepository;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
+//km import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
@@ -19,11 +22,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.g9project4.member.entities.Interests;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static org.g9project4.member.entities.QMember.member;
 import static org.g9project4.search.entities.QSearchHistory.searchHistory;
 
 @Controller
@@ -39,6 +46,7 @@ public class MyPageController {
     //private final TourplaceMRecordPointService mRecordPointService;
     private final TourplacePointMemberService pointMemberService;
     private final TourplaceInterestsPointService interestsPointService;
+    private final InterestsRepository interestsRepository;
 
     @GetMapping
     public String index(@ModelAttribute RequestProfile form, Model model) {
@@ -51,7 +59,13 @@ public class MyPageController {
         form.setGende(member.getGende());
         form.setIsForeigner(member.getIsForeigner());
         form.setGid(member.getGid());
-        form.setInterests(member.getInterests());
+
+        //관심사 노출
+        List<Interests> interestsEntities = interestsRepository.findByMember(member);
+        List<Interest> interests = interestsEntities.stream()
+                .map(Interests::getInterest)
+                .collect(Collectors.toList());
+        form.setInterests(interests);
 
         List<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
 
@@ -72,6 +86,13 @@ public class MyPageController {
         form.setIsForeigner(member.getIsForeigner());
         form.setGid(member.getGid());
 
+        //관심사 노출
+        List<Interests> interestsEntities = interestsRepository.findByMember(member);
+        List<Interest> interests = interestsEntities.stream()
+                .map(Interests::getInterest)
+                .collect(Collectors.toList());
+        form.setInterests(interests);
+
         return utils.tpl("mypage/info");
     }
 
@@ -80,7 +101,9 @@ public class MyPageController {
     public String updateInfo(@Valid RequestProfile form, Errors errors, Model model) {
         commonProcess("info", model);
 
-        profileUpdateValidator.validate(form,errors);
+        Member member = memberUtil.getMember();
+
+        profileUpdateValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             return utils.tpl("mypage/info");
@@ -88,11 +111,14 @@ public class MyPageController {
 
         memberSaveService.save(form);
 
+        //복수 관심사 저장
+        List<Interest> interests = form.getInterests();
+        memberSaveService.saveInterests(member, interests);
 
 
         //SecurityContextHolder.getContext().setAuthentication();
 
-        return "redirect:"+ utils.redirectUrl("/mypage");
+        return "redirect:" + utils.redirectUrl("/mypage");
     }
 
 
@@ -111,8 +137,7 @@ public class MyPageController {
     }
 
 
-
-//추천
+    //추천
     @GetMapping("/myplace")
     public String myplaceList(@ModelAttribute TourPlaceSearch search, Member loggedMember, Model model) {
 
@@ -173,19 +198,19 @@ public class MyPageController {
 
 
     @GetMapping("/myinterests") // 관심사 기준 추천
-    public String interestsList( TourPlaceSearch search, Member loggedMember, Model model) {
+    public String interestsList(TourPlaceSearch search, Member member, Model model) {
 
-        if (loggedMember == null) {
+        if (member == null) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
 
-      ListData<TourPlace> data  =interestsPointService.getTopTourPlacesByInterests(search, loggedMember);
+        ListData<TourPlace> data = interestsPointService.getTopTourPlacesByInterests(search, member);
 
         // 추가 스타일을 모델에 추가
         model.addAttribute("addCss", List.of("mypage/myplace"));
-        model.addAttribute("tourPlaceSearch", search);
+       // model.addAttribute("tourPlaceSearch", search);
         // 목록 데이터 처리 (addListProcess 메서드가 어떤 기능인지에 따라 다름)
-//        model.addAttribute("data", data);
+       model.addAttribute("data", data);
 
 
         // 템플릿을 반환
