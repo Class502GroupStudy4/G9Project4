@@ -173,10 +173,8 @@ window.addEventListener("DOMContentLoaded", function() {
             children[i].className = '';
         }
 
-        if (el) {
-            el.className = 'on';
-        }
     }
+
 
     function overlayItem(position, title, image, address, url) {
         const content = `
