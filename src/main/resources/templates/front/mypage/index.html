@@ -53,13 +53,26 @@
         </form>
         <div class="mypage-tour-story">
             <h2 th:text="#{나의_여행_이야기}"></h2>
-            <div>
-                내가 최근에 관심 가진 여행지
-                <h3>검색 기록</h3>
-                <div th:each="record : ${searchHistory}">
-                    <p>검색어: <span th:text="${record.keyword}"></span></p>
-                    <p>시간: <span th:text="${#temporals.format(record.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                </div>
+            <table>
+                내가 최근에 검색한 여행지<br>
+                <thead>
+                <tr>
+                    <th>
+                        검색어
+                    </th>
+                    <th>
+                        검색 시간
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${searchHistory!=null}" th:each="search : ${searchHistory}">
+                    <td th:text="${search.keyword}">
+                    </td>
+                    <td th:text="${#temporals.format(search.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                </tbody>
+            </table>
                 <br>
                 <table>
                     내가 찜한 게시글 목록<br>
@@ -75,7 +88,7 @@
                             작성자
                         </th>
                         <th>
-                            특별요청
+                            게시글 바로가기
                         </th>
                     </tr>
                     </thead>
