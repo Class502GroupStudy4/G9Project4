@@ -3,6 +3,9 @@ package org.g9project4.member.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.g9project4.board.entities.Board;
+import org.g9project4.board.entities.BoardData;
+import org.g9project4.board.entities.CommentData;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.member.constants.Authority;
@@ -49,10 +52,6 @@ public class Member extends BaseEntity implements Serializable {
     @NotNull
     private Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
 
-    @Enumerated(EnumType.STRING)
-    //@Column(nullable = false)
-    private Authority authority;  // 권한 (ALL, USER, ADMIN)
-
     @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Authorities> authorities;
@@ -63,4 +62,10 @@ public class Member extends BaseEntity implements Serializable {
 
     @Transient
     private FileInfo profileImage;
+
+    @OneToMany(mappedBy = "member")
+    private List<BoardData> items;
+
+    @OneToMany(mappedBy = "member")
+    private List<CommentData> comments;
 }

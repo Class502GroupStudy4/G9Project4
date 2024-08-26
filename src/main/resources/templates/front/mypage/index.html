@@ -100,7 +100,7 @@
                         <td>
                             <a th:text="${@boardDataRepository.getById(wish.seq).subject}" th:href="${@utils.redirectUrl('/board/view/')+wish.seq}"></a>
                         </td>
-                        <td th:text="${wish.member.userName}"></td>
+                        <td th:text="${@boardDataRepository.getReferenceById(wish.seq).poster}"></td>
                         <td>
                             <a th:href="${@utils.redirectUrl('/board/view/'+wish.seq)}">
                                 <button type="button" th:text="#{게시글_보기}"></button>

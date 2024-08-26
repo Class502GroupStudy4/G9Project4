@@ -2,6 +2,8 @@ package org.g9project4.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.board.entities.Board;
+import org.g9project4.board.services.BoardInfoService;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
@@ -36,6 +38,7 @@ public class MyPageController {
     private final Utils utils;
     private final SearchHistoryService searchHistoryService;
     private final WishListService wishListService;
+    private final BoardInfoService boardInfoService;
 
     @GetMapping
     public String index(@ModelAttribute RequestProfile form, Model model) {
@@ -96,8 +99,11 @@ public class MyPageController {
 
 
     @GetMapping("/mypost")
-    public String mypost(Model model) {
+    public String mypost(Model model, Member member) {
         commonProcess("mypost", model);
+
+       // List<Board> boards = boardInfoService.getBoardsByMember(member);
+       // model.addAttribute("boards", boards);
 
         return utils.tpl("mypage/mypost");
     }

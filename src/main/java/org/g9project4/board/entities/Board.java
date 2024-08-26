@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.global.entities.BaseMemberEntity;
 import org.g9project4.member.constants.Authority;
+import org.g9project4.member.entities.Member;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
