@@ -13,11 +13,12 @@ import org.g9project4.board.controllers.BoardDataSearch;
 import org.g9project4.board.controllers.RequestBoard;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
+import org.g9project4.board.entities.CommentData;
 import org.g9project4.board.entities.QBoardData;
 import org.g9project4.board.exceptions.BoardDataNotFoundException;
 import org.g9project4.board.exceptions.BoardNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
-import org.g9project4.board.repositories.BoardRepository;
+import org.g9project4.board.services.comment.CommentInfoService;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.file.services.FileInfoService;
 import org.g9project4.global.CommonSearch;
@@ -31,7 +32,6 @@ import org.g9project4.member.entities.Member;
 import org.g9project4.wishlist.constants.WishType;
 import org.g9project4.wishlist.services.WishListService;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -39,8 +39,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @Transactional
@@ -50,18 +48,13 @@ public class BoardInfoService {
     private final JPAQueryFactory queryFactory;
     private final BoardDataRepository repository;
     private final BoardConfigInfoService configInfoService;
+    private final CommentInfoService commentInfoService;
     private final FileInfoService fileInfoService;
-
-    private final BoardRepository boardRepository;
+    private final WishListService wishListService;
     private final HttpServletRequest request;
     private final ModelMapper modelMapper;
     private final MemberUtil memberUtil;
     private final Utils utils;
-    private final WishListService wishListService;
-
-    public List<Board> getBoardList(){
-        return boardRepository.findAll(Sort.by(desc("listOrder"))).stream().toList();
-    }
 
     /**
      * 게시글 목록 조회
@@ -274,6 +267,11 @@ public class BoardInfoService {
         // 추가 데이터 처리
         addInfo(item);
 
+
+        // 댓글 목록
+        List<CommentData> comments = commentInfoService.getList(seq);
+        item.setComments(comments);
+        System.out.println("item : " + item);
         return item;
     }
 
@@ -432,5 +430,7 @@ public class BoardInfoService {
         item.setShowDelete(showDelete);
         item.setShowList(showList);
         // 게시글 버튼 노출 권한 처리 E
+
+
     }
 }
