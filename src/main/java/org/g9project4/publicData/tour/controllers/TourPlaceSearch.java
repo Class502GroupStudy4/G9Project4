@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.g9project4.global.CommonSearch;
-import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.publicData.tour.constants.OrderBy;
 
 import java.util.List;
@@ -32,14 +31,14 @@ public class TourPlaceSearch extends CommonSearch {
 
     private String areaCode;
     private List<String> sigunguCode;
-    private ContentType contentType;
+    private String contentType;
     private String category1;
     private String category2;
     private String category3;
     private Double latitude;
     private Double longitude;
     private Integer radius = 1000;
-    private OrderBy orderBy;
+    private String orderBy;
 
 
     private String contentId; // 게시글 번호

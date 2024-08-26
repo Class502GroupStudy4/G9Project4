@@ -10,11 +10,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Long>, QuerydslPredicateExecutor<Category> {
-    @Query("SELECT DISTINCT c.category1 FROM Category c")
-    List<String> findDistinctCategory1();
-    @Query("SELECT DISTINCT c.category2 FROM Category c WHERE c.category1 = :category1")
+    @Query("SELECT DISTINCT c.category1, c.name1 FROM Category c")
+    List<Object[]> findDistinctName1();
 
-    List<String> findDistinctCategory2ByCategory1(@Param("category1")String category1);
-    @Query("SELECT DISTINCT c.category3 FROM Category c WHERE c.category2 = :category2")
-    List<String> findDistinctCategory3ByCategory2(@Param("category2") String category2);
+    @Query("SELECT DISTINCT c.category2, c.name2 FROM Category c WHERE c.category1 = :category1")
+    List<Object[]> findDistinctCategory2ByCategory1(@Param("category1")String category1);
+
+    @Query("SELECT DISTINCT c.category3, c.name3 FROM Category c WHERE c.category2 = :category2")
+    List<Object[]> findDistinctCategory3ByCategory2(@Param("category2") String category2);
 }

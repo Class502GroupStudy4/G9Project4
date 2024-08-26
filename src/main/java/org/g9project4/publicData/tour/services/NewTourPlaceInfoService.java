@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
+import org.g9project4.global.Utils;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.publicData.tour.constants.OrderBy;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
@@ -29,6 +30,7 @@ public class NewTourPlaceInfoService {
     @PersistenceContext
     private EntityManager em;
 
+    private final Utils utils;
     private final TourPlaceRepository tourPlaceRepository;
     private final HttpServletRequest request;
 
@@ -64,8 +66,8 @@ public class NewTourPlaceInfoService {
             }
         }
         // ContentType
-        if (search.getContentType() != null) {
-            andBuilder.and(tourPlace.contentTypeId.eq(search.getContentType().getId()));
+        if (StringUtils.hasText(search.getContentType())) {
+            andBuilder.and(tourPlace.contentTypeId.eq(utils.typeCode(search.getContentType()).getId()));
         }
         //카테고리
         if (StringUtils.hasText(search.getCategory1())) {
@@ -111,18 +113,19 @@ public class NewTourPlaceInfoService {
         int offset = (page - 1) * limit;
 
         /* 정렬 조건 처리 S */
-        OrderBy _orderBy = search.getOrderBy();
-        OrderSpecifier order = null;
-        if (_orderBy != null) {
-            if (_orderBy.equals(OrderBy.title)) {
+        String _orderBy = search.getOrderBy();
+        OrderSpecifier order = tourPlace.contentId.asc();
+        if (StringUtils.hasText(_orderBy)) {
+            if (_orderBy.equals(OrderBy.title.name())) {
                 order = tourPlace.title.asc();
-            } else if (_orderBy.equals(OrderBy.modifiedTime)) {
+            } else if (_orderBy.equals(OrderBy.modifiedTime.name())) {
                 order = tourPlace.modifiedTime.desc();
             }
         }
         /* 정렬 조건 처리 E */
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         JPAQuery<TourPlace> query = queryFactory.selectFrom(tourPlace)
+                .orderBy(order)
                 .offset(offset)
                 .limit(limit)
                 .where(andBuilder);

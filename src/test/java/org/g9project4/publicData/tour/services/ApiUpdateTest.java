@@ -24,11 +24,5 @@ public class ApiUpdateTest {
     public void test2() {
         apiUpdateService.categoryUpdate( sKey);
     }
-    @Test
-    public void test3(){
-    }
-    @Test
-    public void test4(){
-        categoryRepository.findDistinctCategory1().forEach(System.out::println);
-    }
+
 }

@@ -3,8 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <th:block th:replace="~{common/_search_top::search}"></th:block>
-    <nav th:replace="~{common/_tourtype_tpl::typelist}"></nav>
+<!--    <th:block th:replace="~{common/_search_top::search}"></th:block>-->
+<!--    <nav th:replace="~{common/_tourtype_tpl::typelist}"></nav>-->
     <form th:replace="~{common/_search_top::totalSearch}"></form>
     <table th:replace="~{front/tour/_form::placeList}"></table>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>

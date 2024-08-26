@@ -163,7 +163,7 @@ public class TourPlaceInfoService {
         QTourPlace tourPlace = QTourPlace.tourPlace;
         BooleanBuilder andBuilder = new BooleanBuilder();
         if (search.getContentType() != null) {
-            andBuilder.and(tourPlace.contentTypeId.eq(search.getContentType().getId()));
+//            andBuilder.and(tourPlace.contentTypeId.eq(search.getContentType().getId()));
         }
         String sopt = search.getSopt();
         String skey = search.getSkey();
