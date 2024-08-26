@@ -114,10 +114,13 @@ public class MyPageController {
 
 //추천
     @GetMapping("/myplace")
-    public String myplaceList(@ModelAttribute TourPlaceSearch search, @RequestParam(value = "currentDate", required = false) Member loggedMember, Model model) {
+    public String myplaceList(@ModelAttribute TourPlaceSearch search, Member loggedMember, Model model) {
 
-        if (currentDate == null) {
-            currentDate = LocalDate.now();
+
+        Member loggedMember = (Member) model.asMap().get("loggedMember");
+
+        if (loggedMember == null) {
+            throw new IllegalStateException("로그인이 필요합니다.");
         }
 
         try {
@@ -172,10 +175,8 @@ public class MyPageController {
 
 
     @GetMapping("/myinterests") // 관심사 기준 추천
-    public String interestsList( TourPlaceSearch search, Model model) {
-        Member member = memberUtil.getMember();
-        String userName = member.getUserName();
-        // @ModelAttribute를 통해서 모델에 추가된 로그인된 사용자 정보를 가져옵니다.
+    public String interestsList( TourPlaceSearch search, Member loggedMember, Model model) {
+
         Member loggedMember = (Member) model.asMap().get("loggedMember");
 
         if (loggedMember == null) {
