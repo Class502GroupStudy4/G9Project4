@@ -117,8 +117,6 @@ public class MyPageController {
     public String myplaceList(@ModelAttribute TourPlaceSearch search, Member loggedMember, Model model) {
 
 
-        Member loggedMember = (Member) model.asMap().get("loggedMember");
-
         if (loggedMember == null) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
@@ -176,8 +174,6 @@ public class MyPageController {
 
     @GetMapping("/myinterests") // 관심사 기준 추천
     public String interestsList( TourPlaceSearch search, Member loggedMember, Model model) {
-
-        Member loggedMember = (Member) model.asMap().get("loggedMember");
 
         if (loggedMember == null) {
             throw new IllegalStateException("로그인이 필요합니다.");

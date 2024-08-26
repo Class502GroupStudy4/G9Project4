@@ -43,7 +43,7 @@ public class DataTransfer {
     @PersistenceContext
     private EntityManager em;
 
-
+    private String skey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
 
 
     @Test
@@ -68,7 +68,8 @@ public class DataTransfer {
 
     @Test // tourplace api 다운로드 30분
     void test3() {
-        apiUpdateService.update();
+
+       apiUpdateService.update(skey);
 
     }
 

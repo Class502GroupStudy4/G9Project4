@@ -119,7 +119,7 @@ public class ApiUpdateService {
                                 .firstImage(item.getMainimage())
                                 .cpyrhtDivCd(item.getCpyrhtDivCd())
                                 .modifiedtime(item.getModifiedtime())
-                                .sigugunCode(item.getSigungucode())
+                              //km      .sigugunCode(item.getSigungucode())
                                 .subTitle(item.getSubtitle())
                                 .summary(item.getSummary())
                                 .tel(item.getTel())

@@ -15,8 +15,10 @@ import java.io.Serializable;
  */
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmailMessage implements Serializable {
-        private String sendTo;
+        private String to;
         private String subject;
         private String message;
 }
