@@ -123,7 +123,8 @@ public class TourController implements ExceptionProcessor {
 
     @GetMapping("/detail/{contentId}")
     public String detail(@PathVariable("contentId") Long contentId, Model model) {
-        PlaceDetail<DetailItem, DetailPetItem> item = detailInfoService.getDetail(contentId);
+        ApiConfig apiConfig = configInfoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
+        PlaceDetail<DetailItem, DetailPetItem> item = detailInfoService.getDetail(contentId,apiConfig.getPublicOpenApiKey());
         commonProcess("detail", model);
         model.addAttribute("items", item);
         return utils.tpl("tour/detail");
