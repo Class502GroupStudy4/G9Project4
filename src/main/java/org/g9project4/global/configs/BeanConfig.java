@@ -22,15 +22,6 @@ public class BeanConfig {
 
     private final EntityManager em;
 
-
-
-
-
-    @Bean
-    public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
-        return new JPAQueryFactory(entityManager);
-    }
-
     @Lazy
     @Bean
     public JPAQueryFactory jpaQueryFactory() {

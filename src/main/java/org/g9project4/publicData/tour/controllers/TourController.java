@@ -185,6 +185,7 @@ public class TourController implements ExceptionProcessor {
         model.addAttribute("items", item);
         return utils.tpl("tour/detail");
     }
+
     @GetMapping("/list/loc/{type}")
     public String distanceList(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
         try{

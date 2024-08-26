@@ -38,54 +38,31 @@ public class TourplaceInterestsPointService {
     private InterestsRepository interestsRepository;
 
     // 여행 추천 - 관심사 기반 + 베이스 점수 계산
-    public ListData<TourPlace> getTopTourPlacesByInterests(Long seq, TourPlaceSearch search) {
+    public ListData<TourPlace> getTopTourPlacesByInterests(TourPlaceSearch search, Member loggedMember) {
 
-        QTourPlace qTourPlace = QTourPlace.tourPlace;
-    //    QMember qMember = QMember.member;
-        // 현재 로그인한 멤버의 정보를 가져옵니다.
-        Member currentMember = memberUtil.getMember(); // 로그인된 멤버 정보
-    //    int age = calculateAge(currentMember.getInterests());
-
-
-        if (!memberUtil.isLogin()) {
+        if (loggedMember == null) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
+        List<Interest> interests = getInterestsForMember(loggedMember);
 
+        QTourPlace qTourPlace = QTourPlace.tourPlace;
 
+        List<TourPlace> tourPlaces = queryFactory.selectFrom(qTourPlace).fetch();
 
-        // 관심사 데이터를 가져옵니다.
-        List<Interest> interests = getInterestsForMember(currentMember);
-
-        // 모든 TourPlace 항목을 가져옵니다.
-        List<TourPlace> tourPlaces = queryFactory.selectFrom(qTourPlace)
-                .fetch();
-
-        // 관심사 기반으로 필터링된 TourPlace 목록을 생성합니다.
         List<TourPlace> filteredTourPlaces = tourPlaces.stream()
                 .filter(tourPlace -> filterByInterests(tourPlace, interests))
                 .collect(Collectors.toList());
 
-        // 각 TourPlace에 대해 최종 점수를 계산하고 리스트를 생성합니다.
         List<TourPlace> topTourPlaces = filteredTourPlaces.stream()
                 .map(tourPlace -> {
-                    // 관심사 기반 점수 계산
                     int interestPoints = calculateInterestPoints(tourPlace, interests);
-
-                    // 최종 점수 계산
                     int finalPointValue = tourPlace.getPlacePointValue() + interestPoints;
-
-                    // TourPlace의 finalPointValue를 업데이트하여 반환 (레포지토리에 저장하지 않음)
                     tourPlace.setPlacePointValue(finalPointValue);
-
                     return tourPlace;
                 })
-                .sorted((tp1, tp2) -> Integer.compare(tp2.getPlacePointValue(), tp1.getPlacePointValue())) // 내림차순 정렬
-                .limit(20) // 최대 20개의 항목만 가져오기
+                .sorted((tp1, tp2) -> Integer.compare(tp2.getPlacePointValue(), tp1.getPlacePointValue()))
+                .limit(20)
                 .collect(Collectors.toList());
-
-
-        // 전체 항목 수 계산 (최대 20개로 제한)
-      //  int totalItems = topTourPlaces.size();
 
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
@@ -93,16 +70,13 @@ public class TourplaceInterestsPointService {
         int offset = (page - 1) * limit;
 
         Pagination pagination = new Pagination(page, (int) repository.count(), 0, limit, request);
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QTourPlace tourPlace = QTourPlace.tourPlace;
-        List<TourPlace> items = queryFactory.selectFrom(tourPlace)
-                .orderBy(tourPlace.placePointValue.desc())
+        List<TourPlace> items = queryFactory.selectFrom(qTourPlace)
+                .orderBy(qTourPlace.placePointValue.desc())
                 .offset(offset)
                 .limit(limit)
                 .fetch();
+
         return new ListData<>(items, pagination);
-
-
     }
 
     private List<Interest> getInterestsForMember(Member member) {
@@ -111,7 +85,6 @@ public class TourplaceInterestsPointService {
                 .map(Interests::getInterest)
                 .collect(Collectors.toList());
     }
-
 
     private boolean filterByInterests(TourPlace tourPlace, List<Interest>  interests) {
         // 관심사에 따라 필터링 수행

@@ -66,7 +66,7 @@ public class DataTransfer {
         service2.updateVisit("1Y");
     }
 
-    @Test
+    @Test // tourplace api 다운로드 30분
     void test3() {
         apiUpdateService.update();
 
@@ -87,7 +87,7 @@ public class DataTransfer {
 
 
 
-    @Test
+    @Test // placepointvalue 계산 4시간
     void test6() {
 
         pointService.update();

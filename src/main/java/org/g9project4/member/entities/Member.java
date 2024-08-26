@@ -8,19 +8,16 @@ import org.g9project4.file.entities.FileInfo;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.member.constants.Gender;
 import org.g9project4.planner.entities.Planner;
-import org.g9project4.member.constants.Interest;
+//import org.g9project4.visitrecord.entities.VisitRecords;
 
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "members")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -72,7 +69,7 @@ public class Member extends BaseEntity implements Serializable {
     @Transient
     private FileInfo profileImage;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "member")
-    private List<VisitRecord> visitRecord;
+//    @ToString.Exclude
+//    @OneToMany(mappedBy = "member")
+//    private List<VisitRecords> visitRecords;
 }

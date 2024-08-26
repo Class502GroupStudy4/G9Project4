@@ -55,8 +55,6 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath userName = createString("userName");
 
-    public final ListPath<VisitRecord, QVisitRecord> visitRecord = this.<VisitRecord, QVisitRecord>createList("visitRecord", VisitRecord.class, QVisitRecord.class, PathInits.DIRECT2);
-
     public QMember(String variable) {
         super(Member.class, forVariable(variable));
     }

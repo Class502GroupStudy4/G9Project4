@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.member.MemberUtil;
+import org.g9project4.member.constants.Interest;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.entities.QMember;
 import org.g9project4.member.repositories.MemberRepository;
@@ -35,13 +36,18 @@ public class TourplacePointMemberService {
     private final HttpServletRequest request;
 private final MemberUtil memberUtil;
 
-    public ListData<TourPlace> getTopTourPlacesByMember(TourPlaceSearch search, LocalDate currentDate) {
-        QTourPlace qTourPlace = QTourPlace.tourPlace;
-        QMember qMember = QMember.member;
+    public ListData<TourPlace> getTopTourPlacesByMember(TourPlaceSearch search, Member loggedMember) {
 
-        // 현재 로그인한 멤버의 정보를 가져옵니다.
-        Member currentMember = memberUtil.getMember(); // 로그인된 멤버 정보
-        int age = calculateAge(currentMember.getBirth(), currentDate);
+        if (loggedMember == null) {
+            throw new IllegalStateException("로그인이 필요합니다.");
+        }
+
+        LocalDate birth = memberUtil.getMember().getBirth();
+
+        LocalDate currentDate = LocalDate.now();
+        int age = calculateAge(birth, currentDate);
+        QTourPlace qTourPlace = QTourPlace.tourPlace;
+
 
 
         // 모든 TourPlace 항목을 가져옵니다.
@@ -55,7 +61,7 @@ private final MemberUtil memberUtil;
         List<TourPlace> topTourPlaces = tourPlaces.stream()
                 .map(tourPlace -> {
                     // 각 Member별로 mRecordPoint를 계산
-                    int mRecordPoint = calculateMRecordPoint(tourPlace, currentMember, currentDate, currentSeason);
+                    int mRecordPoint = calculateMRecordPoint(tourPlace, loggedMember, age, currentSeason);
 
                     // 최종 점수 계산 (placePointValue + mRecordPoint)
                     int finalPointValue = tourPlace.getPlacePointValue() + mRecordPoint;
@@ -68,8 +74,6 @@ private final MemberUtil memberUtil;
                 .limit(20) // 최대 20개의 항목만 가져오기
                 .collect(Collectors.toList());
 
-        // 전체 항목 수 계산
-        int totalItems = Math.min(topTourPlaces.size(), 20); // 최대 20개 항목으로 제한
 
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
@@ -86,9 +90,18 @@ private final MemberUtil memberUtil;
                 .fetch();
         return new ListData<>(items, pagination);
     }
+    private LocalDate getBirthForMember(Member member) {
+        // Member 객체에서 생일 정보를 가져옵니다.
+        return member.getBirth();
+    }
 
-    private int calculateMRecordPoint(TourPlace tourPlace, Member member, LocalDate currentDate, String currentSeason) {
-        int age = calculateAge(member.getBirth(), currentDate);
+    private int calculateAge(LocalDate birth, LocalDate currentDate) {
+        // 현재 날짜 기준으로 나이를 계산합니다.
+        return Period.between(birth, currentDate).getYears();
+    }
+
+    private int calculateMRecordPoint(TourPlace tourPlace, Member loggedMember, int age, String currentSeason) {
+
         int mRecordPoint = 0;
 
         // 연령대 및 현재 계절 기준으로 추가 점수 계산
@@ -127,9 +140,6 @@ private final MemberUtil memberUtil;
         return mRecordPoint;
     }
 
-    private int calculateAge(LocalDate birthDate, LocalDate currentDate) {
-        return Period.between(birthDate, currentDate).getYears();
-    }
 
     private String getCurrentSeason(LocalDate currentDate) {
         int month = currentDate.getMonthValue();

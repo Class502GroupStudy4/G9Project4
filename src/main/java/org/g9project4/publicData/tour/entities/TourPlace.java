@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.publicData.tour.constants.ContentType;
-import org.g9project4.member.entities.VisitRecord;
+//import org.g9project4.member.entities.VisitRecord;
 //import org.g9project4.member.entities.VisitRecord;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class TourPlace extends BaseEntity {
 
     @Transient
     public ContentType contentType;
-    private Integer  mapLevel;
+  //  private Integer  mapLevel;
 
 
     private String sigunguCode2;
@@ -94,7 +94,7 @@ public class TourPlace extends BaseEntity {
     private Double type2Y1; // 외지인 일별통계
     private Double type3Y1; //외국인 일별통계
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "tourPlace2")
-    private List<VisitRecord> visitRecord;
+//    @ToString.Exclude
+//    @OneToMany(mappedBy = "tourPlace2")
+//    private List<VisitRecord> visitRecord;
 }

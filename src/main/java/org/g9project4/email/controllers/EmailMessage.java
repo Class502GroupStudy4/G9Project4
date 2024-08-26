@@ -14,9 +14,9 @@ import java.io.Serializable;
  * message : 내용
  */
 
-//@Data
-//public class EmailMessage implements Serializable {
-//        private String sendTo;
-//        private String subject;
-//        private String message;
-//}
+@Data
+public class EmailMessage implements Serializable {
+        private String sendTo;
+        private String subject;
+        private String message;
+}
