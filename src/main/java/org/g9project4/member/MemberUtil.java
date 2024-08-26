@@ -20,6 +20,7 @@ import java.util.List;
 public class MemberUtil {
 
     private final MemberRepository repository;
+    private final MemberInfoService infoService;
 
     public boolean isLogin() {
         return getMember() != null;
@@ -37,13 +38,31 @@ public class MemberUtil {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        Member member = null;
         if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
-           Member member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
-           memberInfo.setMember(member);
-           return member;
+            member = memberInfo.getMember();
+            if (member == null) {
+                member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
+                infoService.addMemberInfo(member);
+
+                memberInfo.setMember(member);
+            }
         }
 
-            return null;
-        }
+        return member;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
