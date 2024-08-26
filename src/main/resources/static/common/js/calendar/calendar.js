@@ -14,7 +14,6 @@ window.addEventListener("DOMContentLoaded", function() {
     for (const el of days) {
         el.addEventListener("click", function() {
             const date = this.dataset.date; // 선택된 날짜
-
             /* 날짜 후속 처리가 필요한 경우 콜백 함수 정의 및 호출 */
             if (typeof parent.callbackCalendar == 'function') {
                 parent.callbackCalendar(date);
