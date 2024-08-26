@@ -11,6 +11,9 @@
         <th:block th:if="${board.skin == 'gallery'}">
             <div th:replace="~{front/board/gallery/_common::pageTitle}"></div>
         </th:block>
+        <th:block th:if="${board.skin == 'QnA'}">
+            <div th:replace="~{front/board/qna/_common::pageTitle}"></div>
+        </th:block>
 
         <th:block th:if="${board.skin == 'default'}">
             <th:block th:replace="~{front/board/default/_list_items::items}"></th:block>
@@ -18,6 +21,9 @@
 
         <th:block th:if="${board.skin == 'gallery'}">
             <th:block th:replace="~{front/board/gallery/_list_items::items}"></th:block>
+        </th:block>
+        <th:block th:if="${board.skin == 'qna'}">
+            <th:block th:replace="~{front/board/qna/_list_items::items}"></th:block>
         </th:block>
     </div>
 </main>
