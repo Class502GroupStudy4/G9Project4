@@ -9,6 +9,8 @@ import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
+import org.g9project4.wishlist.entities.WishList;
+import org.g9project4.wishlist.services.WishListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.g9project4.search.entities.QSearchHistory.searchHistory;
+import static org.g9project4.wishlist.entities.QWishList.wishList;
 
 @Controller
 @RequestMapping("/mypage")
@@ -32,6 +35,7 @@ public class MyPageController {
     private final MemberUtil memberUtil;
     private final Utils utils;
     private final SearchHistoryService searchHistoryService;
+    private final WishListService wishListService;
 
     @GetMapping
     public String index(@ModelAttribute RequestProfile form, Model model) {
@@ -47,7 +51,10 @@ public class MyPageController {
 
         List<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
 
+        List<WishList> wishList = wishListService.getWishListForMember(memberUtil.getMember());
+
         model.addAttribute("searchHistory", searchHistory);
+        model.addAttribute("wishList", wishList);
 
         return utils.tpl("mypage/index");
     }
