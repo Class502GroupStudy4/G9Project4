@@ -4,7 +4,6 @@ package org.g9project4.publicData.myvisit.services;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
@@ -19,7 +18,7 @@ import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,11 +38,13 @@ public class TourplaceInterestsPointService {
     private final InterestsRepository interestsRepository;
 
     // 여행 추천 - 관심사 기반 + 베이스 점수 계산
-    public ListData<TourPlace> getTopTourPlacesByInterests(TourPlaceSearch search, Member member) {
+    @Transactional(readOnly = true)
+    public ListData<TourPlace> getTopTourPlacesByInterests(TourPlaceSearch search) {
 
-        if (member == null) {
+        if (!memberUtil.isLogin()) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
+        Member member = memberUtil.getMember();
         List<Interest> interests = getInterestsForMember(member);
 
         if (interests.isEmpty()) {
@@ -85,11 +86,17 @@ public class TourplaceInterestsPointService {
         return new ListData<>(items, pagination);
     }
 
-    private List<Interest> getInterestsForMember(Member member) {
+    @Transactional(readOnly = true)
+  public List<Interest> getInterestsForMember(Member member) {
         // 회원의 관심사 데이터 조회
+        if (member == null) {
+            throw new IllegalArgumentException("The given id must not be null");
+        }
 
-        List<Interests> interestsEntities = interestsRepository.findByMember(member);
+        Member managedMember = memberRepository.findById(member.getSeq())
+                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
+        List<Interests> interestsEntities = interestsRepository.findByMember(managedMember);
         return interestsEntities.stream()
                 .map(Interests::getInterest)
                 .collect(Collectors.toList());

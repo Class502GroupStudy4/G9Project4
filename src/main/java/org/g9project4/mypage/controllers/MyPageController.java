@@ -139,18 +139,17 @@ public class MyPageController {
 
     //추천
     @GetMapping("/myplace")
-    public String myplaceList(@ModelAttribute TourPlaceSearch search, Member loggedMember, Model model) {
+    public String myplaceList(@ModelAttribute TourPlaceSearch search, Model model) {
 
 
-        if (loggedMember == null) {
+        if (!memberUtil.isLogin()) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
 
         try {
-            ListData<TourPlace> data = pointMemberService.getTopTourPlacesByMember(search, loggedMember);
+            ListData<TourPlace> data = pointMemberService.getTopTourPlacesByMember(search);
 
             commonProcess("mypost", model);
-            model.addAttribute("loggedMember", loggedMember);
             model.addAttribute("addCss", List.of("mypage/myplace"));
             model.addAttribute("data", data);
             model.addAttribute("tourPlaceSearch", search);
@@ -198,13 +197,13 @@ public class MyPageController {
 
 
     @GetMapping("/myinterests") // 관심사 기준 추천
-    public String interestsList(TourPlaceSearch search, Member member, Model model) {
+    public String interestsList(TourPlaceSearch search, Model model) {
 
         if (member == null) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
 
-        ListData<TourPlace> data = interestsPointService.getTopTourPlacesByInterests(search, member);
+        ListData<TourPlace> data = interestsPointService.getTopTourPlacesByInterests(search);
 
         // 추가 스타일을 모델에 추가
         model.addAttribute("addCss", List.of("mypage/myplace"));

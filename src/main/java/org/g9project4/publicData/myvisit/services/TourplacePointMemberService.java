@@ -24,6 +24,8 @@ import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.g9project4.member.entities.QMember.member;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -34,20 +36,19 @@ public class TourplacePointMemberService {
     private final TourPlaceRepository repository;
     private final EntityManager em;
     private final HttpServletRequest request;
-private final MemberUtil memberUtil;
+    private final MemberUtil memberUtil;
 
-    public ListData<TourPlace> getTopTourPlacesByMember(TourPlaceSearch search, Member loggedMember) {
+    public ListData<TourPlace> getTopTourPlacesByMember(TourPlaceSearch search) {
 
-        if (loggedMember == null) {
+        if (!memberUtil.isLogin()) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
-
+        Member member = memberUtil.getMember();
         LocalDate birth = memberUtil.getMember().getBirth();
 
         LocalDate currentDate = LocalDate.now();
         int age = calculateAge(birth, currentDate);
         QTourPlace qTourPlace = QTourPlace.tourPlace;
-
 
 
         // 모든 TourPlace 항목을 가져옵니다.
@@ -61,7 +62,7 @@ private final MemberUtil memberUtil;
         List<TourPlace> topTourPlaces = tourPlaces.stream()
                 .map(tourPlace -> {
                     // 각 Member별로 mRecordPoint를 계산
-                    int mRecordPoint = calculateMRecordPoint(tourPlace, loggedMember, age, currentSeason);
+                    int mRecordPoint = calculateMRecordPoint(tourPlace, member, age, currentSeason);
 
                     // 최종 점수 계산 (placePointValue + mRecordPoint)
                     int finalPointValue = tourPlace.getPlacePointValue() + mRecordPoint;
@@ -90,6 +91,7 @@ private final MemberUtil memberUtil;
                 .fetch();
         return new ListData<>(items, pagination);
     }
+
     private LocalDate getBirthForMember(Member member) {
         // Member 객체에서 생일 정보를 가져옵니다.
         return member.getBirth();
