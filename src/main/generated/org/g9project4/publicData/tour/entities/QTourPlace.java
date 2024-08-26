@@ -42,6 +42,8 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final DateTimePath<java.time.LocalDateTime> createdTime = createDateTime("createdTime", java.time.LocalDateTime.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;
 
@@ -59,6 +61,8 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
+    public final DateTimePath<java.time.LocalDateTime> modifiedTime = createDateTime("modifiedTime", java.time.LocalDateTime.class);
 
     public final NumberPath<Integer> sigunguCode = createNumber("sigunguCode", Integer.class);
 

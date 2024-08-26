@@ -1,4 +1,4 @@
-package org.g9project4.publicData.greentour.entities;
+package org.g9project4.publicData.tour.entities;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QGreenPlace extends EntityPathBase<GreenPlace> {
 
-    private static final long serialVersionUID = 1485781626L;
+    private static final long serialVersionUID = -1228107457L;
 
     public static final QGreenPlace greenPlace = new QGreenPlace("greenPlace");
 
