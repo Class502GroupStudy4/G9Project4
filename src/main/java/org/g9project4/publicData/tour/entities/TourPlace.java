@@ -1,8 +1,14 @@
 package org.g9project4.publicData.tour.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 import lombok.*;
 import org.g9project4.global.entities.BaseEntity;
+import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.member.entities.VisitRecord;
 //import org.g9project4.member.entities.VisitRecord;
 
@@ -32,7 +38,7 @@ public class TourPlace extends BaseEntity {
     @Column(length = 100)
     private String title;
 
-    @Column(length = 150)
+    @Column(length = 120)
     private String tel;
 
     @Column(length = 150)
@@ -52,6 +58,12 @@ public class TourPlace extends BaseEntity {
     private String cpyrhtDivCd;
     private Double latitude; // mapy
     private Double longitude; // mapx
+    private Integer mapLevel;
+    private Integer sigunguCode;
+
+
+    @Transient
+    public ContentType contentType;
     private Integer  mapLevel;
 
 

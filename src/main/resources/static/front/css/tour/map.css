@@ -1,4 +1,7 @@
 /* 지도와 메뉴를 포함하는 래퍼 */
+.tour-map{
+    width: 100%;
+}
 .map_wrap {
     position: relative;
     width: 100%;
@@ -28,55 +31,75 @@
     box-sizing: border-box; /* 패딩 포함 */
     overflow-y: auto; /* 세로 스크롤 활성화 */
 }
-#mew-side{
+
+/* 사이드 바 스타일 */
+#sidebar {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 1;
+    width: 300px; /* 사이드 바 너비 */
+    height: 100%; /* 전체 화면 높이 */
+    background: #f9f9f9; /* 배경 색상 */
+    padding: 20px; /* 여백 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    z-index: 2; /* 지도 위에 표시되도록 설정 */
 }
 
-/* 옵션 박스 */
-#menu_wrap .option {
-    margin-bottom: 10px;
+/* 사이드 바 리스트 스타일 */
+.sidebar-list {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 패딩 제거 */
+    margin: 0; /* 마진 제거 */
 }
 
-/* 구분선 */
-#menu_wrap hr {
-    margin: 10px 0;
+.sidebar-list li {
+    margin-bottom: 15px; /* 리스트 아이템 간격 */
 }
 
-/* 장소 리스트 */
-#placesList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* 장소 아이템 */
-#placesList .item {
-    border-bottom: 1px solid #888;
-    padding: 5px 0;
-}
-
-/* 페이지네이션 */
-#pagination {
-    text-align: center;
-    margin-top: 10px;
-}
-
-#pagination a {
-    margin: 0 5px;
-}
-
-#pagination .on {
+/* 버튼 스타일 */
+.styled-button {
+    display: inline-block;
+    width: 200px; /* 버튼 너비 고정 */
+    height: 50px; /* 버튼 높이 고정 */
+    padding: 12px 0; /* 상하 패딩 */
+    font-size: 16px;
     font-weight: bold;
-    cursor: default;
+    color: #fff;
+    background-color: #6F4F28; /* 연갈색 배경 */
+    border: none;
+    border-radius: 8px; /* 둥근 모서리 */
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* 부드러운 전환 효과 */
+}
+
+/* 버튼 호버 상태 */
+.styled-button:hover {
+    background-color: #c49c8c; /* 호버 시 어두운 연갈색 */
+    transform: scale(1.05); /* 버튼 커지기 효과 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+/* 버튼 클릭 상태 */
+.styled-button:active {
+    background-color: #a67c5e; /* 클릭 시 더 어두운 연갈색 */
+    transform: scale(0.95); /* 버튼 작아지기 효과 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 효과 */
+}
+
+/* 버튼 비활성화 상태 */
+.styled-button:disabled {
+    background-color: #b0bec5; /* 비활성화 상태 색상 */
+    color: #fff;
+    cursor: not-allowed; /* 비활성화 상태 커서 */
+    box-shadow: none; /* 비활성화 상태 그림자 제거 */
 }
 
 /* 카테고리 박스 */
 #category {
     position: absolute;
-    top: 10px;
+    top: 150px;
     left: 300px;
     border-radius: 5px;
     border: 1px solid #909090;
@@ -216,4 +239,136 @@
     color: #999;
     font-size: 11px;
     margin-top: 0;
+}
+
+
+/* 검색창 내부 폼 스타일 */
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    top: 150px; /* 부모 요소에서 100px 아래로 위치 */
+    z-index: 1000; /* 검색창이 지도 위에 위치하도록 설정 */
+    background-color: rgba(255, 255, 255, 0.9); /* 배경색 추가 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    position: absolute; /* 절대 위치로 설정 */
+}
+
+/* 검색 폼 내부 스타일 */
+#search_form {
+    width: 300px; /* 검색창 너비 조절 */
+    display: flex;
+}
+
+#search_form input[type="text"] {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+    width: 70%; /* 너비 비율 조정 */
+}
+
+#search_form input[type="text"]::placeholder {
+    color: #999;
+}
+
+.search-button {
+    padding: 0 15px;
+    font-size: 18px;
+    background-color: #6F4F28;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #c49c8c;
+}
+
+/* 검색 아이콘 스타일 */
+.search-button i {
+    font-size: 18px;
+}
+/* 검색 결과 컨테이너 */
+.search-results {
+    position: absolute;
+    top: 45px; /* 검색창 바로 아래 위치 */
+    left: 0;
+    width: 100%; /* 검색창과 동일한 너비 */
+    max-height: 750px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 스크롤 활성화 */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    z-index: 1001; /* 검색창보다 위에 위치 */
+}
+
+/* 검색 결과 테이블 스타일 */
+.search-results table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.search-results table td, .search-results table th {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.search-results table tr:hover {
+    background-color: #f5f5f5;
+}
+.wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+.wrap * {padding: 0;margin: 0;}
+.wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+.wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+.info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+.info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+.info .close:hover {cursor: pointer;}
+.info .body {position: relative;overflow: hidden;}
+.info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+.info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+.info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+.info .link {color: #5085BB;}
+/* 링크 강조를 위한 스타일 */
+.desc a {
+    color: #007bff; /* 링크의 기본 색상 */
+    font-weight: bold; /* 링크의 폰트 굵기 */
+    text-decoration: none; /* 기본 underline 제거 */
+}
+
+.desc a:hover {
+    color: #0056b3; /* 마우스를 올렸을 때 색상 */
+    text-decoration: underline; /* 마우스를 올렸을 때 underline 추가 */
+}
+
+.desc a:visited {
+    color: #0056b3; /* 방문한 링크의 색상 */
+}
+
+.photo-button {
+    position: absolute; /* 절대 위치 지정 */
+    bottom: 20px; /* 버튼의 아래쪽 여백 */
+    right: 20px;  /* 버튼의 오른쪽 여백 */
+    width: 50px;  /* 버튼의 너비 */
+    height: 50px; /* 버튼의 높이 */
+    background-image: url('/images/myloc.png'); /* 버튼 배경에 이미지 설정 */
+    background-size: cover; /* 배경 이미지가 버튼 크기에 맞게 조절됨 */
+    background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+    border: none; /* 버튼 테두리 제거 */
+    border-radius: 50%; /* 버튼을 둥글게 */
+    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 버튼에 그림자 추가 */
+    z-index: 10; /* 버튼을 다른 요소들 위에 표시 */
+}
+
+
+.photo-button:focus {
+    outline: none; /* 버튼 포커스 시 기본 테두리 제거 */
 }

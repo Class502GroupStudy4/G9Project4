@@ -1,7 +1,8 @@
 package org.g9project4.publicData.tour.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.StringUtils;
+import org.g9project4.config.controllers.ApiConfig;
+import org.g9project4.config.service.ConfigInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
@@ -9,27 +10,37 @@ import org.g9project4.global.exceptions.BadRequestException;
 import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
+import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
 import org.g9project4.publicData.greentour.entities.GreenPlace;
 import org.g9project4.publicData.tour.constants.ContentType;
+import org.g9project4.publicData.tour.entities.PlaceDetail;
 import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
+import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/tour")
 @RequiredArgsConstructor
 public class TourController implements ExceptionProcessor {
-
+    private final TourPlaceRepository tourPlaceRepository;
     private final TourPlaceInfoService placeInfoService;
+    private final TourDetailInfoService detailInfoService;
+    private final ConfigInfoService configInfoService;
+
     private final Utils utils;
 
+    @ModelAttribute("apiKeys")
+    public ApiConfig getApiKeys() {
+        return configInfoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
+    }
 
     private void addListProcess(Model model, ListData<TourPlace> data) {
         Pagination pagination = data.getPagination();
@@ -39,21 +50,32 @@ public class TourController implements ExceptionProcessor {
     }
 
     private void commonProcess(String mode, Model model) {
+        List<String> addCss = new ArrayList<>();
+        List<String> addCommonCss = new ArrayList<>();
+        List<String> addCommonScript = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
         if (mode.equals("list")) {
-            model.addAttribute("addCommonCss",List.of("banner"));
-            model.addAttribute("addCss", List.of("tour/list","tour/_typelist"));
+            addCss.addAll(List.of("tour/list", "tour/_typelist"));
+            addScript.add("tour/locBased");
+        } else if (mode.equals("geolocation")) {
+            addCss.addAll(List.of("tour/list", "tour/_typelist"));
+            addScript.add("tour/locBased");
         } else if (mode.equals("detail")) {
-            model.addAttribute("addCss", List.of("tour/map"));
-            model.addAttribute("addScript", List.of("tour/detailMap"));
-            model.addAttribute("addCommonScript", List.of("map"));
+            addCss.add("tour/map");
+            addScript.add("tour/detailMap");
+            addCommonScript.add("map");
         } else if (mode.equals("view")) {
-            model.addAttribute("addCss", List.of("tour/map", "tour/sidebar"));
-            model.addAttribute("addScript", List.of("tour/map", "tour/sidebar"));
+            addCss.addAll(List.of("tour/map", "tour/sidebar"));
+            addScript.addAll(List.of("tour/map", "tour/sidebar"));
         }
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addCommonCss", addCommonCss);
+        model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("addScript", addScript);
     }
 
-    private String greenList(TourPlaceSearch search, Model model) {
 
+    private String greenList(TourPlaceSearch search, Model model) {
         ListData<GreenPlace> items = null;
         try {
             items = placeInfoService.getGreenList(search);
@@ -67,10 +89,18 @@ public class TourController implements ExceptionProcessor {
         return utils.tpl("tour/list");
     }
 
+    @GetMapping("/popup")
+    public String popup(Model model) {
+        return utils.tpl("tour/popup");
+    }
+
     @GetMapping("/view")
-    public String view(Model model) {
+    public String view(Model model, @ModelAttribute TourPlaceSearch search) {
+        search.setContentType(null);
+        ListData<TourPlace> data = placeInfoService.getSearchedList(search);
         commonProcess("view", model);
-        return utils.tpl("/tour/map");
+        addListProcess(model, data);
+        return utils.tpl("tour/map");
     }
 
 
@@ -104,6 +134,7 @@ public class TourController implements ExceptionProcessor {
     @GetMapping("/list/{type}")
     public String list(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
         try {
+            if (StringUtils.hasText(type)) search.setContentType(utils.typeCode(type));
             // ContentType을 설정
             search.setContentType(utils.typeCode(type));
 
@@ -119,15 +150,9 @@ public class TourController implements ExceptionProcessor {
             if (search.getContentType() == ContentType.GreenTour) {
                 return greenList(search, model);
             }
-
-            // 데이터 가져오기
             ListData<TourPlace> data = placeInfoService.getSearchedList(search);
-
-            // 공통 처리 및 데이터 추가
             commonProcess("list", model);
             addListProcess(model, data);
-
-            // 템플릿 반환
             return utils.tpl("tour/list");
         } catch (BadRequestException e) {
             e.printStackTrace();
@@ -135,6 +160,31 @@ public class TourController implements ExceptionProcessor {
         }
     }
 
+    @GetMapping("/distance/list")
+    public String distanceList(/*@PathVariable(name = "type", required = false) String type,*/ @RequestParam("latitude") Double latitude,
+                                                                                               @RequestParam("longitude") Double longitude,
+                                                                                               @RequestParam(name = "radius", required = false) Integer radius, @ModelAttribute TourPlaceSearch search, Model model) {
+        try {
+            commonProcess("geolocation", model);
+            search.setLatitude(latitude);
+            search.setLongitude(longitude);
+            search.setRadius(radius);
+            ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
+            addListProcess(model, data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new TourPlaceNotFoundException();
+        }
+        return utils.tpl("tour/list");
+    }
+
+    @GetMapping("/detail/{contentId}")
+    public String detail(@PathVariable("contentId") Long contentId, Model model) {
+        PlaceDetail<DetailItem, DetailPetItem> item = detailInfoService.getDetail(contentId);
+        commonProcess("detail", model);
+        model.addAttribute("items", item);
+        return utils.tpl("tour/detail");
+    }
     @GetMapping("/list/loc/{type}")
     public String distanceList(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
         try{
@@ -151,15 +201,4 @@ public class TourController implements ExceptionProcessor {
         return utils.tpl("tour/list");
     }
 
-
-
-//    @GetMapping("/detail/{contentId}")
-//    public String detail(@PathVariable("contentId") Long contentId, Model model) {
-//        PlaceDetail<DetailItem> item = detailInfoService.getDetail(contentId);
-//        commonProcess("detail", model);
-//        model.addAttribute("items", item);
-//        return utils.tpl("tour/detail");
-//    }
 }
-
-

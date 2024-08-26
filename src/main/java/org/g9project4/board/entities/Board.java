@@ -1,5 +1,7 @@
 package org.g9project4.board.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.g9project4.file.entities.FileInfo;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(indexes = @Index(name="idx_board_basic", columnList = "listOrder DESC, createdAt DESC"))
 public class Board extends BaseMemberEntity {
     @Id
@@ -97,6 +100,7 @@ public class Board extends BaseMemberEntity {
      *
      * @return
      */
+    @JsonIgnore
     public List<String> getCategories() {
         List<String> categories = new ArrayList<>();
 

@@ -47,7 +47,7 @@ public class Pagination {
         int rangeCnt = (page - 1) / ranges;
         int firstRangePage = rangeCnt * ranges + 1;
         int lastRangePage = firstRangePage + ranges - 1;
-        lastRangePage = lastRangePage > totalPages ? totalPages : lastRangePage;
+        lastRangePage = Math.min(lastRangePage, totalPages);
 
         // 이전 구간 첫 페이지
         if (rangeCnt > 0) {

@@ -5,19 +5,22 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-
-import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
-//import org.g9project4.tourvisit.services.TourPlaceRepositoryCustomImpl;
-//import org.g9project4.tourvisit.repositories.SigunguTableRepository;
-import org.g9project4.publicData.tourvisit.repositories.SigunguTableRepository;
+import org.g9project4.publicData.tour.constants.ContentType;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfig {
+
+    private final EntityManager em;
 
 
 
@@ -28,6 +31,13 @@ public class BeanConfig {
         return new JPAQueryFactory(entityManager);
     }
 
+    @Lazy
+    @Bean
+    public JPAQueryFactory jpaQueryFactory() {
+        return new JPAQueryFactory(em);
+    }
+
+    @Lazy
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -36,8 +46,24 @@ public class BeanConfig {
         return objectMapper;
     }
 
+    @Lazy
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        return modelMapper;
+    }
+
+    @Lazy
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Lazy
+    @Bean
+    public List<ContentType> contentType() {
+        return ContentType.getList();
     }
 }

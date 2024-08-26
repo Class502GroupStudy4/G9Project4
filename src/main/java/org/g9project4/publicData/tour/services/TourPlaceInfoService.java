@@ -13,10 +13,13 @@ import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.exceptions.BadRequestException;
+import org.g9project4.global.exceptions.TourPlaceNotFoundException;
+import org.g9project4.global.exceptions.BadRequestException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.publicData.greentour.entities.GreenPlace;
 import org.g9project4.publicData.greentour.entities.QGreenPlace;
+import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
@@ -51,7 +54,12 @@ public class TourPlaceInfoService {
      * @param search
      * @return
      */
-    public List<TourPlace> getLocBasedList(TourPlaceSearch search) {
+    public ListData<TourPlace> getLocBasedList(TourPlaceSearch search) {
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
+
         double lat = search.getLatitude();
         double lon = search.getLongitude();
         int radius = search.getRadius();
@@ -63,6 +71,16 @@ public class TourPlaceInfoService {
                 List<Long> ids = response.getBody().getResponse().getBody().getItems().getItem().stream().map(ApiItem::getContentid).toList();
                 if (!ids.isEmpty()) {
                     QTourPlace tourPlace = QTourPlace.tourPlace;
+                    JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+                    List<TourPlace> items = queryFactory.selectFrom(tourPlace)
+                            .where(tourPlace.contentId.in(ids))
+                            .offset(offset)
+                            .limit(limit)
+                            .fetch();
+                    int count = ids.size();
+                    Pagination pagination = new Pagination(page, count, 0, limit, request);
+                    System.out.println(pagination.toString());
+                    return new ListData<>(items, pagination);
                     List<TourPlace> items = (List<TourPlace>) repository.findAll(tourPlace.contentId.in(ids), Sort.by(desc("contentId")));
 
                     return items;
@@ -70,6 +88,7 @@ public class TourPlaceInfoService {
             } // endif
         } catch (Exception e) {
             e.printStackTrace();
+            throw new TourPlaceNotFoundException();
         }
 
         return null;
@@ -93,6 +112,8 @@ public class TourPlaceInfoService {
         return new ListData<>(items, pagination);
 
     }
+
+    public ListData<GreenPlace> getGreenList(TourPlaceSearch search) {
 
     public ListData<GreenPlace> getGreenList(TourPlaceSearch search){
         int page = Math.max(search.getPage(), 1);
@@ -150,9 +171,11 @@ public class TourPlaceInfoService {
     }
 
 
+
     public ListData<TourPlace> getSearchedList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
+        int offset = (page - 1) * limit;
         limit = limit < 1 ? 20 : limit; // 기본값 설정
         int offset = (page - 1) * limit; // 페이지 오프셋 수정
 
@@ -167,6 +190,8 @@ public class TourPlaceInfoService {
         if (search.getContentType() != null) {
             andBuilder.and(tourPlace.contentTypeId.eq(search.getContentType().getId()));
         }
+        String sopt = search.getSopt();
+        String skey = search.getSkey();
 
 
         sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
@@ -191,6 +216,7 @@ public class TourPlaceInfoService {
                         .or(addressCond);
                 andBuilder.and(orBuilder);
             }
+            }
 
         }
 
@@ -213,6 +239,10 @@ public class TourPlaceInfoService {
         // 항목 데이터 가져오기
         List<TourPlace> items = query.fetch();
 
+        items.forEach(this::addInfo);
+
+        Pagination pagination = new Pagination(page, count, 0, limit, request);
+
         // 페이지네이션 설정
         Pagination pagination = new Pagination(page, (int) totalCount, 0, limit, request);
 
@@ -229,4 +259,13 @@ public class TourPlaceInfoService {
     }
 
 
+}
+
+    private void addInfo(TourPlace item) {
+        Long contentTypeId = item.getContentTypeId();
+        if (contentTypeId != null) {
+            ContentType type = ContentType.getList().stream().filter(c -> c.getId() == contentTypeId.longValue()).findFirst().orElse(null);
+            item.setContentType(type);
+        }
+    }
 }

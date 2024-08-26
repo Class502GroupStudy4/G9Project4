@@ -19,8 +19,6 @@
 }
 
 body {
-    background-color: var(--white);
-    background: url("https://img.freepik.com/free-photo/low-angle-shot-tall-trees-beautiful-green-forest_181624-7723.jpg?t=st=1723602067~exp=1723605667~hmac=d730937e42d7acff50d13305890334b3a479b08530368f9d71d9c1069db60eec&w=1380") center/cover no-repeat fixed;
     margin: 0;
     position: relative; /* footer-content의 위치를 기준으로 설정 */
     min-height: 100vh; /* 전체 페이지 높이 설정 */
@@ -82,7 +80,7 @@ input[type="checkbox"] {
 
 input[type="checkbox"] {
     width: auto;
-    margin-right: 0.5rem;
+    margin-right: 0.8rem;
 }
 
 .error {
@@ -97,7 +95,7 @@ input[type="checkbox"] {
     border: none;
     border-radius: var(--button-radius); /* 버튼 모서리 반경을 조금 더 작게 설정 */
     padding: 0.5rem 0.3rem; /* 버튼 안쪽 여백을 줄여서 버튼을 작게 만듦 */
-    font-size: 0.875rem; /* 버튼 텍스트 크기를 줄임 */
+    font-size: 1.2rem; /* 버튼 텍스트 크기를 줄임 */
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -162,7 +160,7 @@ button:hover {
     justify-content: space-between;
 }
 
-footer-content {
+.footer-content {
     background-color: var(--gray);
     color: var(--white);
     padding: 1rem;
@@ -170,4 +168,12 @@ footer-content {
     position: absolute;
     bottom: 0;
     width: 100%; /* 페이지 너비에 맞춤 */
+}
+
+.login-button {
+    font-size: 1.5rem; /* 버튼 텍스트 크기 */
+    width: 100px;
+    height: 40px;
+    border-radius: var(--button-radius); /* 버튼 모서리 반경을 조금 더 작게 설정 */
+    padding: 0.5rem 0.3rem; /* 버튼 안쪽 여백을 줄여서 버튼을 작게 만듦 */
 }

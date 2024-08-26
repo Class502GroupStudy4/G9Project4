@@ -43,7 +43,7 @@
         <dl>
             <dt th:text="#{출생일}"></dt>
             <dd>
-                <input type="date" name="birth" th:field="*{birth}" required>
+                <input type="date" name="birth" th:value="*{birth}"  required>
                 <div class="error" th:each="err:${#fields.errors('birth')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -101,8 +101,8 @@
             </dd>
         </dl>
         <div class="button-group">
-            <button type="reset" th:text="#{다시입력}"></button>
-            <button class='black' type="submit" th:text="#{수정하기}"></button>
+            <button class='black' type="reset" th:text="#{다시입력}"></button>
+            <button type="submit" th:text="#{수정하기}"></button>
         </div>
     </form>
     <script th:replace="~{common/_file_tpl::image}"></script>

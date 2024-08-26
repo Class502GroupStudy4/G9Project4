@@ -1,5 +1,10 @@
 package org.g9project4.publicData.tour.controllers;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.g9project4.global.CommonSearch;
 import lombok.*;
 import org.g9project4.global.RequestPage;
 import org.g9project4.publicData.tour.constants.ContentType;
@@ -10,8 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class TourPlaceSearch extends RequestPage {
+public class TourPlaceSearch extends CommonSearch {
     /**
      * 필터 옵션
      *

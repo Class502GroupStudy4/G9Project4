@@ -26,6 +26,16 @@ public class Utils { // 빈의 이름 - utils
     private final HttpServletRequest request;
     private final DiscoveryClient discoveryClient;
 
+    private static final ResourceBundle commonsBundle;
+    private static final ResourceBundle validationsBundle;
+    private static final ResourceBundle errorsBundle;
+
+    static {
+        commonsBundle = ResourceBundle.getBundle("messages.commons");
+        validationsBundle = ResourceBundle.getBundle("messages.validations");
+        errorsBundle = ResourceBundle.getBundle("messages.errors");
+    }
+
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
 
@@ -35,8 +45,6 @@ public class Utils { // 빈의 이름 - utils
             return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
         }
     }
-
-
     public String redirectUrl(String url) {
         String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
@@ -44,6 +52,12 @@ public class Utils { // 빈의 이름 - utils
 
         return fromGateway ? request.getScheme() + "://" + gatewayHost + "/app" + url : request.getContextPath() + url;
     }
+
+    public String adminUrl(String url) {
+       List<ServiceInstance>instances =discoveryClient.getInstances("admin-service");
+       return String.format("%s%s", instances.get(0).getUri().toString(),url);
+    }
+
 
     public Map<String, List<String>> getErrorMessages(Errors errors) {//JSON 받을 때는 에러를 직접 가공
         // FieldErrors
@@ -90,8 +104,13 @@ public class Utils { // 빈의 이름 - utils
         return messages.isEmpty() ? code : messages.get(0);
     }
 
+    /**
+     * 줄개행 문자(\n, \n\r) -> <br>
+     * @param str
+     * @return
+     */
     public String nl2br(String str) {
-        return str.replaceAll("\\n", "<br>").replaceAll("\\r", "");
+        return str.replace("\n", "<br>").replace("\r", "");
     }
 
     public ContentType typeCode(String type) {
@@ -153,6 +172,7 @@ public class Utils { // 빈의 이름 - utils
 
         return prefix + path;
     }
+
 
 
     /**
