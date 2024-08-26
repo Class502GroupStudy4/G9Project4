@@ -11,11 +11,13 @@ import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
-import org.g9project4.publicData.greentour.entities.GreenPlace;
 import org.g9project4.publicData.tour.constants.ContentType;
-import org.g9project4.publicData.tour.entities.PlaceDetail;
-import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.publicData.tour.entities.*;
+import org.g9project4.publicData.tour.repositories.AreaCodeRepository;
+import org.g9project4.publicData.tour.repositories.CategoryRepository;
+import org.g9project4.publicData.tour.repositories.SigunguCodeRepository;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
+import org.g9project4.publicData.tour.services.NewTourPlaceInfoService;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.springframework.stereotype.Controller;
@@ -34,12 +36,24 @@ public class TourController implements ExceptionProcessor {
     private final TourPlaceInfoService placeInfoService;
     private final TourDetailInfoService detailInfoService;
     private final ConfigInfoService configInfoService;
-
+    private final NewTourPlaceInfoService newTourPlaceInfoService;
     private final Utils utils;
+    private final AreaCodeRepository areaCodeRepository;
+    private final SigunguCodeRepository sigunguCodeRepository;
+    private final CategoryRepository categoryRepository;
 
     @ModelAttribute("apiKeys")
     public ApiConfig getApiKeys() {
         return configInfoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
+    }
+
+    @ModelAttribute("areaCodes")
+    public List<AreaCode> getAreaCodes(){
+        return areaCodeRepository.findAll();
+    }
+    @ModelAttribute("category1")
+    public List<Object[]> getCategory1(){
+        return categoryRepository.findDistinctName1();
     }
 
     private void addListProcess(Model model, ListData<TourPlace> data) {
@@ -56,7 +70,7 @@ public class TourController implements ExceptionProcessor {
         List<String> addScript = new ArrayList<>();
         if (mode.equals("list")) {
             addCss.addAll(List.of("tour/list", "tour/_typelist"));
-            addScript.add("tour/locBased");
+            addScript.addAll(List.of("tour/locBased","tour/form"));
         } else if (mode.equals("geolocation")) {
             addCss.addAll(List.of("tour/list", "tour/_typelist"));
             addScript.add("tour/locBased");
@@ -72,21 +86,6 @@ public class TourController implements ExceptionProcessor {
         model.addAttribute("addCommonCss", addCommonCss);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
-    }
-
-
-    private String greenList(TourPlaceSearch search, Model model) {
-        ListData<GreenPlace> items = null;
-        try {
-            items = placeInfoService.getGreenList(search);
-        } catch (Exception e) {
-            throw new TourPlaceNotFoundException();
-        }
-        commonProcess("list", model);
-        model.addAttribute("items", items.getItems());
-        model.addAttribute("pagination", items.getPagination());
-
-        return utils.tpl("tour/list");
     }
 
     @GetMapping("/popup")
@@ -105,44 +104,12 @@ public class TourController implements ExceptionProcessor {
 
     @GetMapping("/list")
     public String list(Model model, @ModelAttribute TourPlaceSearch search) {
-        search.setContentType(null);
-        ListData<TourPlace> data = placeInfoService.getSearchedList(search);
-        commonProcess("list", model);
-        addListProcess(model, data);
-        return utils.tpl("tour/list");
-    }
-
-    @GetMapping("/list/{type}")
-    public String list(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
         try {
-            if (StringUtils.hasText(type)) search.setContentType(utils.typeCode(type));
-            if (search.getContentType() == ContentType.GreenTour) {
-                return greenList(search, model);
-            }
-            ListData<TourPlace> data = placeInfoService.getSearchedList(search);
+            ListData<TourPlace> data = newTourPlaceInfoService.getSearchedList(search);
             commonProcess("list", model);
-            addListProcess(model, data);
-            return utils.tpl("tour/list");
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            return "redirect:" + utils.redirectUrl("/tour/list");
-        }
-    }
-
-    @GetMapping("/distance/list")
-    public String distanceList(/*@PathVariable(name = "type", required = false) String type,*/ @RequestParam("latitude") Double latitude,
-                                                                                               @RequestParam("longitude") Double longitude,
-                                                                                               @RequestParam(name = "radius", required = false) Integer radius, @ModelAttribute TourPlaceSearch search, Model model) {
-        try {
-            commonProcess("geolocation", model);
-            search.setLatitude(latitude);
-            search.setLongitude(longitude);
-            search.setRadius(radius);
-            ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
             addListProcess(model, data);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new TourPlaceNotFoundException();
         }
         return utils.tpl("tour/list");
     }
