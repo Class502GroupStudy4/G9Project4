@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -103,6 +104,8 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
     public final NumberPath<Double> type3W1 = createNumber("type3W1", Double.class);
 
     public final NumberPath<Double> type3Y1 = createNumber("type3Y1", Double.class);
+
+    public final ListPath<org.g9project4.member.entities.VisitRecord, org.g9project4.member.entities.QVisitRecord> visitRecord = this.<org.g9project4.member.entities.VisitRecord, org.g9project4.member.entities.QVisitRecord>createList("visitRecord", org.g9project4.member.entities.VisitRecord.class, org.g9project4.member.entities.QVisitRecord.class, PathInits.DIRECT2);
 
     public QTourPlace(String variable) {
         super(TourPlace.class, forVariable(variable));

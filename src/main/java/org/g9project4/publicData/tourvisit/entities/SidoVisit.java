@@ -1,10 +1,7 @@
 package org.g9project4.publicData.tourvisit.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.g9project4.global.entities.BaseEntity;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.g9project4.publicData.tourvisit.services;
+package org.g9project4.publicData.myvisit.services;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,14 +16,11 @@ import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service

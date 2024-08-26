@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.g9project4.member.constants.Interest;
-
 import java.io.Serializable;
 
 @Data
@@ -15,7 +14,6 @@ import java.io.Serializable;
 @IdClass(InterestsId.class)
 @Table(name = "interests")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Interests implements Serializable {
 
 
@@ -25,7 +23,13 @@ public class Interests implements Serializable {
     private Member member;
 
 
+    @Id
     @Column(length=20)
     @Enumerated(EnumType.STRING)
     private Interest interest;
+
+    public Interests(Member member, Interest interest) {
+        this.member = member;
+        this.interest = interest;
+    }
 }

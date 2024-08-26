@@ -1,11 +1,12 @@
 package org.g9project4.publicData.tour.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.g9project4.global.entities.BaseEntity;
+import org.g9project4.member.entities.VisitRecord;
+//import org.g9project4.member.entities.VisitRecord;
+
+import java.util.List;
 
 
 @Data
@@ -80,4 +81,8 @@ public class TourPlace extends BaseEntity {
     private Double type1Y1;  // 현지인 일별통계 현지인관광객구분명
     private Double type2Y1; // 외지인 일별통계
     private Double type3Y1; //외국인 일별통계
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "tourPlace2")
+    private List<VisitRecord> visitRecord;
 }

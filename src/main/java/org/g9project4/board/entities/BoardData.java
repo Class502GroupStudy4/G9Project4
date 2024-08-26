@@ -1,10 +1,7 @@
 package org.g9project4.board.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.member.entities.Member;
 
@@ -12,6 +9,7 @@ import org.g9project4.member.entities.Member;
 @Entity
 @Builder
 @NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Table(indexes = @Index(name="idx_board_data", columnList = "notice DESC, createdAt DESC"))
 public class BoardData extends BaseEntity {
     @Id @GeneratedValue

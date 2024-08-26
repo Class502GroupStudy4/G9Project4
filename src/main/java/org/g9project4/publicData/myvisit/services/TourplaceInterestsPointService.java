@@ -1,4 +1,4 @@
-package org.g9project4.publicData.tourvisit.services;
+package org.g9project4.publicData.myvisit.services;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,16 +11,15 @@ import org.g9project4.global.Pagination;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Interest;
 import org.g9project4.member.entities.Member;
-import org.g9project4.member.entities.QMember;
+import org.g9project4.member.repositories.InterestsRepository;
 import org.g9project4.member.repositories.MemberRepository;
-
+import org.g9project4.member.entities.Interests;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,15 +35,16 @@ public class TourplaceInterestsPointService {
     private final HttpServletRequest request;
     private final EntityManager em;
     private final MemberUtil memberUtil;
+    private InterestsRepository interestsRepository;
 
     // 여행 추천 - 관심사 기반 + 베이스 점수 계산
     public ListData<TourPlace> getTopTourPlacesByInterests(Long seq, TourPlaceSearch search) {
 
         QTourPlace qTourPlace = QTourPlace.tourPlace;
-        QMember qMember = QMember.member;
+    //    QMember qMember = QMember.member;
         // 현재 로그인한 멤버의 정보를 가져옵니다.
         Member currentMember = memberUtil.getMember(); // 로그인된 멤버 정보
-        int age = calculateAge(currentMember.getInterests());
+    //    int age = calculateAge(currentMember.getInterests());
 
 
         if (!memberUtil.isLogin()) {
@@ -54,7 +54,7 @@ public class TourplaceInterestsPointService {
 
 
         // 관심사 데이터를 가져옵니다.
-        List<String> interests = getInterestsAsList(member);
+        List<Interest> interests = getInterestsForMember(currentMember);
 
         // 모든 TourPlace 항목을 가져옵니다.
         List<TourPlace> tourPlaces = queryFactory.selectFrom(qTourPlace)
@@ -85,7 +85,7 @@ public class TourplaceInterestsPointService {
 
 
         // 전체 항목 수 계산 (최대 20개로 제한)
-        int totalItems = topTourPlaces.size();
+      //  int totalItems = topTourPlaces.size();
 
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
@@ -105,19 +105,15 @@ public class TourplaceInterestsPointService {
 
     }
 
-    private List<String> getInterestsAsList(Member member) {
-        List<String> interestsList = new ArrayList<>();
-        Interest interest = member.getInterests();
-
-        if (interest != null) {
-            interestsList.add(interest.name());
-        }
-
-        return interestsList;
+    private List<Interest> getInterestsForMember(Member member) {
+        // 회원의 관심사 데이터 조회
+        return interestsRepository.findByMember(member).stream()
+                .map(Interests::getInterest)
+                .collect(Collectors.toList());
     }
 
 
-    private boolean filterByInterests(TourPlace tourPlace, List<String> interests) {
+    private boolean filterByInterests(TourPlace tourPlace, List<Interest>  interests) {
         // 관심사에 따라 필터링 수행
 
         if (interests.contains("MATJIB") && tourPlace.getContentTypeId() == 12) {
@@ -214,7 +210,8 @@ public class TourplaceInterestsPointService {
         return false;
     }
 
-    private int calculateInterestPoints(TourPlace tourPlace, List<String> interests) {
+    private int calculateInterestPoints(TourPlace tourPlace,List<Interest> interests) {
+        int interestCount = 0;
         boolean isMatjibIncluded = false;
         boolean isHocanceIncluded = false;
         boolean isMuseumIncluded = false;
@@ -321,7 +318,7 @@ public class TourplaceInterestsPointService {
         }
 
 
-        int interestCount = 0;
+
         if (isMatjibIncluded) {
             interestCount++;
         }

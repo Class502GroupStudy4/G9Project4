@@ -13,6 +13,7 @@ import org.g9project4.member.entities.Interests;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.exceptions.MemberNotFoundException;
 import org.g9project4.member.repositories.AuthoritiesRepository;
+import org.g9project4.member.repositories.InterestsRepository;
 import org.g9project4.member.repositories.MemberRepository;
 import org.g9project4.mypage.controllers.RequestProfile;
 import org.modelmapper.ModelMapper;
@@ -35,8 +36,8 @@ public class MemberSaveService {
     private final AuthoritiesRepository authoritiesRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
-    private final HttpSession session;
-   // private List<Interests> interests;
+   private final InterestsRepository interestsRepository;
+
     /**
      * 회원 가입 처리
      *
@@ -55,9 +56,11 @@ public class MemberSaveService {
      * @param form
      */
     public void save(RequestProfile form) {
+
         Member member = memberUtil.getMember();
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
         String password = form.getPassword();
         String mobile = form.getMobile();
         LocalDate birth = form.getBirth();
@@ -82,18 +85,19 @@ public class MemberSaveService {
         member.setGende(gende);
         member.setIsForeigner(isForeigner);
 
-        // 기존 interests 삭제
-        member.getInterests().clear();
 
-        // RequestProfile form에서 Interests 목록 가져오기
-        Interest interest = form.getInterests(); // Interest 객체 하나를 가져오는 경우
+        // 기존 관심사 데이터 삭제
+        interestsRepository.deleteByMember(member); // Use repository to delete existing interests
 
-        // Interest enum 객체를 사용하여 Interests 객체를 생성
-        List<Interests> newInterests = Collections.singletonList(
-                new Interests(member, interest) // Interest enum 객체를 전달
-        );
+        final Member finalMember = member;
 
-        member.setInterests(newInterests);
+        // RequestProfile form에서 Interest 목록 가져오기
+        List<Interests> newInterestsEntities = form.getInterests().stream()
+                .map(interest -> new Interests(finalMember, interest.getInterest()))
+                .collect(Collectors.toList());
+
+        // Save new interests
+        interestsRepository.saveAllAndFlush(newInterestsEntities);
 
         save(member, null);
     }
