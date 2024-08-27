@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.global.entities.BaseEntity;
+import org.g9project4.member.constants.Authority;
 import org.g9project4.member.constants.Gender;
 import org.g9project4.planner.entities.Planner;
 
@@ -51,6 +52,10 @@ public class Member extends BaseEntity implements Serializable {
     @NotNull
     private Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
 
+    @Enumerated(EnumType.STRING)
+    //@Column(nullable = false)
+    private Authority authority;  // 권한 (ALL, USER, ADMIN)
+
     @ToString.Exclude
     @OneToMany(mappedBy = "member")
     @Size(max = 5, message = "A member can have a maximum of 5 interests.")
@@ -64,6 +69,7 @@ public class Member extends BaseEntity implements Serializable {
     @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Planner> planners;
+
     @Transient
     private FileInfo profileImage;
 

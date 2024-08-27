@@ -3,6 +3,8 @@ package org.g9project4.wishlist.services;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.member.MemberUtil;
+import org.g9project4.member.entities.Member;
+import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.wishlist.constants.WishType;
 import org.g9project4.wishlist.entities.QWishList;
 import org.g9project4.wishlist.entities.WishList;
@@ -56,11 +58,10 @@ public class WishListService {
 
         List<Long> items = ((List<WishList>)repository.findAll(builder, Sort.by(desc("createdAt")))).stream().map(WishList::getSeq).toList();
 
-
         return items;
     }
 
-    public boolean check(Long seq, String type) {
+    public boolean check(Long seq, String  type) {
         if (memberUtil.isLogin()) {
             WishListId wishListId = new WishListId(seq, WishType.valueOf(type), memberUtil.getMember());
 
@@ -68,5 +69,9 @@ public class WishListService {
         }
 
         return false;
+    }
+
+    public List<WishList> getWishListForMember(Member member) {
+        return repository.findByMember(member);
     }
 }

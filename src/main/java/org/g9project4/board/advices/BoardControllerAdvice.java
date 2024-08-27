@@ -19,7 +19,7 @@ public class BoardControllerAdvice {
     }
 
     @ModelAttribute("tourWishList")
-    public List <Long> tourWishList() {
+    public List<Long> tourWishList() {
         return wishListService.getList(WishType.TOUR);
     }
 }

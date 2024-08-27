@@ -24,6 +24,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final ListPath<Authorities, QAuthorities> authorities = this.<Authorities, QAuthorities>createList("authorities", Authorities.class, QAuthorities.class, PathInits.DIRECT2);
 
+    public final EnumPath<org.g9project4.member.constants.Authority> authority = createEnum("authority", org.g9project4.member.constants.Authority.class);
+
     public final DatePath<java.time.LocalDate> birth = createDate("birth", java.time.LocalDate.class);
 
     //inherited

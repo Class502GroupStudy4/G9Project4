@@ -3,7 +3,6 @@ package org.g9project4.mypage.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
-import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Interest;
@@ -11,13 +10,14 @@ import org.g9project4.member.entities.Member;
 import org.g9project4.member.repositories.InterestsRepository;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
-//km import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
+import org.g9project4.wishlist.entities.WishList;
+import org.g9project4.wishlist.services.WishListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 
 import static org.g9project4.member.entities.QMember.member;
 import static org.g9project4.search.entities.QSearchHistory.searchHistory;
+import static org.g9project4.wishlist.entities.QWishList.wishList;
 
 @Controller
 @RequestMapping("/mypage")
@@ -47,6 +48,7 @@ public class MyPageController {
     private final TourplacePointMemberService pointMemberService;
     private final TourplaceInterestsPointService interestsPointService;
     private final InterestsRepository interestsRepository;
+    private final WishListService wishListService;
 
     @GetMapping
     public String index(@ModelAttribute RequestProfile form, Model model) {
@@ -69,7 +71,10 @@ public class MyPageController {
 
         List<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
 
+        List<WishList> wishList = wishListService.getWishListForMember(memberUtil.getMember());
+
         model.addAttribute("searchHistory", searchHistory);
+        model.addAttribute("wishList", wishList);
 
         return utils.tpl("mypage/index");
     }
@@ -243,5 +248,3 @@ public class MyPageController {
         model.addAttribute("addScript", addScript);
     }
 }
-
-
