@@ -18,7 +18,7 @@
                             <a th:href="${@utils.redirectUrl('/tour/list')}" th:text="#{여행지정보}"></a>
                         </h5>
                         <div class="dropdown-content">
-                            <a th:each="type,s: ${@contentType}" th:object="${@contentType}" class="item" th:id="contentType+${s.index}" th:text="${type.getType()}" th:href="${@utils.redirectUrl('/tour/list/'+type.getName())}"></a>
+                            <a th:each="type,s: ${@contentType}" th:object="${@contentType}" class="item" th:id="contentType+${s.index}" th:text="${type.getType()}" th:href="${@utils.redirectUrl('/tour/list?contentType='+type.getName())}"></a>
                         </div>
                     </div>
                     <div>
@@ -36,7 +36,7 @@
                     </div>
                     <div>
                         <h5>
-                            <a th:href="${@utils.redirectUrl('/plan')}" th:text="#{여행노트}"></a>
+                            <a th:href="${@utils.redirectUrl('#')}" th:text="#{게시판}"></a>
                         </h5>
                         <div class="dropdown-content">
                             <a th:href="${@utils.redirectUrl('/plan/list')}" th:text="#{계획_보기}"></a>
@@ -57,14 +57,14 @@
             <div class="dropdown layout-right my-account">
                 <a th:for="mypage" th:href="${@utils.redirectUrl('/mypage')}">
                     <i th:id="mypage" class="xi-profile-o"></i></a>
-                <div class=" dropdown-content" th:if="${!isLogin}">
+                <div class=" dropdown-content" th:if="${isLogin!=null&& !isLogin}">
                     <a th:href="${@utils.redirectUrl('/member/login')}" th:text="#{로그인}">
                     </a>
 
                     <a th:href="${@utils.redirectUrl('/member/join')}" th:text="#{회원가입}">
                     </a>
                 </div>
-                <div class="dropdown-content" th:if="${isLogin}">
+                <div class="dropdown-content" th:if="${isLogin !=null && isLogin}">
                     <div th:replace="~{common/_profile_image::image1}"></div>
                     <span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/><br>
                     <a th:href="${@utils.redirectUrl('/member/logout')}">
