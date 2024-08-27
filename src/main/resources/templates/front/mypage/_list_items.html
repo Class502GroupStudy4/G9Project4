@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="myBoardData">
+    <table class="list-items">
+        <thead>
+        <tr>
+            <th th:text="#{순번}"></th>
+            <th th:text="#{게시판_이름}"></th>
+            <th th:text="#{분류}"></th>
+            <th th:text="#{게시글_제목}"></th>
+            <th th:text="#{수정일}"></th>
+            <th th:text="#{삭제여부}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(items)}">
+            <th colspan="6"  th:text="#{조회된_게시글이_없습니다.}" class="no-data"></th>
+        </tr>
+        <tr th:if="${!#lists.isEmpty(items)}" th:each="item, s : ${items}" th:object="${item}" class="boardData-list">
+
+            <th th:text="${s.index}"></th>
+            <th>
+                <a th:href="${@utils.redirectUrl('/board/list/'+item.board.bid)}" th:text="${item.board.bName}"></a>
+            </th>
+            <th>
+	    <span th:if="*{category != null && category != ''}" th:text="*{'[' + category + ']'}"
+              class="category"></span>
+            </th>
+            <th>
+                <a th:if="${item.deletedAt==null}" th:href="${@utils.redirectUrl('/board/view/'+item.seq)}" th:text="${item.subject}"></a>
+                <span th:if="${item.deletedAt!=null}" th:text="${item.subject}"></span>
+            </th>
+            <th th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm:ss')}"></th>
+            <th>
+                <i class="xi-check-square-o" th:if="${item.deletedAt!=null}"></i>
+                <i class="xi-checkbox-blank" th:if="${item.deletedAt==null}"></i>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+<th:block th:fragment="myCommentData">
+    <table class="list-items">
+        <thead>
+        <tr>
+            <th th:text="#{순번}"></th>
+            <th th:text="#{게시판_이름}"></th>
+            <th th:text="#{게시글_제목}"></th>
+            <th th:text="#{댓글}"></th>
+            <th th:text="#{수정일}"></th>
+            <th th:text="#{삭제여부}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(items)}">
+            <th colspan="6"  th:text="#{조회된_댓글이_없습니다.}" class="no-data"></th>
+        </tr>
+        <tr th:if="${!#lists.isEmpty(items)}" th:each="item,s : ${items}" th:object="${item}" class="comment-list">
+
+            <th th:text="${s.index}"></th>
+            <th>
+                <a th:href="${@utils.redirectUrl('/board/list/'+item.boardData.board.bid)}" th:text="${item.boardData.board.bName}"></a>
+            </th>
+            <th>
+                <a th:if="${item.boardData.deletedAt==null}" th:href="${@utils.redirectUrl('/board/view/'+item.boardData.seq)}" th:text="${item.boardData.subject}"></a>
+                <span th:if="${item.boardData.deletedAt!=null}" th:text="${item.boardData.subject}"></span>
+            </th>
+            <th th:text="*{content}"></th>
+            <th th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm:ss')}"></th>
+            <th>
+                <i class="xi-check-square-o" th:if="${item.boardData.deletedAt!=null}"></i>
+                <i class="xi-checkbox-blank" th:if="${item.boardData.deletedAt==null}"></i>
+            </th>
+        </tr>
+        </tbody>
+
+    </table>
+</th:block>
+<th:block th:fragment="myWishList">
+    <table class="wishList-items">
+        <thead>
+        <tr>
+            <th th:text="#{순번}"></th>
+            <th th:text="#{게시판_이름}"></th>
+            <th th:text="#{게시글_제목}"></th>
+            <th th:text="#{작성자}"></th>
+            <th th:text="#{삭제여부}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(wishList)}">
+            <th colspan="5" th:text="#{조회된_찜글이_없습니다.}" class="no-data"></th>
+        </tr>
+        <tr th:if="${!#lists.isEmpty(wishList)}" th:each="wish, s : ${wishList}">
+            <td th:text="${s.index + 1}"></td>
+            <td>
+                <a th:href="${@utils.redirectUrl('/board/list/' + @boardDataRepository.getById(wish.seq).board.bid)}"
+                   th:text="${@boardDataRepository.getById(wish.seq).board.bName}"></a>
+            </td>
+            <td>
+                <a th:if="${@boardDataRepository.getById(wish.seq).deletedAt == null}"
+                   th:href="${@utils.redirectUrl('/board/view/' + wish.seq)}"
+                   th:text="${@boardDataRepository.getById(wish.seq).subject}"></a>
+                <span th:if="${@boardDataRepository.getById(wish.seq).deletedAt != null}"
+                      th:text="${@boardDataRepository.getById(wish.seq).subject}"></span>
+            </td>
+            <td th:text="${@boardDataRepository.getById(wish.seq).poster}"></td>
+            <td>
+                <i class="xi-check-square-o" th:if="${@boardDataRepository.getById(wish.seq).deletedAt != null}"></i>
+                <i class="xi-checkbox-blank" th:if="${@boardDataRepository.getById(wish.seq).deletedAt == null}"></i>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+</html>

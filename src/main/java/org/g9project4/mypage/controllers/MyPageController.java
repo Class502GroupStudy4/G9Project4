@@ -3,7 +3,10 @@ package org.g9project4.mypage.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.board.entities.Board;
+import org.g9project4.board.entities.BoardData;
+import org.g9project4.board.entities.CommentData;
 import org.g9project4.board.services.BoardInfoService;
+import org.g9project4.global.CommonSearch;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
@@ -54,7 +57,7 @@ public class MyPageController {
     private final BoardInfoService boardInfoService;
 
     @GetMapping
-    public String index(@ModelAttribute RequestProfile form, Model model) {
+    public String index(@ModelAttribute RequestProfile form, @ModelAttribute CommonSearch search, Model model) {
         commonProcess("index", model);
 
         Member member = memberUtil.getMember();
@@ -74,10 +77,13 @@ public class MyPageController {
 
         List<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
 
-        List<WishList> wishList = wishListService.getWishListForMember(memberUtil.getMember());
-
         model.addAttribute("searchHistory", searchHistory);
-        model.addAttribute("wishList", wishList);
+
+
+        ListData<BoardData> data = boardInfoService.getWishList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("mypage/index");
     }
@@ -131,18 +137,24 @@ public class MyPageController {
 
 
     @GetMapping("/mypost")
-    public String mypost(Model model, Member member) {
+    public String mypost(@ModelAttribute CommonSearch search, Model model) {
         commonProcess("mypost", model);
+        ListData<BoardData> data = boardInfoService.getMyList(search);
 
-       // List<Board> boards = boardInfoService.getBoardsByMember(member);
-       // model.addAttribute("boards", boards);
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("mypage/mypost");
     }
 
     @GetMapping("/mycomment")
-    public String mycomment(Model model) {
+    public String mycomment(@ModelAttribute CommonSearch search, Model model) {
         commonProcess("mycomment", model);
+
+        ListData<CommentData> data = boardInfoService.getMyComment(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("mypage/mycomment");
     }
