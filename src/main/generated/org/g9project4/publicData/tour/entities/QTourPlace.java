@@ -66,7 +66,7 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
 
     public final NumberPath<Integer> placePointValue = createNumber("placePointValue", Integer.class);
 
-    public final NumberPath<Integer> sigunguCode = createNumber("sigunguCode", Integer.class);
+    public final StringPath sigunguCode = createString("sigunguCode");
 
     public final StringPath tel = createString("tel");
 
