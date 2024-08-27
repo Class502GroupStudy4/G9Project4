@@ -161,12 +161,6 @@ public class NewTourPlaceInfoService {
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
 
-
-
-
-
-
-
     }
 
     private void addInfo(TourPlace item) {
