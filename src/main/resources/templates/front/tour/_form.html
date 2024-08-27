@@ -13,9 +13,7 @@
     <ul class="list_thumType place" th:each="item, s:${items}" th:object="${item}">
         <li class="bdr_nor">
             <div class="place-photo">
-                <a th:href="*{@utils.redirectUrl('/tour/detail/'+contentId)}"><img class="firstImage"
-                                                                                   th:src="*{firstImage}"
-                                                                                   th:alt="#{이미지가_존재하지_않습니다.}"></a>
+                <a th:href="*{@utils.redirectUrl('/tour/detail/'+contentId)}"><img class="firstImage" th:src="*{firstImage}" th:alt="#{이미지가_존재하지_않습니다.}"></a>
             </div>
             <div class="place-tit">
                 <a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}" th:text="*{title}"></a>
@@ -42,7 +40,7 @@
                 <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>
             </div>
             <div class="place-photo">
-                <a th:if="*{firstImage != null}" href="#" th:attr="data-lat=*{latitude}, data-lng=*{longitude}, data-detail=*{contentId}, data-address=*{address}, data-title=*{title}, data-image=*{firstImage}, data-image=*{placePointValue}">
+                <a th:if="*{firstImage != null}" href="#" th:attr="data-lat=*{latitude}, data-lng=*{longitude}, data-detail=*{contentId}, data-address=*{address}, data-title=*{title}, data-image=*{firstImage}">
                     <img class="firstImage" th:src="*{firstImage}">
                 </a>
                 <a th:if="*{firstImage==null}" href="#" th:attr="data-lat=*{latitude}, data-lng=*{longitude}"><i
@@ -51,4 +49,5 @@
         </li>
     </ul>
 </table>
+
 </html>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class WishListController implements RestExceptionProcessor {
     private final WishListService service;
 
+    //추가
     @GetMapping("/{type}/{seq}")
     public ResponseEntity<Void> add(@PathVariable("type") String type, @PathVariable("seq") Long seq) {
 
@@ -22,6 +23,7 @@ public class WishListController implements RestExceptionProcessor {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    //제거
     @DeleteMapping("/{type}/{seq}")
     public ResponseEntity<Void> remove(@PathVariable("type") String type, @PathVariable("seq") Long seq) {
         service.remove(seq, WishType.valueOf(type));

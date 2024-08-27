@@ -26,6 +26,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final DatePath<java.time.LocalDate> birth = createDate("birth", java.time.LocalDate.class);
 
+    public final ListPath<org.g9project4.board.entities.CommentData, org.g9project4.board.entities.QCommentData> comments = this.<org.g9project4.board.entities.CommentData, org.g9project4.board.entities.QCommentData>createList("comments", org.g9project4.board.entities.CommentData.class, org.g9project4.board.entities.QCommentData.class, PathInits.DIRECT2);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -41,6 +43,8 @@ public class QMember extends EntityPathBase<Member> {
     public final ListPath<Interests, QInterests> interests = this.<Interests, QInterests>createList("interests", Interests.class, QInterests.class, PathInits.DIRECT2);
 
     public final BooleanPath isForeigner = createBoolean("isForeigner");
+
+    public final ListPath<org.g9project4.board.entities.BoardData, org.g9project4.board.entities.QBoardData> items = this.<org.g9project4.board.entities.BoardData, org.g9project4.board.entities.QBoardData>createList("items", org.g9project4.board.entities.BoardData.class, org.g9project4.board.entities.QBoardData.class, PathInits.DIRECT2);
 
     public final StringPath mobile = createString("mobile");
 

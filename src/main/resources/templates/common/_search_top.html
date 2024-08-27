@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="search">
-    <!--<div class="mainBn">
+    <div class="mainBn">
         <div class="bnWrap">
             <h2>
                 우리의 국내여행 커뮤니티, <span>여행 어때?</span>
@@ -12,15 +12,15 @@
                     <form id="search_top" name="frmSearch" method="get" autocomplete="off"
                           th:action="${@utils.redirectUrl('/tour/list')}" th:object="${tourPlaceSearch}">
                         <input type="hidden" th:value="TITLE_ADDRESS" name="sopt">
-                            &lt;!&ndash;
+                            <!--
                                 <select name="sopt" th:field="*{sopt}" th:value="">
                                     <option value="TITLE" th:text="#{여행지}"></option>
                                     <option value="ADDRESS" th:text="#{주소}"></option>
                                     <option value="TITLE_ADDRESS" th:text="#{전체}"></option>
                                 </select>
-                            &ndash;&gt;
+                            -->
                         <input type="text" name="skey" th:field="*{skey}"
-                               th:placeholder="#{여행지로_검색}">
+                               th:placeholder="#{여행지로_검색}" th:value="*{skey}">
                         <button class="Q2" type="submit">
                             <i class="xi-search"></i>
                         </button>
@@ -33,10 +33,11 @@
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
 </th:block>
 <form th:fragment="totalSearch" name="frmTotalSearch" th:object="${tourPlaceSearch}">
-    <[[${tourPlaceSearch}]]>
+    <input type="hidden" name="latitude" th:field="*{latitude}">
+    <input type="hidden" name="longitude" th:field="*{longitude}">
     <div>
         <span>지역 : </span>
         <label>
@@ -120,8 +121,8 @@
         정렬 기준 :
         <th:block th:each="orderBy :${@getOrders}">
             <label>
-                <input type="radio" class="orderBy" name="orderBy" th:text="${orderBy.type}" th:value="${orderBy.name}"
-                       th:checked="${tourPlaceSearch.orderBy==orderBy.name}" onclick="frmTotalSearch.submit()">
+                <input type="radio" class="orderBy" name="orderBy" th:text="${orderBy.type}" th:value="${orderBy.name}" th:id="orderBy+${orderBy.name}"
+                       th:checked="${tourPlaceSearch.orderBy==orderBy.name}">
             </label>
         </th:block>
     </div>

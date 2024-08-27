@@ -15,8 +15,10 @@ import org.g9project4.file.entities.FileInfo;
 import org.g9project4.file.services.FileInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Utils;
+import org.g9project4.global.exceptions.CommonException;
 import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.UnAuthorizedException;
+import org.g9project4.global.exceptions.script.AlertBackException;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
@@ -35,7 +37,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @SessionAttributes({"boardData", "board"})
 public class BoardController implements ExceptionProcessor {
-
     private final BoardConfigInfoService configInfoService;
     private final BoardInfoService infoService;
     private final BoardSaveService saveService;
@@ -49,10 +50,8 @@ public class BoardController implements ExceptionProcessor {
     private final MemberUtil memberUtil;
     private final Utils utils;
 
-
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글 내용
-
 
     @ModelAttribute("mainClass")
     public String mainClass() {
@@ -161,8 +160,6 @@ public class BoardController implements ExceptionProcessor {
 
         viewCountService.update(seq); // 조회수 증가
 
-
-
         return utils.tpl("board/view");
     }
 
@@ -173,7 +170,7 @@ public class BoardController implements ExceptionProcessor {
 
         deleteService.delete(seq);
 
-        return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
+        return utils.redirectUrl("/board/list/" + board.getBid());
     }
 
     /**
@@ -243,6 +240,9 @@ public class BoardController implements ExceptionProcessor {
             addScript.add("board/" + skin + "/view");
         }
 
+            addCss.add("board/" + skin + "/form");
+
+
         // 게시글 제목으로 title을 표시 하는 경우
         if (List.of("view", "update", "delete").contains(mode)) {
             pageTitle = boardData.getSubject();
@@ -255,7 +255,7 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("mode", mode);
 
-        // 권한 체크
+        //권한 체크
         if (List.of("write", "list").contains(mode)) {
             authService.check(mode, board.getBid());
         }
@@ -270,14 +270,13 @@ public class BoardController implements ExceptionProcessor {
      * @param model
      */
     private void commonProcess(Long seq, String mode, Model model) {
-
         boardData = infoService.get(seq);
 
         model.addAttribute("boardData", boardData);
         model.addAttribute("board", boardData.getBoard());
         commonProcess(boardData.getBoard().getBid(), mode, model);
 
-        authService.check(mode, seq); // 권한 체크
+        authService.check(mode, seq); //권한 체크
     }
 
     @Override
@@ -295,13 +294,14 @@ public class BoardController implements ExceptionProcessor {
 
             return mv;
         } else if ( e instanceof GuestPasswordCheckException passwordCheckException) {
+
             mv.setStatus(passwordCheckException.getStatus());
             mv.addObject("board", board);
             mv.addObject("boardData", boardData);
             mv.setViewName(utils.tpl("board/password"));
             return mv;
         }
-        e.printStackTrace();
+
         return ExceptionProcessor.super.errorHandler(e, request);
     }
 }
