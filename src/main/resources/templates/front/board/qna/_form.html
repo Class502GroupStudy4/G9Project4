@@ -5,7 +5,7 @@
     <input type="hidden" name="gid" th:field="*{gid}">
 
     <th:block>
-        <div th:replace="~{front/board/default/_common::category}"></div>
+        <div th:replace="~{front/board/qna/_common::category}"></div>
     </th:block>
 
     <dl>
@@ -69,7 +69,14 @@
                 </div>
             </div>
         </dd>
-    </dl>dd
+    </dl>
+    <dl>
+        <dt th:text="#{답변}"></dt>
+        <dd>
+            <textarea name="longText1" th:field="*{longText1}" placeholder="질문에 대한 답변을 입력해주세요." rows="10" style="width: 100%;"></textarea>
+            <div class="error" th:each="err : ${#fields.errors('longText1')}" th:text="${err}"></div>
+        </dd>
+    </dl>
 
     <script th:replace="~{common/_file_tpl::attach}"></script>
     <script th:replace="~{common/_file_tpl::editor}"></script>

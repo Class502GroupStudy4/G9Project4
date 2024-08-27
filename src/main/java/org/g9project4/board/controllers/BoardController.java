@@ -79,6 +79,7 @@ public class BoardController implements ExceptionProcessor {
         commonProcess(seq, "update", model);
 
         RequestBoard form = infoService.getForm(boardData);
+
         model.addAttribute("requestBoard", form);
 
         return utils.tpl("board/update");

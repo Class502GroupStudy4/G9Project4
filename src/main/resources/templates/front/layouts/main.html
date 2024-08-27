@@ -15,6 +15,7 @@
 
     <meta name="csrf_token" th:content="${_csrf.token}">
     <meta name="csrf_header" th:content="${_csrf.headerName}">
+    <meta name="rootUrl" th:content="${@utils.redirectUrl('/')}">
     <title>
         <th:block th:if="${pageTitle != null}"
         th:text="${#strings.concat(pageTitle, ' - ')}"></th:block>
@@ -35,7 +36,7 @@
     <th:block layout:fragment="addCommonScript"></th:block>
     <script th:if="${addCommonScript != null}" th:each="jsFile : ${addCommonScript}"
             th:src="${@utils.url(#strings.concat('/common/js/', jsFile, '.js'))}"></script>
-
+    <script th:src="${@utils.url('/common/js/layer.js')}"></script>
     <script th:src="${@utils.url('/common/js/common.js')}"></script>
     <script th:src="${@utils.url('/front/js/common.js')}"></script>
     <script th:if="${addScript != null}" th:each="jsFile : ${addScript}"

@@ -8,8 +8,7 @@
     <div class="planner-box">
         <div class="left">
             <h2 th:text="#{일정_선택하기}"></h2>
-            <iframe name="ifrmCalendar" class="select-date" th:src="${@utils.redirectUrl('/calendar')}"
-                    frameborder="0"></iframe>
+            <iframe name="ifrmCalendar" class="select-date" th:src="${@utils.redirectUrl('/calendar')}" frameborder="0"></iframe>
             <div class="error" th:each="err : ${#fields.errors('sDate')}" th:text="${err}"></div>
             <div class="error" th:each="err : ${#fields.errors('eDate')}" th:text="${err}"></div>
             <button type="button" th:text="#{일정_다시_선택하기}" id="reselect-calendar"></button>
@@ -61,7 +60,7 @@
                 <td>
                     <input type="checkbox" name="chk" value="[seq]" id="chk-[seq]">
                     <label for="chk-[seq]"></label>
-                    <input type="hidden" name="contentId_[seq]">
+                    <input type="hidden" name="contentId_[seq]" class="content-id">
                 </td>
                 <td>
                     <select name="date_[seq]">
@@ -69,11 +68,11 @@
                         [dates]
                     </select>
                 </td>
-                <td class="select-tour-place" id="tourplace-[seq]">여행지 선택</td>
-                <td class="select-tour-place" id="tourpace-image-[seq]"></td>
-                <td class="select-tour-place" id="tourplace-address-[seq]"></td>
+                <td class="select-tour-place tourplace" id="tourplace-[seq]">여행지 선택</td>
+                <td class="select-tour-place tourplace-image" id="tourplace-image-[seq]"></td>
+                <td class="select-tour-place tourplace-address" id="tourplace-address-[seq]"></td>
                 <td>
-                    <input type="checkbox" name="tourDone_[seq]" value="true" id="tour-done-[seq]">
+                    <input type="checkbox" name="tourDone_[seq]" value="true" id="tour-done-[seq]" class="tour-done">
                     <label for="tour-done-[seq]"></label>
                 </td>
             </tr>
