@@ -441,4 +441,6 @@ public class BoardInfoService {
         item.setShowList(showList);
         // 게시글 버튼 노출 권한 처리 E
     }
+
+
 }

@@ -10,6 +10,7 @@ import org.g9project4.publicData.tour.constants.OrderBy;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -55,12 +56,14 @@ public class BeanConfig {
 
     @Lazy
     @Bean
+    @Qualifier("ContentType")
     public List<ContentType> contentType() {
         return ContentType.getList();
     }
 
     @Lazy
     @Bean
+    @Qualifier("GetOrders")
     public List<OrderBy> getOrders() {
         return OrderBy.getOrders();
     }
