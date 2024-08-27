@@ -19,7 +19,7 @@ public class GreenItem {
     private String cpyrhtDivCd;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime modifiedtime;
-    private Integer sigungucode;
+    private String sigungucode;
     private String subtitle;
     @Lob
     private String summary;

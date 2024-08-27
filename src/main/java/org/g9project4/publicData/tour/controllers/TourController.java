@@ -106,6 +106,7 @@ public class TourController implements ExceptionProcessor {
         return utils.tpl("tour/map");
     }
 
+
     @GetMapping("/list")
     public String list(Model model, @ModelAttribute TourPlaceSearch search) {
         try {
@@ -128,6 +129,22 @@ public class TourController implements ExceptionProcessor {
         commonProcess("detail", model);
         model.addAttribute("items", item);
         return utils.tpl("tour/detail");
+    }
+
+    @GetMapping("/list/loc/{type}")
+    public String distanceList(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
+        try{
+            commonProcess("getLocation",model);
+            search.setLatitude(37.566826);
+            search.setLongitude(126.9786567);
+            search.setRadius(1000);
+           // ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
+          //  addListProcess(model,data);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new TourPlaceNotFoundException();
+        }
+        return utils.tpl("tour/list");
     }
 
 }

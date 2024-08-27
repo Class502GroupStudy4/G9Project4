@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class BoardSaveService {
 

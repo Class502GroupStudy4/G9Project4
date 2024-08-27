@@ -34,13 +34,13 @@
                             <a th:each="board:${@boardInfoService.getBoardList()}" class="item" th:if="${board.active}" th:id="boardName+${board.getBName()}" th:text="${board.getBName()}" th:href="${@utils.redirectUrl('/board/list/'+board.getBid())}"></a>
                         </div>
                     </div>
-                    <div>
+                    <div class="dropdown">
                         <h5>
                             <a th:href="${@utils.redirectUrl('/plan')}" th:text="#{여행노트}"></a>
                         </h5>
                         <div class="dropdown-content">
-                            <a th:href="${@utils.redirectUrl('/plan/list')}" th:text="#{계획_보기}"></a>
-                            <a th:href="${@utils.redirectUrl('/plan/write')}" th:text="#{계획_하기}"></a>
+                            <a th:href="${@utils.redirectUrl('/plan/list')}" th:text="#{여행노트_보기}"></a>
+                            <a th:href="${@utils.redirectUrl('/plan/write')}" th:text="#{여행노트_쓰기}"></a>
                         </div>
                     </div>
                     <div class="dropdown">

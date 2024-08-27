@@ -19,7 +19,9 @@
                 <a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}" th:text="*{title}"></a>
             </div>
             <p class="place-address" th:text="*{address}"></p>
-            <!--            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>-->
+<!--            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>-->
+
+            <p class="place-address" th:text="*{placePointValue}"></p>
         </li>
     </ul>
 </table>
@@ -38,8 +40,7 @@
                 <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>
             </div>
             <div class="place-photo">
-                <a th:if="*{firstImage != null}" href="#"
-                   th:attr="data-lat=*{latitude}, data-lng=*{longitude}, data-detail=*{contentId}, data-address=*{address}, data-title=*{title}, data-image=*{firstImage}">
+                <a th:if="*{firstImage != null}" href="#" th:attr="data-lat=*{latitude}, data-lng=*{longitude}, data-detail=*{contentId}, data-address=*{address}, data-title=*{title}, data-image=*{firstImage}">
                     <img class="firstImage" th:src="*{firstImage}">
                 </a>
                 <a th:if="*{firstImage==null}" href="#" th:attr="data-lat=*{latitude}, data-lng=*{longitude}"><i

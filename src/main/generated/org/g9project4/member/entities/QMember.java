@@ -40,6 +40,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath gid = createString("gid");
 
+    public final ListPath<Interests, QInterests> interests = this.<Interests, QInterests>createList("interests", Interests.class, QInterests.class, PathInits.DIRECT2);
+
     public final BooleanPath isForeigner = createBoolean("isForeigner");
 
     public final StringPath mobile = createString("mobile");

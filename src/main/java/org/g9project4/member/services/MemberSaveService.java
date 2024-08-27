@@ -1,28 +1,34 @@
 package org.g9project4.member.services;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.file.services.FileUploadDoneService;
-import org.g9project4.file.services.FileUploadService;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Authority;
+import org.g9project4.member.constants.Gender;
+import org.g9project4.member.constants.Interest;
 import org.g9project4.member.controllers.RequestJoin;
 import org.g9project4.member.entities.Authorities;
+
+import org.g9project4.member.entities.Interests;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.exceptions.MemberNotFoundException;
 import org.g9project4.member.repositories.AuthoritiesRepository;
+import org.g9project4.member.repositories.InterestsRepository;
 import org.g9project4.member.repositories.MemberRepository;
 import org.g9project4.mypage.controllers.RequestProfile;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MemberSaveService {
     private final FileUploadDoneService uploadDoneService;
@@ -30,7 +36,7 @@ public class MemberSaveService {
     private final AuthoritiesRepository authoritiesRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
-    private final HttpSession session;
+    private final InterestsRepository interestsRepository;
 
     /**
      * 회원 가입 처리
@@ -42,18 +48,27 @@ public class MemberSaveService {
         String hash = passwordEncoder.encode(member.getPassword());
         member.setPassword(hash);
         save(member, List.of(Authority.USER));
+
     }
 
     /**
      * 회원정보 수정
+     *
      * @param form
      */
     public void save(RequestProfile form) {
+
         Member member = memberUtil.getMember();
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
         String password = form.getPassword();
         String mobile = form.getMobile();
+        LocalDate birth = form.getBirth();
+        Gender gende = form.getGende();
+        Boolean isForeigner = form.getIsForeigner();
+
+
         if (StringUtils.hasText(mobile)) {
             mobile = mobile.replaceAll("\\D", "");
         }
@@ -66,9 +81,26 @@ public class MemberSaveService {
             member.setPassword(hash);
         }
 
-        save(member, null);
+        member.setBirth(birth);
+        member.setGende(gende);
+        member.setIsForeigner(isForeigner);
 
+        save(member, null);
     }
+
+    @Transactional
+    public void saveInterests(Member member, List<Interest> interests) {
+
+        interestsRepository.deleteByMember(member);
+
+        // Convert the List<Interest> to List<Interests>
+        List<Interests> newInterests = interests.stream()
+                .map(interest -> new Interests(member, interest))
+                .collect(Collectors.toList());
+
+        interestsRepository.saveAllAndFlush(newInterests);
+    }
+
 
     public void save(Member member, List<Authority> authorities) {
         //휴대폰 번호 숫자만 기록
@@ -95,4 +127,7 @@ public class MemberSaveService {
         System.out.println("여기???");
         uploadDoneService.process(member.getGid());
     }
+
+
 }
+
