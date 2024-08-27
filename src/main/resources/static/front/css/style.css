@@ -252,7 +252,7 @@ main {
 /* 푸터 끝 */
 /* 파일 공통 S */
 .image-file-box {
-    border: 2px solid #000;
+    border: 2px #000;
     width: 204px;
     position: relative;
 }
