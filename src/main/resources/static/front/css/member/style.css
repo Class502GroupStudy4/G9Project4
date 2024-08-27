@@ -29,8 +29,9 @@ body {
 main {
     flex: 1; /* main 요소가 남은 공간을 차지하도록 설정 */
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* 중앙에서 위쪽으로 정렬 */
     justify-content: center;
+    padding-top: 10rem; /* 원하는 만큼의 여백을 추가하여 폼을 더 위로 이동 */
 }
 
 form {
