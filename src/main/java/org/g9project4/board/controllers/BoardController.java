@@ -89,19 +89,19 @@ public class BoardController implements ExceptionProcessor {
     @PostMapping("/save")
     public String save(@Valid RequestBoard form, Errors errors, Model model, SessionStatus status, HttpSession session) {
         String mode = form.getMode();
+        System.out.println(form);
+        System.out.println(errors.getAllErrors().stream().toString());
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);
-
         boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
+        BoardData data = null;
         if (mode.equals("update")) {
-            BoardData data = (BoardData)model.getAttribute("boardData");
+            data = (BoardData)model.getAttribute("boardData");
             isGuest = data.getMember() == null;
         }
-
         form.setGuest(isGuest);
 
         validator.validate(form, errors);
-
         if (errors.hasErrors()) {
             // 업로드된 파일 목록 - editor, attach
             String gid = form.getGid();
@@ -109,7 +109,7 @@ public class BoardController implements ExceptionProcessor {
             List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach", FileStatus.ALL);
             form.setEditorImages(editorImages);
             form.setAttachFiles(attachFiles);
-
+            System.out.println(errors);
 
             return utils.tpl("board/" + mode);
         }
@@ -172,6 +172,15 @@ public class BoardController implements ExceptionProcessor {
         deleteService.delete(seq);
 
         return utils.redirectUrl("/board/list/" + board.getBid());
+    }
+    @GetMapping("/qna/answer/{seq}")
+    public String answer(@PathVariable("seq") Long seq, Model model){
+        commonProcess(seq, "update", model);
+        RequestBoard form = infoService.getForm(boardData);
+        model.addAttribute("requestBoard", form);
+       /// saveService.save(form);
+
+        return utils.tpl("board/qna/answer");
     }
 
     /**
