@@ -6,13 +6,13 @@ import org.g9project4.config.service.ConfigInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
-import org.g9project4.global.exceptions.BadRequestException;
 import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
-import org.g9project4.publicData.tour.constants.ContentType;
-import org.g9project4.publicData.tour.entities.*;
+import org.g9project4.publicData.tour.entities.AreaCode;
+import org.g9project4.publicData.tour.entities.PlaceDetail;
+import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.AreaCodeRepository;
 import org.g9project4.publicData.tour.repositories.CategoryRepository;
 import org.g9project4.publicData.tour.repositories.SigunguCodeRepository;
@@ -20,11 +20,14 @@ import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.NewTourPlaceInfoService;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
-import org.g9project4.visitCount.services.VisitorService;
+import org.g9project4.search.entities.SearchHistory;
+import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,7 @@ public class TourController implements ExceptionProcessor {
     private final AreaCodeRepository areaCodeRepository;
     private final SigunguCodeRepository sigunguCodeRepository;
     private final CategoryRepository categoryRepository;
-
+    private final SearchHistoryService searchHistoryService;
 
     @ModelAttribute("apiKeys")
     public ApiConfig getApiKeys() {
@@ -104,10 +107,14 @@ public class TourController implements ExceptionProcessor {
         return utils.tpl("tour/map");
     }
 
+
     @GetMapping("/list")
     public String list(Model model, @ModelAttribute TourPlaceSearch search) {
         try {
             ListData<TourPlace> data = newTourPlaceInfoService.getSearchedList(search);
+            if(search.getSkey()!=null){
+                searchHistoryService.saveTour(search.getSkey());
+            }
             commonProcess("list", model);
             addListProcess(model, data);
         } catch (Exception e) {
@@ -118,10 +125,27 @@ public class TourController implements ExceptionProcessor {
 
     @GetMapping("/detail/{contentId}")
     public String detail(@PathVariable("contentId") Long contentId, Model model) {
-        PlaceDetail<DetailItem, DetailPetItem> item = detailInfoService.getDetail(contentId);
+        ApiConfig apiConfig = configInfoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
+        PlaceDetail<DetailItem, DetailPetItem> item = detailInfoService.getDetail(contentId,apiConfig.getPublicOpenApiKey());
         commonProcess("detail", model);
         model.addAttribute("items", item);
         return utils.tpl("tour/detail");
+    }
+
+    @GetMapping("/list/loc/{type}")
+    public String distanceList(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
+        try{
+            commonProcess("getLocation",model);
+            search.setLatitude(37.566826);
+            search.setLongitude(126.9786567);
+            search.setRadius(1000);
+           // ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
+          //  addListProcess(model,data);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new TourPlaceNotFoundException();
+        }
+        return utils.tpl("tour/list");
     }
 
 }

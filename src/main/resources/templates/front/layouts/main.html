@@ -15,7 +15,6 @@
 
     <meta name="csrf_token" th:content="${_csrf.token}">
     <meta name="csrf_header" th:content="${_csrf.headerName}">
-    <meta name="rootUrl" th:content="${@utils.redirectUrl('/')}">
     <title>
         <th:block th:if="${pageTitle != null}"
         th:text="${#strings.concat(pageTitle, ' - ')}"></th:block>
@@ -47,7 +46,7 @@
 <header th:replace="~{front/outlines/_header::common}"></header>
 <main layout:fragment="content"></main>
 <footer th:replace="~{front/outlines/_footer::common}"></footer>
-<iframe name="ifrmHidden" class="dn"></iframe>
+<iframe name="ifrmProcess" class="dn"></iframe>
 <a href="#" class="scrollup" id="scroll-up">
     <i class="ri-arrow-up-line scrollup__icon"></i>
 </a>

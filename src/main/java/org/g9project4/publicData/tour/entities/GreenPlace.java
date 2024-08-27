@@ -26,7 +26,7 @@ public class GreenPlace {
     private String cpyrhtDivCd;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime modifiedtime;
-    private Integer sigugunCode;
+    private String sigunguCode;
     private String subTitle;
     @Lob
     private String summary;

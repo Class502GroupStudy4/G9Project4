@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.g9project4.board.controllers.RequestBoard;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
-import org.g9project4.board.exceiptions.BoardDataNotFoundException;
-import org.g9project4.board.exceiptions.BoardNotfoundException;
+import org.g9project4.board.exceptions.BoardDataNotFoundException;
+import org.g9project4.board.exceptions.BoardNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
 import org.g9project4.file.services.FileUploadDoneService;
 import org.g9project4.member.MemberUtil;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class BoardSaveService {
 
@@ -40,7 +39,7 @@ public class BoardSaveService {
             data = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
         } else { // 글 작성
             String bid = form.getBid();
-            Board board = configInfoService.get(bid).orElseThrow(BoardNotfoundException::new);
+            Board board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new);
 
             data = BoardData.builder()
                     .gid(gid)

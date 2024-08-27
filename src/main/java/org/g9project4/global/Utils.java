@@ -173,6 +173,17 @@ public class Utils { // 빈의 이름 - utils
         return prefix + path;
     }
 
+    /**
+     * 비회원을 구분하는 Unique ID
+     *   IP + User-Agent
+     * @return
+     */
+    public int guestUid() {
+        String ip = request.getRemoteAddr();
+        String ua = request.getHeader("User-Agent");
+
+        return Objects.hash(ip, ua);
+    }
 
 
     /**

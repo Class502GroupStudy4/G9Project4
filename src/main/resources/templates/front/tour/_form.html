@@ -13,15 +13,15 @@
     <ul class="list_thumType place" th:each="item, s:${items}" th:object="${item}">
         <li class="bdr_nor">
             <div class="place-photo">
-                <a th:href="*{@utils.redirectUrl('/tour/detail/'+contentId)}"><img class="firstImage"
-                                                                                   th:src="*{firstImage}"
-                                                                                   th:alt="#{이미지가_존재하지_않습니다.}"></a>
+                <a th:href="*{@utils.redirectUrl('/tour/detail/'+contentId)}"><img class="firstImage" th:src="*{firstImage}" th:alt="#{이미지가_존재하지_않습니다.}"></a>
             </div>
             <div class="place-tit">
                 <a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}" th:text="*{title}"></a>
             </div>
             <p class="place-address" th:text="*{address}"></p>
 <!--            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>-->
+
+            <p class="place-address" th:text="*{placePointValue}"></p>
         </li>
     </ul>
 </table>

@@ -1,5 +1,6 @@
 package org.g9project4.board.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,6 +51,8 @@ public class BoardData extends BaseEntity {
     private String content;
 
     private int viewCount; // 조회수
+    private int commentCount; // 댓글 수
+
     private boolean editorView; // 에디터를 사용해서 글 작성했는지 여부
 
     @Column(length = 20, updatable = false)
@@ -85,14 +88,23 @@ public class BoardData extends BaseEntity {
 
     @Transient
     private boolean editable; // 수정, 삭제 가능 여부
-    
-    @Transient
-    private boolean commentable; //댓글 수정, 삭제 가능 여부
 
     @Transient
-    private boolean viewable; // 상세쪽 조회 가능 여부
+    private boolean commentable; //댓글 작성 가능 여부
 
     @Transient
-    private boolean listable; //목록쪽 조획 가능 여부
+    private boolean showEdit; // 글쓰기, 수정 버튼 노출 여부
 
+    @Transient
+    private boolean showDelete; // 글삭제 버튼 노출 여부
+
+    @Transient
+    private boolean showList; // 글목록 버튼 노출 여부
+
+    @Transient
+    private boolean mine; //게시글 소유자
+
+    @Transient
+    @JsonIgnore
+    private List<CommentData> comments; // 댓글 목록
 }

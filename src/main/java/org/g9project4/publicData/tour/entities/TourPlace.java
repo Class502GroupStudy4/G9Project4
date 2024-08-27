@@ -8,8 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.publicData.tour.constants.ContentType;
+//import org.g9project4.member.entities.VisitRecord;
+//import org.g9project4.member.entities.VisitRecord;
+
+import java.util.List;
 
 import java.time.LocalDateTime;
 
@@ -58,11 +64,41 @@ public class TourPlace extends BaseEntity {
     private Double latitude; // mapy
     private Double longitude; // mapx
     private Integer mapLevel;
-    private Integer sigunguCode;
+    private String sigunguCode;
 
 
     @Transient
     public ContentType contentType;
 
     public Double distance;
+
+    private Integer placePointValue; //장소별 점수
+
+    private Double type1D1; // 현지인 일별통계 현지인관광객구분명
+    private Double type2D1; // 외지인 일별통계
+    private Double type3D1; // 외국인 일별통계
+
+    private Double type1W1; // 현지인 일별통계 현지인관광객구분명
+    private Double type2W1; // 외지인 일별통계
+    private Double type3W1; //외국인 일별통계
+
+    private Double type1M1;  // 현지인 일별통계 현지인관광객구분명
+    private Double type2M1; // 외지인 일별통계
+    private Double type3M1; //외국인 일별통계
+
+    private Double type1M3;  // 현지인 일별통계 현지인관광객구분명
+    private Double type2M3; // 외지인 일별통계
+    private Double type3M3; //외국인 일별통계
+
+    private Double type1M6;  // 현지인 일별통계 현지인관광객구분명
+    private Double type2M6; // 외지인 일별통계
+    private Double type3M6; //외국인 일별통계
+
+    private Double type1Y1;  // 현지인 일별통계 현지인관광객구분명
+    private Double type2Y1; // 외지인 일별통계
+    private Double type3Y1; //외국인 일별통계
+
+//    @ToString.Exclude
+//    @OneToMany(mappedBy = "tourPlace2")
+//    private List<VisitRecord> visitRecord;
 }
