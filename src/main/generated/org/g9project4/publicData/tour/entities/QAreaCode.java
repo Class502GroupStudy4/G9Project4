@@ -17,9 +17,9 @@ public class QAreaCode extends EntityPathBase<AreaCode> {
 
     private static final long serialVersionUID = 996119637L;
 
-    public static final QAreaCode areaCode = new QAreaCode("areaCode");
+    public static final QAreaCode areaCode1 = new QAreaCode("areaCode1");
 
-    public final StringPath code = createString("code");
+    public final StringPath areaCode = createString("areaCode");
 
     public final StringPath name = createString("name");
 

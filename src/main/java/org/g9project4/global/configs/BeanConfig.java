@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.publicData.tour.constants.ContentType;
+import org.g9project4.publicData.tour.constants.OrderBy;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
@@ -56,5 +57,11 @@ public class BeanConfig {
     @Bean
     public List<ContentType> contentType() {
         return ContentType.getList();
+    }
+
+    @Lazy
+    @Bean
+    public List<OrderBy> getOrders() {
+        return OrderBy.getOrders();
     }
 }

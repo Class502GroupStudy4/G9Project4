@@ -1,10 +1,7 @@
 package org.g9project4.file.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.g9project4.global.entities.BaseMemberEntity;
 
 import java.util.UUID;

@@ -19,7 +19,7 @@ public class ApiItem {
     private Long contentid;
     private Long contenttypeid;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
-    private LocalDateTime createtime;
+    private LocalDateTime createdtime;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime modifiedtime;
     private Double dist;//null일때를 대비해서
@@ -29,7 +29,7 @@ public class ApiItem {
     private Double mapx;
     private Double mapy;
     private Integer mlevel;
-    private Integer sigungucode;
+
     private String tel;
     private String title;
 

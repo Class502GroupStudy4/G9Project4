@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <table th:fragment="placeList" class="tour-list">
     <h1 th:if="${tourPlaceSearch.contentType!=null}"
-        th:text="${#strings.concat(tourPlaceSearch.contentType.getType,' 리스트보기')}"></h1>
+        th:text="${#strings.concat(tourPlaceSearch.contentType,' 리스트보기')}"></h1>
     <h1>리스트 보기</h1>
     <div>
         <h4 th:if="${pagination!=null}" th:text="${'검색된 항목 : '+pagination.total}"></h4>
@@ -21,7 +21,9 @@
                 <a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}" th:text="*{title}"></a>
             </div>
             <p class="place-address" th:text="*{address}"></p>
-            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>
+<!--            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>-->
+
+            <p class="place-address" th:text="*{placePointValue}"></p>
         </li>
     </ul>
 </table>
@@ -40,7 +42,7 @@
                 <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>
             </div>
             <div class="place-photo">
-                <a th:if="*{firstImage != null}" href="#" th:attr="data-lat=*{latitude}, data-lng=*{longitude}, data-detail=*{contentId}, data-address=*{address}, data-title=*{title}, data-image=*{firstImage}">
+                <a th:if="*{firstImage != null}" href="#" th:attr="data-lat=*{latitude}, data-lng=*{longitude}, data-detail=*{contentId}, data-address=*{address}, data-title=*{title}, data-image=*{firstImage}, data-image=*{placePointValue}">
                     <img class="firstImage" th:src="*{firstImage}">
                 </a>
                 <a th:if="*{firstImage==null}" href="#" th:attr="data-lat=*{latitude}, data-lng=*{longitude}"><i
@@ -49,5 +51,4 @@
         </li>
     </ul>
 </table>
-
 </html>

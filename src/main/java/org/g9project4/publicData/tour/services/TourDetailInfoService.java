@@ -2,23 +2,20 @@ package org.g9project4.publicData.tour.services;
 
 import lombok.RequiredArgsConstructor;
 
-import org.g9project4.file.exceptions.FileNotFoundException;
 import org.g9project4.global.exceptions.DetailNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.global.rests.gov.detailapi.DetailResult;
 import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
 import org.g9project4.global.rests.gov.detailpetapi.DetailPetResult;
-import org.g9project4.publicData.greentour.entities.GreenPlace;
-import org.g9project4.publicData.greentour.repositories.GreenPlaceRepository;
+import org.g9project4.publicData.tour.entities.GreenPlace;
+import org.g9project4.publicData.tour.repositories.GreenPlaceRepository;
 import org.g9project4.publicData.tour.entities.PlaceDetail;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
