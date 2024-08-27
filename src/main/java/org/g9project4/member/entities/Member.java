@@ -8,7 +8,6 @@ import org.g9project4.file.entities.FileInfo;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.member.constants.Gender;
 import org.g9project4.planner.entities.Planner;
-//import org.g9project4.visitrecord.entities.VisitRecords;
 
 
 import java.io.Serializable;
@@ -18,7 +17,6 @@ import java.util.List;
 @Data
 @Entity
 @Builder
-@Table(name = "members")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member extends BaseEntity implements Serializable {

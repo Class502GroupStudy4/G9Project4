@@ -25,7 +25,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="TOUR_PLACE2")
 public class TourPlace extends BaseEntity {
     @Id
     private Long contentId;
