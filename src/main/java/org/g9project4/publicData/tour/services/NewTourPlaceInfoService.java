@@ -9,30 +9,40 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.config.controllers.ApiConfig;
+import org.g9project4.config.service.ConfigInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
+import org.g9project4.global.rests.gov.api.ApiItem;
+import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.publicData.tour.constants.OrderBy;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.Comparator;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class NewTourPlaceInfoService {
+    private final RestTemplate restTemplate;
+    private final List contentType;
     @PersistenceContext
     private EntityManager em;
 
     private final Utils utils;
     private final TourPlaceRepository tourPlaceRepository;
     private final HttpServletRequest request;
+    private final ConfigInfoService configInfoService;
 
     /**
      * 필터 옵션
@@ -61,7 +71,7 @@ public class NewTourPlaceInfoService {
             andBuilder.and(tourPlace.areaCode.eq(search.getAreaCode()));
             if (search.getSigunguCode() != null) {
                 for (String sigunguCode : search.getSigunguCode()) {
-                    orBuilder.or(tourPlace.sigunguCode.eq(Integer.valueOf(sigunguCode)));
+                    orBuilder.or(tourPlace.sigunguCode.eq(sigunguCode));
                 }
             }
         }
@@ -120,6 +130,8 @@ public class NewTourPlaceInfoService {
                 order = tourPlace.title.asc();
             } else if (_orderBy.equals(OrderBy.modifiedTime.name())) {
                 order = tourPlace.modifiedTime.desc();
+            } else if (_orderBy.equals(OrderBy.distance.name())) {
+                return listOrderByDistance(search);
             }
         }
         /* 정렬 조건 처리 E */
@@ -135,11 +147,6 @@ public class NewTourPlaceInfoService {
         List<TourPlace> items = query.fetch();
 
         items.forEach(this::addInfo);
-
-        if (_orderBy !=null && _orderBy.equals(OrderBy.distance)) {
-            items.forEach(i -> addDistance(i, search));
-            items.sort(Comparator.comparing(TourPlace::getDistance));
-        }
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
     }
@@ -161,9 +168,70 @@ public class NewTourPlaceInfoService {
         Double curLon = search.getLongitude();
 
         Double distance = 0.0;
-        if (latitude != null && longitude != null) {
+        if (latitude != null && longitude != null && curLat != null && curLon != null) {
             distance = Math.sqrt(Math.pow(latitude - curLat, 2) + Math.pow(longitude - curLon, 2));
         }
         item.setDistance(distance);
+    }
+
+    private ListData<TourPlace> listOrderByDistance(TourPlaceSearch search) {
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        int offset = (page - 1) * limit;
+        Double curLon = search.getLongitude();
+        Double curLat = search.getLatitude();
+        Integer radius = search.getRadius();
+        String contentType = "";
+        if (search.getContentType() != null) {
+            contentType = String.valueOf(utils.typeCode(search.getContentType()).getId());
+        }
+        ApiConfig apiKey = configInfoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
+        String url = String.format("https://apis.data.go.kr/B551011/KorService1/locationBasedList1?numOfRows=%d&pageNo=%d&MobileOS=and&MobileApp=test&_type=json&mapX=%f&mapY=%f&contentTypeId=%s&radius=%d&serviceKey=%s", limit, page, curLon, curLat, contentType, radius, apiKey.getPublicOpenApiKey());
+        ResponseEntity<ApiResult> response = null;
+        try {
+            response = restTemplate.getForEntity(URI.create(url), ApiResult.class);
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                List<ApiItem> items = response.getBody().getResponse().getBody().getItems().getItem();
+                List<TourPlace> tourPlaces = new ArrayList<TourPlace>();
+                try {
+                    items.forEach(item -> {
+                        String address = item.getAddr1();
+                        address += StringUtils.hasText(item.getAddr2()) ? " " + item.getAddr2() : "";
+                        TourPlace tourPlace = TourPlace.builder()
+                                .contentId(item.getContentid())
+                                .contentTypeId(item.getContenttypeid())
+                                .category1(item.getCat1())
+                                .category2(item.getCat2())
+                                .category3(item.getCat3())
+                                .modifiedTime(item.getModifiedtime())
+                                .createdTime(item.getCreatedtime())
+                                .title(item.getTitle())
+                                .tel(item.getTel())
+                                .address(address)
+                                .areaCode(item.getAreacode())
+                                .distance(item.getDist())
+                                .bookTour(item.getBooktour().equals("1"))
+                                .distance(item.getDist())
+                                .firstImage(item.getFirstimage())
+                                .firstImage2(item.getFirstimage2())
+                                .cpyrhtDivCd(item.getCpyrhtDivCd())
+                                .latitude(item.getMapy())
+                                .longitude(item.getMapx())
+                                .mapLevel(item.getMlevel())
+                                .sigunguCode(item.getSigunguCode())
+                                .build();
+                        tourPlaces.add(tourPlace);
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                int count = response.getBody().getResponse().getBody().getTotalCount();
+                Pagination pagination = new Pagination(page, count, 0, limit, request);
+                return new ListData<>(tourPlaces, pagination);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

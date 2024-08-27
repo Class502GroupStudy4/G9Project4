@@ -20,6 +20,7 @@ import java.util.List;
 public class MemberUtil {
 
     private final MemberRepository repository;
+    private final MemberInfoService infoService;
 
     public boolean isLogin() {
         return getMember() != null;
@@ -43,6 +44,8 @@ public class MemberUtil {
             member = memberInfo.getMember();
             if (member == null) {
                 member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
+                infoService.addMemberInfo(member);
+
                 memberInfo.setMember(member);
             }
         }

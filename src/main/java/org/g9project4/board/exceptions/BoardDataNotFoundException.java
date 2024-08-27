@@ -8,5 +8,4 @@ public class BoardDataNotFoundException extends AlertBackException {
         super("NotFound.boardData", HttpStatus.NOT_FOUND);
         setErrorCode(true);
     }
-
 }

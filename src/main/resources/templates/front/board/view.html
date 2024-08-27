@@ -16,14 +16,12 @@
         </th:block>
 
         <th:block th:if="${board.showListBelowView}">
-            <th:block th:if="${board.skin == 'default'}"
-                      th:replace="~{front/board/default/_list_items::items}"></th:block>
-
-            <th:block th:if="${board.skin == 'gallery'}"
-                      th:replace="~{front/board/gallery/_list_items::items}"></th:block>
-
-            <th:block th:if="${board.skin == 'review'}"
-                      th:replace="~{front/board/review/_list_items::items}"></th:block>
+            <th:block th:if="${board.skin == 'default'}">
+                <th:block th:replace="~{front/board/default/_list_items::items}"></th:block>
+            </th:block>
+            <th:block th:if="${board.skin == 'gallery'}">
+                <th:block th:replace="~{front/board/gallery/_list_items::items}"></th:block>
+            </th:block>
         </th:block>
     </div>
 

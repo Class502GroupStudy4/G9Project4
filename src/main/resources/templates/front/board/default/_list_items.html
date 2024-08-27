@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
-    <table class="table_rows">
-        <thead class="table_head">
-        <tr>
-            <th width="40">
-                <input type="checkbox" class="checkall" data-target-name="chk" id="checkall">
-                <label for="checkall"></label>
-            </th>
-            <th width="150">게시글 번호</th>
-            <th width="250">게시글 제목</th>
-            <th width="150">작성자</th>
-            <th width="200">작성일</th>
-            <th width="150">조회수</th>
-            <th width="200"></th>
-        </tr>
-        <tr th:if="${items == null || items.isEmpty()}">
-            <th colspan="6" class="no_data">조회된 게시글이 없습니다</th>
-        </tr>
-        </thead>
-        <tbody>
 
-        <tr th:unless="${items == null || items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
-            <td>
-                <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
-                <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
-                <label th:for="${'chk_' + status.index}"></label>
-            </td>
-            <td th:text="*{seq}"></td>
-            <td><a th:href="*{@utils.url('/board/view/'+seq)}" th:text="*{subject}"></a></td>
-            <td th:text="*{poster}"></td>
-            <td th:text="*{#temporals.format(createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td th:text="*{viewCount}"></td>
-            <td>
-                <a th:href="*{@utils.url('/board/update/' + seq)}" class="sbtn">
-                    <i class="xi-pen"></i> 수정하기
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <a th:href="*{@utils.url('/board/write/' + bid)}" class="sbtn right">
-        <i class="xi-pen"></i> 글쓰기
-    </a>
+    <nav th:replace="~{front/board/default/_common::categorylink}"></nav>
+
+    <ul class="list-items">
+        <li th:if="${items == null || items.empty}" th:text="#{조회된_게시글이_없습니다.}" class="no-data"></li>
+        <li th:if="${items != null && !items.empty}" th:each="item : ${items}" th:object="${item}">
+            <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="subject">
+                <span th:if="*{notice}" th:text="${'[' + #messages.msg('공지') + ']'}"></span>
+                <span th:if="*{category != null && category != ''}" th:text="*{'[' + category + ']'}" class="category"></span>
+                <th:block th:text="*{subject}"></th:block>
+            </a>
+            <div class="post-info">
+                <span class="poster">
+                    <th:block th:text="*{poster}"></th:block>
+                    <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
+                </span>
+                <span class="view-count" th:if="*{viewCount > 0}"
+                      th:text="*{viewCount < 1000 ? viewCount : #numbers.formatInteger(viewCount, 3, 'COMMA')}"></span>
+                <span class="datetime" th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
+            </div> <!--// post-info -->
+        </li>
+    </ul>
+
+    <div class="bottom-box">
+        <div class="links">
+            <a th:href="${@utils.redirectUrl('/board/write/' + board.bid)}" class="btn" th:text="#{글쓰기}"></a>
+        </div>
+        <form name="frmSearch" th:action="${@utils.redirectUrl('/board/list/' + board.bid)}" autocomplete="off" th:object="${boardDataSearch}">
+            <input type="hidden" name="category" th:field="*{category}">
+            <select name="sopt" th:field="*{sopt}">
+                <option value="ALL" th:text="#{통합검색}"></option>
+                <option value="SUBJECT" th:text="#{제목}"></option>
+                <option value="CONTENT" th:text="#{내용}"></option>
+                <option value="SUBJECT_CONTENT" th:text="#{제목+내용}"></option>
+                <option value="NAME" th:text="#{이름}"></option>
+            </select>
+            <input type="text" name="skey" th:field="*{skey}">
+            <button type="submit" th:text="#{검색하기}"></button>
+        </form>
+    </div>
+
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </th:block>
 </html>
