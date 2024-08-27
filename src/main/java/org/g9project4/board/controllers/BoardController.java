@@ -132,7 +132,9 @@ public class BoardController implements ExceptionProcessor {
         historyService.saveBoard(search.getSkey());
 
         ListData<BoardData> data = infoService.getList(bid, search);
+        ListData<BoardData> data2 = infoService.getList(bid, search);
 
+        model.addAttribute("items2", data2.getItems());
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
 

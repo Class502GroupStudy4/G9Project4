@@ -34,26 +34,42 @@
             </div>
             <!----><!----><!----></sbpro-border>
     </div>
+<th:block>
+<tbody>
+<tr th:unless="${items2 == null || items2.isEmpty()}" th:each="item, status : ${items2}" th:object="${item}">
+    <td>
+        <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
+
+        <label th:for="${'chk_' + status.index}"></label>
+    </td>
+    <td th:text="*{seq}"></td>
+    <td><a th:href="*{@utils.url('/board/view/'+seq)}" th:text="*{subject}"></a></td>
+    <td th:text="*{poster}"></td>
+
+    <td th:text="*{viewCount}"></td>
+</tr>
+</tbody>
 </th:block>
 
-<section class="list-body-sec">
-    <div class="list-body-box">
-        <!-- Thymeleaf의 th:each를 사용하여 반복문을 처리합니다. -->
-        <div th:each="review : ${requestBoard}" class="list-body-container">
-            <!-- 리뷰 하나 -->
-            <div>
-                <!-- Thymeleaf의 th:href를 사용하여 URL을 설정합니다. -->
-                <a th:href="@{/oaga/detail/{id}(id=${review.id})}" class="list-body-a">
-                    <!-- Thymeleaf의 th:src를 사용하여 이미지 소스를 설정합니다. -->
-                    <img class="list-body-img" th:src="@{http://localhost:3001/oaga/upload/{file}(file=${review.reviewImageUrl})}" alt="Review Image">
-                </a>
-            </div>
-        </div>
-        <!-- 리뷰 하나 -->
-    </div>
-</section>
 
+    <th:block>
+        <tbody>
+        <tr th:unless="${items2 == null || items2.isEmpty()}" th:each="item, status : ${items2}" th:object="${item}">
+            <td>
+                <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
 
+                <label th:for="${'chk_' + status.index}"></label>
+            </td>
+            <td th:text="*{seq}"></td>
+            <td><a th:href="*{@utils.url('/board/view/'+seq)}" th:text="*{subject}"></a></td>
+            <td th:text="*{poster}"></td>
+
+            <td th:text="*{viewCount}"></td>
+        </tr>
+        </tbody>
+    </th:block>
+
+</th:block>
 <th:block th:fragment="items">
     <table class="table_rows">
         <thead class="table_head">
