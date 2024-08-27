@@ -37,7 +37,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NewTourPlaceInfoService {
     private final RestTemplate restTemplate;
-    private final List contentType;
+//    private final List contentType;
     @PersistenceContext
     private EntityManager em;
 
