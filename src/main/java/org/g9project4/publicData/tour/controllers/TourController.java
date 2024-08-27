@@ -20,6 +20,7 @@ import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.NewTourPlaceInfoService;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
+import org.g9project4.visitCount.services.VisitorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -41,6 +42,7 @@ public class TourController implements ExceptionProcessor {
     private final AreaCodeRepository areaCodeRepository;
     private final SigunguCodeRepository sigunguCodeRepository;
     private final CategoryRepository categoryRepository;
+
 
     @ModelAttribute("apiKeys")
     public ApiConfig getApiKeys() {
