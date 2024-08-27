@@ -61,7 +61,6 @@ public class SecurityConfig {
         /* 인가(접근 통제) 설정 S*/
         http.authorizeRequests(authorizeRequests -> {
             authorizeRequests.requestMatchers("/mypage/**","/planner/**","/plan/**").authenticated()//회원 전용
-                    .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")//예외 발생
                     .anyRequest().permitAll();
         });
         http.exceptionHandling(c -> {
