@@ -22,12 +22,12 @@ public class MainController {
 
     @GetMapping
     public String index(Model model, @ModelAttribute TourPlaceSearch search) {
+
         model.addAttribute("addCommonCss",List.of("banner"));
         model.addAttribute("addCss", "main"); // CSS 파일 목록
         model.addAttribute("addScript", "main"); // JS 파일 목록
 
         visitorService.recordVisit();
-
 
         return "front/main/index";
     }
