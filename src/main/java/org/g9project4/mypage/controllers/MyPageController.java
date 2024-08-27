@@ -148,11 +148,9 @@ public class MyPageController {
 
         try {
             ListData<TourPlace> data = pointMemberService.getTopTourPlacesByMember(search);
-
-            commonProcess("mypost", model);
-            model.addAttribute("addCss", List.of("mypage/myplace"));
+            commonProcess("myplace", model);
             model.addAttribute("data", data);
-            model.addAttribute("tourPlaceSearch", search);
+
 
             return utils.tpl("mypage/myplace");
         } catch (IllegalArgumentException e) {
@@ -178,10 +176,9 @@ public class MyPageController {
 //        System.out.println("TourPlaceSearch: " + search); // 로그 추가
 //
 //        // 공통 처리 (commonProcess 메서드가 어떤 기능인지에 따라 다름)
-//        commonProcess("mypost", model);
+//        commonProcess("visitplace", model);
 //
-//        // 추가 스타일을 모델에 추가
-//        model.addAttribute("addCss", List.of("mypage/myplace"));
+//
 //        model.addAttribute("currentDate", currentDate);
 //        model.addAttribute("data", data);
 //        // 목록 데이터 처리 (addListProcess 메서드가 어떤 기능인지에 따라 다름)
@@ -197,23 +194,31 @@ public class MyPageController {
 
 
     @GetMapping("/myinterests") // 관심사 기준 추천
-    public String interestsList(TourPlaceSearch search, Model model) {
+    public String interestsList(@ModelAttribute TourPlaceSearch search, Model model) {
 
-        if (member == null) {
+        if (!memberUtil.isLogin()) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
 
-        ListData<TourPlace> data = interestsPointService.getTopTourPlacesByInterests(search);
+        try {
+            ListData<TourPlace> data = interestsPointService.getTopTourPlacesByInterests(search);
 
-        // 추가 스타일을 모델에 추가
-        model.addAttribute("addCss", List.of("mypage/myplace"));
-       // model.addAttribute("tourPlaceSearch", search);
-        // 목록 데이터 처리 (addListProcess 메서드가 어떤 기능인지에 따라 다름)
-       model.addAttribute("data", data);
+            // 목록 데이터 처리 (addListProcess 메서드가 어떤 기능인지에 따라 다름)
+            model.addAttribute("data", data);
+            commonProcess("myinterests", model);
 
+            // 템플릿을 반환
+            return utils.tpl("mypage/myinterests");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "잘못된 요청이 발생했습니다.");
+            return "error";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "여행지 목록을 가져오는 데 오류가 발생했습니다.");
+            return "error";
+        }
 
-        // 템플릿을 반환
-        return utils.tpl("mypage/myinterests");
     }
 
 
@@ -236,7 +241,17 @@ public class MyPageController {
 
         } else if (mode.equals("mycomment")) {
             addCss.add("mypage/mycomment");
+
+        } else if (mode.equals("myplace")) {
+            addCss.addAll(List.of("mypage/myplace"));
+
+        } else if (mode.equals("visitplace")) {
+            addCss.addAll(List.of("mypage/myplace"));
+
+        } else if (mode.equals("myinterests")) {
+            addCss.addAll(List.of("mypage/myplace"));
         }
+
 
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addCss", addCss);
