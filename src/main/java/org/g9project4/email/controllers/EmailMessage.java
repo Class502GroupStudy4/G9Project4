@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 이메일 메세지 데이터 클래스
  *
@@ -13,9 +15,9 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class EmailMessage {
+@NoArgsConstructor
+public class EmailMessage implements Serializable {
         private String to;
         private String subject;
         private String message;

@@ -85,7 +85,7 @@ public class BoardData extends BaseEntity {
 
     @Transient
     private boolean editable; // 수정, 삭제 가능 여부
-    
+
     @Transient
     private boolean commentable; //댓글 수정, 삭제 가능 여부
 

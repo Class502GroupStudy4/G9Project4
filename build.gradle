@@ -94,6 +94,8 @@ dependencies {
 	// Annotation Processors
 	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+//jackson
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.0'
 }
 
 
@@ -119,4 +121,11 @@ tasks.withType(JavaCompile) {
 
 clean.doLast {
 	file(querydslDir).deleteDir()
+}
+
+//경미: @ConstructorBinding 및 @ConfigurationProperties 사용 시 파라미터 이름을 명확히 지정, 파라미터 이름을 컴파일 후에도 유지해 줍니다.
+
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs << '-parameters'
 }

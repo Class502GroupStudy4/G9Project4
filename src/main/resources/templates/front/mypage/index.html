@@ -48,6 +48,14 @@
                     <dt th:text="#{외국인여부}"></dt>
                     <dd th:text="${loggedMember.isForeigner}"></dd>
                 </dl>
+            <dl>
+                <dt th:text="#{관심사}"></dt>
+                        <!-- Iterate over interests and display each one -->
+                        <dd th:each="interest : ${requestProfile.interests}">
+                <span th:text="${interest.name()}"></span> </dd>
+            </dl>
+
+
         </div>
     </form>
         <div class="mypage-tour-story">

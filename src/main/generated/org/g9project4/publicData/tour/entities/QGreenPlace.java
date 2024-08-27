@@ -33,7 +33,7 @@ public class QGreenPlace extends EntityPathBase<GreenPlace> {
 
     public final DateTimePath<java.time.LocalDateTime> modifiedtime = createDateTime("modifiedtime", java.time.LocalDateTime.class);
 
-    public final NumberPath<Integer> sigugunCode = createNumber("sigugunCode", Integer.class);
+    public final StringPath sigunguCode = createString("sigunguCode");
 
     public final StringPath subTitle = createString("subTitle");
 

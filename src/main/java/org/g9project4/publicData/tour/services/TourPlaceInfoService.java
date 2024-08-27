@@ -29,6 +29,8 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.util.List;
 
+import static org.springframework.data.domain.Sort.Order.asc;
+
 @Service
 @RequiredArgsConstructor
 public class TourPlaceInfoService {
