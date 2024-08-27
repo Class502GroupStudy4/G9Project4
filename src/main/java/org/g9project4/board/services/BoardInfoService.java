@@ -50,22 +50,20 @@ import static org.springframework.data.domain.Sort.Order.desc;
 public class BoardInfoService {
 
     private final JPAQueryFactory queryFactory;
+    public final BoardRepository boardRepository;
     private final BoardDataRepository repository;
     private final BoardConfigInfoService configInfoService;
     private final CommentInfoService commentInfoService;
     private final FileInfoService fileInfoService;
-
-    private final BoardRepository boardRepository;
+    private final WishListService wishListService;
     private final HttpServletRequest request;
     private final ModelMapper modelMapper;
     private final MemberUtil memberUtil;
     private final Utils utils;
-    private final WishListService wishListService;
 
     public List<Board> getBoardList(){
         return boardRepository.findAll(Sort.by(desc("listOrder"))).stream().toList();
     }
-
     /**
      * 게시글 목록 조회
      *
@@ -277,11 +275,11 @@ public class BoardInfoService {
         // 추가 데이터 처리
         addInfo(item);
 
+
         // 댓글 목록
         List<CommentData> comments = commentInfoService.getList(seq);
         item.setComments(comments);
         System.out.println("item : " + item);
-
         return item;
     }
 
@@ -440,7 +438,7 @@ public class BoardInfoService {
         item.setShowDelete(showDelete);
         item.setShowList(showList);
         // 게시글 버튼 노출 권한 처리 E
+
+
     }
-
-
 }
