@@ -73,7 +73,7 @@ public class NewTourPlaceInfoService {
             andBuilder.and(tourPlace.areaCode.eq(search.getAreaCode()));
             if (search.getSigunguCode() != null) {
                 for (String sigunguCode : search.getSigunguCode()) {
-                    orBuilder.or(tourPlace.sigunguCode.eq(Integer.valueOf(sigunguCode)));
+                    orBuilder.or(tourPlace.sigunguCode.eq(sigunguCode));
                 }
             }
         }
@@ -220,7 +220,7 @@ public class NewTourPlaceInfoService {
                                 .latitude(item.getMapy())
                                 .longitude(item.getMapx())
                                 .mapLevel(item.getMlevel())
-                                .sigunguCode(item.getSigungucode())
+                                .sigunguCode(item.getSigunguCode())
                                 .build();
                         tourPlaces.add(tourPlace);
                     });

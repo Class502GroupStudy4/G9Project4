@@ -7,6 +7,7 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
+import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
 import org.g9project4.publicData.tour.entities.AreaCode;
