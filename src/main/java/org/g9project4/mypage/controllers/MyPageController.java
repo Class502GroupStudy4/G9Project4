@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.services.BoardInfoService;
 import org.g9project4.global.ListData;
-import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Interest;
@@ -13,7 +12,6 @@ import org.g9project4.member.entities.Member;
 import org.g9project4.member.repositories.InterestsRepository;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
-//km import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
@@ -36,6 +34,7 @@ import java.util.stream.Collectors;
 
 import static org.g9project4.member.entities.QMember.member;
 import static org.g9project4.search.entities.QSearchHistory.searchHistory;
+import static org.g9project4.wishlist.entities.QWishList.wishList;
 
 @Controller
 @RequestMapping("/mypage")
@@ -255,5 +254,3 @@ public class MyPageController {
         model.addAttribute("addScript", addScript);
     }
 }
-
-

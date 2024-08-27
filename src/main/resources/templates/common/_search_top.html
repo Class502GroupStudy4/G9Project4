@@ -20,7 +20,7 @@
                                 </select>
                             -->
                         <input type="text" name="skey" th:field="*{skey}"
-                               th:placeholder="#{여행지로_검색}">
+                               th:placeholder="#{여행지로_검색}" th:value="*{skey}">
                         <button class="Q2" type="submit">
                             <i class="xi-search"></i>
                         </button>
@@ -36,7 +36,8 @@
     </div>
 </th:block>
 <form th:fragment="totalSearch" name="frmTotalSearch" th:object="${tourPlaceSearch}">
-    <[[${tourPlaceSearch}]]>
+    <input type="hidden" name="latitude" th:field="*{latitude}">
+    <input type="hidden" name="longitude" th:field="*{longitude}">
     <div>
         <span>지역 : </span>
         <label>
@@ -120,8 +121,8 @@
         정렬 기준 :
         <th:block th:each="orderBy :${@getOrders}">
             <label>
-                <input type="radio" class="orderBy" name="orderBy" th:text="${orderBy.type}" th:value="${orderBy.name}"
-                       th:checked="${tourPlaceSearch.orderBy==orderBy.name}" onclick="frmTotalSearch.submit()">
+                <input type="radio" class="orderBy" name="orderBy" th:text="${orderBy.type}" th:value="${orderBy.name}" th:id="orderBy+${orderBy.name}"
+                       th:checked="${tourPlaceSearch.orderBy==orderBy.name}">
             </label>
         </th:block>
     </div>
