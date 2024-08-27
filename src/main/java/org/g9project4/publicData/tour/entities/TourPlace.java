@@ -25,7 +25,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="TOUR_PLACE2")
 public class TourPlace extends BaseEntity {
     @Id
     private Long contentId;
@@ -65,7 +64,7 @@ public class TourPlace extends BaseEntity {
     private Double latitude; // mapy
     private Double longitude; // mapx
     private Integer mapLevel;
-    private Integer sigunguCode;
+    private String sigunguCode;
 
 
     @Transient

@@ -29,7 +29,7 @@ public class ApiItem {
     private Double mapx;
     private Double mapy;
     private Integer mlevel;
-
+    private String sigunguCode;
     private String tel;
     private String title;
 
