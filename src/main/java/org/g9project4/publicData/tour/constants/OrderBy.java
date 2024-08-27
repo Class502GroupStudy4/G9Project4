@@ -9,8 +9,8 @@ public enum OrderBy {
     //정렬 기본 ContentId, 이름순, 최신순, 거리순, 인기순
     title("이름순","title"),
     modifiedTime("최신순","updateDate"),
-    distance("거리순","distance"),
-    popularity("인기순","popularity"),;
+    popularity("인기순","popularity"),
+    distance("10km 이내 보기","distance"),;
     private final String type;
     private final String name;
 
