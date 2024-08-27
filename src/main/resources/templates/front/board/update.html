@@ -12,8 +12,14 @@
         <th:block th:replace="~{front/board/gallery/_update::update}"></th:block>
     </th:block>
 
+
     <th:block th:if="${board.skin == 'review'}">
         <th:block th:replace="~{front/board/review/_update::update}"></th:block>
     </th:block>
+
+    <th:block th:if="${board.skin == 'qna'}">
+        <th:block th:replace="~{front/board/qna/_update::update}"></th:block>
+    </th:block>
+
 </main>
 </html>
