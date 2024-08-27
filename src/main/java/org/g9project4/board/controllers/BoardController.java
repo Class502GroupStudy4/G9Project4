@@ -1,22 +1,24 @@
 package org.g9project4.board.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
 import org.g9project4.board.exceptions.BoardNotFoundException;
-import org.g9project4.board.services.BoardConfigInfoService;
-import org.g9project4.board.services.BoardDeleteService;
-import org.g9project4.board.services.BoardInfoService;
-import org.g9project4.board.services.BoardSaveService;
+import org.g9project4.board.exceptions.GuestPasswordCheckException;
+import org.g9project4.board.services.*;
 import org.g9project4.board.validators.BoardValidator;
 import org.g9project4.file.constants.FileStatus;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.file.services.FileInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Utils;
+import org.g9project4.global.exceptions.CommonException;
 import org.g9project4.global.exceptions.ExceptionProcessor;
+import org.g9project4.global.exceptions.UnAuthorizedException;
+import org.g9project4.global.exceptions.script.AlertBackException;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
-@SessionAttributes({"boardData"})
+@SessionAttributes({"boardData", "board"})
 public class BoardController implements ExceptionProcessor {
     private final BoardConfigInfoService configInfoService;
     private final BoardInfoService infoService;
@@ -40,15 +43,20 @@ public class BoardController implements ExceptionProcessor {
     private final BoardDeleteService deleteService;
     private final FileInfoService fileInfoService;
     private final SearchHistoryService historyService;
+    private final BoardViewCountService viewCountService;
+    private final BoardAuthService authService;
 
     private final BoardValidator validator;
     private final MemberUtil memberUtil;
     private final Utils utils;
 
-
-
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글 내용
+
+    @ModelAttribute("mainClass")
+    public String mainClass() {
+        return "board-main layout-width";
+    }
 
     /**
      * 글 쓰기
@@ -132,8 +140,25 @@ public class BoardController implements ExceptionProcessor {
     }
 
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model) {
+    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(seq, "view", model);
+
+        if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
+            ListData<BoardData> data = infoService.getList(board.getBid(), search);
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
+        }
+
+        // 댓글 커맨드 객체 처리 S
+        RequestComment requestComment = new RequestComment();
+        if (memberUtil.isLogin()) {
+            requestComment.setCommenter(memberUtil.getMember().getUserName());
+        }
+
+        model.addAttribute("requestComment", requestComment);
+        // 댓글 커맨드 객체 처리 E
+
+        viewCountService.update(seq); // 조회수 증가
 
         return utils.tpl("board/view");
     }
@@ -146,6 +171,24 @@ public class BoardController implements ExceptionProcessor {
         deleteService.delete(seq);
 
         return utils.redirectUrl("/board/list/" + board.getBid());
+    }
+
+    /**
+     * 비회원 비밀번호 검증
+     *
+     * @param password
+     * @param model
+     * @return
+     */
+    @PostMapping("/password")
+    public String confirmGuestPassword(@RequestParam("password") String password, Model model) {
+
+        authService.validate(password, boardData);
+
+        String script = "parent.location.reload();";
+        model.addAttribute("script", script);
+
+        return "common/_execute_script";
     }
 
 
@@ -169,7 +212,7 @@ public class BoardController implements ExceptionProcessor {
 
         String skin = board.getSkin(); // 스킨
 
-        // 게시판 공통 JS - wish.js 연결
+        // 게시판 공통 JS
         addCommonScript.add("wish");
 
         // 게시판 공통 CSS
@@ -193,8 +236,12 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
-            addCss.add("board/" + skin + "/form");
+        } else if (mode.equals("view")) { // 게시글 보기의 경우
+            addScript.add("board/" + skin + "/view");
         }
+
+            addCss.add("board/" + skin + "/form");
+
 
         // 게시글 제목으로 title을 표시 하는 경우
         if (List.of("view", "update", "delete").contains(mode)) {
@@ -206,6 +253,12 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("addScript", addScript);
         model.addAttribute("board", board); // 게시판 설정
         model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("mode", mode);
+
+        //권한 체크
+        if (List.of("write", "list").contains(mode)) {
+            authService.check(mode, board.getBid());
+        }
     }
 
     /**
@@ -220,7 +273,35 @@ public class BoardController implements ExceptionProcessor {
         boardData = infoService.get(seq);
 
         model.addAttribute("boardData", boardData);
-
+        model.addAttribute("board", boardData.getBoard());
         commonProcess(boardData.getBoard().getBid(), mode, model);
+
+        authService.check(mode, seq); //권한 체크
+    }
+
+    @Override
+    @ExceptionHandler(Exception.class)
+    public ModelAndView errorHandler(Exception e, HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+        if (e instanceof UnAuthorizedException unAuthorizedException) {
+            String message = unAuthorizedException.getMessage();
+            message = unAuthorizedException.isErrorCode() ? utils.getMessage(message) : message;
+            String script = String.format("alert('%s');history.back();", message);
+
+            mv.setStatus(unAuthorizedException.getStatus());
+            mv.setViewName("common/_execute_script");
+            mv.addObject("script", script);
+
+            return mv;
+        } else if ( e instanceof GuestPasswordCheckException passwordCheckException) {
+
+            mv.setStatus(passwordCheckException.getStatus());
+            mv.addObject("board", board);
+            mv.addObject("boardData", boardData);
+            mv.setViewName(utils.tpl("board/password"));
+            return mv;
+        }
+
+        return ExceptionProcessor.super.errorHandler(e, request);
     }
 }
