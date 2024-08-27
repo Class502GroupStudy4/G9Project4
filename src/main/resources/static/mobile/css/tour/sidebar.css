@@ -1,9 +1,41 @@
-/* styles.css */
+/* 기본 스타일 유지 */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
 
+/* 좌측 검색 사이드 바 */
+#search-results {
+    /* 기본 스타일 유지 */
+}
+#search-results ul {
+    max-height: 200px;
+    overflow-y: auto; /* 스크롤 가능하도록 설정 */
+}
+#search-results ul li {
+    border-bottom: 1px solid #cccccc;
+}
+#search-results .bdr_nor {
+    display: flex;
+    padding: 0 20px;
+}
+#search-results .place-photo .not-exist {
+    font-size: 2rem;
+    min-width: 130px;
+}
+#search-results .place-photo img {
+    min-width: 130px;
+    width: 130px;
+}
+#search-results .place-address {
+    color: var(--muted-text-color);
+    font-size: 80%;
+}
+#search-results .place-contenType {
+    color: var(--secondary-color);
+}
+
+/* 우측 사이드 바 */
 #sidebar {
     height: 100%;
     width: 250px;
@@ -62,4 +94,35 @@ body {
 
 #toggleBtn:hover {
     background: #333;
+}
+
+/* 반응형 스타일 */
+@media screen and (max-width: 768px) {
+    #sidebar {
+        width: 200px; /* 모바일 화면에서 사이드 바 너비를 줄임 */
+        right: -200px; /* 모바일 화면에서도 사이드 바를 숨김 */
+    }
+
+    #toggleBtn {
+        right: 0; /* 모바일 화면에서 버튼 위치를 사이드 바 옆으로 이동 */
+        transform: translateY(-50%) rotate(0deg); /* 회전 제거 */
+        background: #111;
+        color: #f1f1f1;
+    }
+
+    #search-results ul {
+        max-height: 150px; /* 모바일 화면에서 검색 결과의 최대 높이를 줄임 */
+    }
+
+    #search-results .place-photo img {
+        width: 100px; /* 모바일 화면에서 이미지 크기 줄임 */
+    }
+
+    #search-results .place-address {
+        font-size: 70%; /* 모바일 화면에서 폰트 크기 줄임 */
+    }
+
+    #search-results .place-contenType {
+        font-size: 80%; /* 모바일 화면에서 폰트 크기 줄임 */
+    }
 }
