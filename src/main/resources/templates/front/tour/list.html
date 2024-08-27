@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <form th:object="${tourPlaceSearch}" name="frmTotalSearch" autocomplete="off">
+    <form th:object="${tourPlaceSearch}" name="frmTotalSearch" autocomplete="off" class="search-option-form">
         <div th:replace="~{common/_search_top::search}"></div>
         <!--    <nav th:replace="~{common/_tourtype_tpl::typelist}"></nav>-->
         <div th:replace="~{common/_search_top::totalSearch}"></div>

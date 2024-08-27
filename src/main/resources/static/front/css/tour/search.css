@@ -1,33 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
-.nanum-gothic-bold {
-    font-family: "Nanum Gothic", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-}
-
-.nanum-gothic-extrabold {
-    font-family: "Nanum Gothic", sans-serif;
-    font-weight: 800;
-    font-style: normal;
-}
-
-.nanum-gothic-regular {
-    font-family: "Nanum Gothic", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
+/*Search Option Css E*/
 .search-option {
     background-color: #e6e6e6;
 }
 
-.search-option > div * {
-    font-family: "Nanum Gothic", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+.search-option-form {
+    min-width: 1100px;
 }
 
-.search-option > div {
+.search-option * {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.1rem;
+}
+.search-option dt {
+    font-size: large;
+    color: #2d2926;
+}
+.search-option input[type="radio"] {
+    display: none; /* 기본 체크박스 스타일 제거 */
+    width: 30px;
     height: 30px;
-    line-height: 15px;
+    /*background: url('unchecked.png') no-repeat center;*/
+    cursor: pointer;
+}
+input[type="checkbox"]:checked {
+    appearance: auto;
+}
+.search-option dd *{
+    color: #666;
+}
+/*Search Option Css E*/
+/*버튼 CSS*/
+.buttons {
+    display: flex;
+    margin: 0 auto;
+}
+
+button.search-option-submit {
+    background: #f6f8fa;
+    border: 1px #666 solid;
+    border-radius: var(--button-border-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    margin: 0 24px;
+    width: 48px;
+    height: 30px;
+    color: #666;
 }
