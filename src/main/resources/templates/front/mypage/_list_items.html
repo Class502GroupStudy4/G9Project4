@@ -121,10 +121,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${searchHistory==null}">
+        <tr th:if="${items==null || items.empty}">
             <th colspan="5" th:text="#{조회된_검색기록이_없습니다.}" class="no-data"></th>
         </tr>
-        <tr th:if="${searchHistory!=null}" th:each="item, s : ${searchHistory}" class="searchHistory-list">
+        <tr th:unless="${items==null || items.empty}" th:each="item, s : ${items}" class="searchHistory-list">
             <th th:text="${s.index + 1}"></th>
             <th th:text="${item.keyword}">
             </th>
