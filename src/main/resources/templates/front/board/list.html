@@ -36,6 +36,10 @@
         <th:block th:if="${board.skin == 'qna'}">
             <th:block th:replace="~{front/board/qna/_list_items::items}"></th:block>
         </th:block>
+
+        <th:block th:if="${board.skin == 'planner'}">
+            <th:block th:replace="~{front/board/planner/_list_items::items}"></th:block>
+        </th:block>
     </div>
 </main>
 </html>

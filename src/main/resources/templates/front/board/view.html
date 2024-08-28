@@ -41,6 +41,10 @@
                 <th:block th:replace="~{front/board/review/_list_items::items}"></th:block>
             </th:block>
 
+            <th:block th:if="${board.skin == 'planner'}">
+                <th:block th:replace="~{front/board/planner/_list_items::items}"></th:block>
+            </th:block>
+
         </th:block>
     </div>
 
