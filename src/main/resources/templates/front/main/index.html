@@ -197,7 +197,7 @@
         <p class="tit">다른 여행자들의 리뷰를 참고해 나만의 여행을 계획해보세요!</p>
     </div>
 
-    <th:block th:fragment="items">
+
     <th:block th:class="sec2">
         <div class="secWrap">
             <th:block th:if="${!#lists.isEmpty(items)}" th:each="item, status : ${items}" th:object="${item}">
@@ -219,7 +219,10 @@
                     </div>
                 </tr>
             </th:block>
-
+            <!--            <th:block>-->
+            <!--                <li th:if="${!#lists.isEmpty(items)}" th:text="#{이미지가_작성된_리뷰가_없어요._첫_작성자가_되어보세요.}" class="no-data"></li>-->
+            <!--            </th:block>-->
+        </div>
 
 
     <!--special-box S-->
