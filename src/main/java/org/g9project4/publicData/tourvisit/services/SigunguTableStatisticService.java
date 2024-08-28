@@ -19,7 +19,7 @@ public class SigunguTableStatisticService {
     private final RestTemplate restTemplate;
     private final SigunguTableRepository sigunguTableRepository;
 
-    private String serviceKey ="7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos%2BQcjBgTlHVDYcoG8RwfuspzfxA";
+    private String sKey ="7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos%2BQcjBgTlHVDYcoG8RwfuspzfxA";
     //    @Scheduled(fixedRate = 1L, timeUnit = TimeUnit.DAYS)
 
     /**
@@ -36,7 +36,7 @@ public class SigunguTableStatisticService {
             String url = String.format(
                     "https://api.odcloud.kr/api/15067699/v1/uddi:0c8ed5b5-30ff-4495-9b0d-d89f94d7308f?page=%d&perPage=10&returnType=JSON&serviceKey=%s",
                     i,
-                    serviceKey
+                    sKey
             );
 
           ApiResult result = restTemplate.getForObject(url, ApiResult.class);

@@ -46,7 +46,7 @@ public class DataTransfer {
     @PersistenceContext
     private EntityManager em;
 
-    private String serviceKey = "7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos+QcjBgTlHVDYcoG8RwfuspzfxA==";
+    private String sKey = "7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos+QcjBgTlHVDYcoG8RwfuspzfxA==";
 
     @Test
     void test1() {
@@ -70,7 +70,7 @@ public class DataTransfer {
 
     @Test // tourplace api 다운로드 km 1000개만
     void test3() {
-       apiUpdateService.update(serviceKey);
+       apiUpdateService.update(sKey);
     }
 
     @Test

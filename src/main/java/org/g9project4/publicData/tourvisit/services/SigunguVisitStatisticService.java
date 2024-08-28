@@ -151,11 +151,11 @@ public class SigunguVisitStatisticService {
     private static final long RETRY_DELAY_MS = 60000; // 60초
 
     private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
-        String serviceKey = "7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos%2BQcjBgTlHVDYcoG8RwfuspzfxA%3D%3D";
+        String sKey = "7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos%2BQcjBgTlHVDYcoG8RwfuspzfxA%3D%3D";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String url = String.format("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json",
-                serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
+                sKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
 
         /* km 로그 정보 필요시 주석 해제바람  시작 */
 
