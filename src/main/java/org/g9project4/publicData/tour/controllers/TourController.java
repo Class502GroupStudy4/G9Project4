@@ -81,8 +81,6 @@ public class TourController implements ExceptionProcessor {
         if (mode.equals("list")) {
             addCss.addAll(List.of("tour/list", "tour/_typelist", "tour/banner", "tour/search"));
             addScript.addAll(List.of("tour/locBased", "tour/form"));
-            addCss.addAll(List.of("tour/list", "tour/_typelist"));
-            addScript.addAll(List.of("tour/locBased", "tour/form"));
         } else if (mode.equals("geolocation")) {
             addCss.addAll(List.of("tour/list", "tour/_typelist"));
             addScript.add("tour/locBased");

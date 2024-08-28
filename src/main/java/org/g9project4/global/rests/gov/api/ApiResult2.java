@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class ApiResult2 {
 
-    private ApiResponse2 response2;
+    private ApiResponse2 response;
 }

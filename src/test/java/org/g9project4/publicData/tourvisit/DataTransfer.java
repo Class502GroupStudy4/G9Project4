@@ -46,8 +46,7 @@ public class DataTransfer {
     @PersistenceContext
     private EntityManager em;
 
-    private String skey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
-
+    private String serviceKey = "7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos+QcjBgTlHVDYcoG8RwfuspzfxA==";
 
     @Test
     void test1() {
@@ -71,7 +70,7 @@ public class DataTransfer {
 
     @Test // tourplace api 다운로드 km 1000개만
     void test3() {
-       apiUpdateService.update(skey);
+       apiUpdateService.update(serviceKey);
     }
 
     @Test
@@ -89,16 +88,12 @@ public class DataTransfer {
 
 
 
-    @Test // placepointvalue 계산 4시간
+    @Test // placepointvalue 계산
     void test6() {
 
         pointService.update();
 
     }
-
-
-
-
 
 
 }

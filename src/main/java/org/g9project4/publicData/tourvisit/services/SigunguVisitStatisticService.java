@@ -51,7 +51,7 @@ public class SigunguVisitStatisticService {
         ApiResult2 result2 = getData(1, 1, sdate, edate);
         if (result2 == null) return;
 
-        int total = result2.getResponse2().getBody().getTotalCount();
+        int total = result2.getResponse().getBody().getTotalCount();
         int totalPages = (int) Math.ceil(total / (double) limit);
 
         // type1 - 현지인, type2 - 외지인, type3 - 외국인
@@ -59,7 +59,7 @@ public class SigunguVisitStatisticService {
         for (int i = 1; i <= totalPages; i++) {
             ApiResult2 result = getData(i, limit, sdate, edate);
 
-            ApiBody2 body = result.getResponse2().getBody();
+            ApiBody2 body = result.getResponse().getBody();
 
             List<Map<String, String>> items = body.getItems().getItem();
             for (Map<String, String> item : items) {
@@ -151,7 +151,7 @@ public class SigunguVisitStatisticService {
     private static final long RETRY_DELAY_MS = 60000; // 60초
 
     private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
-        String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
+        String serviceKey = "7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos%2BQcjBgTlHVDYcoG8RwfuspzfxA%3D%3D";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String url = String.format("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json",
@@ -177,7 +177,7 @@ public class SigunguVisitStatisticService {
                     continue; // 재시도
                 }
 
-                ApiResponse2 apiResponse = result.getResponse2();
+                ApiResponse2 apiResponse = result.getResponse();
                 if (apiResponse == null) {
                     log.error("API response is null.");
                     continue; // 재시도

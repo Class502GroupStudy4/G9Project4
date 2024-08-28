@@ -2,7 +2,6 @@ package org.g9project4.publicData.tourvisit.services;
 
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.rests.gov.api.ApiBody2;
-import org.g9project4.global.rests.gov.api.ApiResponse2;
 import org.g9project4.global.rests.gov.api.ApiResult2;
 import org.g9project4.publicData.tourvisit.entities.SidoVisit;
 import org.g9project4.publicData.tourvisit.repositories.SidoVisitRepository;
@@ -50,7 +49,7 @@ public class SidoVisitStatisticService {
         ApiResult2 result2 = getData(1, 1, sdate, edate);
         if (result2 == null) return;
 
-        int total = result2.getResponse2().getBody().getTotalCount();
+        int total = result2.getResponse().getBody().getTotalCount();
         int totalPages = (int)Math.ceil(total / (double)limit);
 
         // type1 - 현지인, type2 - 외지인, type3 - 외국인
@@ -59,7 +58,7 @@ public class SidoVisitStatisticService {
         for (int i = 1; i <= totalPages; i++) {
             ApiResult2 result = getData(i, limit, sdate, edate);
 
-            ApiBody2 body = result.getResponse2().getBody();
+            ApiBody2 body = result.getResponse().getBody();
 
             List<Map<String, String>> items = body.getItems().getItem();
             for (Map<String, String> item : items) {
@@ -137,30 +136,28 @@ public class SidoVisitStatisticService {
 
     }
 
-    //km java.lang.NullPointerException: Cannot invoke "org.g9project4.global.rests.gov.api.ApiResponse2.getHeader()" because the return value of "org.g9project4.global.rests.gov.api.ApiResult2.getResponse2()" is null 오류로 인한 수정
     private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
+
         String serviceKey = "RtrIIdYjcb3IXn1a/zF7itGWY5ZFS3IEj85ohFx/snuKG9hYABL5Tn8jEgCEaCw6uEIHvUz30yF4n0GGP6bVIA==";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-        String url = String.format("https://apis.data.go.kr/B551011/DataLabService/metcoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json",
-                serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
+        String url = String.format("https://apis.data.go.kr/B551011/DataLabService/metcoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json", serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
 
-        ResponseEntity<ApiResult2> apiResponse = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
+        ResponseEntity<ApiResult2> response = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
 
-        if (!apiResponse.getStatusCode().is2xxSuccessful()) {
+        if (!response.getStatusCode().is2xxSuccessful()) {
             return null;
         }
 
-        ApiResult2 result = apiResponse.getBody();
-
-        if (result == null || result.getResponse2() == null ||
-                !result.getResponse2().getHeader().getResultCode().equals("0000")) {
+        ApiResult2 result = response.getBody();
+        if (!result.getResponse().getHeader().getResultCode().equals("0000")) {
             return null;
         }
 
         return result;
     }
+
 
     // 일별 통계
     @Scheduled(cron = "0 0 1 * * *")  // 매일 새벽 1시
