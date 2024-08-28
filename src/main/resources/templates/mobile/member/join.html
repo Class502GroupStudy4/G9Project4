@@ -72,8 +72,8 @@
             <div class="error" th:each="err:${#fields.errors('agree')}" th:text="${err}"></div>
         </div>
         <div class="buttons">
-            <button class="form" type="submit" th:text="#{회원가입}"></button>
             <button class="form" type="reset" th:text="#{다시입력}"></button>
+            <button class="form" type="submit" th:text="#{회원가입}"></button>
         </div>
     </form>
     <script th:replace="~{common/_file_tpl::image}"></script>
