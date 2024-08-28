@@ -33,6 +33,10 @@ const planner = {
             });
         }
 
+        // 여행 완료 체크 처리
+        const tourDoneEl = tr.querySelector(".tour-done");
+        this.addTourDoneEvent(tourDoneEl);
+
         this.getTarget().append(tr);
 
     },
@@ -82,9 +86,38 @@ const planner = {
     },
     // 여행지 선택
     selectTourPlace(seq) {
+        const tr = document.getElementById(`item-${seq}`);
+        if (tr && tr.classList.contains("done")) { // 여행완료 체크된 경우 여행지 선택 팝업 X
+            return;
+        }
+
         let url = '/planner/select/tourplace?data=' + seq;
 
         layerPopup.open(url, 800, 600);
+    },
+    /**
+     * 여행 완료 토클 이벤트 추가
+     *
+     */
+    addTourDoneEvent(el) {
+        if (el) {
+            el.addEventListener("click", function() {
+                const tr = this.parentElement.parentElement;
+                const classList = tr.classList;
+                classList.remove("done");
+                const dateEl = tr.querySelector("select");
+                if (dateEl) dateEl.removeAttribute("readonly");
+
+                const chkEl = tr.querySelector("input[name='chk']");
+                if (chkEl) chkEl.disabled = false;
+
+                if (this.checked) {
+                    classList.add("done");
+                    if (dateEl) dateEl.setAttribute("readonly", true);
+                    if (chkEl) chkEl.disabled = true;
+                }
+            });
+        }
     }
 };
 
@@ -139,6 +172,32 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
     // 여행지 선택 하기 E
+
+    /* 양식 제출 처리 S */
+    frmSave.addEventListener("submit", function(e) {
+        const trs = document.querySelectorAll(".itinerary tbody tr");
+        console.log(trs);
+        if (trs.length > 0) {
+            const items = [];
+            for (const tr of trs) {
+                const seq = tr.dataset.seq;
+                const date = tr.querySelector(`#tour-date-${seq}`).value;
+                const contentId = tr.querySelector(".content-id").value;
+                const done = tr.querySelector(".tour-done").checked;
+
+                items.push({seq, date, contentId, done});
+            }
+
+            frmSave.itinerary.value = JSON.stringify(items);
+        }
+    });
+    /* 양식 제출 처리 E */
+
+    // 여행 완료처리 토클 이벤트 처리
+    const tourDoneEls = document.getElementsByClassName("tour-done");
+    for (const el of tourDoneEls) {
+        planner.addTourDoneEvent(el);
+    }
 });
 
 
@@ -187,7 +246,6 @@ function selectTourPlaceCallback(item, seq) {
     const imageUrl = firstImage2 ? firstImage2 : firstImage;
 
     const contentIdEl = document.querySelector(`[name='contentId_${seq}']`);
-    console.log("test", contentIdEl)
     const placeEl = document.getElementById("tourplace-" + seq);
     const imageEl = document.getElementById("tourplace-image-" + seq);
     const addressEl = document.getElementById("tourplace-address-" + seq);

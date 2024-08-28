@@ -45,3 +45,8 @@
     border: 1px solid #ccc;
     border-radius: 3px;
 }
+
+.planner-box tr.done {
+    text-decoration: line-through;
+    background: #ccc;
+}

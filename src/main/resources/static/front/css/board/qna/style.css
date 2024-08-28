@@ -62,6 +62,18 @@
 .links {
     text-align: right;
 }
-
+.jbtn {
+    display: inline-block;         /* 링크를 블록처럼 취급 */
+    font-size: 20px;               /* 글자 크기 키우기 */
+    padding: 10px 20px;            /* 안쪽 여백 추가 */
+    text-align: center;            /* 텍스트를 가운데 정렬 */
+    text-decoration: none;         /* 밑줄 제거 */
+    color: white;                  /* 텍스트 색상 */
+    background-color: #007bff;     /* 배경색 설정 */
+    border-radius: 5px;            /* 모서리를 둥글게 */
+    margin: 0 auto;                /* 가운데 정렬 */
+    display: block;                /* 블록처럼 취급 (가운데 정렬 위해) */
+    width: fit-content;            /* 내용에 맞게 너비 설정 */
+}
 
 /*View Css End*/

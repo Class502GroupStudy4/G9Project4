@@ -41,7 +41,7 @@
     <dl>
         <dt th:text="#{내용}"></dt>
         <dd>
-            <textarea name="content" th:field="*{content}" id="content" placeholder="내용을 입력해주세요"></textarea>
+            <textarea name="content" th:field="*{content}" id="content1" placeholder="내용을 입력해주세요"></textarea>
             <div class="error" th:each="err : ${#fields.errors('content')}" th:text="${err}"></div>
         </dd>
     </dl>
@@ -73,7 +73,7 @@
     <dl>
         <dt th:text="#{답변}"></dt>
         <dd>
-            <textarea name="longText1" th:field="*{longText1}" placeholder="질문에 대한 답변을 입력해주세요." rows="10" style="width: 100%;"></textarea>
+            <textarea name="longText1" th:field="*{longText1}" placeholder="질문에 대한 답변을 입력해주세요." rows="10" style="width: 100%;" readonly></textarea>
             <div class="error" th:each="err : ${#fields.errors('longText1')}" th:text="${err}"></div>
         </dd>
     </dl>

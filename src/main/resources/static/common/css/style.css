@@ -37,30 +37,38 @@ dt {
 dd {
     flex-grow: 1;
 }
+
 /* 공통 컬러 시작*/
 /* 공통 컬러 사용법-css:    var(--primary-color);
  타 css파일에 공통컬러 적용시 추가-> html에 이미 추가 되어 있음
  */
 :root {
-   --primary-color: #7d845a; /* Primary 색상- 녹두색 */
+    /* COLORS */
+    --white: #f9f9f9;
+    --gray: #444;
+    --blue: #0367a6;
+    --lightblue: #008997;
+    --error-red: #e74c3c;
+
+    --primary-color: #7d845a; /* Primary 색상- 녹두색 */
     --secondary-color: #5f504b; /* Secondary 색상- 갈색 */
     --accent-color: #2d2926; /* Accent 색상- 다크그린*/
-    --background-color: #ffffff; /* 배경 색상 - 화이트 */
+    --background-color: #f8f9fa; /* 배경 색상 -  */
     --text-color: #000000; /* 텍스트 색상- 블랙 */
     --muted-text-color: #9c9ca6; /* 메서드 색상- 매트그레이 */
-   --border-color: #454546; /* 테두리 색상- 다크그레이 */
+    --border-color: #454546; /* 테두리 색상- 다크그레이 */
 
 
- --button-padding: 10px 20px;
+    --button-padding: 0.5rem 0.3rem;
     --button-font-size: 16px;
-    --button-font-weight: bold;
+    --button-font-weight: normal;
     --button-color: #fff;
     --button-border-radius: 4px;
     --button-cursor: pointer;
     --button-transition: background-color 0.3s ease;
-    --button-primary-bg: #7d845a; /* Primary 색상- 녹두색 */
+    --button-primary-bg: #138496; /* Primary 색상- 녹두색 */
     --button-primary-hover-bg: #b3bc88;
-    --button-secondary-bg: #5f504b;  /* Secondary 색상- 갈색 */
+    --button-secondary-bg: #5f504b; /* Secondary 색상- 갈색 */
     --button-secondary-hover-bg: #937c74;
     --button-success-bg: #28a745;
     --button-success-hover-bg: #218838;
@@ -71,7 +79,7 @@ dd {
     --button-info-bg: #17a2b8;
     --button-info-hover-bg: #138496;
 
-/* 공통 컬러 끝*/
+    /* 공통 컬러 끝*/
 
 }
 
@@ -83,6 +91,7 @@ dd {
 /* 공통 버튼 스타일 1 */
 .button {
     display: inline-block;
+    background-color: var(--blue);
     padding: var(--button-padding);
     font-size: var(--button-font-size);
     font-weight: var(--button-font-weight);
@@ -93,6 +102,10 @@ dd {
     text-align: center;
     text-decoration: none;
     transition: var(--button-transition);
+}
+
+.button:hover {
+    background-color: var(--lightblue);
 }
 
 /* 버튼 색상 정의 */
@@ -144,6 +157,7 @@ dd {
 .button-info:hover {
     background-color: var(--button-info-hover-bg);
 }
+
 .follow-image {
     position: fixed;
     width: 60px;
@@ -152,6 +166,7 @@ dd {
     z-index: 10000;
     transition: transform 0.1s ease; /* 부드러운 이동 효과 */
 }
+
 /* 공통 버튼 끝*/
 
 /* 초기화 시작 */
@@ -191,8 +206,6 @@ body, h1, dl, dt, dd, form, input, button {
 }
 
 
-
-
 /* 이미지 및 파일 선택 버튼 스타일 */
 
 .fileUploads {
@@ -211,12 +224,10 @@ body, h1, dl, dt, dd, form, input, button {
 }
 
 
-
 .fileUploads:hover {
     background-color: white; /* 호버 시 배경색 변경 */
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 변경 */
 }
-
 
 
 .fileUploads:active {
@@ -258,6 +269,7 @@ h2 {
     font-size: 40px;
     font-weight: bold;
 }
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
@@ -273,7 +285,7 @@ main {
     /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
 }
 
-h1  {
+h1 {
     text-align: center;
     color: var(--accent-color);
     margin-bottom: 20px;
@@ -298,6 +310,7 @@ dd {
     margin-left: 0;
     margin-bottom: 10px;
 }
+
 /* 초기화 끝 */
 
 /*========== SCROLL UP ==========*/
@@ -324,8 +337,29 @@ dd {
     font-size: 1.5rem; /* 아이콘 크기 */
     color: white;
 }
+
 /* 팝업 공통 S */
-#layer_dim { position: fixed; z-index: 100; top: 0; left: 0; width: 100%; height: 100%; background:rgba(0, 0, 0, 0.7); cursor: pointer; }
-#layer_popup { position: fixed; z-index: 101; background: #fff; border-radius: 5px; overflow: hidden; }
-#layer_popup iframe { border: 0; }
+#layer_dim {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+}
+
+#layer_popup {
+    position: fixed;
+    z-index: 101;
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#layer_popup iframe {
+    border: 0;
+}
+
 /* 팝업 공통 E */
