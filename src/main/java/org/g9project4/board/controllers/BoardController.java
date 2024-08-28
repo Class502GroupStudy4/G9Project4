@@ -152,7 +152,7 @@ public class BoardController implements ExceptionProcessor {
     @GetMapping("/view/{seq}")
     public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(seq, "view", model);
-
+        System.out.println(board);
         if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
             ListData<BoardData> data = infoService.getList(board.getBid(), search);
             model.addAttribute("items", data.getItems());
