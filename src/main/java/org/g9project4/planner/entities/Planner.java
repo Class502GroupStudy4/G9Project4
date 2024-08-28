@@ -11,6 +11,8 @@ import org.g9project4.member.entities.Member;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity
@@ -35,6 +37,9 @@ public class Planner extends BaseEntity {
     private LocalDate eDate;//여행 종료일
 
     @Lob
-    @NotBlank
+    @Column(nullable = false)
     private String itinerary;
+
+    @Transient
+    public List<Map<String, String>> itineraries;
 }
