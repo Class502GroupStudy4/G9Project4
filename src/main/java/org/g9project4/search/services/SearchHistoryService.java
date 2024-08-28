@@ -51,10 +51,13 @@ public class SearchHistoryService {
         save(keyword, SearchType.TOUR);
     }
 
-    public Page<SearchHistory> getSearchHistoryForMember(Member member, int page, int size) {
+    //public Pagination(int page, int total, int ranges, int limit, HttpServletRequest request)
+    public ListData<SearchHistory> getSearchHistoryForMember(Member member, Pageable pageable) {
+        int page = pageable.getPageNumber();
+        int limit = pageable.getPageSize()
         Pageable pageable = PageRequest.of(page - 1, 5); // 페이지와 페이지 크기를 설정
         Page<SearchHistory> searchHistories = repository.findByMember(member, pageable);
-        Pagination pagination = new Pagination(page, (int)searchHistories.getTotalElements(), 5, request);
+        Pagination pagination = new Pagination(page, (int) searchHistories.getTotalElements(), 5, size, request);
 
         List<SearchHistory> items = searchHistories.getContent();
 
