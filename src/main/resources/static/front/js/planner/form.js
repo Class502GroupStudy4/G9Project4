@@ -100,7 +100,7 @@ const planner = {
     // 여행지 선택
     selectTourPlace(seq) {
         const tr = document.getElementById(`item-${seq}`);
-        if (tr.contains("done")) {//여행완료 체크된 경우 여행지 선택 팝업 X
+        if (tr && tr.classList.contains("done")) {//여행완료 체크된 경우 여행지 선택 팝업 X
             return;
         }
         let url = '/planner/select/tourplace?data=' + seq;
