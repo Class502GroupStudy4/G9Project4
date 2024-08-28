@@ -15,6 +15,7 @@
 
     <th:block th:if="${board.skin == 'review'}">
         <th:block th:replace="~{front/board/review/_write::write}"></th:block>
+    </th:block>
 
     <th:block th:if="${board.skin == 'qna'}">
         <th:block th:replace="~{front/board/qna/_write::write}"></th:block>
