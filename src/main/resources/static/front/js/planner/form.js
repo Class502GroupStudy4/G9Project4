@@ -28,10 +28,27 @@ const planner = {
         // 여행지 선택 팝업 처리
         const selectTourPlaces = tr.getElementsByClassName("select-tour-place");
         for (const el of selectTourPlaces) {
-            el.addEventListener("click", function(e) {
+            el.addEventListener("click", function (e) {
                 planner.selectTourPlace(seq);
             });
         }
+
+        // 여행 완료 체크 처리
+        const tourDoneEl = tr.querySelector(".tour-done");
+        if (tourDoneEl) {
+            tourDoneEl.addEventListener("click", function () {
+                const classList = tr.classList;
+                classList.remove("done");
+                const dataEl = tr.querySelector("select");
+                if (dateEl) dateEl.removeAttribute("readonly");
+
+                if (this.checked) {
+                    classList.add("done");
+                    if (dateEl) dateEl.readonly = true;
+                }
+            });
+        }
+
 
         this.getTarget().append(tr);
 
@@ -82,33 +99,35 @@ const planner = {
     },
     // 여행지 선택
     selectTourPlace(seq) {
+        const tr = document.getElementById(`item-${seq}`);
+        if(tr.contains())
         let url = '/planner/select/tourplace?data=' + seq;
 
         layerPopup.open(url, 800, 600);
     }
 };
 
-window.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("DOMContentLoaded", function () {
     const reSelectCalendar = document.getElementById("reselect-calendar");
-    reSelectCalendar.addEventListener("click", function() {
+    reSelectCalendar.addEventListener("click", function () {
         planner.removeAll();
     });
 
     // 전체 삭제
     const removeAll = document.querySelector(".controls .remove-all");
-    removeAll.addEventListener("click", function() {
+    removeAll.addEventListener("click", function () {
         planner.removeAll();
     });
 
     // 일정 추가
     const addEl = document.querySelector(".controls .add");
-    addEl.addEventListener("click", function() {
+    addEl.addEventListener("click", function () {
         planner.add(Date.now());
     });
 
     // 일정 제거
     const removeEl = document.querySelector(".controls .remove");
-    removeEl.addEventListener("click", function() {
+    removeEl.addEventListener("click", function () {
         if (!confirm('정말 삭제하겠습니까?')) {
             return;
         }
@@ -132,7 +151,7 @@ window.addEventListener("DOMContentLoaded", function() {
     // 여행지 선택 하기 S
     const selectTourPlaces = document.getElementsByClassName("select-tour-place");
     for (const el of selectTourPlaces) {
-        el.addEventListener("click", function() {
+        el.addEventListener("click", function () {
             const tr = this.parentElement;
             const seq = tr.dataset.seq;
             planner.selectTourPlace(seq);
@@ -167,7 +186,7 @@ function callbackCalendar(date) {
         selected++;
     }
 
-    ifrmCalendar.location.href=url;
+    ifrmCalendar.location.href = url;
     const trs = document.querySelectorAll(".itinerary tbody tr");
     if (selected === 2 && trs.length === 0) {
         planner.init(); // 선택 일정만큼 입력 항목 생성
@@ -182,7 +201,7 @@ function selectTourPlaceCallback(item, seq) {
     // 팝업 닫기
     layerPopup.close();
 
-    const { contentId, title, address, firstImage, firstImage2 } = item;
+    const {contentId, title, address, firstImage, firstImage2} = item;
 
     const imageUrl = firstImage2 ? firstImage2 : firstImage;
 
