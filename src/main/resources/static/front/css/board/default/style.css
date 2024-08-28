@@ -59,8 +59,12 @@
     text-align: right;
     margin-top: -20px; /* 필요에 따라 위로 올리기 */
 }
+.links-wrap {
+    display: flex;
+    justify-content: right;
+}
 .links {
-    display: inline-block;
+    text-align: right;
     padding: 10px 20px; /* 안쪽 여백 */
     font-size: 16px; /* 텍스트 크기 */
     color: black; /* 텍스트 색상 */
