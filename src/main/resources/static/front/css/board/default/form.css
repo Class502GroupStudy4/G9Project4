@@ -27,15 +27,7 @@ dd { /* 글 아래 텍스트 */
     padding: 0.3rem 0.3rem; /* 버튼 안쪽 여백을 줄여서 버튼을 작게 만듦 */
     font-size: 50px; /* 버튼 텍스트 크기를 줄임 */
 }
-
-/* list 검색하기 */
-
-
-/* list 검색하기 */
-
 .title { /* 제목 늘리기 */
     font-size: 25px;
     padding-right: 100px;
 }
-
-

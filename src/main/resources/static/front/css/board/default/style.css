@@ -24,6 +24,9 @@
     float: right;
 }
 /*List CSS End*/
+
+
+
 /*View Css Start*/
 .subject{
     font-weight: 400;
@@ -118,7 +121,7 @@ ul.list-items > li:last-child {
     max-width: 1600px;
     margin: 0 auto;
     border-collapse: collapse;
-    border-bottom: 5px solid #ccc;
+    border-bottom: 3px solid #ccc;
 
 }
 /* Table css End*/
@@ -143,16 +146,15 @@ ul.list-items > li:last-child {
 .comment_items button, .comment_items .btns a { border: 1px solid #596b99; background: #fff; height: 35px; padding: 0 15px; color: #596b99; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
 .comment_items button:hover, .comment_items .btns a:hover { background: #596b99; color: #fff; }
 
-/* list 검색하기 */
-
+/* list 검색하기 S*/
 form {
     background: linear-gradient(135deg, #ffffff, #f7f8fc); /* 그라디언트 배경 */
-    padding: 2.5rem; /* 더 넉넉한 내부 여백 */
+    padding: 1.5rem; /* 더 넉넉한 내부 여백 */
     border-radius: var(--button-radius); /* 기존 값 유지 */
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); /* 더 깊은 그림자 */
+    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2); /* 더 깊은 그림자 */
     max-width: var(--max-width); /* 최대 너비 */
     width: 100%; /* 반응형으로 너비 설정 */
-    max-width: 500px; /* 최대 너비를 제한 */
+    max-width: 400px; /* 최대 너비를 제한 */
     box-sizing: border-box; /* 기존 값 유지 */
 
     /* 중앙 배치 */
@@ -190,7 +192,7 @@ form input:focus, form textarea:focus, form select:focus {
 form button {
     width: 100%;
     padding: 0.8rem 1.5rem; /* 넉넉한 패딩 */
-    background-color: #5c6bc0; /* 파란색 계열 배경 */
+    background-color: #000000; /* 파란색 계열 배경 */
     color: white; /* 텍스트 색상 */
     font-size: 1.2rem; /* 글꼴 크기 */
     font-weight: bold; /* 강조된 텍스트 */
@@ -222,3 +224,4 @@ form button:active {
         padding: 0.7rem 1rem; /* 패딩 조정 */
     }
 }
+/* list 검색하기 E*/
