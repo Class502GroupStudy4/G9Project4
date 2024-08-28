@@ -61,29 +61,13 @@
     </form>
         <div class="mypage-tour-story">
             <h2 th:text="#{나의_여행_이야기}"></h2>
-            <table>
-                내가 최근에 검색한 여행지<br>
-                <thead>
-                <tr>
-                    <th>
-                        검색어
-                    </th>
-                    <th>
-                        검색 시간
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${searchHistory!=null}" th:each="search : ${searchHistory}">
-                    <td th:text="${search.keyword}">
-                    </td>
-                    <td th:text="${#temporals.format(search.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <span class="search-star">★ </span> 내가 최근에 검색한 여행지<br>
+            <th:block th:replace="~{front/mypage/_list_items::searchHistory}"></th:block>
+<!--            <th:block th:replace="~{common/_pagination::pagination}"></th:block>-->
                 <br>
-            내가 찜한 게시물
+            <span class="wish-heart">♥ </span> 내가 찜한 게시물
             <th:block th:replace="~{front/mypage/_list_items::myWishList}"></th:block>
+            <th:block th:replace="~{common/_pagination::pagination}"></th:block>
             </div>
         </div>
     </div>

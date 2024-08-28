@@ -393,7 +393,7 @@ public class BoardInfoService {
 
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
-        limit = limit < 1 ? 10 : limit;
+        limit = limit == 20 ? 5 : limit;
         int offset = (page - 1) * limit;
 
 

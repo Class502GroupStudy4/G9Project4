@@ -82,7 +82,7 @@
     border-radius: 5px;
     background: #fff;
     width: 800px;
-    height: 500px;
+    height: 800px;
     /*margin: 20px auto auto 0;*/
    /* display: flex;
     flex-direction: row; */
@@ -96,4 +96,40 @@
     padding-left: 0; /* 기본 padding-left를 0으로 설정 */
     padding-right: 0; /* 기본 padding-right를 0으로 설정 */
     padding-top: 0; /* 기본 padding-top을 0으로 설정 */
+}
+
+.searchHistory-items {
+    width: 60%;
+
+}
+
+.searchHistory-items tr {
+    margin-top: 10px;
+    height: 1.5rem;
+}
+
+.searchHistory-items th {
+    padding: 10px 0;
+}
+
+.wishList-items {
+    width: 100%;
+    margin: 0 auto;
+}
+.wishList-items tr{
+    margin-top: 10px;
+    height: 1.5rem;
+}
+.wishList-items th{
+    padding: 10px 0;
+}
+
+.wish-heart {
+    color: red;
+    font-size: 1.2rem;
+}
+
+.search-star {
+    color: gold;
+    font-size: 1.2rem;
 }
