@@ -20,6 +20,10 @@
             <th:block th:replace="~{front/board/review/_view::view}"></th:block>
         </th:block>
 
+        <th:block th:if="${board.skin == 'planner'}">
+            <th:block th:if="${board.skin == 'planner'}" th:replace="~{front/board/planner/_view::view}"></th:block>
+        </th:block>
+
         <th:block th:if="${board.useComment}">
             <th:block th:replace="~{front/board/_comment::comment}"></th:block>
         </th:block>

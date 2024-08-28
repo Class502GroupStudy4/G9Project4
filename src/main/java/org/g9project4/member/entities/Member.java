@@ -59,14 +59,14 @@ public class Member extends BaseEntity implements Serializable {
                                 //MATJIB, HOCANCE, MUSEUM, CAMPING, HIKING, NATURE, ART, SEA, WITHCHILD, WITHFAMILY, WITHLOVER, FISHING
     @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private transient List<Authorities> authorities;
+    private List<Authorities> authorities;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private transient List<Planner> planners;
 
     @Transient
-    private FileInfo profileImage;
+    private transient FileInfo profileImage;
 
 //    @ToString.Exclude
 //    @OneToMany(mappedBy = "member")

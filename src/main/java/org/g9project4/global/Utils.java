@@ -213,6 +213,17 @@ public class Utils { // 빈의 이름 - utils
         return null;
     }
 
+    public Map<String, String> toMap(String json) {
+        try {
+            return objectMapper.readValue(json, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+        }
+        return null;
+    }
+
+
+
     public String getThumbUrl(Long seq, int width, int height) {
         return String.format("%s?seq=%d&width=%d&height=%d", url("/file/thumb"), seq, width, height);
     }

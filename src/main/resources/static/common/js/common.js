@@ -55,6 +55,11 @@ const commonLib = {
 
         return ClassicEditor.create(document.getElementById(id.trim()), {});
     },
+    editorLoadByDOM(el) {
+        if(!ClassicEditor || !el) return;
+
+        return ClassicEditor.create(el, {});
+    },
     popup : {
         /**
          * 레이어 팝업 열기
