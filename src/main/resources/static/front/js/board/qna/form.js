@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", function() {
     (async() => {
         try {
             const { editorLoad } = commonLib;
-            const editor = await editorLoad("content");
+            const editor = await editorLoad("content1");
             if (editor) window.editor = editor;
         } catch (err) {}
     })();

@@ -28,7 +28,7 @@
                 <label th:for="${'chk_' + status.index}"></label>
             </td>
             <td th:text="*{seq}"></td>
-            <td><a th:href="*{@utils.url('/board/view/'+seq)}" th:text="*{subject}"></a></td>
+            <td th:text="*{subject}"></td>
             <td th:text="*{poster}"></td>
             <td th:text="*{#temporals.format(createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="*{viewCount}"></td>
@@ -37,7 +37,7 @@
                     <i class="xi-pen"></i> 수정하기
                 </a>
 
-                <a th:href="*{@utils.url('/board/update/' + seq)}" class="sbtn">
+                <a th:href="*{@utils.url('/board/qna/answer/' + seq)}" class="sbtn">
                     <i class="xi-pen"></i> 답해주기
                 </a>
             </td>
