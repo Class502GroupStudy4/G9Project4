@@ -51,7 +51,7 @@ public class SigunguVisitStatisticService {
         ApiResult2 result2 = getData(1, 1, sdate, edate);
         if (result2 == null) return;
 
-        int total = result2.getResponse().getBody().getTotalCount();
+        int total = result2.getResponse2().getBody().getTotalCount();
         int totalPages = (int) Math.ceil(total / (double) limit);
 
         // type1 - 현지인, type2 - 외지인, type3 - 외국인
@@ -59,7 +59,7 @@ public class SigunguVisitStatisticService {
         for (int i = 1; i <= totalPages; i++) {
             ApiResult2 result = getData(i, limit, sdate, edate);
 
-            ApiBody2 body = result.getResponse().getBody();
+            ApiBody2 body = result.getResponse2().getBody();
 
             List<Map<String, String>> items = body.getItems().getItem();
             for (Map<String, String> item : items) {
@@ -157,7 +157,9 @@ public class SigunguVisitStatisticService {
         String url = String.format("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json",
                 serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
 
-        log.info("Request URL: {}", url); // 요청 URL 로깅
+        /* km 로그 정보 필요시 주석 해제바람  시작 */
+
+    log.info("Request URL: {}", url); // 요청 URL 로깅
 
         for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
             try {
@@ -175,7 +177,7 @@ public class SigunguVisitStatisticService {
                     continue; // 재시도
                 }
 
-                ApiResponse2 apiResponse = result.getResponse();
+                ApiResponse2 apiResponse = result.getResponse2();
                 if (apiResponse == null) {
                     log.error("API response is null.");
                     continue; // 재시도
@@ -206,32 +208,9 @@ public class SigunguVisitStatisticService {
 
         log.error("Failed to fetch data after {} attempts", MAX_RETRIES);
         return null;
-    }
+    /* km 로그 정보 필요시 주석 해제바람  끝 */
 
-    //원 코드
-
-//    private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
-//
-//        String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-//
-//        String url = String.format("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json", serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
-//
-//        ResponseEntity<ApiResult2> response = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
-//
-//        if (!response.getStatusCode().is2xxSuccessful()) {
-//            return null;
-//        }
-//
-//        ApiResult2 result = response.getBody();
-//        if (!result.getResponse().getHeader().getResultCode().equals("0000")) {
-//            return null;
-//        }
-//
-//        return result;
-//    }
-
+}
     // 일별 통계
     @Scheduled(cron = "0 0 3 * * *")  // 매일 새벽 1시
     public void updateVisit1D() {

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.services.BoardInfoService;
 import org.g9project4.global.ListData;
+import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Interest;
@@ -12,14 +13,19 @@ import org.g9project4.member.entities.Member;
 import org.g9project4.member.repositories.InterestsRepository;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
+import org.g9project4.publicData.myvisit.TourplaceDto;
 import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
+import org.g9project4.visitrecord.constants.RecommendType;
+//km import org.g9project4.visitrecord.services.VisitRecordService;
 import org.g9project4.wishlist.entities.WishList;
 import org.g9project4.wishlist.services.WishListService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -32,9 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.g9project4.member.entities.QMember.member;
-import static org.g9project4.search.entities.QSearchHistory.searchHistory;
-import static org.g9project4.wishlist.entities.QWishList.wishList;
 
 @Controller
 @RequestMapping("/mypage")
@@ -46,13 +49,13 @@ public class MyPageController {
     private final MemberUtil memberUtil;
     private final Utils utils;
     private final SearchHistoryService searchHistoryService;
-    //private final TourplaceMRecordPointService mRecordPointService;
+  //km   private final VisitRecordService visitRecordService;
     private final TourplacePointMemberService pointMemberService;
     private final TourplaceInterestsPointService interestsPointService;
     private final InterestsRepository interestsRepository;
     private final WishListService wishListService;
     private final BoardInfoService boardInfoService;
-
+private final TourPlaceInfoService tourInfoService;
     @GetMapping
     public String index(@ModelAttribute RequestProfile form, Model model) {
         commonProcess("index", model);
@@ -152,18 +155,18 @@ public class MyPageController {
     @GetMapping("/myplace")
     public String myplaceList(@ModelAttribute TourPlaceSearch search, Model model) {
 
-
         if (!memberUtil.isLogin()) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
 
         try {
-            ListData<TourPlace> data = pointMemberService.getTopTourPlacesByMember(search);
+            ListData<TourplaceDto> listData = pointMemberService.getTopTourPlacesByMember(search);
+            model.addAttribute("data", listData);
             commonProcess("myplace", model);
-            model.addAttribute("data", data);
 
+           // model.addAttribute("pagination", listData.getPagination());
 
-            return utils.tpl("mypage/myplace");
+        return utils.tpl("mypage/myplace");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.addAttribute("errorMessage", "잘못된 요청이 발생했습니다.");
@@ -176,28 +179,23 @@ public class MyPageController {
     }
 
 //    @GetMapping("/visitplace") // 검색기록 + 검색키워드 기준 추천
-//    public String RecordList(@ModelAttribute TourPlaceSearch search, @RequestParam(value = "currentDate", required = false) LocalDate currentDate, Model model) {
-//        if (currentDate == null) {
-//            currentDate = LocalDate.now();
-//        }
+//    public String RecordList(@ModelAttribute TourPlaceSearch search, @RequestParam RecommendType recommendType, Model model) {
 //
 //        // 서비스 메서드를 호출하여 추천 여행지 목록을 가져옵니다.
-//        ListData<TourPlace> data = mRecordPointService.getTopTourPlacesByRecord(search, currentDate);
+//        ListData<TourPlace> data = tourInfoService.getTotalList(search,  recommendType);
 //        System.out.println("Data from mRecordService: " + data); // 로그 추가
 //        System.out.println("TourPlaceSearch: " + search); // 로그 추가
 //
 //        // 공통 처리 (commonProcess 메서드가 어떤 기능인지에 따라 다름)
 //        commonProcess("visitplace", model);
 //
-//
-//        model.addAttribute("currentDate", currentDate);
+//        model.addAttribute("recommendType", recommendType);
 //        model.addAttribute("data", data);
 //        // 목록 데이터 처리 (addListProcess 메서드가 어떤 기능인지에 따라 다름)
-//        addListProcess(model, data);
+//      //  addListProcess(model, data);
 //        model.addAttribute("tourPlaceSearch", search);
 //
 //        // tourPlaceSearch를 모델에 추가
-//
 //
 //        // 템플릿을 반환
 //        return utils.tpl("mypage/visitplace");
@@ -209,14 +207,22 @@ public class MyPageController {
 
         if (!memberUtil.isLogin()) {
             throw new IllegalStateException("로그인이 필요합니다.");
+
         }
 
         try {
-            ListData<TourPlace> data = interestsPointService.getTopTourPlacesByInterests(search);
+            ListData<TourplaceDto> listData = interestsPointService.getTopTourPlacesByInterests(search);
 
             // 목록 데이터 처리 (addListProcess 메서드가 어떤 기능인지에 따라 다름)
-            model.addAttribute("data", data);
+            model.addAttribute("data", listData);
             commonProcess("myinterests", model);
+
+
+            System.out.println("listData:" + listData);
+            List<TourplaceDto> items = listData.getItems();
+            Pagination pagination = listData.getPagination();
+            System.out.println("Items: " + items);
+            System.out.println("Pagination: " + pagination);
 
             // 템플릿을 반환
             return utils.tpl("mypage/myinterests");

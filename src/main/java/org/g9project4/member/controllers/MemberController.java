@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
+import org.g9project4.member.MemberUtil;
+import org.g9project4.member.constants.Interest;
+import org.g9project4.member.entities.Member;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.member.validators.JoinValidator;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 
+
 @Slf4j
 @Controller
 @RequestMapping("/member")
@@ -30,6 +34,7 @@ public class MemberController implements ExceptionProcessor {
     private final JoinValidator joinValidator;
     private final MemberSaveService memberSaveService;
     private final Utils utils;
+    private final MemberUtil memberUtil;
 
     @ModelAttribute
     public RequestLogin requestLogin() {
@@ -42,6 +47,12 @@ public class MemberController implements ExceptionProcessor {
 
         // 이메일 인증 여부 false로 초기화
         model.addAttribute("EmailAuthVerified", false);
+
+        //복수 관심사 저장
+        List<Interest> interests = form.getInterests();
+        Member member = memberUtil.getMember();
+        memberSaveService.saveInterests(member, interests);
+
 
         return utils.tpl("member/join");
     }

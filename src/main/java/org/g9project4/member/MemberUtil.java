@@ -52,6 +52,12 @@ public class MemberUtil {
 
         return member;
     }
+
+
+    public List<Member> getAllMembers() {
+        return repository.findAll();
+    }
+
 }
 
 

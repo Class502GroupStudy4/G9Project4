@@ -21,6 +21,10 @@ import org.g9project4.publicData.tour.entities.QGreenPlace;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
+import org.g9project4.search.constatnts.SearchType;
+import org.g9project4.search.services.SearchHistoryService;
+import org.g9project4.visitrecord.constants.RecommendType;
+//km    import org.g9project4.visitrecord.services.VisitRecordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -41,6 +45,8 @@ public class TourPlaceInfoService {
     private final TourPlaceRepository repository;
     private String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
     private final HttpServletRequest request;
+    //km    private final VisitRecordService recordService;
+    private final SearchHistoryService historyService;
 
     /**
      * 좌표, 거리 기반으로 검색
@@ -85,22 +91,48 @@ public class TourPlaceInfoService {
         return null;
     }
 
-    public ListData<TourPlace> getTotalList(TourPlaceSearch search) {
-        int page = Math.max(search.getPage(), 1);
-        int limit = search.getLimit();
-        limit = limit < 1 ? 10 : limit;
-        int offset = (page - 1) * limit;
+    /* km 추천 검색 S */
+//    public ListData<TourPlace> getTotalList(TourPlaceSearch search, RecommendType recommendType) {
+//        int page = Math.max(search.getPage(), 1);
+//        int limit = search.getLimit();
+//        limit = limit < 1 ? 10 : limit;
+//        int offset = (page - 1) * limit;
+//
+//        QTourPlace tourPlace = QTourPlace.tourPlace;
+//        BooleanBuilder andBuilder = new BooleanBuilder();
+//
+//        if (recommendType != null) {
+//            if (recommendType == RecommendType.VIEW) {
+//                List<Long> contentIds = recordService.getMonthlyRecommend();
+//                if (contentIds != null && !contentIds.isEmpty()) {
+//                    andBuilder.and(tourPlace.contentId.in(contentIds));
+//                }
+//            } else if (recommendType == RecommendType.KEYWORD) {
+//                List<String> keywords = historyService.getKeywords(SearchType.TOUR);
+//                if (keywords != null && !keywords.isEmpty()) {
+//                    BooleanBuilder orBuilder = new BooleanBuilder();
+//                    for (String keyword : keywords) {
+//                        orBuilder.or(tourPlace.title.concat(tourPlace.address).contains(keyword.trim()));
+//                    }
+//                    andBuilder.and(orBuilder);
+//                }
+//            }
+//        }
+//
+//        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+//
+//        List<TourPlace> items = queryFactory.selectFrom(tourPlace)
+//                .orderBy(tourPlace.contentId.asc())
+//                .offset(offset)
+//                .limit(limit)
+//                .fetch();
+//
+//        Pagination pagination = new Pagination(page, (int) repository.count(andBuilder), 0, limit, request);
+//
+//        return new ListData<>(items, pagination);
+//    }
+    /* km 추천 검색 E*/
 
-        Pagination pagination = new Pagination(page, (int) repository.count(), 0, limit, request);
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QTourPlace tourPlace = QTourPlace.tourPlace;
-        List<TourPlace> items = queryFactory.selectFrom(tourPlace)
-                .orderBy(tourPlace.contentId.asc())
-                .offset(offset)
-                .limit(limit)
-                .fetch();
-        return new ListData<>(items, pagination);
-    }
 
     public ListData<GreenPlace> getGreenList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);

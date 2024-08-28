@@ -15,12 +15,15 @@ import org.g9project4.global.rests.gov.sigunguapi.SigunguResult;
 import org.g9project4.publicData.tour.entities.*;
 import org.g9project4.publicData.tour.repositories.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +37,9 @@ public class ApiUpdateService {
     private final SigunguCodeRepository sigunguCodeRepository;
     private final CategoryRepository categoryRepository;
 
-//    private String sKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
+    private String sKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
 
-    //    @Scheduled(fixedRate = 1L, timeUnit = TimeUnit.DAYS)
+    //  @Scheduled(fixedRate = 1L, timeUnit = TimeUnit.DAYS)
 
     /**
      * 관광지 업데이트
@@ -44,6 +47,10 @@ public class ApiUpdateService {
      * @param sKey
      */
     public void update(String sKey) {
+
+        /* km 1000개 데이터만 가져오기 1/2  */
+        List<TourPlace> tourPlaces = new ArrayList<>();
+
         for (int i = 0; i < 100; i++) {
 
             String url = String.format("https://apis.data.go.kr/B551011/KorService1/areaBasedList1?MobileOS=AND&MobileApp=test&numOfRows=1000&pageNo=%d&serviceKey=%s&_type=json", i, sKey);
@@ -90,9 +97,27 @@ public class ApiUpdateService {
                         break;
                     }
                 }
+
+            }
+
+            /* km 1000개 데이터만 가져오기 2/2 시작 */
+
+            // 1000개 이상이면 break
+            if (tourPlaces.size() >= 1000) {
+                break;
             }
         }
+
+        // 1000개까지만 저장
+        if (!tourPlaces.isEmpty()) {
+            if (tourPlaces.size() > 1000) {
+                tourPlaces = tourPlaces.subList(0, 1000);
+            }
+            tourPlaceRepository.saveAllAndFlush(tourPlaces);
+        }
     }
+
+    /* km 1000개 데이터만 가져오기 2/2 끝 */
 
     /**
      * 생태 관광지 업데이트
@@ -136,6 +161,7 @@ public class ApiUpdateService {
             }
         }
     }
+
 
     /**
      * 지역 코드 업데이트

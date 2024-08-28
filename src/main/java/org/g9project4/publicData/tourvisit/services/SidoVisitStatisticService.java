@@ -49,7 +49,7 @@ public class SidoVisitStatisticService {
         ApiResult2 result2 = getData(1, 1, sdate, edate);
         if (result2 == null) return;
 
-        int total = result2.getResponse().getBody().getTotalCount();
+        int total = result2.getResponse2().getBody().getTotalCount();
         int totalPages = (int)Math.ceil(total / (double)limit);
 
         // type1 - 현지인, type2 - 외지인, type3 - 외국인
@@ -58,7 +58,7 @@ public class SidoVisitStatisticService {
         for (int i = 1; i <= totalPages; i++) {
             ApiResult2 result = getData(i, limit, sdate, edate);
 
-            ApiBody2 body = result.getResponse().getBody();
+            ApiBody2 body = result.getResponse2().getBody();
 
             List<Map<String, String>> items = body.getItems().getItem();
             for (Map<String, String> item : items) {
@@ -151,7 +151,7 @@ public class SidoVisitStatisticService {
         }
 
         ApiResult2 result = response.getBody();
-        if (!result.getResponse().getHeader().getResultCode().equals("0000")) {
+        if (!result.getResponse2().getHeader().getResultCode().equals("0000")) {
             return null;
         }
 
