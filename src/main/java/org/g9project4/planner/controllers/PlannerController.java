@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
+import org.g9project4.planner.entities.Planner;
+import org.g9project4.planner.services.PlannerInfoService;
 import org.g9project4.planner.services.PlannerSaveService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
@@ -26,6 +28,7 @@ public class PlannerController implements ExceptionProcessor {
 
     private final PlannerSaveService saveService;
     private final TourPlaceInfoService tourPlaceInfoService;
+    private final PlannerInfoService infoService;
     private final Utils utils;
 
     @ModelAttribute("pageTitle")
@@ -55,6 +58,13 @@ public class PlannerController implements ExceptionProcessor {
     public String update(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "update", model);
 
+        RequestPlanner form = infoService.getForm(seq);
+        String item = form.getItinerary();
+        if (StringUtils.hasText(item)) {
+            List<Map<String, String>> items = utils.toList(item);
+            model.addAttribute("items", items);
+        }
+        model.addAttribute("requestPlanner", form);
         return utils.tpl("planner/update");
     }
 
@@ -89,9 +99,12 @@ public class PlannerController implements ExceptionProcessor {
      * @return
      */
     @GetMapping
-    public String list(Model model) {
+    public String list(@ModelAttribute PlannerSearch search, Model model) {
         commonProcess("list", model);
 
+        ListData<Planner> data = infoService.getList(search);
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
         return utils.tpl("planner/list");
     }
 
@@ -105,6 +118,8 @@ public class PlannerController implements ExceptionProcessor {
     public String view(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "view", model);
 
+        Planner data = infoService.get(seq);
+        model.addAttribute("data", data);
         return utils.tpl("planner/view");
     }
 
@@ -143,18 +158,23 @@ public class PlannerController implements ExceptionProcessor {
         List<String> addScript = new ArrayList<>();
         addCss.add("planner/style");
 
+        String pageTitle = utils.getMessage("여행_플래너");
         // 플래너 작성, 수정
+
         if (List.of("write", "update").contains(mode)) {
             addCss.add("planner/form");
             addScript.add("planner/form");
+            pageTitle += " " + utils.getMessage(mode.equals("update") ? "수정" : "작성");
         } else if (mode.equals("select_tourplace")) { // 여행지 선택
             addCss.add("planner/select_tourplace");
             addScript.add("planner/select_tourplace");
+        } else if (mode.equals("list")) {
+            pageTitle = utils.getMessage("나의_여행_플래너_목록");
         }
-
         model.addAttribute("addCss", addCss);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
+        model.addAttribute("pageTitle",pageTitle);
     }
 
     /**
