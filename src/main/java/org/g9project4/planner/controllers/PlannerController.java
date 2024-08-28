@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/planner")
@@ -68,6 +69,11 @@ public class PlannerController implements ExceptionProcessor {
         commonProcess(mode, model);
 
         if (errors.hasErrors()) {
+            String item = form.getItinerary();
+            if (StringUtils.hasText(item)) {
+                List<Map<String, String>> items = utils.toList(item);
+                model.addAttribute("items", items);
+            }
             return utils.tpl("planner/" + mode);
         }
 
@@ -104,6 +110,7 @@ public class PlannerController implements ExceptionProcessor {
 
     /**
      * 여행지 선택
+     *
      * @param mode
      * @param model
      * @return
