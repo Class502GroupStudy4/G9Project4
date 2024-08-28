@@ -1,7 +1,7 @@
 package org.g9project4.publicData.tour.services;
 
 import lombok.RequiredArgsConstructor;
-import org.g9project4.global.exceptions.CategoryNotFoundException;
+import org.g9project4.publicData.tour.exceptions.CategoryNotFoundException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.global.rests.gov.areacodeapi.Code;
