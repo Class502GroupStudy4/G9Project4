@@ -84,7 +84,7 @@
     border-radius: 5px;
     background: #fff;
     width: 800px;
-    height: 800px;
+    height: 805px;
     /*margin: 20px auto auto 0;*/
    /* display: flex;
     flex-direction: row; */
@@ -98,68 +98,6 @@
     padding-left: 0; /* 기본 padding-left를 0으로 설정 */
     padding-right: 0; /* 기본 padding-right를 0으로 설정 */
     padding-top: 0; /* 기본 padding-top을 0으로 설정 */
-}
-
-.search-table {
-    margin-top: 10px;
-}
-
-.searchHistory-items {
-    width: 60%;
-
-}
-
-.searchHistory-items tr {
-    margin-top: 10px;
-    height: 1.5rem;
-}
-
-.searchHistory-items th {
-    padding: 10px 0;
-}
-
-/* 페이징 공통 S */
-.pagination {
-    text-align: center;
-    margin: 30px 0;
-}
-
-.pagination .page {
-    border: 1px solid #596b99;
-    color: #596b99;
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 3px;
-    background: #fff;
-}
-
-.pagination .page.on {
-    background: #596b99;
-    color: #fff;
-}
-
-.pagination .page + .page {
-    margin-left: 3px;
-}
-
-/* 페이징 공통 E */
-
-.wishList-table {
-    margin-top: 45px;
-    font-family: "Jua", sans-serif; !important;
-    color: #000; !important;
-}
-
-.wishList-items {
-    width: 100%;
-    margin: 0 auto;
-}
-.wishList-items tr {
-    margin-top: 10px;
-    height: 1.5rem;
-}
-.wishList-items th {
-    padding: 10px 0;
 }
 
 .wish-heart {

@@ -104,24 +104,24 @@ public class MyPageController {
 
     @GetMapping("/mysearch")
     public String mySearch(@ModelAttribute CommonSearch search, Model model) {
-        commonProcess("index", model);
+        //commonProcess("index", model);
         search.setLimit(5);
         ListData<SearchHistory> data = searchHistoryService.getMyKeywords(search, SearchType.TOUR);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
-
+        model.addAttribute("addCss", List.of("mypage/mylist"));
         return utils.tpl("mypage/mysearch");
     }
 
     @GetMapping("/mywish")
     public String myWish(@ModelAttribute CommonSearch search, Model model) {
-        commonProcess("index", model);
+        //commonProcess("index", model);
         ListData<BoardData> data = boardInfoService.getWishList(search);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
-
+        model.addAttribute("addCss", List.of("mypage/mylist"));
         return utils.tpl("mypage/mywish");
     }
 
