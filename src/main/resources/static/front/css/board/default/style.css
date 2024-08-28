@@ -5,12 +5,15 @@
 }
 
 .table_rows {
-    max-width: 100%;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
     word-wrap: break-word;
     word-break: break-word;
     table-layout: fixed;
     border-collapse: collapse;
     border-spacing: 2px;
+    border-bottom: 3px solid #ccc;
 }
 .table_rows td{
     padding: 4px 7px;
@@ -34,7 +37,7 @@
 /*View Css Start*/
 .subject{
     font-weight: 400;
-    font-size: 2rem;
+    font-size: 15px;
     word-wrap: break-word;
     word-break: break-word;
 }
@@ -98,37 +101,6 @@ ul.list-items > li:last-child {
 
 
 /*View Css End*/
-
-/*Table css Start*/
-.post-title {
-    text-align: left;
-}
-
-.post-date {
-    text-align: right;
-}
-
-
-.list_main {
-    display: flex;
-    justify-content: space-between; /* 좌우 끝으로 배치 */
-    align-items: center; /* 세로로 중앙 정렬 */
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 10px; /* 각 항목 사이에 간격을 추가 */
-
-}
-
-/* 테이블 스타일 */
-.table_rows {
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    border-collapse: collapse;
-    border-bottom: 3px solid #ccc;
-
-}
-/* Table css End*/
 
 
 /* 댓글 */

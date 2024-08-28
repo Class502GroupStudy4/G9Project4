@@ -8,34 +8,28 @@
         <table class="table_rows">
             <thead class="table_head">
             <tr>
-                <th width="150" class="post-title">게시글 제목</th>
-                <th width="200" class="views">조회수</th>
-                <th width="200" class="post-date">작성일</th>
+                <th width="50" th:text="#{순번}"></th>
+                <th width="100" th:text="#{작성자}"></th>
+                <th width="200" class="post-title" th:text="#{제목}">게시글 제목</th>
+                <th width="200" class="post-date" th:text="#{작성일}"></th>
+                <th width="50" class="views" th:text="#{조회수}"></th>
             </tr>
             </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(items)}" th:text="#{조회된_게시글이_없습니다}" class="no-data"></tr>
+                <tr th:if="${!#lists.isEmpty(items)}" th:each="item, s:${items}" th:object="${item}">
+                    <th th:text="${s.index}"></th>
+                    <th class="poster" th:text="*{poster}"></th>
+                    <th class="subject">
+                        <span th:if="*{notice}" th:text="${'[' + #messages.msg('공지') + ']'}"></span>
+                        <span th:if="*{category != null && category != ''}" th:text="*{'[' + category + ']'}" class="category"></span>
+                        <th:block th:text="*{subject}"></th:block>
+                    </th>
+                    <th class="datetime" th:text="*{#temporals.format(createdAt,'yyyy.MM.dd HH:mm')}"></th>
+                    <th class="view-count" th:text="*{viewCount < 1000 ? viewCount : #numbers(viewCount, 3, 'COMMA')}"></th>
+                </tr>
+            </tbody>
         </table>
-    <ul class="list-items">
-        <li th:if="${items == null || items.empty}" th:text="#{조회된_게시글이_없습니다.}" class="no-data"></li>
-        <li th:if="${items != null && !items.empty}" th:each="item : ${items}" th:object="${item}">
-            <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="subject">
-                <span th:if="*{notice}" th:text="${'[' + #messages.msg('공지') + ']'}"></span>
-                <span th:if="*{category != null && category != ''}" th:text="*{'[' + category + ']'}" class="category"></span>
-                <th:block th:text="*{subject}"></th:block>
-            </a>
-            <div class="post-info">
-                <span class="poster">
-                    <th:block th:text="*{poster}"></th:block>
-                    <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
-                </span>
-                <span class="view-count" th:if="*{viewCount > 0}"
-                      th:text="*{viewCount < 1000 ? viewCount : #numbers.formatInteger(viewCount, 3, 'COMMA')}"></span>
-                <span class="datetime" th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
-            </div> <!--// post-info -->
-        </li>
-    </ul>
-
-
-
     <div class="bottom-box">
         <div class="links-wrap">
             <div class="links">
