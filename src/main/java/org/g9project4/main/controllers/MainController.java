@@ -30,5 +30,4 @@ public class MainController {
 
         return "front/main/index";
     }
-
 }

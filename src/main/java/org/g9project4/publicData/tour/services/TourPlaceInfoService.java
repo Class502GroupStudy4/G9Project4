@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
-import org.g9project4.global.exceptions.TourPlaceNotFoundException;
+import org.g9project4.publicData.tour.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.member.entities.Member;
@@ -40,8 +40,10 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor

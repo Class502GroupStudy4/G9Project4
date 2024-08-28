@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.g9project4.board.entities.BoardData;
-import org.g9project4.board.entities.CommentData;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.member.constants.Gender;
@@ -61,19 +59,20 @@ public class Member extends BaseEntity implements Serializable {
                                 //MATJIB, HOCANCE, MUSEUM, CAMPING, HIKING, NATURE, ART, SEA, WITHCHILD, WITHFAMILY, WITHLOVER, FISHING
     @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<Authorities> authorities;
+    private transient List<Authorities> authorities;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<Planner> planners;
+    private transient List<Planner> planners;
 
     @Transient
     private FileInfo profileImage;
 
-    @OneToMany(mappedBy = "member")
-    private List<BoardData> items;
 
-    @OneToMany(mappedBy = "member")
-    private List<CommentData> comments;
+
+
+//    @ToString.Exclude
+//    @OneToMany(mappedBy = "member")
+//    private List<VisitRecords> visitRecords;
 
 }

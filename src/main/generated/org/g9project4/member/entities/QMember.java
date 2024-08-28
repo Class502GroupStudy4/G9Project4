@@ -22,11 +22,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final org.g9project4.global.entities.QBaseEntity _super = new org.g9project4.global.entities.QBaseEntity(this);
 
-    public final ListPath<Authorities, QAuthorities> authorities = this.<Authorities, QAuthorities>createList("authorities", Authorities.class, QAuthorities.class, PathInits.DIRECT2);
-
     public final DatePath<java.time.LocalDate> birth = createDate("birth", java.time.LocalDate.class);
-
-    public final ListPath<org.g9project4.board.entities.CommentData, org.g9project4.board.entities.QCommentData> comments = this.<org.g9project4.board.entities.CommentData, org.g9project4.board.entities.QCommentData>createList("comments", org.g9project4.board.entities.CommentData.class, org.g9project4.board.entities.QCommentData.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -44,16 +40,12 @@ public class QMember extends EntityPathBase<Member> {
 
     public final BooleanPath isForeigner = createBoolean("isForeigner");
 
-    public final ListPath<org.g9project4.board.entities.BoardData, org.g9project4.board.entities.QBoardData> items = this.<org.g9project4.board.entities.BoardData, org.g9project4.board.entities.QBoardData>createList("items", org.g9project4.board.entities.BoardData.class, org.g9project4.board.entities.QBoardData.class, PathInits.DIRECT2);
-
     public final StringPath mobile = createString("mobile");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public final StringPath password = createString("password");
-
-    public final ListPath<org.g9project4.planner.entities.Planner, org.g9project4.planner.entities.QPlanner> planners = this.<org.g9project4.planner.entities.Planner, org.g9project4.planner.entities.QPlanner>createList("planners", org.g9project4.planner.entities.Planner.class, org.g9project4.planner.entities.QPlanner.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 

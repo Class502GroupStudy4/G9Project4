@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.member.constants.Interest;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.g9project4.publicData.tour.constants.OrderBy;
 import org.modelmapper.ModelMapper;
@@ -66,5 +67,11 @@ public class BeanConfig {
     @Qualifier("GetOrders")
     public List<OrderBy> getOrders() {
         return OrderBy.getOrders();
+    }
+
+    @Lazy
+    @Bean
+    public List<Interest> getInterest() {
+        return Interest.getInterests();
     }
 }

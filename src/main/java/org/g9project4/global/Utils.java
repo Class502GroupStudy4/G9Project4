@@ -1,11 +1,13 @@
 package org.g9project4.global;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.exceptions.BadRequestException;
+import org.g9project4.global.rests.JSONData;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -191,15 +193,33 @@ public class Utils { // 빈의 이름 - utils
         return Objects.hash(ip, ua);
     }
 
-    public String toJson(Object data){
-        try{
+    public String toJson(Object data) {
+        try {
             return objectMapper.writeValueAsString(data);
-        }catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return "{}";
     }
+    public Long toLong(String num) {
+        return Long.valueOf(num);
+    }
+    public List<Map<String, String>> toList(String json) {
+        try {
+            return objectMapper.readValue(json, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+        }
+        return null;
+    }
 
+    public String getThumbUrl(Long seq, int width, int height) {
+        return String.format("%s?seq=%d&width=%d&height=%d", url("/file/thumb"), seq, width, height);
+    }
+
+    public String getThumbUrl(String url, int width, int height) {
+        return String.format("%s?url=%s&width=%d&height=%d", url("/file/thumb"), url, width, height);
+    }
     /**
      * 달력
      */

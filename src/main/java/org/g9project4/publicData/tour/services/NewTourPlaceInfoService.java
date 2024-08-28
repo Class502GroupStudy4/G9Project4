@@ -14,6 +14,7 @@ import org.g9project4.config.service.ConfigInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
+import org.g9project4.publicData.tour.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.publicData.tour.constants.ContentType;
@@ -245,5 +246,8 @@ public class NewTourPlaceInfoService {
             e.printStackTrace();
         }
         return null;
+    }
+    public TourPlace get(Long contentId){
+        return tourPlaceRepository.findById(contentId).orElseThrow(TourPlaceNotFoundException::new);
     }
 }

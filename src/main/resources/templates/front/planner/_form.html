@@ -5,13 +5,17 @@
     <input type="hidden" name="sDate" th:field="*{sDate}">
     <input type="hidden" name="eDate" th:field="*{eDate}">
 
+    <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+
     <div class="planner-box">
         <div class="left">
             <h2 th:text="#{일정_선택하기}"></h2>
-            <iframe name="ifrmCalendar" class="select-date" th:src="${@utils.redirectUrl('/calendar')}" frameborder="0"></iframe>
+            <iframe name="ifrmCalendar" class="select-date" th:src="*{@utils.redirectUrl('/calendar?sDate=' + (sDate == null ? '' : sDate)  + '&eDate=' + (eDate == null ? '' : eDate))}" frameborder="0"></iframe>
             <div class="error" th:each="err : ${#fields.errors('sDate')}" th:text="${err}"></div>
             <div class="error" th:each="err : ${#fields.errors('eDate')}" th:text="${err}"></div>
+
             <button type="button" th:text="#{일정_다시_선택하기}" id="reselect-calendar"></button>
+
         </div>
         <div class="right">
             <div class="title-wrap">
@@ -41,7 +45,35 @@
                     </tr>
                     </thead>
                     <tbody>
-
+                    <tr th:if="${items != null && !items.empty}" th:each="item : ${items}" th:object="${item}" th:id="*{'item-' + seq}" th:data-seq="*{seq}" th:classappend="*{#strings.equals(done, 'true')} ? 'done'">
+                        <td>
+                            <input type="checkbox" name="chk" th:value="*{seq}" th:id="*{'chk-' + seq}" th:disabled="*{#strings.equals(done, 'true')}">
+                            <label th:for="*{'chk-' + seq}"></label>
+                            <input type="hidden" th:name="*{'contentId_' + seq}" class="content-id" th:value="*{contentId}">
+                        </td>
+                        <td>
+                            <select th:name="*{'date_' + seq}" th:id="*{'tour-date-' + seq}">
+                                <option value="" th:text="#{일정_선택}"></option>
+                                <option th:each="item2 : ${items}" th:value="${item2.date}" th:text="${item2.date}" th:selected="${item2.date == item.date}"></option>
+                            </select>
+                        </td>
+                        <th:block th:if="${!#strings.isEmpty(item.contentId)}" th:object="${@tourPlaceInfoService.get(@utils.toLong(item.contentId))}">
+                            <td class="select-tour-place tourplace" th:id="${'tourplace-' + item.seq}" th:text="*{title}"></td>
+                            <td class="select-tour-place tourplace-image" th:id="${'tourplace-image-' + item.seq}">
+                                <img th:if="*{!#strings.isEmpty(firstImage)}" th:src="*{@utils.getThumbUrl(firstImage, 50, 50)}">
+                            </td>
+                            <td class="select-tour-place tourplace-address" th:id="${'tourplace-address-' + item.seq}" th:text="*{address}"></td>
+                        </th:block>
+                        <th:block th:if="${#strings.isEmpty(item.contentId)}">
+                            <td class="select-tour-place tourplace" th:id="${'tourplace-' + item.seq}" th:text="#{여행지_선택}"></td>
+                            <td class="select-tour-place tourplace-image" th:id="${'tourplace-image-' + item.seq}"></td>
+                            <td class="select-tour-place tourplace-address" th:id="${'tourplace-address-' + item.seq}"></td>
+                        </th:block>
+                        <td>
+                            <input type="checkbox" th:name="*{'tourDone_' + seq}" value="true" th:id="*{'tour-done-' + seq}" class="tour-done" th:checked="*{#strings.equals(done, 'true')}">
+                            <label th:for="*{'tour-done-' + seq}"></label>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
                 <div class="error" th:each="err: ${#fields.errors('itinerary')}" th:text="${err}"></div>
@@ -63,7 +95,7 @@
                     <input type="hidden" name="contentId_[seq]" class="content-id">
                 </td>
                 <td>
-                    <select name="date_[seq]">
+                    <select name="date_[seq]" id="tour-date-[seq]">
                         <option value="" th:text="#{일정_선택}"></option>
                         [dates]
                     </select>

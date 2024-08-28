@@ -4,9 +4,9 @@
     <div th:replace="~{front/board/qna/_common::pageTitle}"></div>
 
     <form name="frmSave" method="post" th:action="${@utils.redirectUrl('/board/save')}" autocomplete="off" th:object="${requestBoard}">
-        <input type="hidden" name="mode" th:value="update">
-        <input type="hidden" name="bid" th:value="${board.bid}">
-        <input type="hidden" name="seq" th:value="*{seq}">
+        <input type="hidden" name="mode" value="update">
+        <input type="hidden" name="bid" th:value="${board.bid}" th:field="*{bid}">
+        <input type="hidden" name="seq" th:value="*{seq}" th:field="*{seq}">
 
         <th:block th:replace="~{front/board/qna/_form::form}"></th:block>
 
@@ -15,6 +15,5 @@
             <button type="submit" th:text="#{수정하기}"></button>
         </div>
     </form>
-</th:block>
 </th:block>
 </html>

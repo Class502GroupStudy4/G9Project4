@@ -3,6 +3,7 @@ package org.g9project4.member.services;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.file.services.FileInfoService;
+import org.g9project4.global.Utils;
 import org.g9project4.member.MemberInfo;
 import org.g9project4.member.constants.Authority;
 import org.g9project4.member.entities.Authorities;
@@ -22,6 +23,7 @@ import java.util.Objects;
 public class MemberInfoService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final FileInfoService fileInfoService;
+    private final Utils utils;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,10 +56,12 @@ public class MemberInfoService implements UserDetailsService {
      * @param member
      */
     public void addMemberInfo(Member member) {
+
         //km org.g9project4.member.entities.Member.getGid()" because "member" is null 오류로 인하여
         if (member == null) {
             throw new IllegalArgumentException("Member cannot be null");
         }
+
 
         String gid = member.getGid();
         List<FileInfo> items = fileInfoService.getList(gid);
