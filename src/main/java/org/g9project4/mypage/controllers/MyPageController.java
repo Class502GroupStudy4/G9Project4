@@ -75,10 +75,14 @@ public class MyPageController {
                 .collect(Collectors.toList());
         form.setInterests(interests);
 
-        List<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
+        List<SearchHistory> allSearchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
 
-        model.addAttribute("searchHistory", searchHistory);
+        // 최근 5건만 선택
+        List<SearchHistory> recentSearchHistory = allSearchHistory.stream()
+                .limit(5)
+                .collect(Collectors.toList());
 
+        model.addAttribute("searchHistory", recentSearchHistory);
 
         ListData<BoardData> data = boardInfoService.getWishList(search);
 

@@ -98,6 +98,10 @@
     padding-top: 0; /* 기본 padding-top을 0으로 설정 */
 }
 
+.search-table {
+    margin-top: 10px;
+}
+
 .searchHistory-items {
     width: 60%;
 
@@ -112,16 +116,24 @@
     padding: 10px 0;
 }
 
+.wishList-table {
+    margin-top: 45px;
+}
+
 .wishList-items {
     width: 100%;
     margin: 0 auto;
 }
-.wishList-items tr{
+.wishList-items tr {
     margin-top: 10px;
     height: 1.5rem;
 }
-.wishList-items th{
+.wishList-items th {
     padding: 10px 0;
+}
+
+.wishList-items th .i {
+    font-size: 1.5rem;
 }
 
 .wish-heart {

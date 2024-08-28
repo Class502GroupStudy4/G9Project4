@@ -46,7 +46,7 @@
             <th th:text="#{순번}"></th>
             <th th:text="#{게시판_이름}"></th>
             <th th:text="#{게시글_제목}"></th>
-            <th th:text="#{댓글}"></th>
+            <th th:text="#{댓글_내용}"></th>
             <th th:text="#{수정일}"></th>
             <th th:text="#{삭제여부}"></th>
         </tr>
@@ -122,7 +122,7 @@
         </thead>
         <tbody>
         <tr th:if="${searchHistory==null}">
-            <th colspan="5" th:text="#{조회된_검색어가_없습니다.}" class="no-data"></th>
+            <th colspan="5" th:text="#{조회된_검색기록이_없습니다.}" class="no-data"></th>
         </tr>
         <tr th:if="${searchHistory!=null}" th:each="item, s : ${searchHistory}" class="searchHistory-list">
             <th th:text="${s.index + 1}"></th>

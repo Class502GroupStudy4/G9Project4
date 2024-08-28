@@ -61,10 +61,12 @@
     </form>
         <div class="mypage-tour-story">
             <h2 th:text="#{나의_여행_이야기}"></h2>
-            <span class="search-star">★ </span> 내가 최근에 검색한 여행지<br>
+            <div class="search-table">
+            <span class="search-star">★ </span> 내가 최근에 검색한 여행지 (최근 검색된 여행지 5개만 표시됩니다)
             <th:block th:replace="~{front/mypage/_list_items::searchHistory}"></th:block>
 <!--            <th:block th:replace="~{common/_pagination::pagination}"></th:block>-->
-                <br>
+            </div>
+            <div class="wishList-table">
             <span class="wish-heart">♥ </span> 내가 찜한 게시물
             <th:block th:replace="~{front/mypage/_list_items::myWishList}"></th:block>
             <th:block th:replace="~{common/_pagination::pagination}"></th:block>
