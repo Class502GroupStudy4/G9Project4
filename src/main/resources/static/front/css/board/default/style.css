@@ -1,24 +1,66 @@
 /*List CSS Start*/
-.table_rows > .table_head *{
-    font-weight: 200;
-    font-size: 20px;
+
+.category-links {
+    text-align: center; /* 중앙 정렬 */
+    font-size: 18px; /* 적당한 글자 크기 */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 애플 시스템 폰트 */
+    font-weight: 500; /* 적당한 글자 두께 */
+    color: #333; /* 다크 그레이 색상 */
+    margin: 20px 0; /* 위아래 여백 */
+    padding: 10px 0; /* 위아래 패딩 */
+    border-bottom: 1px solid #e1e1e1; /* 아래쪽에 얇은 경계선 */
 }
+
+.category-links a {
+    color: #007aff; /* 애플 블루 색상 */
+    text-decoration: none; /* 기본 밑줄 제거 */
+    transition: color 0.3s, border-bottom 0.3s; /* 부드러운 색상 전환 효과 */
+}
+
+.category-links a:hover,
+.category-links a:focus {
+    color: #0051a2; /* 호버 시 어두운 블루 색상 */
+    border-bottom: 2px solid #007aff; /* 호버 시 밑줄 추가 */
+}
+
 
 .table_rows {
     width: 100%;
-    max-width: 1600px;
+    max-width: 1200px;
     margin: 0 auto;
-    word-wrap: break-word;
-    word-break: break-word;
-    table-layout: fixed;
     border-collapse: collapse;
-    border-spacing: 2px;
-    border-bottom: 3px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
-.table_rows td{
-    padding: 4px 7px;
-    text-align: center;
-    border-bottom: 1px solid #f2f2f2;
+
+.table_head th, .table_rows td {
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table_head {
+    background-color: #f9f9f9;
+    color: #333;
+    border-bottom: 2px solid #d0d0d0;
+}
+
+.table_head th {
+    font-weight: bold;
+}
+
+.table_rows tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.table_rows tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.table_rows tbody tr:hover {
+    background-color: #e0e0e0;
 }
 .left{
     float: left;
@@ -31,6 +73,9 @@
     text-align: right;
     margin-top: 10px;
 }
+
+
+
 
 /*List CSS End*/
 
@@ -86,16 +131,6 @@
     text-decoration: none; /* 텍스트 밑줄 제거 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
-}
-
-ul.list-items > li {
-    border-bottom: 1px solid #dcdcdc; /* 선의 색상과 두께 설정 */
-    padding-bottom: 10px; /* 선과 콘텐츠 사이의 간격 설정 */
-    margin-bottom: 10px; /* 항목 간의 간격 설정 */
-}
-
-ul.list-items > li:last-child {
-    border-bottom:  1px solid #ccc; /* 밑에 선 그리기 */
 }
 
 
