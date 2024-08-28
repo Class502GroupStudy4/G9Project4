@@ -310,7 +310,9 @@ dd {
     margin-left: 0;
     margin-bottom: 10px;
 }
-
+.error{
+    color: var(--error-red);
+}
 /* 초기화 끝 */
 
 /*========== SCROLL UP ==========*/
