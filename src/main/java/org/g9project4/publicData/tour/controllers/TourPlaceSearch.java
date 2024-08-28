@@ -40,7 +40,7 @@ public class TourPlaceSearch extends CommonSearch {
     private String category3;
     private Double latitude;
     private Double longitude;
-    private Integer radius = 1000;
+    private Integer radius = 10000;
     private String orderBy;
 
 

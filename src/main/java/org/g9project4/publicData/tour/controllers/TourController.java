@@ -79,6 +79,8 @@ public class TourController implements ExceptionProcessor {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
         if (mode.equals("list")) {
+            addCss.addAll(List.of("tour/list", "tour/_typelist","tour/banner","tour/search"));
+            addScript.addAll(List.of("tour/locBased","tour/form"));
             addCss.addAll(List.of("tour/list", "tour/_typelist"));
             addScript.addAll(List.of("tour/locBased", "tour/form"));
         } else if (mode.equals("geolocation")) {
@@ -148,20 +150,5 @@ public class TourController implements ExceptionProcessor {
         return utils.tpl("tour/detail");
     }
 
-    @GetMapping("/list/loc/{type}")
-    public String distanceList(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
-        try {
-            commonProcess("getLocation", model);
-            search.setLatitude(37.566826);
-            search.setLongitude(126.9786567);
-            search.setRadius(1000);
-            // ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
-            //  addListProcess(model,data);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new TourPlaceNotFoundException();
-        }
-        return utils.tpl("tour/list");
-    }
 
 }

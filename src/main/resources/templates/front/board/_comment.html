@@ -6,5 +6,11 @@
 
     <th:block th:if="${board.skin == 'gallery'}" th:replace="~{front/board/gallery/_comment::comment}"></th:block>
 
+
+    <th:block th:if="${board.skin == 'review'}" th:replace="~{front/board/review/_comment::comment}"></th:block>
+
+    <th:block th:if="${board.skin == 'QnA'}" th:replace="~{front/board/qna/_comment::comment}"></th:block>
+
+
 </th:block>
 </html>

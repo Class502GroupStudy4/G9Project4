@@ -28,7 +28,7 @@ public class TourDetailInfoService {
     public PlaceDetail<DetailItem, DetailPetItem> getDetail(Long contentId,String serviceKey) {
         String detailUrl = String.format("https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=ETC&MobileApp=test&_type=json&contentId=%d&defaultYN=Y&firstImageYN=Y&&mapinfoYN=Y&overviewYN=Y&addrinfoYN=Y&serviceKey=%s", contentId, serviceKey);
 
-        if (contentId<2500000L) {
+        if (contentId<2508605L || contentId>2549275L) {
             try {
                 ResponseEntity<DetailResult> response = restTemplate.getForEntity(URI.create(detailUrl), DetailResult.class);
                 if (response.getStatusCode().is2xxSuccessful() && response.getBody().getResponse().getHeader().getResultCode().equals("0000")) {
