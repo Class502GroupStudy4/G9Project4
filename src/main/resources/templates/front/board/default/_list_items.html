@@ -4,6 +4,16 @@
 
     <nav th:replace="~{front/board/default/_common::categorylink}"></nav>
 
+    <th:block th:fragment="items" th:class="list_main">
+        <table class="table_rows">
+            <thead class="table_head">
+            <tr>
+                <th width="150" class="post-title">게시글 제목</th>
+                <th width="200" class="views">조회수</th>
+                <th width="200" class="post-date">작성일</th>
+            </tr>
+            </thead>
+        </table>
     <ul class="list-items">
         <li th:if="${items == null || items.empty}" th:text="#{조회된_게시글이_없습니다.}" class="no-data"></li>
         <li th:if="${items != null && !items.empty}" th:each="item : ${items}" th:object="${item}">
@@ -23,6 +33,8 @@
             </div> <!--// post-info -->
         </li>
     </ul>
+
+
 
     <div class="bottom-box">
         <div class="links-wrap">
@@ -45,5 +57,6 @@
     </div>
 
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+    </th:block>
 </th:block>
 </html>

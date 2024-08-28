@@ -37,6 +37,7 @@
     display: flex; /* 요소들을 가로로 배치 */
     justify-content: space-between; /* 양 끝으로 정렬 */
     align-items: flex-start; /* 위쪽 정렬 */
+
 }
 .contents{
     border-top: 2px solid #000000;
@@ -72,14 +73,56 @@
     border: none; /* 테두리 제거 */
     border-radius: 5px; /* 둥근 모서리 */
     cursor: pointer; /* 마우스 커서 변경 */
-    text-align: right;
     text-decoration: none; /* 텍스트 밑줄 제거 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
 }
 
+ul.list-items > li {
+    border-bottom: 1px solid #dcdcdc; /* 선의 색상과 두께 설정 */
+    padding-bottom: 10px; /* 선과 콘텐츠 사이의 간격 설정 */
+    margin-bottom: 10px; /* 항목 간의 간격 설정 */
+}
+
+ul.list-items > li:last-child {
+    border-bottom:  1px solid #ccc; /* 밑에 선 그리기 */
+}
+
+
 
 /*View Css End*/
+
+/*Table css Start*/
+.post-title {
+    text-align: left;
+}
+
+.post-date {
+    text-align: right;
+}
+
+
+.list_main {
+    display: flex;
+    justify-content: space-between; /* 좌우 끝으로 배치 */
+    align-items: center; /* 세로로 중앙 정렬 */
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px; /* 각 항목 사이에 간격을 추가 */
+
+}
+
+/* 테이블 스타일 */
+.table_rows {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-bottom: 5px solid #ccc;
+
+}
+/* Table css End*/
+
 
 /* 댓글 */
 #frmComment { margin: 20px 0 30px; }
@@ -99,3 +142,83 @@
 .comment_items .btns { text-align: right; }
 .comment_items button, .comment_items .btns a { border: 1px solid #596b99; background: #fff; height: 35px; padding: 0 15px; color: #596b99; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
 .comment_items button:hover, .comment_items .btns a:hover { background: #596b99; color: #fff; }
+
+/* list 검색하기 */
+
+form {
+    background: linear-gradient(135deg, #ffffff, #f7f8fc); /* 그라디언트 배경 */
+    padding: 2.5rem; /* 더 넉넉한 내부 여백 */
+    border-radius: var(--button-radius); /* 기존 값 유지 */
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); /* 더 깊은 그림자 */
+    max-width: var(--max-width); /* 최대 너비 */
+    width: 100%; /* 반응형으로 너비 설정 */
+    max-width: 500px; /* 최대 너비를 제한 */
+    box-sizing: border-box; /* 기존 값 유지 */
+
+    /* 중앙 배치 */
+    margin: 2rem auto; /* 상하로 간격 추가 */
+
+    /* Flexbox 레이아웃 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 모든 자식 요소를 중앙 정렬 */
+
+    /* 트랜지션 효과 */
+    transition: all 0.3s ease-in-out;
+}
+
+/* 폼 요소에 추가 스타일링 */
+form input, form textarea, form select {
+    width: 100%; /* 전체 너비 차지 */
+    padding: 0.8rem 1rem; /* 넉넉한 패딩 */
+    margin-bottom: 1.2rem; /* 아래쪽 간격 */
+    border: 1px solid #ddd; /* 얇은 테두리 */
+    border-radius: 5px; /* 부드러운 모서리 */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 내부 그림자 */
+    font-size: 1rem; /* 글꼴 크기 */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover와 Focus 시 스타일 */
+form input:focus, form textarea:focus, form select:focus {
+    border-color: #5c6bc0; /* 강조된 테두리 색상 */
+    box-shadow: 0 0 8px rgba(92, 107, 192, 0.5); /* 블루 계열의 그림자 */
+    outline: none; /* 기본 포커스 제거 */
+}
+
+/* Submit 버튼 스타일 */
+form button {
+    width: 100%;
+    padding: 0.8rem 1.5rem; /* 넉넉한 패딩 */
+    background-color: #5c6bc0; /* 파란색 계열 배경 */
+    color: white; /* 텍스트 색상 */
+    font-size: 1.2rem; /* 글꼴 크기 */
+    font-weight: bold; /* 강조된 텍스트 */
+    border: none; /* 테두리 제거 */
+    border-radius: var(--button-radius); /* 기존 값 유지 */
+    cursor: pointer; /* 포인터 커서 */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+form button:hover {
+    background-color: #3f51b5; /* 더 진한 파란색으로 변경 */
+    transform: translateY(-3px); /* 약간 위로 올라가는 효과 */
+}
+
+form button:active {
+    background-color: #3949ab; /* 클릭 시 더 진해지는 색상 */
+    transform: translateY(0); /* 눌렸을 때 다시 원래 위치로 */
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    form {
+        width: 80%; /* 작은 화면에서 너비 증가 */
+        padding: 2rem; /* 패딩 조정 */
+    }
+
+    form button {
+        font-size: 1rem; /* 글꼴 크기 축소 */
+        padding: 0.7rem 1rem; /* 패딩 조정 */
+    }
+}
