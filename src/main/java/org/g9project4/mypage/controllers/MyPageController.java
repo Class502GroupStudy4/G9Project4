@@ -19,6 +19,7 @@ import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService
 import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.search.constatnts.SearchType;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
 import org.g9project4.wishlist.entities.WishList;
@@ -86,8 +87,9 @@ public class MyPageController {
 //                .collect(Collectors.toList());
 //
 //        model.addAttribute("searchHistory", recentSearchHistory);
-
+        /*
         Pageable pageable = PageRequest.of(5, 5);
+
         Page<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(member, pageable);
 
         model.addAttribute("searchHistory", searchHistory);
@@ -96,8 +98,31 @@ public class MyPageController {
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
-
+        */
         return utils.tpl("mypage/index");
+    }
+
+    @GetMapping("/mysearch")
+    public String mySearch(@ModelAttribute CommonSearch search, Model model) {
+        commonProcess("index", model);
+        search.setLimit(5);
+        ListData<SearchHistory> data = searchHistoryService.getMyKeywords(search, SearchType.TOUR);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        return utils.tpl("mypage/mysearch");
+    }
+
+    @GetMapping("/mywish")
+    public String myWish(@ModelAttribute CommonSearch search, Model model) {
+        commonProcess("index", model);
+        ListData<BoardData> data = boardInfoService.getWishList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        return utils.tpl("mypage/mywish");
     }
 
     @GetMapping("/info")

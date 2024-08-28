@@ -95,10 +95,10 @@
         <tr th:if="${!#lists.isEmpty(items)}" th:each="item, s : ${items}" th:object="${item}">
             <th th:text="${s.index + 1}"></th>
             <th>
-                <a th:href="*{@utils.redirectUrl('/board/list/'+ board.bid)}" th:text="*{board.bName}"></a>
+                <a th:href="*{@utils.redirectUrl('/board/list/'+ board.bid)}" th:text="*{board.bName}" target="_blank"></a>
             </th>
             <th>
-                <a th:if="*{deletedAt==null}" th:href="*{@utils.redirectUrl('/board/view/'+ seq)}" th:text="*{subject}"></a>
+                <a th:if="*{deletedAt==null}" th:href="*{@utils.redirectUrl('/board/view/'+ seq)}" th:text="*{subject}" target="_blank"></a>
                 <span th:if="*{deletedAt!=null}" th:text="*{subject}"></span>
             </th>
             <th th:text="*{poster}"></th>

@@ -1,22 +1,28 @@
 package org.g9project4.search.services;
 
+import com.querydsl.core.BooleanBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.global.CommonSearch;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.repositories.MemberRepository;
 import org.g9project4.search.constatnts.SearchType;
+import org.g9project4.search.entities.QSearchHistory;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.repositories.SearchHistoryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +39,10 @@ public class SearchHistoryService {
         try {
             SearchHistory history = SearchHistory.builder()
                     .keyword(keyword)
-                    .member(memberRepository.getReferenceById(memberUtil.getMember().getSeq()))
+                    .member(memberRepository.findById(memberUtil.getMember().getSeq()).orElse(null))
                     .searchType(type)
                     .build();
-            System.out.println(history);
+
             repository.save(history);
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,16 +57,26 @@ public class SearchHistoryService {
         save(keyword, SearchType.TOUR);
     }
 
-    //public Pagination(int page, int total, int ranges, int limit, HttpServletRequest request)
-    public ListData<SearchHistory> getSearchHistoryForMember(Member member, Pageable pageable) {
-        int page = pageable.getPageNumber();
-        int limit = pageable.getPageSize()
-        Pageable pageable = PageRequest.of(page - 1, 5); // 페이지와 페이지 크기를 설정
-        Page<SearchHistory> searchHistories = repository.findByMember(member, pageable);
-        Pagination pagination = new Pagination(page, (int) searchHistories.getTotalElements(), 5, size, request);
+    public ListData<SearchHistory> getMyKeywords(CommonSearch search, SearchType type) {
+        if (!memberUtil.isLogin()) {
+            return new ListData<>();
+        }
 
-        List<SearchHistory> items = searchHistories.getContent();
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 5 : limit;
 
-        return new ListData<>(items, pagination);
+
+        QSearchHistory searchHistory = QSearchHistory.searchHistory;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(searchHistory.member.seq.eq(memberUtil.getMember().getSeq()));
+        andBuilder.and(searchHistory.searchType.eq(type));
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+        Page<SearchHistory> data = repository.findAll(andBuilder, pageable);
+
+        Pagination pagination = new Pagination(page, (int)data.getTotalElements(), 10, limit, request);
+
+        return new ListData<>(data.getContent(), pagination);
     }
 }
