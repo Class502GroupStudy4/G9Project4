@@ -140,6 +140,7 @@ public class BoardController implements ExceptionProcessor {
         return utils.tpl("board/list");
     }
 
+
     @GetMapping("/view/{seq}")
     public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(seq, "view", model);
