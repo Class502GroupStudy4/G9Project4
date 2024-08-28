@@ -88,19 +88,19 @@ public class BoardController implements ExceptionProcessor {
     @PostMapping("/save")
     public String save(@Valid RequestBoard form, Errors errors, Model model, SessionStatus status, HttpSession session) {
         String mode = form.getMode();
+        System.out.println(form);
+        System.out.println(errors.getAllErrors().stream().toString());
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);
-
         boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
+        BoardData data = null;
         if (mode.equals("update")) {
-            BoardData data = (BoardData)model.getAttribute("boardData");
+            data = (BoardData)model.getAttribute("boardData");
             isGuest = data.getMember() == null;
         }
-
         form.setGuest(isGuest);
 
         validator.validate(form, errors);
-
         if (errors.hasErrors()) {
             // 업로드된 파일 목록 - editor, attach
             String gid = form.getGid();
@@ -108,7 +108,7 @@ public class BoardController implements ExceptionProcessor {
             List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach", FileStatus.ALL);
             form.setEditorImages(editorImages);
             form.setAttachFiles(attachFiles);
-
+            System.out.println(errors);
 
             return utils.tpl("board/" + mode);
         }
@@ -120,9 +120,18 @@ public class BoardController implements ExceptionProcessor {
         session.removeAttribute("boardData");
 
         // 목록 또는 상세 보기 이동
+        if (board.getLocationAfterWriting().equals("admin") && !StringUtils.hasText(form.getLongText1())) {
+            return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
+        } else if (board.getLocationAfterWriting().equals("admin") && StringUtils.hasText(form.getLongText1())) {
+            return "redirect:" + utils.adminUrl("/");
+
+        }
+
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
 
         return "redirect:" + utils.redirectUrl(url);
+
+
     }
 
     @GetMapping("/list/{bid}")
@@ -142,7 +151,7 @@ public class BoardController implements ExceptionProcessor {
     @GetMapping("/view/{seq}")
     public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(seq, "view", model);
-
+        System.out.println(board);
         if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
             ListData<BoardData> data = infoService.getList(board.getBid(), search);
             model.addAttribute("items", data.getItems());
@@ -172,7 +181,16 @@ public class BoardController implements ExceptionProcessor {
 
         return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
     }
+    @GetMapping("/qna/answer/{seq}")
+    public String answer(@PathVariable("seq") Long seq, Model model){
+        commonProcess(seq, "update", model);
+        RequestBoard form = infoService.getForm(boardData);
+        model.addAttribute("requestBoard", form);
+//        board.setLocationAfterWriting("admin");
+//        model.addAttribute("locationAfterWriting", board.getLocationAfterWriting());
 
+        return utils.tpl("board/qna/answer");
+    }
     /**
      * 비회원 비밀번호 검증
      *
@@ -184,6 +202,8 @@ public class BoardController implements ExceptionProcessor {
     public String confirmGuestPassword(@RequestParam("password") String password, Model model) {
 
         authService.validate(password, boardData);
+
+
 
         String script = "parent.location.reload();";
         model.addAttribute("script", script);
@@ -236,6 +256,7 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
+            addScript.add("board/" + skin + "/answer");
         } else if (mode.equals("view")) { // 게시글 보기의 경우
             addScript.add("board/" + skin + "/view");
         }

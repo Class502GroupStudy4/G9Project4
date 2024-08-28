@@ -1,13 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR:wght@200..900&display=swap');
+.list-info .right{
+    text-align: right;
+}
 /* ul CSS Start*/
+ul{
+}
 ul * {
     font-family: "Noto Sans KR", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
-    width: 80%;
+    width: 90%;
     align-items: center;
 }
 ul > li{
+    margin: 0 auto;
     height: 140px;
     position: relative;
     padding: 20px 0 !important;

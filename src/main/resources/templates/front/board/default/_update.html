@@ -4,7 +4,7 @@
     <div th:replace="~{front/board/default/_common::pageTitle}"></div>
 
     <form name="frmSave" method="post" th:action="${@utils.redirectUrl('/board/save')}" autocomplete="off" th:object="${requestBoard}">
-        <input type="hidden" name="mode" th:value="update">
+        <input type="hidden" name="mode" value="update">
         <input type="hidden" name="bid" th:value="${board.bid}">
         <input type="hidden" name="seq" th:value="*{seq}">
 

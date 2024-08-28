@@ -2,6 +2,7 @@ package org.g9project4.board.services;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.board.advices.BoardControllerAdvice;
 import org.g9project4.board.controllers.RequestBoard;
 import org.g9project4.board.entities.Board;
 import org.g9project4.board.entities.BoardData;
@@ -25,18 +26,20 @@ public class BoardSaveService {
     private final BoardDataRepository boardDataRepository;
     private final MemberUtil memberUtil;
     private final FileUploadDoneService doneService;
+    private final BoardControllerAdvice board;
 
-    public BoardData save(RequestBoard form){
+    public BoardData save(RequestBoard form) {
 
         String mode = form.getMode();
         mode = StringUtils.hasText(mode) ? mode.trim() : "write";
 
         String gid = form.getGid();
-
+        System.out.println("form:" + form);
         BoardData data = null;
         Long seq = form.getSeq();
-        if(seq != null && mode.equals("update")){ // 글 수정
+        if (seq != null && mode.equals("update")) { // 글 수정
             data = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
+            System.out.println("여기 : " + data);
         } else { // 글 작성
             String bid = form.getBid();
             Board board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new);
@@ -84,10 +87,9 @@ public class BoardSaveService {
         // 게시글 저장 처리
         boardDataRepository.saveAndFlush(data);
 
-
         //파일 업로드 완료 처리
-         doneService.process(gid);
+        doneService.process(gid);
 
-         return data;
+        return data;
     }
 }
