@@ -8,6 +8,10 @@
             <th:block th:replace="~{front/board/default/_view::view}"></th:block>
         </th:block>
 
+        <th:block th:if="${board.skin == 'qna'}">
+            <th:block th:replace="~{front/board/qna/_view::view}"></th:block>
+        </th:block>
+
         <th:block th:if="${board.skin == 'gallery'}">
             <th:block th:replace="~{front/board/gallery/_view::view}"></th:block>
         </th:block>
@@ -27,6 +31,10 @@
 
             <th:block th:if="${board.skin == 'gallery'}">
                 <th:block th:replace="~{front/board/gallery/_list_items::items}"></th:block>
+            </th:block>
+
+            <th:block th:if="${board.skin == 'qna'}">
+                <th:block th:replace="~{front/board/qna/_list_items::items}"></th:block>
             </th:block>
 
             <th:block th:if="${board.skin == 'review'}">
