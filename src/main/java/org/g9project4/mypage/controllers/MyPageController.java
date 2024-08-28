@@ -23,6 +23,9 @@ import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
 import org.g9project4.wishlist.entities.WishList;
 import org.g9project4.wishlist.services.WishListService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -75,14 +78,19 @@ public class MyPageController {
                 .collect(Collectors.toList());
         form.setInterests(interests);
 
-        List<SearchHistory> allSearchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
+//        List<SearchHistory> allSearchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
+//
+//        // 최근 5건만 선택
+//        List<SearchHistory> recentSearchHistory = allSearchHistory.stream()
+//                .limit(5)
+//                .collect(Collectors.toList());
+//
+//        model.addAttribute("searchHistory", recentSearchHistory);
 
-        // 최근 5건만 선택
-        List<SearchHistory> recentSearchHistory = allSearchHistory.stream()
-                .limit(5)
-                .collect(Collectors.toList());
+        Pageable pageable = PageRequest.of(5, 5);
+        Page<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(member, pageable);
 
-        model.addAttribute("searchHistory", recentSearchHistory);
+        model.addAttribute("searchHistory", searchHistory);
 
         ListData<BoardData> data = boardInfoService.getWishList(search);
 
