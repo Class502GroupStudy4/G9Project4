@@ -133,9 +133,7 @@ public class BoardController implements ExceptionProcessor {
         historyService.saveBoard(search.getSkey());
 
         ListData<BoardData> data = infoService.getList(bid, search);
-        ListData<BoardData> data2 = infoService.getList(bid, search);
 
-        model.addAttribute("items2", data2.getItems());
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
 
@@ -145,7 +143,7 @@ public class BoardController implements ExceptionProcessor {
     @GetMapping("/view/{seq}")
     public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(seq, "view", model);
-
+        System.out.println(board);
         if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
             ListData<BoardData> data = infoService.getList(board.getBid(), search);
             model.addAttribute("items", data.getItems());
