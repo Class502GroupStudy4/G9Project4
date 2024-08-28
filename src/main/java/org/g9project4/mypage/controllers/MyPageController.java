@@ -2,7 +2,6 @@ package org.g9project4.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.board.entities.Board;
 import org.g9project4.board.services.BoardInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
@@ -22,10 +21,9 @@ import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
 import org.g9project4.visitrecord.constants.RecommendType;
-//km import org.g9project4.visitrecord.services.VisitRecordService;
+import org.g9project4.visitrecord.services.VisitRecordService;
 import org.g9project4.wishlist.entities.WishList;
 import org.g9project4.wishlist.services.WishListService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -33,7 +31,6 @@ import org.springframework.web.bind.annotation.*;
 import org.g9project4.member.entities.Interests;
 
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +46,7 @@ public class MyPageController {
     private final MemberUtil memberUtil;
     private final Utils utils;
     private final SearchHistoryService searchHistoryService;
-  //km   private final VisitRecordService visitRecordService;
+   private final VisitRecordService visitRecordService;
     private final TourplacePointMemberService pointMemberService;
     private final TourplaceInterestsPointService interestsPointService;
     private final InterestsRepository interestsRepository;
@@ -112,20 +109,12 @@ private final TourPlaceInfoService tourInfoService;
     public String updateInfo(@Valid RequestProfile form, Errors errors, Model model) {
         commonProcess("info", model);
 
-        Member member = memberUtil.getMember();
-
         profileUpdateValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             return utils.tpl("mypage/info");
         }
-
         memberSaveService.save(form);
-
-        //복수 관심사 저장
-        List<Interest> interests = form.getInterests();
-        memberSaveService.saveInterests(member, interests);
-
 
         //SecurityContextHolder.getContext().setAuthentication();
 
@@ -178,28 +167,28 @@ private final TourPlaceInfoService tourInfoService;
         }
     }
 
-//    @GetMapping("/visitplace") // 검색기록 + 검색키워드 기준 추천
-//    public String RecordList(@ModelAttribute TourPlaceSearch search, @RequestParam RecommendType recommendType, Model model) {
-//
-//        // 서비스 메서드를 호출하여 추천 여행지 목록을 가져옵니다.
-//        ListData<TourPlace> data = tourInfoService.getTotalList(search,  recommendType);
-//        System.out.println("Data from mRecordService: " + data); // 로그 추가
-//        System.out.println("TourPlaceSearch: " + search); // 로그 추가
-//
-//        // 공통 처리 (commonProcess 메서드가 어떤 기능인지에 따라 다름)
-//        commonProcess("visitplace", model);
-//
-//        model.addAttribute("recommendType", recommendType);
-//        model.addAttribute("data", data);
-//        // 목록 데이터 처리 (addListProcess 메서드가 어떤 기능인지에 따라 다름)
-//      //  addListProcess(model, data);
-//        model.addAttribute("tourPlaceSearch", search);
-//
-//        // tourPlaceSearch를 모델에 추가
-//
-//        // 템플릿을 반환
-//        return utils.tpl("mypage/visitplace");
-//    }
+    @GetMapping("/visitplace") // 검색기록 + 검색키워드 기준 추천
+    public String RecordList(@ModelAttribute TourPlaceSearch search, @RequestParam RecommendType recommendType, Model model) {
+
+        // 서비스 메서드를 호출하여 추천 여행지 목록을 가져옵니다.
+        ListData<TourPlace> data = tourInfoService.getTotalList(search,  recommendType);
+        System.out.println("Data from mRecordService: " + data); // 로그 추가
+        System.out.println("TourPlaceSearch: " + search); // 로그 추가
+
+        // 공통 처리 (commonProcess 메서드가 어떤 기능인지에 따라 다름)
+        commonProcess("visitplace", model);
+
+        model.addAttribute("recommendType", recommendType);
+        model.addAttribute("data", data);
+        // 목록 데이터 처리 (addListProcess 메서드가 어떤 기능인지에 따라 다름)
+      //  addListProcess(model, data);
+        model.addAttribute("tourPlaceSearch", search);
+
+        // tourPlaceSearch를 모델에 추가
+
+        // 템플릿을 반환
+        return utils.tpl("mypage/visitplace");
+    }
 
 
     @GetMapping("/myinterests") // 관심사 기준 추천

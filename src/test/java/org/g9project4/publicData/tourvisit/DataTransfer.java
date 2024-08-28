@@ -10,18 +10,10 @@ import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.ApiUpdateService;
-//import org.g9project4.tourvisit.services.TourPlaceRepositoryCustomImpl;
 import org.g9project4.publicData.tourvisit.services.*;
-//import org.g9project4.tourvisit.services.SigunguTableStatisticService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest

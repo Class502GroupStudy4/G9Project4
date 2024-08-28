@@ -54,6 +54,11 @@ public class MemberInfoService implements UserDetailsService {
      * @param member
      */
     public void addMemberInfo(Member member) {
+        //km org.g9project4.member.entities.Member.getGid()" because "member" is null 오류로 인하여
+        if (member == null) {
+            throw new IllegalArgumentException("Member cannot be null");
+        }
+
         String gid = member.getGid();
         List<FileInfo> items = fileInfoService.getList(gid);
         if (items != null && !items.isEmpty()) {

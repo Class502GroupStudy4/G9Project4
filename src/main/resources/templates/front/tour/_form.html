@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="placeList" class="tour-list">
     <div class="list-info">
-    <h1 th:if="${tourPlaceSearch.contentType!=null}"
-        th:text="${#strings.concat(tourPlaceSearch.contentType,' 리스트보기')}"></h1>
+        <h1 th:if="${tourPlaceSearch.contentType!=null}"
+            th:text="${#strings.concat(tourPlaceSearch.contentType,' 리스트보기')}"></h1>
         <h4 th:if="${pagination!=null}" th:text="${'검색된 항목 : '+pagination.total}" class="right"></h4>
     </div>
     <ul class="list_thumType place">
@@ -15,7 +15,7 @@
                 <a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}" th:text="*{title}"></a>
             </div>
             <p class="place-address" th:text="*{address}"></p>
-<!--            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>-->
+            <!--            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>-->
 
             <p class="place-address" th:text="*{placePointValue}"></p>
         </li>

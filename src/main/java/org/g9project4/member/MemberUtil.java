@@ -33,25 +33,46 @@ public class MemberUtil {
         return false;
     }
 
-    public Member getMember() {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    //km  오류로 인하여 수정
+     public Member getMember() {
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         if (authentication == null || !authentication.isAuthenticated() || !(authentication.getPrincipal() instanceof MemberInfo memberInfo)) {
+             return null;
+         }
 
-        Member member = null;
-        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
+         Member member = memberInfo.getMember();
+         if (member == null) {
+             member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
+             if (member != null) {
+                 infoService.addMemberInfo(member);
+                 memberInfo.setMember(member);
+             }
+         }
 
+         return member;
+     }
 
-            member = memberInfo.getMember();
-            if (member == null) {
-                member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
-                infoService.addMemberInfo(member);
-
-                memberInfo.setMember(member);
-            }
-        }
-
-        return member;
-    }
+    // 원래 코드
+//    public Member getMember() {
+//
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        Member member = null;
+//        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
+//
+//
+//            member = memberInfo.getMember();
+//            if (member == null) {
+//                member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
+//                infoService.addMemberInfo(member);
+//
+//                memberInfo.setMember(member);
+//            }
+//        }
+//
+//        return member;
+//    }
 
 
     public List<Member> getAllMembers() {

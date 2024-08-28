@@ -22,7 +22,7 @@ import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
-//km import org.g9project4.visitrecord.services.VisitRecordService;
+import org.g9project4.visitrecord.services.VisitRecordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -48,7 +48,7 @@ public class TourController implements ExceptionProcessor {
     private final SigunguCodeRepository sigunguCodeRepository;
     private final CategoryRepository categoryRepository;
     private final SearchHistoryService searchHistoryService;
-  //km   private final VisitRecordService recordService;
+    private final VisitRecordService recordService;
     private final SearchHistoryService historyService;
 
     @ModelAttribute("apiKeys")
@@ -79,8 +79,8 @@ public class TourController implements ExceptionProcessor {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
         if (mode.equals("list")) {
-            addCss.addAll(List.of("tour/list", "tour/_typelist","tour/banner","tour/search"));
-            addScript.addAll(List.of("tour/locBased","tour/form"));
+            addCss.addAll(List.of("tour/list", "tour/_typelist", "tour/banner", "tour/search"));
+            addScript.addAll(List.of("tour/locBased", "tour/form"));
             addCss.addAll(List.of("tour/list", "tour/_typelist"));
             addScript.addAll(List.of("tour/locBased", "tour/form"));
         } else if (mode.equals("geolocation")) {
@@ -145,7 +145,7 @@ public class TourController implements ExceptionProcessor {
         model.addAttribute("items", item);
 
         //km 추천 방문 데이터 저장
-        //km        recordService.record(contentId);
+        recordService.record(contentId);
 
         return utils.tpl("tour/detail");
     }

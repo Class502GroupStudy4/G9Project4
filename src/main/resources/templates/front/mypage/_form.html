@@ -1,36 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<table th:fragment="placeList" class="tour-list">
-    <h1 th:if="${tourPlaceSearch != null and tourPlaceSearch.contentType != null}"
-        th:text="${#strings.concat(tourPlaceSearch.contentType.getType(), ' 리스트보기')}"></h1>
+<div th:fragment="placeList" class="tour-list">
+    <div class="list-info">
+        <h1 th:if="${tourPlaceSearch.contentType!=null}"
+            th:text="${#strings.concat(tourPlaceSearch.contentType,' 리스트보기')}"></h1>
+        <h4 th:if="${pagination!=null}" th:text="${'검색된 항목 : '+pagination.total}" class="right"></h4>
+    </div>
+    <ul class="list_thumType place">
+        <li class="bdr_nor" th:each="item, s:${items}" th:object="${item}">
+            <div class="place-photo">
+                <a th:href="*{@utils.redirectUrl('/tour/detail/'+contentId)}"><img class="firstImage" th:src="*{firstImage}" th:alt="#{이미지가_존재하지_않습니다.}"></a>
+            </div>
+            <div class="place-tit">
+                <a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}" th:text="*{title}"></a>
+            </div>
+            <p class="place-address" th:text="*{address}"></p>
+            <!--            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>-->
 
-    <h1>리스트 보기</h1>
+            <p class="place-address" th:text="*{finalPointValue}"></p>
+        </li>
+    </ul>
+</div>
 
-    <tr>
-        <th th:text="#{순번}"></th>
-        <th th:text="#{컨텐트ID}"></th>
-        <th th:text="#{장소이름}"></th>
-        <th th:text="#{주소}"></th>
-        <th th:text="#{사진}"></th>
-        <th th:text="#{전화번호}"></th>
-        <th th:text="#{여행지점수}"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item, s : ${data.items}" th:object="${item}">
-        <td class="table-index" th:text="${s.index + 1}"></td>
-        <td class="table-contentId" th:text="*{contentId}"></td>
-        <td class="table-title">
-            <a th:href="@{/tour/detail/{id}(id=*{contentId})}" th:text="*{title}"></a>
-        </td>
-        <td class="table-address" th:text="*{address}"></td>
-        <td class="table-image">
-            <img class="firstImage" th:src="*{firstImage}" />
-        </td>
-        <td th:text="*{tel}"></td>
-        <td th:text="*{finalPointValue}"></td> <!-- 수정된 부분 -->
-    </tr>
-    </tbody>
-</table>
-</body>
 </html>

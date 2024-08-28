@@ -2,6 +2,7 @@ package org.g9project4.publicData.tourvisit.services;
 
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.rests.gov.api.ApiBody2;
+import org.g9project4.global.rests.gov.api.ApiResponse2;
 import org.g9project4.global.rests.gov.api.ApiResult2;
 import org.g9project4.publicData.tourvisit.entities.SidoVisit;
 import org.g9project4.publicData.tourvisit.repositories.SidoVisitRepository;
@@ -136,28 +137,30 @@ public class SidoVisitStatisticService {
 
     }
 
+    //km java.lang.NullPointerException: Cannot invoke "org.g9project4.global.rests.gov.api.ApiResponse2.getHeader()" because the return value of "org.g9project4.global.rests.gov.api.ApiResult2.getResponse2()" is null 오류로 인한 수정
     private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
-
         String serviceKey = "RtrIIdYjcb3IXn1a/zF7itGWY5ZFS3IEj85ohFx/snuKG9hYABL5Tn8jEgCEaCw6uEIHvUz30yF4n0GGP6bVIA==";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-        String url = String.format("https://apis.data.go.kr/B551011/DataLabService/metcoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json", serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
+        String url = String.format("https://apis.data.go.kr/B551011/DataLabService/metcoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json",
+                serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
 
-        ResponseEntity<ApiResult2> response = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
+        ResponseEntity<ApiResult2> apiResponse = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
 
-        if (!response.getStatusCode().is2xxSuccessful()) {
+        if (!apiResponse.getStatusCode().is2xxSuccessful()) {
             return null;
         }
 
-        ApiResult2 result = response.getBody();
-        if (!result.getResponse2().getHeader().getResultCode().equals("0000")) {
+        ApiResult2 result = apiResponse.getBody();
+
+        if (result == null || result.getResponse2() == null ||
+                !result.getResponse2().getHeader().getResultCode().equals("0000")) {
             return null;
         }
 
         return result;
     }
-
 
     // 일별 통계
     @Scheduled(cron = "0 0 1 * * *")  // 매일 새벽 1시

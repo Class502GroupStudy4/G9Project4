@@ -17,10 +17,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.g9project4.member.entities.Member;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 
 
@@ -41,18 +43,13 @@ public class MemberController implements ExceptionProcessor {
         return new RequestLogin();
     }
 
+
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("join", model);
 
         // 이메일 인증 여부 false로 초기화
         model.addAttribute("EmailAuthVerified", false);
-
-        //복수 관심사 저장
-        List<Interest> interests = form.getInterests();
-        Member member = memberUtil.getMember();
-        memberSaveService.saveInterests(member, interests);
-
 
         return utils.tpl("member/join");
     }
@@ -68,6 +65,7 @@ public class MemberController implements ExceptionProcessor {
         }
 
         memberSaveService.save(form);
+
 
         status.setComplete();
         session.removeAttribute("EmailAuthVerified");
@@ -87,6 +85,9 @@ public class MemberController implements ExceptionProcessor {
                 return "redirect:" + utils.redirectUrl("/member/password/reset");
             }
         }
+
+
+
         return utils.tpl("member/login");
     }
 

@@ -8,4 +8,10 @@ public class MemberNotFoundException extends CommonException {
         super("NotFound.member", HttpStatus.NOT_FOUND);
         setErrorCode(true);
     }
+
+    //km
+    public MemberNotFoundException(String message) {
+        super(message);
+    }
+
 }

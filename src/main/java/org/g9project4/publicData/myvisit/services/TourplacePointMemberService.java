@@ -52,12 +52,15 @@ public class TourplacePointMemberService {
         String currentSeason = getCurrentSeason(currentDate);
         QTourPlace qTourPlace = QTourPlace.tourPlace;
 
-        // 모든 TourPlace 항목을 가져옵니다.
-        List<TourPlace> tourPlaces = queryFactory.selectFrom(qTourPlace)
-                .fetch();
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
 
-        // 각 TourPlace에 대해 최종 점수를 계산하고 리스트를 생성합니다.
-        List<TourplaceDto> topTourPlaces = tourPlaces.stream()
+        // 모든 TourPlace 항목을 가져오고, 각 TourPlace에 대해 최종 점수를 계산하여 리스트를 생성합니다.
+        List<TourplaceDto> items = queryFactory.selectFrom(qTourPlace)
+                .fetch()
+                .stream()
                 .map(tourPlace -> {
                     // 각 Member별로 mRecordPoint를 계산
                     int mRecordPoint = calculateMRecordPoint(tourPlace, member, age, currentSeason);
@@ -74,35 +77,16 @@ public class TourplacePointMemberService {
                             tourPlace.getAddress(),
                             tourPlace.getFirstImage(),
                             tourPlace.getTel(),
-                            finalPointValue );
-
+                            finalPointValue);
                 })
                 .sorted((tp1, tp2) -> Integer.compare(tp2.getFinalPointValue(), tp1.getFinalPointValue())) // 내림차순 정렬
-                .limit(20) // 최대 20개의 항목만 가져오기
+                .skip(offset) // 페이징을 위해 offset 적용
+                .limit(limit) // 페이징을 위해 limit 적용
                 .collect(Collectors.toList());
-
-        int page = Math.max(search.getPage(), 1);
-        int limit = search.getLimit();
-        limit = limit < 1 ? 10 : limit;
-        int offset = (page - 1) * limit;
 
         Pagination pagination = new Pagination(page, (int) repository.count(), 0, limit, request);
-        List<TourplaceDto> items = queryFactory.selectFrom(QTourPlace.tourPlace)
-                .orderBy(QTourPlace.tourPlace.placePointValue.desc())
-                .offset(offset)
-                .limit(limit)
-                .fetch()
-                .stream()
-                .map(tourPlace -> new TourplaceDto(
-                        tourPlace.getContentId(),
-                        tourPlace.getTitle(),
-                        tourPlace.getAddress(),
-                        tourPlace.getFirstImage(),
-                        tourPlace.getTel(),
-                        tourPlace.getPlacePointValue() != null ? tourPlace.getPlacePointValue() : 0
-                ))
-                .collect(Collectors.toList());
-        return new ListData<>(topTourPlaces, pagination);
+
+        return new ListData<>(items, pagination);
     }
 
     private LocalDate getBirthForMember(Member member) {
