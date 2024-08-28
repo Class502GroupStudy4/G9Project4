@@ -102,7 +102,7 @@ public class FileController implements RestExceptionProcessor {
         try (FileInputStream fis = new FileInputStream(file);
         BufferedInputStream bis = new BufferedInputStream(fis)) {
             String contentType = Files.probeContentType(file.toPath());
-            response.setHeader("Content_Type", contentType);
+            response.setHeader("Content-Type", contentType);
             OutputStream out = response.getOutputStream();
             out.write(bis.readAllBytes());
 
