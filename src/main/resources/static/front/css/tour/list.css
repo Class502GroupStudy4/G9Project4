@@ -11,6 +11,7 @@ ul *{
 }
 ul{
     width: 90%;
+    margin: 0 auto;
 }
 ul > li{
     margin: 0 auto;
@@ -34,8 +35,8 @@ ul > li{
 .list_thumType > li img{
     float: left;
     position: relative;
-    width: 140px;
-    height: 100px;
+    width: 178px;
+    height: 120px;
 }
 .list_thumType > li > div{
     display: flex;
@@ -46,6 +47,9 @@ ul > li{
 }
 .list_thumType > li .place-address{
     color: var(--gray);
+}
+.list_thumType > li .place-categories span{
+    color: var(--muted-text-color)
 }
 
 /* ul CSS End*/

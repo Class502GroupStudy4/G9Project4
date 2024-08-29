@@ -106,6 +106,7 @@ dd {
 
 .button:hover {
     background-color: var(--lightblue);
+    color: black;
 }
 
 /* 버튼 색상 정의 */
