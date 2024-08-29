@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberSaveService {
     private final FileUploadDoneService uploadDoneService;
     private final MemberRepository memberRepository;
@@ -118,7 +119,7 @@ public class MemberSaveService {
             throw new IllegalArgumentException("Member does not exist");
         }
 
-        interestsRepository.deleteByMember(member);
+        interestsRepository.deleteAllByMember(member);
 
         // Convert the List<Interest> to List<Interests>
         List<Interests> newInterests = interests.stream()
