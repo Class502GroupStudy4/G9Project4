@@ -199,7 +199,7 @@ public class BoardController implements ExceptionProcessor {
 
         deleteService.delete(seq);
 
-        return utils.redirectUrl("/board/list/" + board.getBid());
+        return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
     }
     @GetMapping("/qna/answer/{seq}")
     public String answer(@PathVariable("seq") Long seq, Model model){
@@ -281,7 +281,7 @@ public class BoardController implements ExceptionProcessor {
             addScript.add("board/" + skin + "/view");
         }
 
-
+        addCss.add("board/" + skin + "/form");
 
         // 게시글 제목으로 title을 표시 하는 경우
         if (List.of("view", "update", "delete").contains(mode)) {
