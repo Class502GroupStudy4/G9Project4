@@ -137,12 +137,6 @@ public class BoardInfoService {
             andBuilder.and(boardData.notice.eq(notice));
         }
 
-        // num1 검색 추가
-        Long num1 = search.getNum1();
-        if (num1 != null) {
-            andBuilder.and(boardData.num1.eq(num1));
-        }
-
         /**
          * 조건 검색 처리
          *
