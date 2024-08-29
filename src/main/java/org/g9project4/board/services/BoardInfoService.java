@@ -101,7 +101,13 @@ public class BoardInfoService {
         /* 검색 처리 S */
         QBoardData boardData = QBoardData.boardData;
         BooleanBuilder andBuilder = new BooleanBuilder();
-
+        /* 관리자 검색 용도 */
+        if (memberUtil.isAdmin() && search instanceof AdminBoardDataSearch adminSearch) {
+            List<Long> memberSeq = adminSearch.getMemberSeq();
+            if (memberSeq != null && !memberSeq.isEmpty()) {
+                andBuilder.and(boardData.member.seq.in(memberSeq));
+            }
+        }
         // 삭제, 미삭제 게시글 조회 처리
         if (status != DeleteStatus.ALL) {
             if (status == DeleteStatus.UNDELETED) {
@@ -122,6 +128,12 @@ public class BoardInfoService {
         // 분류 검색 처리
         if (categories != null && !categories.isEmpty()) {
             andBuilder.and(boardData.category.in(categories));
+        }
+
+        // num1 검색 추가
+        Long num1 = search.getNum1();
+        if (num1 != null) {
+            andBuilder.and(boardData.num1.eq(num1));
         }
 
         // 공지글 검색
@@ -353,6 +365,7 @@ public class BoardInfoService {
         int ranges = utils.isMobile() ? 5 : 10;
         Pagination pagination = new Pagination(page, (int) total, ranges, limit, request);
 
+
         return new ListData<>(items, pagination);
     }
 
@@ -387,6 +400,7 @@ public class BoardInfoService {
                 .fetch().size();
         int ranges = utils.isMobile() ? 5 : 10;
         Pagination pagination = new Pagination(page, total, ranges, limit, request);
+
 
         return new ListData<>(items, pagination);
     }
@@ -460,7 +474,8 @@ public class BoardInfoService {
 
         // 회원 - 직접 작성한 게시글인 경우만 수정,삭제(editable)
         Member boardMember = item.getMember(); // 게시글을 작성한 회원
-        Member loggedMember = item.getMember(); // 로그인한 회원
+        Member loggedMember = memberUtil.getMember(); // 로그인한 회원
+
         if (boardMember != null && memberUtil.isLogin() && boardMember.getEmail().equals(loggedMember.getEmail())) {
             editable = true; // 수정, 삭제 가능
             mine = true; // 게시글 소유자
@@ -510,7 +525,13 @@ public class BoardInfoService {
 
         if (memberUtil.isAdmin()) { // 관리자는 모든 권한 가능
             showEdit = showDelete = showList = true;
+            showWrite = showEdit = showDelete = showList = true;
         }
+        if (boardMember == null || mine) { // 비회원 게시글이거나 회원게시글의 소유자 인 경우
+            showEdit = showDelete = true;
+        }
+
+        item.setShowWrite(showWrite);
 
         item.setShowEdit(showEdit);
         item.setShowDelete(showDelete);
