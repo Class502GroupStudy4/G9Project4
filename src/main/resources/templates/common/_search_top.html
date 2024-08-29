@@ -174,8 +174,7 @@
                 <input type="radio" class="orderBy custom-radio" name="orderBy" th:text="${orderBy.type}"
                        th:value="${orderBy.name}"
                        th:id="orderBy+${orderBy.name}"
-                       th:checked="${tourPlaceSearch.orderBy==orderBy.name}"
-                       th:classappend="${tourPlaceSearch.orderBy==orderBy.name?'on':''}" onclick="frmTotalSearch.submit()">
+                       th:checked="${tourPlaceSearch.orderBy==orderBy.name}" onclick="frmTotalSearch.submit()">
             </label>
         </th:block>
     </dd>
