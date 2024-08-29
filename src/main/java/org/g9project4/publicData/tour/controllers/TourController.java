@@ -76,6 +76,7 @@ public class TourController implements ExceptionProcessor {
         List<String> addCommonCss = new ArrayList<>();
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
+
         if (mode.equals("list")) {
             addCss.addAll(List.of("tour/list", "tour/_typelist", "tour/banner", "tour/search"));
             addScript.addAll(List.of("tour/locBased", "tour/form","tour/search"));
@@ -142,6 +143,5 @@ public class TourController implements ExceptionProcessor {
 
         return utils.tpl("tour/detail");
     }
-
 
 }

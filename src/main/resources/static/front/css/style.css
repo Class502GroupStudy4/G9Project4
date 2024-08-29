@@ -40,11 +40,11 @@ header .site-top > .inner {
 header .site-top > .inner > .layout-right {
     float: right;
 }
-.main-logo{
-    min-height: 70px;
-    max-height: 90px;
-    min-width: 70px;
-    max-width: 90px;
+header .main-logo{
+    max-height: 150px;
+    max-width: 260px;
+    min-height: 30px;
+    min-width: 100px;
     background-color: transparent;
 }
 .main-top-buttons button {
