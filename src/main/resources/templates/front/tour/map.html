@@ -17,10 +17,12 @@
                 <form id="search_form" name="frmSearch" method="get" autocomplete="off"
                       th:action="${@utils.redirectUrl('/tour/view')}" th:object="${tourPlaceSearch}">
                     <input type="hidden" th:value="TITLE_ADDRESS" name="sopt">
-                    <input type="text" name="skey" th:field="*{skey}" th:placeholder="#{여행지로_검색}">
-                    <button class="search-button" type="submit">
-                        <i class="xi-search"></i>
-                    </button>
+                    <div class="search-input-container">
+                        <input type="text" name="skey" th:field="*{skey}" th:placeholder="#{여행지로_검색}">
+                        <button class="search-button" type="submit">
+                            <i class="xi-search"></i>
+                        </button>
+                    </div>
                 </form>
                 <!-- 검색 결과 컨테이너 -->
                 <div id="search-results" class="search-results">
