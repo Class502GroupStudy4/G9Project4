@@ -121,31 +121,4 @@ h1 {
     text-align: right;
 }
 
-.jbtn {
-    font-size: 18px;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
-    background-color: #007bff;
-    border-radius: 5px;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-}
 
-.jbtn:hover {
-    background-color: #0056b3;
-}
-.table_head th, .table_rows td {
-    text-align: center;
-}
-
-.qna-images {
-    width: 100%; /* 컨테이너의 너비에 맞게 이미지 크기 조정 */
-    height: 600px; /* 비율에 맞게 높이 자동 조정 */
-    /*max-width: 700px; !* 최대 너비 설정 (원하는 크기로 조정) *!*/
-    display: block; /* 이미지의 블록 속성으로 설정 */
-    margin-bottom: 20px; /* 이미지와 다음 콘텐츠 간의 여백 */
-    background: url("/images/qna2.png") no-repeat;
-    background-size: 100% 100% ;
-}
