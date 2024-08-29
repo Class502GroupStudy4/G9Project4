@@ -45,10 +45,10 @@ public class MainController implements ExceptionProcessor {
 
     @GetMapping
     public String index(Model model, @ModelAttribute TourPlaceSearch search, @ModelAttribute BoardDataSearch Search) {
-        String bid = "review";
-        ListData<BoardData> data = infoService.getList(bid,Search);
-        System.out.println("Fetched ListData: " + data);
-        model.addAttribute("items", data.getItems());
+////        String bid = "review";
+////        ListData<BoardData> data = infoService.getList(bid,Search);
+////        System.out.println("Fetched ListData: " + data);
+//        model.addAttribute("items", data.getItems());
         model.addAttribute("addCommonCss",List.of("banner"));
         model.addAttribute("addCss", "main"); // CSS 파일 목록
         model.addAttribute("addScript", "main"); // JS 파일 목록
