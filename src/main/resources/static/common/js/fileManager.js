@@ -134,15 +134,29 @@ const fileManager = {
      * 파일 선택 처리
      *
      */
-    select(gid, location, seq, cnt, callback) {
-        const formData = new FormData();
-        formData.append("gid", gid);
+    select(mode, gid, location, seq, cnt, callback) {
+
+        const formData = { gid };
         if (location?.trim()) {
-            formData.append("location", location);
+            formData.location = location;
         }
 
         seq = Array.isArray(seq) ? seq : [seq];
-        seq.forEach(s => formData.append("seq", s));
+        formData.seq = seq;
+        if (cnt > 0) formData.cnt = cnt;
+
+        const { ajaxLoad } = commonLib;
+        const headers = { 'Content-Type': 'application/json' };
+        (async() => {
+            try {
+                const res = await ajaxLoad(`/file/select/${mode}`, 'PATCH', formData, headers);
+                if (res.success && typeof callback === 'function') {
+                    callback(res.data);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        })();
     }
 };
 
