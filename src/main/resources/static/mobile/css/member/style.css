@@ -1,38 +1,34 @@
+/* Root variables for colors, radii, and sizes */
 :root {
-    /* COLORS */
     --white: #f9f9f9;
     --gray: #444;
     --blue: #0367a6;
     --lightblue: #008997;
     --error-red: #e74c3c;
 
-    /* RADII */
     --input-radius: 0.4rem;
-    --button-radius: 0.2rem; /* 버튼 모서리 반경을 조금 더 작게 설정 */
+    --button-radius: 0.2rem;
 
-    /* SIZES */
     --max-width: 600px;
 
-    font-size: 16px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 16px; /* Default font size for larger screens */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 body {
-    background-color: var(--white);
-    background: url("https://img.freepik.com/free-photo/low-angle-shot-tall-trees-beautiful-green-forest_181624-7723.jpg?t=st=1723602067~exp=1723605667~hmac=d730937e42d7acff50d13305890334b3a479b08530368f9d71d9c1069db60eec&w=1380") center/cover no-repeat fixed;
     margin: 0;
-    position: relative; /* footer-content의 위치를 기준으로 설정 */
-    min-height: 100vh; /* 전체 페이지 높이 설정 */
+    position: relative;
+    min-height: 100vh;
     display: flex;
-    flex-direction: column; /* 자식 요소들을 세로 방향으로 배치 */
+    flex-direction: column;
 }
 
 main {
-    flex: 1; /* main 요소가 남은 공간을 차지하도록 설정 */
+    flex: 1;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    padding-top: 10rem;
 }
 
 form {
@@ -82,7 +78,7 @@ input[type="checkbox"] {
 
 input[type="checkbox"] {
     width: auto;
-    margin-right: 0.5rem;
+    margin-right: 0.8rem;
 }
 
 .error {
@@ -95,9 +91,9 @@ input[type="checkbox"] {
     background-color: var(--blue);
     color: var(--white);
     border: none;
-    border-radius: var(--button-radius); /* 버튼 모서리 반경을 조금 더 작게 설정 */
-    padding: 0.5rem 0.3rem; /* 버튼 안쪽 여백을 줄여서 버튼을 작게 만듦 */
-    font-size: 0.875rem; /* 버튼 텍스트 크기를 줄임 */
+    border-radius: var(--button-radius);
+    padding: 0.5rem 0.3rem;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -162,12 +158,121 @@ button:hover {
     justify-content: space-between;
 }
 
-footer-content {
+.footer-content {
     background-color: var(--gray);
     color: var(--white);
     padding: 1rem;
     text-align: center;
     position: absolute;
     bottom: 0;
-    width: 100%; /* 페이지 너비에 맞춤 */
+    width: 100%;
+}
+
+.login-button {
+    font-size: 1.5rem;
+    width: 100px;
+    height: 40px;
+    border-radius: var(--button-radius);
+    padding: 0.5rem 0.3rem;
+}
+
+.join-button {
+    font-size: 1.5rem;
+    width: 105px;
+    height: 45px;
+    border-radius: var(--button-radius);
+    padding: 0.5rem 0.3rem;
+    background-color: #f8f8f8;
+    color: white;
+    border: 2px solid black;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    float: right;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    :root {
+        font-size: 14px; /* Slightly smaller font size for tablets and mobile */
+    }
+
+    main {
+        padding-top: 5rem;
+    }
+
+    form {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="checkbox"] {
+        padding: 0.65rem;
+        font-size: 0.875rem;
+    }
+
+    .terms-contents {
+        max-height: 120px;
+        font-size: 0.8rem;
+    }
+
+    .login-button {
+        font-size: 1.25rem;
+        width: 90px;
+        height: 35px;
+    }
+
+    .join-button {
+        font-size: 1.25rem;
+        width: 95px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        font-size: 12px; /* Even smaller font size for smaller mobile screens */
+    }
+
+    main {
+        padding-top: 3rem;
+    }
+
+    form {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1rem;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="checkbox"] {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .terms-contents {
+        max-height: 100px;
+        font-size: 0.7rem;
+    }
+
+    .login-button {
+        font-size: 1rem;
+        width: 80px;
+        height: 30px;
+    }
+
+    .join-button {
+        font-size: 1rem;
+        width: 85px;
+        height: 35px;
+    }
 }

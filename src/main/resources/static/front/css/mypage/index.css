@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Noto+Serif+KR:wght@200..900&display=swap');
+
 .section1 {
     padding: 25px;
     border-radius: 2px;
@@ -82,7 +84,7 @@
     border-radius: 5px;
     background: #fff;
     width: 800px;
-    height: 500px;
+    height: 805px;
     /*margin: 20px auto auto 0;*/
    /* display: flex;
     flex-direction: row; */
@@ -96,4 +98,14 @@
     padding-left: 0; /* 기본 padding-left를 0으로 설정 */
     padding-right: 0; /* 기본 padding-right를 0으로 설정 */
     padding-top: 0; /* 기본 padding-top을 0으로 설정 */
+}
+
+.wish-heart {
+    color: red;
+    font-size: 1.2rem;
+}
+
+.search-star {
+    color: gold;
+    font-size: 1.2rem;
 }

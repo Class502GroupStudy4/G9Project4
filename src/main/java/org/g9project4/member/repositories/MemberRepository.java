@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslPredicateExecutor<Member> {
@@ -19,4 +20,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
 
         return exists(member.email.eq(email));
     }
+
+    List<Member> findAll();
 }

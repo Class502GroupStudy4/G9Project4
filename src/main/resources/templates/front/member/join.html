@@ -2,22 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <form name="frmRegist" method="post" th:action="${@utils.url('/member/join')}" autocomplete="off" th:object="${requestJoin}">
+    <form name="frmRegist" method="post" th:action="${@utils.url('/member/join')}" autocomplete="off"
+          th:object="${requestJoin}">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
         <input type="hidden" name="gid" th:field="*{gid}">
         <dl>
             <dt th:text="#{이메일}"></dt>
             <dd>
                 <div>
-                    <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
-                    <button class="form" th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드전송}"></button>
+                    <input type="text" name="email" th:field="*{email}"
+                           th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
+                    <button class="form button" th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}"
+                            type="button" id="email_verify" th:text="#{인증코드전송}"></button>
                 </div>
                 <div class="auth_box">
                     <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
                         <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
                         <span id="auth_count">03:00</span>
-                        <button class="form" type="button" id="email_confirm" th:text="#{확인}" disabled></button>
-                        <button class="form" type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
+                        <button class="form button" type="button" id="email_confirm" th:text="#{확인}" disabled></button>
+                        <button class="form button" type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
                     </th:block>
                     <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
                         <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
@@ -67,8 +70,12 @@
         <dl>
             <dt th:text="#{성별}"></dt>
             <dd>
-                <input type="radio" name="gende" th:field="*{gende}" value="MALE"> 남자
-                <input type="radio" name="gende" th:field="*{gende}" value="FEMALE"> 여자
+                <label>
+                    <input type="radio" name="gende" th:field="*{gende}" value="MALE" th:text="#{남성}">
+                </label>
+                <label>
+                    <input type="radio" name="gende" th:field="*{gende}" value="FEMALE" th:text="#{여성}">
+                </label>
                 <div class="error" th:each="err:${#fields.errors('gende')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -76,8 +83,12 @@
         <dl>
             <dt th:text="#{외국인여부}"></dt>
             <dd>
-                <input type="radio" name="isForeigner" th:field="*{isForeigner}" value="true"> 예
-                <input type="radio" name="isForeigner" th:field="*{isForeigner}" value="false"> 아니오
+                <label>
+                <input type="radio" name="isForeigner" th:field="*{isForeigner}" value="true" th:text="#{외국인}">
+                </label>
+                <label>
+                    <input type="radio" name="isForeigner" th:field="*{isForeigner}" value="false" th:text="#{내국인}">
+                </label>
                 <div class="error" th:each="err:${#fields.errors('isForeigner')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -85,28 +96,18 @@
         <dl>
             <dt th:text="#{관심사}"></dt>
             <dd>
-                <input type="checkbox" name="interests" th:field="*{interests}" value="MATJIB"> 맛집
-                <input type="checkbox" name="interests" th:field="*{interests}" value="HOCANCE"> 호캉스
-                <input type="checkbox" name="interests" th:field="*{interests}" value="MUSEUM"> 박물관
-                <input type="checkbox" name="interests" th:field="*{interests}" value="CAMPING"> 캠핑
-                <input type="checkbox" name="interests" th:field="*{interests}" value="HIKING"> 등산
-                <input type="checkbox" name="interests" th:field="*{interests}" value="NATURE"> 자연
-                <input type="checkbox" name="interests" th:field="*{interests}" value="ART"> 예술
-                <input type="checkbox" name="interests" th:field="*{interests}" value="SEA"> 강/바다
-                <input type="checkbox" name="interests" th:field="*{interests}" value="WITHCHILD"> 아이와 함께
-                <input type="checkbox" name="interests" th:field="*{interests}" value=" WITHFAMILY"> 온가족 함께
-                <input type="checkbox" name="interests" th:field="*{interests}" value="WITHLOVER"> 연인과 함께
-                <input type="checkbox" name="interests" th:field="*{interests}" value="FISHING"> 낚시
+                <label th:each="interest :${@getInterest}">
+                    <input  type="checkbox" name="interests" th:field="${requestJoin.interests}" th:value="${interest.name}" th:text="${interest.type}">
+                </label>
                 <div class="error" th:each="err:${#fields.errors('interests')}" th:text="${err}"></div>
             </dd>
-
-
-
+        </dl>
         <dl>
             <dt th:text="#{프로필_이미지}"></dt>
             <dd>
                 <div class="profile-image fileUploads" data-mode="dragNdrop"></div>
-                <button  type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}" th:data-single="true" th:data-image-only="true"></button>
+                <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}"
+                        th:data-single="true" th:data-image-only="true"></button>
             </dd>
         </dl>
         <div class="terms">
@@ -119,8 +120,8 @@
             <div class="error" th:each="err:${#fields.errors('agree')}" th:text="${err}"></div>
         </div>
         <div class="buttons">
-            <button class="form" type="submit" th:text="#{회원가입}"></button>
-            <button class="form" type="reset" th:text="#{다시입력}"></button>
+            <button class="button member-button" type="reset" th:text="#{다시입력}"></button>
+            <button class="button member-button" type="submit" th:text="#{회원가입}"></button>
         </div>
     </form>
     <script th:replace="~{common/_file_tpl::image}"></script>

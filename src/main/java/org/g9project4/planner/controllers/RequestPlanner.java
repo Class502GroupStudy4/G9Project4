@@ -24,6 +24,4 @@ public class RequestPlanner {
 
     @NotBlank
     private String itinerary;//여행 일정
-
-
 }

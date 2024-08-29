@@ -14,6 +14,7 @@ import org.g9project4.config.service.ConfigInfoService;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
+import org.g9project4.publicData.tour.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
 import org.g9project4.publicData.tour.constants.ContentType;
@@ -35,7 +36,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NewTourPlaceInfoService {
     private final RestTemplate restTemplate;
-    private final List contentType;
+
     @PersistenceContext
     private EntityManager em;
 
@@ -134,6 +135,17 @@ public class NewTourPlaceInfoService {
                 return listOrderByDistance(search);
             }
         }
+
+        /* 인기순 인기점수로 내림차순 정열 시작 */
+        if (StringUtils.hasText(_orderBy)) {
+            if (_orderBy.equals(OrderBy.popularity.name())) {
+                order = tourPlace.placePointValue.desc();
+            } else if (_orderBy.equals(OrderBy.modifiedTime.name())) {
+                order = tourPlace.modifiedTime.desc();
+            }
+        }
+        /* 인기순 인기점수로 내림차순 정열 끝 */
+
         /* 정렬 조건 처리 E */
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         JPAQuery<TourPlace> query = queryFactory.selectFrom(tourPlace)
@@ -149,6 +161,7 @@ public class NewTourPlaceInfoService {
         items.forEach(this::addInfo);
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
+
     }
 
     private void addInfo(TourPlace item) {
@@ -233,5 +246,8 @@ public class NewTourPlaceInfoService {
             e.printStackTrace();
         }
         return null;
+    }
+    public TourPlace get(Long contentId){
+        return tourPlaceRepository.findById(contentId).orElseThrow(TourPlaceNotFoundException::new);
     }
 }

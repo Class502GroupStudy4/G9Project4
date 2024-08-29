@@ -1,30 +1,30 @@
 package org.g9project4.publicData.myvisit.services;
 
-
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.member.MemberUtil;
-import org.g9project4.member.constants.Interest;
 import org.g9project4.member.entities.Member;
-import org.g9project4.member.entities.QMember;
 import org.g9project4.member.repositories.MemberRepository;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.QTourPlace;
 import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.publicData.myvisit.TourplaceDto;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.g9project4.member.entities.QMember.member;
+
 
 @Service
 @Transactional
@@ -38,57 +38,54 @@ public class TourplacePointMemberService {
     private final HttpServletRequest request;
     private final MemberUtil memberUtil;
 
-    public ListData<TourPlace> getTopTourPlacesByMember(TourPlaceSearch search) {
 
+    @Transactional(readOnly = true)
+    public ListData<TourplaceDto> getTopTourPlacesByMember(TourPlaceSearch search) {
         if (!memberUtil.isLogin()) {
             throw new IllegalStateException("로그인이 필요합니다.");
         }
         Member member = memberUtil.getMember();
-        LocalDate birth = memberUtil.getMember().getBirth();
+        LocalDate birth = member.getBirth();
 
         LocalDate currentDate = LocalDate.now();
         int age = calculateAge(birth, currentDate);
-        QTourPlace qTourPlace = QTourPlace.tourPlace;
-
-
-        // 모든 TourPlace 항목을 가져옵니다.
-        List<TourPlace> tourPlaces = queryFactory.selectFrom(qTourPlace)
-                .fetch();
-
-        // 현재 계절 계산
         String currentSeason = getCurrentSeason(currentDate);
-
-        // 각 TourPlace에 대해 최종 점수를 계산하고 리스트를 생성합니다.
-        List<TourPlace> topTourPlaces = tourPlaces.stream()
-                .map(tourPlace -> {
-                    // 각 Member별로 mRecordPoint를 계산
-                    int mRecordPoint = calculateMRecordPoint(tourPlace, member, age, currentSeason);
-
-                    // 최종 점수 계산 (placePointValue + mRecordPoint)
-                    int finalPointValue = tourPlace.getPlacePointValue() + mRecordPoint;
-
-                    // 최종 점수를 TourPlace 객체에 설정 (저장하지 않음, 일시적으로 사용)
-                    tourPlace.setPlacePointValue(finalPointValue);
-                    return tourPlace;
-                })
-                .sorted((tp1, tp2) -> Integer.compare(tp2.getPlacePointValue(), tp1.getPlacePointValue())) // 내림차순 정렬
-                .limit(20) // 최대 20개의 항목만 가져오기
-                .collect(Collectors.toList());
-
+        QTourPlace qTourPlace = QTourPlace.tourPlace;
 
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit < 1 ? 10 : limit;
         int offset = (page - 1) * limit;
 
+        // 모든 TourPlace 항목을 가져오고, 각 TourPlace에 대해 최종 점수를 계산하여 리스트를 생성합니다.
+        List<TourplaceDto> items = queryFactory.selectFrom(qTourPlace)
+                .fetch()
+                .stream()
+                .map(tourPlace -> {
+                    // 각 Member별로 mRecordPoint를 계산
+                    int mRecordPoint = calculateMRecordPoint(tourPlace, member, age, currentSeason);
+                    // getPlacePointValue()가 null일 경우 0으로 대체
+                    int placePointValue = tourPlace.getPlacePointValue() != null ? tourPlace.getPlacePointValue() : 0;
+
+                    // 최종 점수 계산 (placePointValue + mRecordPoint)
+                    int finalPointValue = placePointValue + mRecordPoint;
+
+                    // DTO로 변환
+                    return new TourplaceDto(
+                            tourPlace.getContentId(),
+                            tourPlace.getTitle(),
+                            tourPlace.getAddress(),
+                            tourPlace.getFirstImage(),
+                            tourPlace.getTel(),
+                            finalPointValue);
+                })
+                .sorted((tp1, tp2) -> Integer.compare(tp2.getFinalPointValue(), tp1.getFinalPointValue())) // 내림차순 정렬
+                .skip(offset) // 페이징을 위해 offset 적용
+                .limit(limit) // 페이징을 위해 limit 적용
+                .collect(Collectors.toList());
+
         Pagination pagination = new Pagination(page, (int) repository.count(), 0, limit, request);
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QTourPlace tourPlace = QTourPlace.tourPlace;
-        List<TourPlace> items = queryFactory.selectFrom(tourPlace)
-                .orderBy(tourPlace.placePointValue.desc())
-                .offset(offset)
-                .limit(limit)
-                .fetch();
+
         return new ListData<>(items, pagination);
     }
 
@@ -103,7 +100,6 @@ public class TourplacePointMemberService {
     }
 
     private int calculateMRecordPoint(TourPlace tourPlace, Member loggedMember, int age, String currentSeason) {
-
         int mRecordPoint = 0;
 
         // 연령대 및 현재 계절 기준으로 추가 점수 계산
@@ -142,7 +138,6 @@ public class TourplacePointMemberService {
         return mRecordPoint;
     }
 
-
     private String getCurrentSeason(LocalDate currentDate) {
         int month = currentDate.getMonthValue();
         if (month >= 3 && month <= 5) {
@@ -155,5 +150,4 @@ public class TourplacePointMemberService {
             return "winter";
         }
     }
-
 }

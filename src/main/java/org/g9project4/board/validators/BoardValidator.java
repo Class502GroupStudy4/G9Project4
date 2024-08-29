@@ -26,7 +26,7 @@ public class BoardValidator implements Validator, PasswordValidator {
         RequestBoard form = (RequestBoard) target;
 
         // 비회원 비밀번호 유효성 검사
-        if (form.isGuest()) {
+        if (form.isGuest() && form.getMode().equals("write")) {
             String guestPw = form.getGuestPw();
             if (!StringUtils.hasText(guestPw)) {
                 errors.rejectValue("guestPw", "NotBlank");
