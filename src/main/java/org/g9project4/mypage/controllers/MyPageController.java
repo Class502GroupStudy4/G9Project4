@@ -3,7 +3,10 @@ package org.g9project4.mypage.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.board.entities.Board;
+import org.g9project4.board.entities.BoardData;
+import org.g9project4.board.entities.CommentData;
 import org.g9project4.board.services.BoardInfoService;
+import org.g9project4.global.CommonSearch;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
@@ -16,10 +19,14 @@ import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService
 import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.search.constatnts.SearchType;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
 import org.g9project4.wishlist.entities.WishList;
 import org.g9project4.wishlist.services.WishListService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -54,7 +61,7 @@ public class MyPageController {
     private final BoardInfoService boardInfoService;
 
     @GetMapping
-    public String index(@ModelAttribute RequestProfile form, Model model) {
+    public String index(@ModelAttribute RequestProfile form, @ModelAttribute CommonSearch search, Model model) {
         commonProcess("index", model);
 
         Member member = memberUtil.getMember();
@@ -72,14 +79,50 @@ public class MyPageController {
                 .collect(Collectors.toList());
         form.setInterests(interests);
 
-        List<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
+//        List<SearchHistory> allSearchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
+//
+//        // 최근 5건만 선택
+//        List<SearchHistory> recentSearchHistory = allSearchHistory.stream()
+//                .limit(5)
+//                .collect(Collectors.toList());
+//
+//        model.addAttribute("searchHistory", recentSearchHistory);
+        /*
+        Pageable pageable = PageRequest.of(5, 5);
 
-        List<WishList> wishList = wishListService.getWishListForMember(memberUtil.getMember());
+        Page<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(member, pageable);
 
         model.addAttribute("searchHistory", searchHistory);
-        model.addAttribute("wishList", wishList);
 
+        ListData<BoardData> data = boardInfoService.getWishList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+        */
         return utils.tpl("mypage/index");
+    }
+
+    @GetMapping("/mysearch")
+    public String mySearch(@ModelAttribute CommonSearch search, Model model) {
+        //commonProcess("index", model);
+        search.setLimit(5);
+        ListData<SearchHistory> data = searchHistoryService.getMyKeywords(search, SearchType.TOUR);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+        model.addAttribute("addCss", List.of("mypage/mylist"));
+        return utils.tpl("mypage/mysearch");
+    }
+
+    @GetMapping("/mywish")
+    public String myWish(@ModelAttribute CommonSearch search, Model model) {
+        //commonProcess("index", model);
+        ListData<BoardData> data = boardInfoService.getWishList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+        model.addAttribute("addCss", List.of("mypage/mylist"));
+        return utils.tpl("mypage/mywish");
     }
 
     @GetMapping("/info")
@@ -131,18 +174,24 @@ public class MyPageController {
 
 
     @GetMapping("/mypost")
-    public String mypost(Model model, Member member) {
+    public String mypost(@ModelAttribute CommonSearch search, Model model) {
         commonProcess("mypost", model);
+        ListData<BoardData> data = boardInfoService.getMyList(search);
 
-       // List<Board> boards = boardInfoService.getBoardsByMember(member);
-       // model.addAttribute("boards", boards);
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("mypage/mypost");
     }
 
     @GetMapping("/mycomment")
-    public String mycomment(Model model) {
+    public String mycomment(@ModelAttribute CommonSearch search, Model model) {
         commonProcess("mycomment", model);
+
+        ListData<CommentData> data = boardInfoService.getMyComment(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("mypage/mycomment");
     }

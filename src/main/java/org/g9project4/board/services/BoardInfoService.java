@@ -11,10 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.board.controllers.BoardDataSearch;
 import org.g9project4.board.controllers.RequestBoard;
-import org.g9project4.board.entities.Board;
-import org.g9project4.board.entities.BoardData;
-import org.g9project4.board.entities.CommentData;
-import org.g9project4.board.entities.QBoardData;
+import org.g9project4.board.entities.*;
 import org.g9project4.board.exceptions.BoardDataNotFoundException;
 import org.g9project4.board.exceptions.BoardNotFoundException;
 import org.g9project4.board.repositories.BoardDataRepository;
@@ -39,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,8 +60,8 @@ public class BoardInfoService {
     private final Utils utils;
     private final WishListService wishListService;
 
-    public List<Board> getBoardList(){
-        return boardRepository.findAll(Sort.by(desc("listOrder"))).stream().toList();
+    public List<Board> getBoardList() {
+        return Objects.requireNonNullElse(boardRepository.findAll(Sort.by(desc("listOrder"))).stream().toList(), Collections.EMPTY_LIST);
     }
 
     /**
@@ -112,7 +110,7 @@ public class BoardInfoService {
             bids = List.of(bid);
         }
 
-        if (bids != null && !bids.isEmpty()){ // 게시판 여러개 조회
+        if (bids != null && !bids.isEmpty()) { // 게시판 여러개 조회
             andBuilder.and(boardData.board.bid.in(bids));
         }
 
@@ -220,7 +218,7 @@ public class BoardInfoService {
         // 페이징 처리
         int ranges = utils.isMobile() ? board.getPageCountMobile() : board.getPageCountPc();
 
-        Pagination pagination = new Pagination(page, (int)total, ranges, limit, request);
+        Pagination pagination = new Pagination(page, (int) total, ranges, limit, request);
 
         return new ListData<>(items, pagination);
     }
@@ -244,6 +242,7 @@ public class BoardInfoService {
 
     /**
      * 게시판 개별 조회
+     *
      * @param seq
      * @return
      */
@@ -316,6 +315,75 @@ public class BoardInfoService {
     }
 
     /**
+     * 내가 작성한 게시글 목록
+     */
+    public ListData<BoardData> getMyList(CommonSearch search) {
+        if (!memberUtil.isLogin()) {
+            return new ListData<>();
+        }
+
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
+
+
+        QBoardData boardData = QBoardData.boardData;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(boardData.member.seq.eq(memberUtil.getMember().getSeq()));
+
+        List<BoardData> items = queryFactory.selectFrom(boardData)
+                .where(andBuilder)
+                .leftJoin(boardData.board)
+                .fetchJoin()
+                .offset(offset)
+                .limit(limit)
+                .orderBy(boardData.createdAt.desc())
+                .fetch();
+
+        long total = repository.count(andBuilder);
+        int ranges = utils.isMobile() ? 5 : 10;
+        Pagination pagination = new Pagination(page, (int) total, ranges, limit, request);
+
+        return new ListData<>(items, pagination);
+    }
+
+    /**
+     * 내가 작성한 댓글 목록
+     */
+    public ListData<CommentData> getMyComment(CommonSearch search) {
+        if (!memberUtil.isLogin()) {
+            return new ListData<>();
+        }
+
+        int page = Math.max(search.getPage(), 1);
+        int limit = Math.max(search.getLimit(), 10);
+        int offset = (page - 1) * limit;
+
+        QCommentData commentData = QCommentData.commentData;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(commentData.member.seq.eq(memberUtil.getMember().getSeq()));
+
+
+        List<CommentData> items = queryFactory.selectFrom(commentData)
+                .where(andBuilder)
+                .leftJoin(commentData.boardData)
+                .fetchJoin()
+                .offset(offset)
+                .limit(limit)
+                .orderBy(commentData.createdAt.desc())
+                .fetch();
+
+        int total = queryFactory.selectFrom(commentData)
+                .where(andBuilder)
+                .fetch().size();
+        int ranges = utils.isMobile() ? 5 : 10;
+        Pagination pagination = new Pagination(page, total, ranges, limit, request);
+
+        return new ListData<>(items, pagination);
+    }
+
+    /**
      * 내가 찜한 게시글 목록
      *
      * @param search
@@ -325,7 +393,7 @@ public class BoardInfoService {
 
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
-        limit = limit < 1 ? 10 : limit;
+        limit = limit == 20 ? 5 : limit;
         int offset = (page - 1) * limit;
 
 
@@ -349,17 +417,17 @@ public class BoardInfoService {
 
         long total = repository.count(andBuilder);
         int ranges = utils.isMobile() ? 5 : 10;
-        Pagination pagination = new Pagination(page, (int)total, ranges, limit, request);
+        Pagination pagination = new Pagination(page, (int) total, ranges, limit, request);
 
         return new ListData<>(items, pagination);
     }
 
     /**
-     *  추가 데이터 처리
-     *      - 업로드한 파일 목록
-     *          에디터 이미지 목록, 첨부 파일 이미지 목록
-     *      - 권한 : 글쓰기, 글수정, 글 삭제, 글 조회 가능 여부
-     *      - 댓글 ..
+     * 추가 데이터 처리
+     * - 업로드한 파일 목록
+     * 에디터 이미지 목록, 첨부 파일 이미지 목록
+     * - 권한 : 글쓰기, 글수정, 글 삭제, 글 조회 가능 여부
+     * - 댓글 ..
      *
      * @param item
      */
@@ -393,7 +461,7 @@ public class BoardInfoService {
         // 비회원 - 비회원 비밀번호를 검증한 경우 - 게시글 소유자, 수정, 삭제 가능
         // 비회원이 비밀번호를 검증한 경우 세션 키 : confirmed_board_data_게시글번호, 값 true
         HttpSession session = request.getSession();
-        Boolean guestConfirmed = (Boolean)session.getAttribute("confirm_board_data_" + item.getSeq());
+        Boolean guestConfirmed = (Boolean) session.getAttribute("confirm_board_data_" + item.getSeq());
         if (boardMember == null && guestConfirmed != null && guestConfirmed) { // 비회원 비밀번호가 인증된 경우
             editable = true;
             mine = true;
@@ -417,7 +485,7 @@ public class BoardInfoService {
         /* 게시글 권한 정보 처리 E */
 
         // 게시글 버튼 노출 권한 처리 S
-        boolean showEdit = false, showList= false, showDelete = false;
+        boolean showEdit = false, showList = false, showDelete = false;
 
         Authority editAuthority = board.getWriteAccessType(); // 글작성, 수정 권한
         Authority listAuthority = board.getListAccessType(); // 글목록 보기 권한
