@@ -137,6 +137,7 @@
     text-align: center;
 }
 
+
 .tit {
     font-size: 16px;
     color: #666;
@@ -208,7 +209,6 @@
 
 /*리스트*/
 
-/* 테이블 스타일 */
 .list_main {
     display: flex;
     flex-direction: column;
