@@ -24,9 +24,6 @@ public class QMember extends EntityPathBase<Member> {
 
     public final ListPath<Authorities, QAuthorities> authorities = this.<Authorities, QAuthorities>createList("authorities", Authorities.class, QAuthorities.class, PathInits.DIRECT2);
 
-    public final DatePath<java.time.LocalDate> birth = createDate("birth", java.time.LocalDate.class);
-
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
