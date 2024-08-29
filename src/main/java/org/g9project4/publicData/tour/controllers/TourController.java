@@ -7,7 +7,6 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
-import org.g9project4.global.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
 import org.g9project4.publicData.tour.entities.AreaCode;
@@ -20,7 +19,6 @@ import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.NewTourPlaceInfoService;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
-import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,7 +72,7 @@ public class TourController implements ExceptionProcessor {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
         if (mode.equals("list")) {
-            addCss.addAll(List.of("tour/list", "tour/_typelist"));
+            addCss.addAll(List.of("tour/list", "tour/_typelist","tour/banner","tour/search"));
             addScript.addAll(List.of("tour/locBased","tour/form"));
         } else if (mode.equals("geolocation")) {
             addCss.addAll(List.of("tour/list", "tour/_typelist"));
@@ -132,20 +130,5 @@ public class TourController implements ExceptionProcessor {
         return utils.tpl("tour/detail");
     }
 
-    @GetMapping("/list/loc/{type}")
-    public String distanceList(@PathVariable("type") String type, @ModelAttribute TourPlaceSearch search, Model model) {
-        try{
-            commonProcess("getLocation",model);
-            search.setLatitude(37.566826);
-            search.setLongitude(126.9786567);
-            search.setRadius(1000);
-           // ListData<TourPlace> data = placeInfoService.getLocBasedList(search);
-          //  addListProcess(model,data);
-        }catch(Exception e){
-            e.printStackTrace();
-            throw new TourPlaceNotFoundException();
-        }
-        return utils.tpl("tour/list");
-    }
 
 }

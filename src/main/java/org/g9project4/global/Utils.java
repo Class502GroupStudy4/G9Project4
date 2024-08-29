@@ -1,9 +1,13 @@
 package org.g9project4.global;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.exceptions.BadRequestException;
+import org.g9project4.global.rests.JSONData;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -25,6 +29,7 @@ public class Utils { // 빈의 이름 - utils
     private final MessageSource messageSource;
     private final HttpServletRequest request;
     private final DiscoveryClient discoveryClient;
+    private final ObjectMapper objectMapper;
 
     private static final ResourceBundle commonsBundle;
     private static final ResourceBundle validationsBundle;
@@ -45,6 +50,7 @@ public class Utils { // 빈의 이름 - utils
             return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
         }
     }
+
     public String redirectUrl(String url) {
         String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
@@ -54,8 +60,8 @@ public class Utils { // 빈의 이름 - utils
     }
 
     public String adminUrl(String url) {
-       List<ServiceInstance>instances =discoveryClient.getInstances("admin-service");
-       return String.format("%s%s", instances.get(0).getUri().toString(),url);
+        List<ServiceInstance> instances = discoveryClient.getInstances("admin-service");
+        return String.format("%s%s", instances.get(0).getUri().toString(), url);
     }
 
 
@@ -106,6 +112,7 @@ public class Utils { // 빈의 이름 - utils
 
     /**
      * 줄개행 문자(\n, \n\r) -> <br>
+     *
      * @param str
      * @return
      */
@@ -131,7 +138,7 @@ public class Utils { // 빈의 이름 - utils
                 return ContentType.Shopping;
             case ("restaurant"):
                 return ContentType.Restaurant;
-            case("green"):
+            case ("green"):
                 return ContentType.GreenTour;
         }
         throw new BadRequestException("Wrong contentType");
@@ -175,7 +182,8 @@ public class Utils { // 빈의 이름 - utils
 
     /**
      * 비회원을 구분하는 Unique ID
-     *   IP + User-Agent
+     * IP + User-Agent
+     *
      * @return
      */
     public int guestUid() {
@@ -185,7 +193,33 @@ public class Utils { // 빈의 이름 - utils
         return Objects.hash(ip, ua);
     }
 
+    public String toJson(Object data) {
+        try {
+            return objectMapper.writeValueAsString(data);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "{}";
+    }
+    public Long toLong(String num) {
+        return Long.valueOf(num);
+    }
+    public List<Map<String, String>> toList(String json) {
+        try {
+            return objectMapper.readValue(json, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+        }
+        return null;
+    }
 
+    public String getThumbUrl(Long seq, int width, int height) {
+        return String.format("%s?seq=%d&width=%d&height=%d", url("/file/thumb"), seq, width, height);
+    }
+
+    public String getThumbUrl(String url, int width, int height) {
+        return String.format("%s?url=%s&width=%d&height=%d", url("/file/thumb"), url, width, height);
+    }
     /**
      * 달력
      */

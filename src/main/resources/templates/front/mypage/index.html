@@ -61,62 +61,16 @@
     </form>
         <div class="mypage-tour-story">
             <h2 th:text="#{나의_여행_이야기}"></h2>
-            <table>
-                내가 최근에 검색한 여행지<br>
-                <thead>
-                <tr>
-                    <th>
-                        검색어
-                    </th>
-                    <th>
-                        검색 시간
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${searchHistory!=null}" th:each="search : ${searchHistory}">
-                    <td th:text="${search.keyword}">
-                    </td>
-                    <td th:text="${#temporals.format(search.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                </tr>
-                </tbody>
-            </table>
-                <br>
-                <table>
-                    내가 찜한 게시글 목록<br>
-                    <thead>
-                    <tr>
-                        <th>
-                            게시판 이름
-                        </th>
-                        <th>
-                            제목
-                        </th>
-                        <th>
-                            작성자
-                        </th>
-                        <th>
-                            게시글 바로가기
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:if="${wishList!=null}" th:each="wish : ${wishList}">
-<!--                        <span th:text="${wish}"></span>-->
-                        <td th:text="${@boardDataRepository.getById(wish.seq).board.bName}">
-                        </td>
-                        <td>
-                            <a th:text="${@boardDataRepository.getById(wish.seq).subject}" th:href="${@utils.redirectUrl('/board/view/')+wish.seq}"></a>
-                        </td>
-                        <td th:text="${@boardDataRepository.getReferenceById(wish.seq).poster}"></td>
-                        <td>
-                            <a th:href="${@utils.redirectUrl('/board/view/'+wish.seq)}">
-                                <button type="button" th:text="#{게시글_보기}"></button>
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+
+            <div class="search-table">
+            <span class="search-star">★ </span> 내가 최근에 검색한 여행지
+            <iframe th:src="${@utils.redirectUrl('/mypage/mysearch')}" width="100%" height="330" frameborder="0" scrolling="no"></iframe>
+            </div>
+            <div class="wishList-table">
+            <span class="wish-heart">♥ </span> 내가 찜한 게시물
+                <iframe th:src="${@utils.redirectUrl('/mypage/mywish')}" width="100%" height="330" frameborder="0" scrolling="no"></iframe>
+            </div>
+
             </div>
         </div>
     </div>

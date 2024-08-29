@@ -7,6 +7,7 @@
     outline: none;
     font-weight: 200;
 }
+
 .layout-width {
     max-width: 1300px;
     min-width: 900px;
@@ -18,34 +19,41 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 60px; /* 헤더의 높이를 지정합니다 */
-   /* background-color: white; */
+    min-height: 60px;
     color: white;
     z-index: 1000;
-    transition:  all 0.5s;
+    transition: all 0.5s;
 }
 
 header.on {
     background: #fff;
     color: #000;
 }
-/*헤더 상단 로그인 회원가입 버튼 시작 */
+
+/* 헤더 상단 로그인 회원가입 버튼 시작 */
 header .site-top > .inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 20px;
 }
 
 header .site-top > .inner > .layout-right {
-    justify-content: right;
+    float: right;
+}
+
+header .main-logo {
+    max-height: 130px;
+    max-width: 130px;
+    min-height: 100px;
+    min-width: 100px;
 }
 
 .main-top-buttons button {
-    background-color: var(--secondary-color); /* 버튼 배경색 */
+    background-color: var(--secondary-color);
 }
 
-
-/*헤더 상단 로그인 회원가입 버튼 끝 */
+/* 헤더 상단 로그인 회원가입 버튼 끝 */
 
 /* 헤더 메인 메뉴바 시작 */
 .ac {
@@ -53,7 +61,7 @@ header .site-top > .inner > .layout-right {
     display: block;
 }
 
-header i{
+header i {
     font-size: 40px;
     height: 60px;
     align-content: center;
@@ -61,23 +69,25 @@ header i{
     color: black;
     text-align: center;
 }
+
 header nav {
-    width: 100%; /* 가로 너비를 100%로 설정하여 부모 요소의 전체 너비를 차지 */
-    margin-top: 15px; /* 상단에 15px의 마진 설정 */
-    padding: 0; /* 패딩 제거 */
-    border-top: 1px solid #fff; /* 상단 경계선 흰색으로 설정 */
-    border-bottom: 1px solid #fff; /* 하단 경계선 흰색으로 설정 */
-    display: flex; /* 플렉스 박스 레이아웃 사용 */
-    box-sizing: border-box; /* 경계선과 패딩이 요소의 전체 너비와 높이에 포함되도록 설정 */
-    align-items: center; /* 수직 정렬을 중앙으로 설정 */
+    width: 100%;
+    margin-top: 15px;
+    padding: 0;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    overflow-x: auto; /* 메뉴가 너무 넓어질 때 스크롤 가능하게 설정 */
 }
 
 header nav > .inner {
     display: flex;
-    justify-content: center; /* 가로 방향으로 중앙 정렬 */
-    align-items: center; /* 수직 방향으로 중앙 정렬 */
-    height: 50px; /* 높이 설정 */
-    width: 100%; /* 너비를 100%로 설정하여 가로로 꽉 채우기 */
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    width: 100%;
 }
 
 header nav > .inner > a {
@@ -86,33 +96,33 @@ header nav > .inner > a {
 
 header nav > .inner > * {
     border-radius: 5px;
-    font-size: 2rem;
+    font-size: 1.5rem; /* 모바일 화면에 맞게 폰트 크기 조정 */
     font-weight: bold;
     color: #fff;
     max-height: 60px;
-    line-height: 60px; /* line-height를 맞추어 정렬 */
-    min-width: 200px;
+    line-height: 60px;
+    min-width: 120px; /* 모바일 화면에 맞게 너비 조정 */
     padding: 0 10px;
-    text-align: center; /* 텍스트 가운데 정렬 */
+    text-align: center;
     display: flex;
-    justify-content: center; /* 텍스트 가로 방향으로 가운데 정렬 */
-    align-items: center; /* 텍스트 수직 방향으로 가운데 정렬 */
-    position: relative; /* ::after 가상 요소의 위치를 기준으로 설정 */
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 header nav > .inner > *:hover::after {
-    content: ""; /* 가상 요소의 내용은 빈 문자열 */
-    position: absolute; /* 부모 요소 기준으로 위치를 설정 */
-    bottom: 40px; /* 하단에 위치 (40px에서 8px 두께의 밑줄을 포함) */
-    left: 0; /* 왼쪽부터 시작 */
-    width: 100%; /* 가로 길이를 부모 요소의 전체 너비로 설정 */
-    height: 8px; /* 밑줄의 두께를 8px로 설정 */
-    /*background-color: #fff; !* 밑줄의 색상을 흰색으로 설정 *!*/
+    content: "";
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: #fff;
 }
 
 header nav .inner img {
-    width: 40px;
-    height: 40px;
+    width: 30px; /* 모바일 화면에 맞게 이미지 크기 조정 */
+    height: 30px;
     vertical-align: middle;
 }
 
@@ -124,19 +134,19 @@ header .dropdown {
 
 /* 드롭다운 링크 호버 스타일 */
 header .dropdown a:hover {
-    color: #fff; /* 호버 시 링크 색상 설정 */
+    color: #fff;
 }
 
 /* 콘텐츠 박스 스타일 */
 header .content-box {
-    min-width: 550px;
-    max-width: 700px;
+    min-width: 320px; /* 모바일 화면에 맞게 최소 너비 조정 */
+    max-width: 100%;
     min-height: 650px;
     margin: 50px auto;
     box-shadow: 2px 2px 10px #414141;
     border-radius: 20px;
     padding: 30px;
-    text-align: center; /* 텍스트 가운데 정렬 */
+    text-align: center;
 }
 
 /* 드롭다운 콘텐츠 스타일 */
@@ -144,7 +154,7 @@ header .dropdown-content {
     display: none;
     position: absolute;
     background: #fff;
-    min-width: 250px;
+    min-width: 180px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     left: 0;
@@ -155,35 +165,50 @@ header .dropdown-content a {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    font-size: 1.5rem; /* 메뉴 글자 크기 설정 */
-    line-height: 30px; /* 라인 높이 설정 */
-    background-color: transparent; /* 배경색을 투명하게 설정 */
-    text-align: left !important; /* 텍스트 가운데 정렬 */
+    font-size: 1.2rem; /* 모바일 화면에 맞게 폰트 크기 조정 */
+    line-height: 30px;
+    background-color: transparent;
+    text-align: left !important;
 }
 
 header .dropdown-content a:hover {
     color: var(--primary-color);
-    background-color: #f8f8f8; /* 호버 시 배경색 설정 */
+    background-color: #f8f8f8;
 }
 
-/* 드롭다운 컨테이너에 마우스를 올리면 드롭다운 콘텐츠를 보이게 함 */
 header .dropdown:hover .dropdown-content {
     display: block;
 }
 
-/* 헤더 메인 메뉴바 끝 */
+header .my-account {
+    padding-left: 10px; /* 모바일 화면에 맞게 패딩 조정 */
+}
 
-/*헤더 아이프레임 숨김 */
+header .my-account > .dropdown-content {
+    min-width: 160px;
+}
+
+/* 헤더 아이프레임 숨김 */
 .dn {
     display: none;
 }
 
-/* 메인 CSS S*/
-
-
+/* 메인 CSS S */
 main {
-    margin-top: 112px;
+    margin-top: 155px;
     min-height: 1000px;
+    width: 90%; /* 모바일 화면에 맞게 너비 조정 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Q2 {
+    line-height: 50px;
+}
+
+.xi-search {
+    font-size: 25px;
+    line-height: 100%;
 }
 
 /* 페이징 공통 S */
@@ -211,42 +236,39 @@ main {
 }
 
 /* 페이징 공통 E */
-/* 메인 CSS E*/
+/* 메인 CSS E */
 
 /* 푸터 시작 */
-
-
 .footer-content {
-    width: 100%; /* 가로 너비를 100%로 설정 */
-    background-color: var(--secondary-color); /* 배경색 설정 (예: 어두운 회색) */
-    color: #fff; /* 텍스트 색상 설정 */
-    padding: 40px; /* 여백 설정 */
-    box-sizing: border-box; /* 패딩과 보더를 포함하여 전체 너비와 높이 계산 */
-    text-align: center; /* 텍스트를 중앙 정렬 */
-    /*position: ; !* 화면에 고정 *!*/
-    bottom: 0; /* 화면 하단에 위치 */
-    left: 0; /* 화면 왼쪽에 정렬 */
-    z-index: 1000; /* 다른 요소들보다 위에 위치 (필요에 따라 조정) */
+    width: 100%;
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 20px; /* 모바일 화면에 맞게 패딩 조정 */
+    box-sizing: border-box;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
 }
-
-/* 푸터 내용 스타일 */
 
 /* 푸터 끝 */
 
 /* 파일 공통 S */
 .image-file-box {
-    border: 2px solid #000;
-    width: 200px;
+    border: 2px #000;
+    width: 100%; /* 모바일 화면에 맞게 너비 조정 */
+    max-width: 204px;
     position: relative;
+    margin-bottom: 10px; /* 모바일 화면에 맞게 마진 조정 */
 }
 
 .image-file-box + .image-file-box {
-    margin-left: 10px;
+    margin-left: 0;
 }
 
 .image-file-box > .inner {
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: auto; /* 모바일 화면에 맞게 높이 조정 */
 }
 
 .image-file-box .remove {
@@ -266,8 +288,9 @@ main {
 
 /* 프로필 공통 S */
 .my-profile-image {
-    width: 150px;
-    height: 150px;
+    width: 100%; /* 모바일 화면에 맞게 너비 조정 */
+    max-width: 150px;
+    height: auto; /* 모바일 화면에 맞게 높이 조정 */
     border-radius: 50%;
     overflow: hidden;
     position: relative;
@@ -282,3 +305,43 @@ main {
 }
 
 /* 프로필 공통 E */
+
+/* 찜하기 */
+.wishlist-toggle {
+    cursor: pointer;
+}
+
+.wishlist-toggle.on {
+    color: red;
+}
+
+/* 반응형 미디어 쿼리 */
+@media (max-width: 768px) {
+    header .site-top > .inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header .main-logo {
+        max-height: 100px;
+        max-width: 100px;
+    }
+
+    header nav > .inner > * {
+        font-size: 1.2rem;
+        min-width: 100px;
+    }
+
+    .content-box {
+        min-width: 100%;
+    }
+
+    main {
+        width: 100%;
+        margin-top: 200px; /* 상단 여백 조정 */
+    }
+
+    .footer-content {
+        padding: 20px 10px; /* 모바일 화면에 맞게 패딩 조정 */
+    }
+}
