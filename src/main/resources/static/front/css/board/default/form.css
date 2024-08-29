@@ -27,21 +27,6 @@ dd { /* 글 아래 텍스트 */
     padding: 0.3rem 0.3rem; /* 버튼 안쪽 여백을 줄여서 버튼을 작게 만듦 */
     font-size: 50px; /* 버튼 텍스트 크기를 줄임 */
 }
-form {
-    background-color: var(--white);
-    padding: 2rem;
-    border-radius: var(--button-radius);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    max-width: var(--max-width);
-    width: 100%;
-    box-sizing: border-box;
-    /* form을 중앙에 배치 */
-    margin: 0 auto; /* 수평 중앙 배치 */
-    display: flex;
-    flex-direction: column;
-
-}
-
 .title { /* 제목 늘리기 */
     font-size: 25px;
     padding-right: 100px;
