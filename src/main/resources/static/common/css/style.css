@@ -106,6 +106,7 @@ dd {
 
 .button:hover {
     background-color: var(--lightblue);
+    color: black;
 }
 
 /* 버튼 색상 정의 */
@@ -310,7 +311,9 @@ dd {
     margin-left: 0;
     margin-bottom: 10px;
 }
-
+.error{
+    color: var(--error-red);
+}
 /* 초기화 끝 */
 
 /*========== SCROLL UP ==========*/
