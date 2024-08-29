@@ -15,12 +15,14 @@ import org.g9project4.global.rests.gov.sigunguapi.SigunguResult;
 import org.g9project4.publicData.tour.entities.*;
 import org.g9project4.publicData.tour.repositories.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -34,19 +36,21 @@ public class ApiUpdateService {
     private final SigunguCodeRepository sigunguCodeRepository;
     private final CategoryRepository categoryRepository;
 
-//    private String sKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
+
+
 
     //    @Scheduled(fixedRate = 1L, timeUnit = TimeUnit.DAYS)
 
     /**
      * 관광지 업데이트
      *
-     * @param sKey
+     * @param
      */
     public void update(String sKey) {
-        for (int i = 0; i < 100; i++) {
+     //km   for (int i = 0; i < 100; i++) {
 
-            String url = String.format("https://apis.data.go.kr/B551011/KorService1/areaBasedList1?MobileOS=AND&MobileApp=test&numOfRows=1000&pageNo=%d&serviceKey=%s&_type=json", i, sKey);
+        for (int i = 0; i < 20; i++) {
+            String url = String.format("https://apis.data.go.kr/B551011/KorService1/areaBasedList1?MobileOS=AND&MobileApp=TEST&numOfRows=1000&pageNo=%d&serviceKey=%s&_type=json", i,  sKey);
 
             ResponseEntity<ApiResult> response = null;
             try {

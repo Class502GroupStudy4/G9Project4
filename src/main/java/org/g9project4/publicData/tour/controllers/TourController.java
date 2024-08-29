@@ -20,8 +20,10 @@ import org.g9project4.publicData.tour.services.NewTourPlaceInfoService;
 import org.g9project4.publicData.tour.services.TourDetailInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.g9project4.search.services.SearchHistoryService;
+import org.g9project4.visitrecord.services.VisitRecordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +46,8 @@ public class TourController implements ExceptionProcessor {
     private final SigunguCodeRepository sigunguCodeRepository;
     private final CategoryRepository categoryRepository;
     private final SearchHistoryService searchHistoryService;
+    private final VisitRecordService recordService;
+    private final SearchHistoryService historyService;
 
     @ModelAttribute("apiKeys")
     public ApiConfig getApiKeys() {
@@ -51,11 +55,12 @@ public class TourController implements ExceptionProcessor {
     }
 
     @ModelAttribute("areaCodes")
-    public List<AreaCode> getAreaCodes(){
+    public List<AreaCode> getAreaCodes() {
         return areaCodeRepository.findAll();
     }
+
     @ModelAttribute("category1")
-    public List<Object[]> getCategory1(){
+    public List<Object[]> getCategory1() {
         return categoryRepository.findDistinctName1();
     }
 
@@ -72,11 +77,8 @@ public class TourController implements ExceptionProcessor {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
         if (mode.equals("list")) {
-            addCss.addAll(List.of("tour/list", "tour/_typelist","tour/banner","tour/search"));
-            addScript.addAll(List.of("tour/locBased","tour/form"));
-        } else if (mode.equals("geolocation")) {
-            addCss.addAll(List.of("tour/list", "tour/_typelist"));
-            addScript.add("tour/locBased");
+            addCss.addAll(List.of("tour/list", "tour/_typelist", "tour/banner", "tour/search"));
+            addScript.addAll(List.of("tour/locBased", "tour/form","tour/search"));
         } else if (mode.equals("detail")) {
             addCss.add("tour/map");
             addScript.add("tour/detailMap");
@@ -110,11 +112,17 @@ public class TourController implements ExceptionProcessor {
     public String list(Model model, @ModelAttribute TourPlaceSearch search) {
         try {
             ListData<TourPlace> data = newTourPlaceInfoService.getSearchedList(search);
-            if(search.getSkey()!=null){
+            if (search.getSkey() != null) {
                 searchHistoryService.saveTour(search.getSkey());
             }
             commonProcess("list", model);
             addListProcess(model, data);
+
+            //km 키워드 검색 저장
+            if (StringUtils.hasText(search.getSkey())) {
+                historyService.saveTour(search.getSkey());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -123,10 +131,15 @@ public class TourController implements ExceptionProcessor {
 
     @GetMapping("/detail/{contentId}")
     public String detail(@PathVariable("contentId") Long contentId, Model model) {
+
         ApiConfig apiConfig = configInfoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
-        PlaceDetail<DetailItem, DetailPetItem> item = detailInfoService.getDetail(contentId,apiConfig.getPublicOpenApiKey());
+        PlaceDetail<DetailItem, DetailPetItem> item = detailInfoService.getDetail(contentId, apiConfig.getPublicOpenApiKey());
         commonProcess("detail", model);
         model.addAttribute("items", item);
+
+        //km 추천 방문 데이터 저장
+        recordService.record(contentId);
+
         return utils.tpl("tour/detail");
     }
 

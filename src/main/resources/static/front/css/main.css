@@ -314,6 +314,66 @@ input {
     color: white;
 }
 
+
+/*=============== ABOUT ===============*/
+.about__container {
+    display: flex; /* Flexbox를 사용하여 자식 요소를 나란히 배치 */
+    justify-content: space-between; /* 자식 요소 사이의 간격을 일정하게 유지 */
+    align-items: center; /* 자식 요소를 수직으로 중앙 정렬 */
+    gap: 1rem; /* 자식 요소 간의 간격을 1rem으로 줄임 */
+    padding-top: 65px;
+    padding-bottom: 50px;
+}
+
+.about__data {
+    flex: 1; /* 너비를 자동으로 조정 */
+    text-align: left; /* 텍스트를 왼쪽 정렬 */
+    padding: 2rem 1rem; /* 패딩을 줄여서 공간을 절약 */
+    margin-left: 475px; /* 왼쪽 여백을 자동으로 설정하여 오른쪽으로 붙이기 */
+    margin-right: auto; /* 오른쪽 여백을 자동으로 설정하여 가운데로 정렬 */
+    max-width: 600px; /* 최대 너비를 설정하여 콘텐츠가 너무 넓어지지 않도록 조절 */
+}
+
+.about__description {
+    margin-bottom: var(--mb-2);
+}
+
+.about__img {
+    flex: 1; /* 너비를 자동으로 조정 */
+    display: flex; /* 이미지들을 나란히 배치 */
+    gap: 1.5rem; /* 이미지 사이의 간격을 줄임 */
+    align-items: center; /* 이미지들을 수직으로 중앙 정렬 */
+    justify-content: flex-start; /* 이미지들을 왼쪽으로 정렬 */
+    margin-left: 30px;
+}
+
+.about__img-overlay {
+    overflow: var(--img-hidden);
+}
+
+.about__img-one {
+    width: 130px;
+}
+
+.about__img-two {
+    width: 180px;
+}
+
+.about__img-one,
+.about__img-two {
+    transition: var(--img-transition);
+}
+
+.about__img-one:hover,
+.about__img-two:hover {
+    transform: var(--img-scale);
+}
+
+
+
+
+
+
 /*메인 3개 사진 */
 /* 기본 스타일 */
 .secWrap {
@@ -477,74 +537,76 @@ input {
 /*6개 스타일 끝*/
 
 
+
+
 /*special-box S*/
-.bg {
-    background: url("https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=dea079de-8bf6-4558-b788-f9d7e85ef30c") 50% center no-repeat rgb(255, 255, 255);
-    height: 415px;
+.review_main_wright {
+    line-height: 1;
+    padding-top: 70px;
+    margin-bottom: 10px;
+    font-size: 26px;
+    color: #333;
+    text-align: center;
 }
-.cont{
+
+.review_main_wright p {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/*.bg {*/
+/*    background: url("https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=dea079de-8bf6-4558-b788-f9d7e85ef30c") 50% center no-repeat;*/
+/*    height: 415px;*/
+/*    background-color: #ffffff; !* 배경색 설정 *!*/
+/*}*/
+
+.bg {
+    background: url("https://example.com/new-background.jpg") 50% center no-repeat;
+    height: 415px;
+    background-color: #ffffff; /* 배경색 설정 */
+}
+
+.cont {
     margin-top: -415px;
     height: 418px;
 }
+
 .swiper {
-    width: 600px;
-    height: 300px;
+    width: 1000px;
+    position: relative;
+    height: 100%;
 }
-.swiper-pagination{
-    height: 30px;
-    width:30px;
+
+.swiper-pagination {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: #333;
+}
+
+.swiper-button-prev {
+    left: 10px;
+}
+
+.swiper-button-next {
+    right: 10px;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지 비율 유지 및 컨테이너에 맞게 크기 조정 */
 }
 /*special-box E*/
 
 
-/*=============== ABOUT ===============*/
-.about__container {
-    display: flex; /* Flexbox를 사용하여 자식 요소를 나란히 배치 */
-    justify-content: space-between; /* 자식 요소 사이의 간격을 일정하게 유지 */
-    align-items: center; /* 자식 요소를 수직으로 중앙 정렬 */
-    gap: 1rem; /* 자식 요소 간의 간격을 1rem으로 줄임 */
-}
 
-.about__data {
-    flex: 1; /* 너비를 자동으로 조정 */
-    text-align: left; /* 텍스트를 왼쪽 정렬 */
-    padding: 2rem 1rem; /* 패딩을 줄여서 공간을 절약 */
-    margin-left: 475px; /* 왼쪽 여백을 자동으로 설정하여 오른쪽으로 붙이기 */
-    margin-right: auto; /* 오른쪽 여백을 자동으로 설정하여 가운데로 정렬 */
-    max-width: 600px; /* 최대 너비를 설정하여 콘텐츠가 너무 넓어지지 않도록 조절 */
-}
 
-.about__description {
-    margin-bottom: var(--mb-2);
-}
 
-.about__img {
-    flex: 1; /* 너비를 자동으로 조정 */
-    display: flex; /* 이미지들을 나란히 배치 */
-    gap: 1.5rem; /* 이미지 사이의 간격을 줄임 */
-    align-items: center; /* 이미지들을 수직으로 중앙 정렬 */
-    justify-content: flex-start; /* 이미지들을 왼쪽으로 정렬 */
-    margin-left: 30px;
-}
 
-.about__img-overlay {
-    overflow: var(--img-hidden);
-}
-
-.about__img-one {
-    width: 130px;
-}
-
-.about__img-two {
-    width: 180px;
-}
-
-.about__img-one,
-.about__img-two {
-    transition: var(--img-transition);
-}
-
-.about__img-one:hover,
-.about__img-two:hover {
-    transform: var(--img-scale);
-}
