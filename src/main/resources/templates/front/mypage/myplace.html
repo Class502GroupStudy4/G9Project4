@@ -4,7 +4,6 @@
       layout:decorate="~{front/layouts/mypage}">
 <section layout:fragment="content">
     <h1 th:text="#{내_맞춤여행지}"></h1>
-    <p>현재 날짜: <span th:text="${currentDate}"></span></p>
     <table th:replace="~{front/mypage/_form::placeList}"></table>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>

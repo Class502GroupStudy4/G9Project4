@@ -120,6 +120,30 @@ public class Utils { // 빈의 이름 - utils
         return str.replace("\n", "<br>").replace("\r", "");
     }
 
+    public ContentType getTypeByID(String id) {
+        switch (id) {
+            case ("12"):
+                return ContentType.TourSpot;
+            case ("14"):
+                return ContentType.CultureFacility;
+            case ("15"):
+                return ContentType.Festival;
+            case ("25"):
+                return ContentType.TourCourse;
+            case ("28"):
+                return ContentType.Leports;
+            case ("32"):
+                return ContentType.Accommodation;
+            case ("38"):
+                return ContentType.Shopping;
+            case ("39"):
+                return ContentType.Restaurant;
+            case ("1"):
+                return ContentType.GreenTour;
+        }
+        throw new BadRequestException("Wrong contentType");
+    }
+
     public ContentType typeCode(String type) {
         switch (type) {
             case ("spot"):
@@ -201,9 +225,11 @@ public class Utils { // 빈의 이름 - utils
         }
         return "{}";
     }
+
     public Long toLong(String num) {
         return Long.valueOf(num);
     }
+
     public List<Map<String, String>> toList(String json) {
         try {
             return objectMapper.readValue(json, new TypeReference<>() {

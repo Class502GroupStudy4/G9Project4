@@ -39,10 +39,10 @@ public class SearchHistoryService {
         try {
             SearchHistory history = SearchHistory.builder()
                     .keyword(keyword)
-                    .member(memberRepository.findById(memberUtil.getMember().getSeq()).orElse(null))
+                    .member(memberRepository.getReferenceById(memberUtil.getMember().getSeq()))
                     .searchType(type)
                     .build();
-
+            System.out.println(history);
             repository.save(history);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,6 +55,10 @@ public class SearchHistoryService {
 
     public void saveTour(String keyword) {
         save(keyword, SearchType.TOUR);
+    }
+
+    public List<SearchHistory> getSearchHistoryForMember(Member member) {
+        return repository.findByMember(member);
     }
 
     public ListData<SearchHistory> getMyKeywords(CommonSearch search, SearchType type) {
@@ -75,8 +79,24 @@ public class SearchHistoryService {
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
         Page<SearchHistory> data = repository.findAll(andBuilder, pageable);
 
-        Pagination pagination = new Pagination(page, (int)data.getTotalElements(), 10, limit, request);
+        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
 
         return new ListData<>(data.getContent(), pagination);
+    }
+
+    // km 검색키워드별 점수계산
+    public List<String> getKeywords(SearchType type) {
+        if (!memberUtil.isLogin()) {
+            return null;
+        }
+
+        QSearchHistory searchHistory = QSearchHistory.searchHistory;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(searchHistory.member.seq.eq(memberUtil.getMember().getSeq()))
+                .and(searchHistory.searchType.eq(type));
+
+        List<SearchHistory> items = (List<SearchHistory>) repository.findAll(builder, Sort.by(desc("searchCount")));
+
+        return items.stream().map(SearchHistory::getKeyword).toList();
     }
 }

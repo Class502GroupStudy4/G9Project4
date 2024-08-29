@@ -23,6 +23,7 @@ header {
     color: white;
     z-index: 1000;
     transition:  all 0.5s;
+    margin-bottom: 0; /* 기본 값은 0으로 설정 */
 }
 
 header.on {
@@ -39,11 +40,12 @@ header .site-top > .inner {
 header .site-top > .inner > .layout-right {
     float: right;
 }
-header .main-logo{
-    max-height: 130px;
-    max-width: 130px;
-    min-height: 100px;
-    min-width: 100px;
+.main-logo{
+    min-height: 70px;
+    max-height: 90px;
+    min-width: 70px;
+    max-width: 90px;
+    background-color: transparent;
 }
 .main-top-buttons button {
     background-color: var(--secondary-color); /* 버튼 배경색 */
@@ -115,11 +117,6 @@ header nav > .inner > *:hover::after {
     /*background-color: #fff; !* 밑줄의 색상을 흰색으로 설정 *!*/
 }
 
-header nav .inner img {
-    width: 40px;
-    height: 40px;
-    vertical-align: middle;
-}
 
 /* 드롭다운 컨테이너 스타일 */
 header .dropdown {
@@ -129,7 +126,7 @@ header .dropdown {
 
 /* 드롭다운 링크 호버 스타일 */
 header .dropdown a:hover {
-    color: #fff; /* 호버 시 링크 색상 설정 */
+    color: var(--primary-color); /* 호버 시 링크 색상 설정 */
 }
 
 /* 콘텐츠 박스 스타일 */
@@ -193,9 +190,10 @@ header .dropdown:hover .dropdown-content {
 
 
 main {
-    margin-top: 155px;
+    margin-top: 95px;
     min-height: 1000px;
     width: 80%;
+    margin-bottom: 80px;
 }
 .Q2 {
     line-height: 50px;

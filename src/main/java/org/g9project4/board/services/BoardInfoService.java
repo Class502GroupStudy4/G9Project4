@@ -1,5 +1,6 @@
 package org.g9project4.board.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -24,6 +25,7 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.constants.DeleteStatus;
+import org.g9project4.global.rests.JSONData;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Authority;
 import org.g9project4.member.entities.Member;
@@ -31,10 +33,13 @@ import org.g9project4.wishlist.constants.WishType;
 import org.g9project4.wishlist.services.WishListService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -229,6 +234,8 @@ public class BoardInfoService {
         return new ListData<>(items, pagination);
     }
 
+
+
     /**
      * 게시판 별 목록
      *
@@ -236,6 +243,7 @@ public class BoardInfoService {
      * @param search
      * @return
      */
+
     public ListData<BoardData> getList(String bid, BoardDataSearch search, DeleteStatus status) {
         search.setBid(bid);
 
@@ -515,6 +523,8 @@ public class BoardInfoService {
         item.setShowList(showList);
         // 게시글 버튼 노출 권한 처리 E
     }
+
+
 
 
 }

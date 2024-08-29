@@ -44,11 +44,17 @@ public class MemberSaveService {
      * @param form
      */
     public void save(RequestJoin form) {
+
         Member member = new ModelMapper().map(form, Member.class);
         String hash = passwordEncoder.encode(member.getPassword());
         member.setPassword(hash);
+
         save(member, List.of(Authority.USER));
 
+        List<Interest> interests = form.getInterests();
+        if (interests != null && !interests.isEmpty()) {
+            saveInterests(member, interests);
+        }
     }
 
     /**
@@ -57,17 +63,22 @@ public class MemberSaveService {
      * @param form
      */
     public void save(RequestProfile form) {
-
+        // Get the current member
         Member member = memberUtil.getMember();
+        //km
+        if (member == null) {
+            throw new MemberNotFoundException("Member not found in the current session.");
+        }
+
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
+        // Update member details
         String password = form.getPassword();
         String mobile = form.getMobile();
         LocalDate birth = form.getBirth();
         Gender gende = form.getGende();
         Boolean isForeigner = form.getIsForeigner();
-
 
         if (StringUtils.hasText(mobile)) {
             mobile = mobile.replaceAll("\\D", "");
@@ -85,11 +96,27 @@ public class MemberSaveService {
         member.setGende(gende);
         member.setIsForeigner(isForeigner);
 
+        // Save the updated member
         save(member, null);
+
+        // Save interests if they are provided
+        List<Interest> interests = form.getInterests();
+        if (interests != null && !interests.isEmpty()) {
+            saveInterests(member, interests);
+        }
     }
 
-    @Transactional
+
     public void saveInterests(Member member, List<Interest> interests) {
+
+        if (member == null) {
+            throw new IllegalArgumentException("Member cannot be null");
+        }
+
+        // Check if the member exists
+        if (!memberRepository.existsById(member.getSeq())) {
+            throw new IllegalArgumentException("Member does not exist");
+        }
 
         interestsRepository.deleteByMember(member);
 

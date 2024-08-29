@@ -135,6 +135,17 @@ public class NewTourPlaceInfoService {
                 return listOrderByDistance(search);
             }
         }
+
+        /* 인기순 인기점수로 내림차순 정열 시작 */
+        if (StringUtils.hasText(_orderBy)) {
+            if (_orderBy.equals(OrderBy.popularity.name())) {
+                order = tourPlace.placePointValue.desc();
+            } else if (_orderBy.equals(OrderBy.modifiedTime.name())) {
+                order = tourPlace.modifiedTime.desc();
+            }
+        }
+        /* 인기순 인기점수로 내림차순 정열 끝 */
+
         /* 정렬 조건 처리 E */
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         JPAQuery<TourPlace> query = queryFactory.selectFrom(tourPlace)
@@ -150,6 +161,7 @@ public class NewTourPlaceInfoService {
         items.forEach(this::addInfo);
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
+
     }
 
     private void addInfo(TourPlace item) {
