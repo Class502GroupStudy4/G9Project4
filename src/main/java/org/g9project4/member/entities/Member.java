@@ -41,19 +41,20 @@ public class Member extends BaseEntity implements Serializable {
     private String mobile;
 
     @Column(nullable = false)
-    private transient LocalDate birth;  // 출생일
+    private  LocalDate birth;  // 출생일
 
+    @NotNull
     @Enumerated(EnumType.STRING) // Enum 값을 데이터베이스에 문자열로 저장
     @Column(nullable = false)
-    private transient Gender gende;  //  성별 (MALE, FEMALE)
+    private  Gender gende;  //  성별 (MALE, FEMALE)
 
-    @Column(nullable = false)
-    private transient Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
+    @NotNull
+    private  Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
 
     @ToString.Exclude
     @OneToMany(mappedBy = "member")
     @Size(max = 5, message = "A member can have a maximum of 5 interests.")
-    private transient List<Interests> interests;
+    private  List<Interests> interests;
     // 관심사 (맛집 | 호캉스 | 박물관 | 캠핑 | 등산 | 자연 | 예술 | 강/바다 | 아이와 함께 | 온가족 함께 | 연인과 함께 | 낚시)
                                 //MATJIB, HOCANCE, MUSEUM, CAMPING, HIKING, NATURE, ART, SEA, WITHCHILD, WITHFAMILY, WITHLOVER, FISHING
     @ToString.Exclude
@@ -62,10 +63,10 @@ public class Member extends BaseEntity implements Serializable {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private transient List<Planner> planners;
+    private  List<Planner> planners;
 
     @Transient
-    private transient FileInfo profileImage;
+    private  FileInfo profileImage;
 
 
 
