@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.global.exceptions.BadRequestException;
+import org.g9project4.publicData.tour.constants.ContentType;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.MessageSource;
@@ -15,10 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component("utils")
@@ -28,7 +27,17 @@ public class Utils { // 빈의 이름 - utils
     private final MessageSource messageSource;
     private final HttpServletRequest request;
     private final DiscoveryClient discoveryClient;
-    private final ObjectMapper om;
+    private final ObjectMapper objectMapper;
+
+    private static final ResourceBundle commonsBundle;
+    private static final ResourceBundle validationsBundle;
+    private static final ResourceBundle errorsBundle;
+
+    static {
+        commonsBundle = ResourceBundle.getBundle("messages.commons");
+        validationsBundle = ResourceBundle.getBundle("messages.validations");
+        errorsBundle = ResourceBundle.getBundle("messages.errors");
+    }
 
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
@@ -52,6 +61,7 @@ public class Utils { // 빈의 이름 - utils
         List<ServiceInstance> instances = discoveryClient.getInstances("admin-service");
         return String.format("%s%s", instances.get(0).getUri().toString(), url);
     }
+
 
     public Map<String, List<String>> getErrorMessages(Errors errors) {//JSON 받을 때는 에러를 직접 가공
         // FieldErrors
@@ -91,11 +101,74 @@ public class Utils { // 빈의 이름 - utils
         ms.setUseCodeAsDefaultMessage(true);
         return messages;
     }
-    public String getMessage(String code){
+
+    public String getMessage(String code) {
         List<String> messages = getCodeMessages(new String[]{code});
 
         return messages.isEmpty() ? code : messages.get(0);
     }
+
+    /**
+     * 줄개행 문자(\n, \n\r) -> <br>
+     *
+     * @param data
+     * @return
+     */
+    public String nl2br(String data) {
+        data = data.replace("\n", "<br>")
+                .replace("\r", "");
+
+        return data;
+    }
+
+    public ContentType getTypeByID(String id) {
+        switch (id) {
+            case ("12"):
+                return ContentType.TourSpot;
+            case ("14"):
+                return ContentType.CultureFacility;
+            case ("15"):
+                return ContentType.Festival;
+            case ("25"):
+                return ContentType.TourCourse;
+            case ("28"):
+                return ContentType.Leports;
+            case ("32"):
+                return ContentType.Accommodation;
+            case ("38"):
+                return ContentType.Shopping;
+            case ("39"):
+                return ContentType.Restaurant;
+            case ("1"):
+                return ContentType.GreenTour;
+        }
+        throw new BadRequestException("Wrong contentType");
+    }
+
+    public ContentType typeCode(String type) {
+        switch (type) {
+            case ("spot"):
+                return ContentType.TourSpot;
+            case ("culture"):
+                return ContentType.CultureFacility;
+            case ("festival"):
+                return ContentType.Festival;
+            case ("course"):
+                return ContentType.TourCourse;
+            case ("leports"):
+                return ContentType.Leports;
+            case ("stay"):
+                return ContentType.Accommodation;
+            case ("shopping"):
+                return ContentType.Shopping;
+            case ("restaurant"):
+                return ContentType.Restaurant;
+            case ("green"):
+                return ContentType.GreenTour;
+        }
+        throw new BadRequestException("Wrong contentType");
+    }
+
 
     /**
      * 접속 장비가 모바일인지 체크
@@ -106,7 +179,7 @@ public class Utils { // 빈의 이름 - utils
 
         // 모바일 수동 전환 체크, 처리
         HttpSession session = request.getSession();
-        String device = (String)session.getAttribute("device");
+        String device = (String) session.getAttribute("device");
 
         if (StringUtils.hasText(device)) {
             return device.equals("MOBILE");
@@ -133,20 +206,9 @@ public class Utils { // 빈의 이름 - utils
     }
 
     /**
-     * 줄개행 문자(\n, \n\r) -> <br>
-     * @param data
-     * @return
-     */
-    public String nl2br(String data) {
-        data = data.replace("\n", "<br>")
-                .replace("\r", "");
-
-        return data;
-    }
-
-    /**
      * 비회원을 구분하는 Unique ID
-     *   IP + User-Agent
+     * IP + User-Agent
+     *
      * @return
      */
     public int guestUid() {
@@ -158,12 +220,11 @@ public class Utils { // 빈의 이름 - utils
 
     public String toJson(Object data) {
         try {
-            return om.writeValueAsString(data);
+            return objectMapper.writeValueAsString(data);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
-        return null;
+        return "{}";
     }
 
     public Long toLong(String num) {
@@ -171,22 +232,21 @@ public class Utils { // 빈의 이름 - utils
     }
 
     public List<Map<String, String>> toList(String json) {
-
         try {
-            return om.readValue(json, new TypeReference<>() {});
-        } catch (JsonProcessingException e) {}
-
+            return objectMapper.readValue(json, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+        }
         return null;
     }
 
     public Map<String, String> toMap(String json) {
         try {
-            return om.readValue(json, new TypeReference<>() {});
+            return objectMapper.readValue(json, new TypeReference<>() {});
         } catch (JsonProcessingException e) {}
 
         return null;
     }
-
     public String getThumbUrl(Long seq, int width, int height) {
         return String.format("%s?seq=%d&width=%d&height=%d", url("/file/thumb"), seq, width, height);
     }
@@ -194,4 +254,9 @@ public class Utils { // 빈의 이름 - utils
     public String getThumbUrl(String url, int width, int height) {
         return String.format("%s?url=%s&width=%d&height=%d", url("/file/thumb"), url, width, height);
     }
+    /**
+     * 달력
+     */
+
+
 }
