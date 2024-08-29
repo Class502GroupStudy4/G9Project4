@@ -53,21 +53,23 @@
                             <label th:for="${'chk_' + status.index}"></label>
                             <div class="ImgBox">
                                 <div th:class="txt">
-                                    <td><a th:class="list-body-a" th:href="*{@utils.url('/board/view/'+seq)}"
-                                           th:text="*{subject}"></a></td>
+                                    <td>
+                                        <a th:class="list-body-a" th:href="*{@utils.url('/board/view/'+seq)}"
+                                           th:text="*{subject}"></a>
+                                    </td>
                                 </div>
                                 <a th:href="${@utils.url('/board/view/'+seq)}">
-                                    <div class="list-body-img" th:utext="${item.content}">
-                                    </div>
+                                    <img th:src="*{@utils.getThumbUrl(editorImages[0].fileUrl,348,170)}">
+<!--                                    <div class="list-body-img" th:utext="${item.content}"</div>-->
                                 </a>
                             </div>
                         </div>
                     </div>
                 </tr>
             </th:block>
-<!--            <th:block>-->
-<!--                <li th:if="${!#lists.isEmpty(items)}" th:text="#{이미지가_작성된_리뷰가_없어요._첫_작성자가_되어보세요.}" class="no-data"></li>-->
-<!--            </th:block>-->
+            <!--            <th:block>-->
+            <!--                <li th:if="${!#lists.isEmpty(items)}" th:text="#{이미지가_작성된_리뷰가_없어요._첫_작성자가_되어보세요.}" class="no-data"></li>-->
+            <!--            </th:block>-->
         </div>
     </th:block>
 

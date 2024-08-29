@@ -37,6 +37,8 @@ public class QSearchHistory extends EntityPathBase<SearchHistory> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
+    public final NumberPath<Long> searchCount = createNumber("searchCount", Long.class);
+
     public final EnumPath<org.g9project4.search.constatnts.SearchType> searchType = createEnum("searchType", org.g9project4.search.constatnts.SearchType.class);
 
     public QSearchHistory(String variable) {

@@ -28,7 +28,7 @@ public class BoardData extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Cascade 설정
     private Member member;
 
     @Column(length=65)

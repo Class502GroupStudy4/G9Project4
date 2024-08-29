@@ -37,7 +37,7 @@ input[type="checkbox"]:checked {
 }
 
 button.search-option-submit {
-    background: #f6f8fa;
+    background: var(--muted-text-color);
     border: 1px #666 solid;
     border-radius: var(--button-border-radius);
     display: flex;
@@ -46,7 +46,7 @@ button.search-option-submit {
     align-content: center;
     text-align: center;
     margin: 0 24px;
-    width: 48px;
-    height: 30px;
+    width: 64px;
+    height: 40px;
     color: #666;
 }
