@@ -1,6 +1,5 @@
 package org.g9project4.board.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -10,6 +9,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.board.controllers.AdminBoardDataSearch;
 import org.g9project4.board.controllers.BoardDataSearch;
 import org.g9project4.board.controllers.RequestBoard;
 import org.g9project4.board.entities.*;
@@ -25,7 +25,6 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.constants.DeleteStatus;
-import org.g9project4.global.rests.JSONData;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Authority;
 import org.g9project4.member.entities.Member;
@@ -33,13 +32,10 @@ import org.g9project4.wishlist.constants.WishType;
 import org.g9project4.wishlist.services.WishListService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -415,7 +411,7 @@ public class BoardInfoService {
 
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
-        limit = limit == 20 ? 5 : limit;
+        limit = limit < 1 ? 10 : limit;
         int offset = (page - 1) * limit;
 
 
@@ -460,8 +456,11 @@ public class BoardInfoService {
         List<FileInfo> editorImages = fileInfoService.getList(gid, "editor");
         List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
 
+        List<FileInfo> selectedImages = fileInfoService.getSelectedImages(gid);
+
         item.setEditorImages(editorImages);
         item.setAttachFiles(attachFiles);
+        item.setSelectedImages(selectedImages);
         // 업로드한 파일 목록 E
 
         /* 게시글 권한 정보 처리 S */
@@ -508,7 +507,7 @@ public class BoardInfoService {
         /* 게시글 권한 정보 처리 E */
 
         // 게시글 버튼 노출 권한 처리 S
-        boolean showEdit = false, showList = false, showDelete = false;
+        boolean showEdit = false, showWrite = false, showList= false, showDelete = false;
 
         Authority editAuthority = board.getWriteAccessType(); // 글작성, 수정 권한
         Authority listAuthority = board.getListAccessType(); // 글목록 보기 권한
@@ -524,9 +523,9 @@ public class BoardInfoService {
         }
 
         if (memberUtil.isAdmin()) { // 관리자는 모든 권한 가능
-            showEdit = showDelete = showList = true;
             showWrite = showEdit = showDelete = showList = true;
         }
+
         if (boardMember == null || mine) { // 비회원 게시글이거나 회원게시글의 소유자 인 경우
             showEdit = showDelete = true;
         }
