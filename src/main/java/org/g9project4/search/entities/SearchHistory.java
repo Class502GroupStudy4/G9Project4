@@ -27,4 +27,7 @@ public class SearchHistory extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private SearchType searchType;
+
+
+    private long searchCount;
 }

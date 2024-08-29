@@ -17,8 +17,10 @@ import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.UnAuthorizedException;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
+
 import org.g9project4.search.services.SearchHistoryService;
 import org.g9project4.visitCount.VisitorCount;
+
 import org.g9project4.visitCount.services.VisitorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
