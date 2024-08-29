@@ -34,9 +34,6 @@
 </div>
 <!-- searchSidebar 섹션 -->
 <table th:fragment="searchSidebar" class="map-tour-list">
-    <h1 th:if="${tourPlaceSearch.contentType!=null}"
-        th:text="${#strings.concat(tourPlaceSearch.contentType.getType(),' 리스트보기')}"></h1>
-    <h1>리스트 보기</h1>
     <ul class="list_thumType place" th:each="item, s:${items}" th:object="${item}">
         <li class="bdr_nor" th:attr="data-lat=*{latitude}, data-lng=*{longitude}">
             <div class="place-describe">
