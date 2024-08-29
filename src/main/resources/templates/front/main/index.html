@@ -198,69 +198,40 @@
     <!--    6개 끝-->
 
 
-    <!--    리뷰 게시판-->
-
     <div th:class="review_main_wright">
-        <h3>최근 여행리뷰</h3>
-        <p class="tit">다른 여행자들의 리뷰를 참고해 나만의 여행을 계획해보세요!</p>
+        <h3>맞춤 여행지</h3>
+        <p class="tit">나만의 완벽한 여행 코스, 맞춤형 여행이 바로 여기에서 시작됩니다!</p>
     </div>
 
 
-    <th:block th:class="sec2">
-        <div class="secWrap">
-            <th:block th:if="${!#lists.isEmpty(items)}" th:each="item, status : ${items}" th:object="${item}">
-                <tr th:if="${!#lists.isEmpty(item.editorImages)}">
-                    <div th:class="row1">
-                        <div th:class="box">
-                            <label th:for="${'chk_' + status.index}"></label>
-                            <div class="ImgBox">
-                                <div th:class="txt">
-                                    <td><a th:class="list-body-a" th:href="*{@utils.url('/board/view/'+seq)}"
-                                           th:text="*{subject}"></a></td>
-                                </div>
-                                <a th:href="${@utils.url('/board/view/'+seq)}">
-                                    <div class="list-body-img" th:utext="${item.content}">
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </tr>
-            </th:block>
-            <!--            <th:block>-->
-            <!--                <li th:if="${!#lists.isEmpty(items)}" th:text="#{이미지가_작성된_리뷰가_없어요._첫_작성자가_되어보세요.}" class="no-data"></li>-->
-            <!--            </th:block>-->
-        </div>
+    <!--special-box S-->
+    <div class="special-box">
 
-
-        <!--special-box S-->
-        <div class="special-box">
-            <h1>메인 슬라이더</h1>
-            <div class="bg"></div>
-            <div class="cont">
-                <!-- Slider main container -->
-                <div class="swiper">
-                    <!-- Additional required wrapper -->
-                    <div class="swiper-wrapper">
-                        <!-- Slides -->
-                        <div class="swiper-slide"><img th:src="${@utils.url('/images/main/about1.jpg')}"></div>
-                        <div class="swiper-slide"><img th:src="${@utils.url('/images/main/about2.jpg')}"></div>
-                        <div class="swiper-slide"><img th:src="${@utils.url('/images/main/home1.jpg')}"></div>
-                        ...
-                    </div>
-                    <!-- If we need pagination -->
-                    <div class="swiper-pagination"></div>
-
-                    <!-- If we need navigation buttons -->
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-
-                    <!-- If we need scrollbar -->
-                    <div class="swiper-scrollbar"></div>
+        <div class="bg"></div>
+        <div class="cont">
+            <!-- Slider main container -->
+            <div class="swiper">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide"><img th:src="${@utils.url('/images/main/main2.jpg')}" alt="Slide 1"></div>
+                    <div class="swiper-slide"><img th:src="${@utils.url('/images/main/home1.jpg')}" alt="Slide 2"></div>
+                    <div class="swiper-slide"><img th:src="${@utils.url('/images/main/city06.jpg')}" alt="Slide 3"></div>
+                    <!-- Add more slides as needed -->
                 </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+
+                <!-- If we need scrollbar -->
+                <div class="swiper-scrollbar"></div>
             </div>
         </div>
-        <!--special-box E-->
+    </div>
+    <!--special-box E-->
 
 </main>
 
