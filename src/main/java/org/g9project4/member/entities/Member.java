@@ -43,12 +43,11 @@ public class Member extends BaseEntity implements Serializable {
     @Column(nullable = false)
     private transient LocalDate birth;  // 출생일
 
-    @NotNull
     @Enumerated(EnumType.STRING) // Enum 값을 데이터베이스에 문자열로 저장
     @Column(nullable = false)
     private transient Gender gende;  //  성별 (MALE, FEMALE)
 
-    @NotNull
+    @Column(nullable = false)
     private transient Boolean isForeigner;  // 외국인 여부 (외국인 true, 내국인 false)
 
     @ToString.Exclude
