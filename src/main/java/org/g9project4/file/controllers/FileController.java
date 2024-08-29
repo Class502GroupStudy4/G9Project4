@@ -3,6 +3,7 @@ package org.g9project4.file.controllers;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.file.constants.FileStatus;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.file.services.*;
 import org.g9project4.global.Utils;
@@ -18,8 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/file")
@@ -32,12 +34,15 @@ public class FileController implements RestExceptionProcessor {
     private final FileDeleteService deleteService;
     private final BeforeFileUploadProcess beforeProcess;
     private final AfterFileUploadProcess afterProcess;
-    private final ThumbnailService thumbnailService;
     private final Utils utils;
+    private final ThumbnailService thumbnailService;
+    private final FileSelectService selectService;
 
-
-    @PostMapping("/upload")//파일은 post 형태로 넘어온다
-    public ResponseEntity<JSONData> upload(@RequestPart("file") MultipartFile[] files, @Valid RequestUpload form, Errors errors) {
+    @PostMapping("/upload")
+    public ResponseEntity<JSONData> upload(@RequestPart("file") MultipartFile[] files,
+                                           @Valid RequestUpload form, Errors errors) {
+        //ResponseEntity: HTTP 응답의 상태 코드, 헤더, 본문을 포함하는 객체입니다.
+        //JSONData: 반환할 JSON 형식의 데이터 구조를 나타내는 클래스입니다. 이 클래스는 서버에서 처리한 결과를 JSON 형식으로 클라이언트에게 응답할 때 사용됩니다.
 
         form.setFiles(files);
 
@@ -45,11 +50,11 @@ public class FileController implements RestExceptionProcessor {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
-        beforeProcess.process(form); //파일 업로드 전처리
+        beforeProcess.process(form); // 파일 업로드 전처리
 
         List<FileInfo> items = uploadService.upload(files, form.getGid(), form.getLocation());
 
-        afterProcess.process(form); //파일 업로드 후 처리
+        afterProcess.process(form); // 파일 업로드 후처리
 
         HttpStatus status = HttpStatus.CREATED;
         JSONData data = new JSONData(items);
@@ -92,24 +97,38 @@ public class FileController implements RestExceptionProcessor {
     }
 
     @GetMapping("/thumb")
-    public void thumb(RequestThumb form, HttpServletResponse response){
+    public void thumb(RequestThumb form, HttpServletResponse response) {
         String path = thumbnailService.create(form);
-        if (!StringUtils.hasText(path)){
+        if (!StringUtils.hasText(path)) {
             return;
         }
 
         File file = new File(path);
         try (FileInputStream fis = new FileInputStream(file);
-
-        BufferedInputStream bis = new BufferedInputStream(fis)) {
-
+             BufferedInputStream bis = new BufferedInputStream(fis)) {
             String contentType = Files.probeContentType(file.toPath());
             response.setHeader("Content-Type", contentType);
-            OutputStream out = response.getOutputStream();
-            out.write(bis.readAllBytes());
+            OutputStream out = response.getOutputStream(); // 출력
+            out.write(bis.readAllBytes()); // 화면에 바로 출력
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @PatchMapping("/select/{mode}")
+    public JSONData fileSelect(@PathVariable("mode") String mode, @Valid @RequestBody RequestSelect form, Errors errors){
+
+        if(errors.hasErrors()){
+            throw new BadRequestException(utils.getErrorMessages(errors));
+        }
+        selectService.process(mode, form);
+        List<FileInfo> items = infoService.getSelectedList(form.getGid(), form.getLocation(), FileStatus.ALL);
+
+        if (form.getCnt() > 0 && items != null && !items.isEmpty()) {
+            items = items.stream().limit(form.getCnt()).toList();
+        }
+
+        return new JSONData(Objects.requireNonNullElse(items, Collections.EMPTY_LIST));
     }
 }
