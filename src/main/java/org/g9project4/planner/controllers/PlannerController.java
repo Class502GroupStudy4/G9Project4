@@ -10,6 +10,7 @@ import org.g9project4.planner.services.PlannerInfoService;
 import org.g9project4.planner.services.PlannerSaveService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.publicData.tour.services.NewTourPlaceInfoService;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,7 @@ public class PlannerController implements ExceptionProcessor {
     private final TourPlaceInfoService tourPlaceInfoService;
     private final PlannerInfoService infoService;
     private final Utils utils;
+    private final NewTourPlaceInfoService newTourPlaceInfoService;
 
     @ModelAttribute("pageTitle")
     public String pageTitle() {
@@ -130,19 +132,19 @@ public class PlannerController implements ExceptionProcessor {
      * @param model
      * @return
      */
-//    @GetMapping("/select/{mode}")
-//    public String select(@PathVariable("mode") String mode, @ModelAttribute TourPlaceSearch search, Model model) {
-//        commonProcess("select_" + mode, model);
-//        mode = StringUtils.hasText(mode) ? mode : "tourplace";
-//
-//        if (mode.equals("tourplace")) {
-//            ListData<TourPlace> data = tourPlaceInfoService.getTotalList(search);
-//            model.addAttribute("items", data.getItems());
-//            model.addAttribute("pagination", data.getPagination());
-//        }
-//
-//        return utils.tpl("planner/select_" + mode);
-//    }
+    @GetMapping("/select/{mode}")
+    public String select(@PathVariable("mode") String mode, @ModelAttribute TourPlaceSearch search, Model model) {
+        commonProcess("select_" + mode, model);
+        mode = StringUtils.hasText(mode) ? mode : "tourplace";
+
+        if (mode.equals("tourplace")) {
+            ListData<TourPlace> data = newTourPlaceInfoService.getSearchedList(search);
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
+        }
+
+        return utils.tpl("planner/select_" + mode);
+    }
 
     /**
      * 공통 처리

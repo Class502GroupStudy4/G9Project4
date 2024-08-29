@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional //km
 public class MemberSaveService {
     private final FileUploadDoneService uploadDoneService;
     private final MemberRepository memberRepository;

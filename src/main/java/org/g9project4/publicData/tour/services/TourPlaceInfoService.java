@@ -61,48 +61,7 @@ private final SearchHistoryRepository searchHistoryRepository;
 private final VisitRecordRepository visitRecordRepository;
 private final VisitRecordService visitRecordService;
 private final SearchHistoryService searchHistoryService;
-    /**
-     * 좌표, 거리 기반으로 검색
-     *
-     * @param search
-     * @return
-     */
-    public ListData<TourPlace> getLocBasedList(TourPlaceSearch search) {
-        int page = Math.max(search.getPage(), 1);
-        int limit = search.getLimit();
-        limit = limit < 1 ? 10 : limit;
-        int offset = (page - 1) * limit;
 
-        double lat = search.getLatitude();
-        double lon = search.getLongitude();
-        int radius = search.getRadius();
-        String url = String.format("https://apis.data.go.kr/B551011/KorService1/locationBasedList1?MobileOS=AND&MobileApp=test&mapX=%f&mapY=%f&radius=%d&numOfRows=5000&serviceKey=%s&_type=json", lon, lat, radius, serviceKey);
-        try {
-            ResponseEntity<ApiResult> response = restTemplate.getForEntity(URI.create(url), ApiResult.class);
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody().getResponse().getHeader().getResultCode().equals("0000")) {
-
-                List<Long> ids = response.getBody().getResponse().getBody().getItems().getItem().stream().map(ApiItem::getContentid).toList();
-                if (!ids.isEmpty()) {
-                    QTourPlace tourPlace = QTourPlace.tourPlace;
-                    JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-                    List<TourPlace> items = queryFactory.selectFrom(tourPlace)
-                            .where(tourPlace.contentId.in(ids))
-                            .offset(offset)
-                            .limit(limit)
-                            .fetch();
-                    int count = ids.size();
-                    Pagination pagination = new Pagination(page, count, 0, limit, request);
-                    System.out.println(pagination.toString());
-                    return new ListData<>(items, pagination);
-                } // endif
-            } // endif
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new TourPlaceNotFoundException();
-        }
-
-        return null;
-    }
 
     /* km 마이페이지 - 검색기록 방문기록 추천 S */
     public ListData<TourplaceDto> getTotalList(TourPlaceSearch search, RecommendType recommendType, Member loggedMember, String keyword) {
@@ -216,12 +175,12 @@ private final SearchHistoryService searchHistoryService;
 
 
 
-    public ListData<GreenPlace> getGreenList(TourPlaceSearch search) {
+    /*public ListData<GreenPlace> getGreenList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit < 1 ? 20 : limit;
         int offset = page * limit + 1;
-        /* 검색 조건 처리 S */
+        *//* 검색 조건 처리 S *//*
         QGreenPlace greenPlace = QGreenPlace.greenPlace;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
@@ -256,7 +215,7 @@ private final SearchHistoryService searchHistoryService;
 
         }
 
-        /* 검색 조건 처리 E */
+        *//* 검색 조건 처리 E *//*
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         int count = queryFactory.selectFrom(greenPlace)
                 .where(andBuilder).fetch().size();
@@ -268,7 +227,7 @@ private final SearchHistoryService searchHistoryService;
         List<GreenPlace> items = query.fetch();
         Pagination pagination = new Pagination(page, count, 0, limit, request);
         return new ListData<>(items, pagination);
-    }
+    }*/
 
     public ListData<TourPlace> getSearchedList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);

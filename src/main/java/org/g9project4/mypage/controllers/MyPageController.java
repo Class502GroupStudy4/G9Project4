@@ -2,43 +2,44 @@ package org.g9project4.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.board.entities.Board;
+import org.g9project4.board.entities.BoardData;
+import org.g9project4.board.entities.CommentData;
 import org.g9project4.board.services.BoardInfoService;
 import org.g9project4.global.CommonSearch;
 import org.g9project4.global.ListData;
+import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Interest;
+import org.g9project4.member.entities.Interests;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.repositories.InterestsRepository;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
+import org.g9project4.publicData.myvisit.TourplaceDto;
 import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
-import org.g9project4.publicData.tour.entities.TourPlace;
+import org.g9project4.publicData.tour.services.TourPlaceInfoService;
+import org.g9project4.search.constatnts.SearchType;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
+import org.g9project4.visitrecord.constants.RecommendType;
+import org.g9project4.visitrecord.services.VisitRecordService;
 import org.g9project4.wishlist.entities.WishList;
 import org.g9project4.wishlist.services.WishListService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.g9project4.member.entities.Interests;
 
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.g9project4.member.entities.QMember.member;
 import static org.g9project4.search.entities.QSearchHistory.searchHistory;
-import static org.g9project4.wishlist.entities.QWishList.wishList;
 
 @Controller
 @RequestMapping("/mypage")
@@ -77,22 +78,6 @@ public class MyPageController {
                 .map(Interests::getInterest)
                 .collect(Collectors.toList());
         form.setInterests(interests);
-
-//        List<SearchHistory> allSearchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
-//
-//        // 최근 5건만 선택
-//        List<SearchHistory> recentSearchHistory = allSearchHistory.stream()
-//                .limit(5)
-//                .collect(Collectors.toList());
-//
-//        model.addAttribute("searchHistory", recentSearchHistory);
-        /*
-        Pageable pageable = PageRequest.of(5, 5);
-
-        List<WishList> wishList = wishListService.getWishListForMember(memberUtil.getMember());
-
-        model.addAttribute("searchHistory", searchHistory);
-        model.addAttribute("wishList", wishList);
 
         return utils.tpl("mypage/index");
     }
@@ -169,14 +154,12 @@ public class MyPageController {
 
 
     @GetMapping("/mypost")
-    public String mypost(Model model, Member member) {
+    public String mypost(@ModelAttribute CommonSearch search, Model model) {
         commonProcess("mypost", model);
         ListData<BoardData> data = boardInfoService.getMyList(search);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
-        // List<Board> boards = boardInfoService.getBoardsByMember(member);
-        // model.addAttribute("boards", boards);
 
         return utils.tpl("mypage/mypost");
     }
