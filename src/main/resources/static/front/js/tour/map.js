@@ -1,6 +1,8 @@
 var overlay = null;
-window.addEventListener("DOMContentLoaded", function() {
-    var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}),
+window.addEventListener("DOMContentLoaded", function () {
+    const scrollUpEl = document.getElementById("scroll-up");
+    scrollUpEl.remove();
+    var placeOverlay = new kakao.maps.CustomOverlay({zIndex: 1}),
         contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트입니다
         markers = [], // 마커를 담을 배열입니다
         currCategory = '' // 현재 선택된 카테고리를 가지고 있을 변수입니다
@@ -56,7 +58,7 @@ window.addEventListener("DOMContentLoaded", function() {
         // 지도에 표시되고 있는 마커를 제거합니다
         removeMarker();
 
-        ps.categorySearch(currCategory, placesSearchCB, {useMapBounds:true});
+        ps.categorySearch(currCategory, placesSearchCB, {useMapBounds: true});
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수입니다
@@ -78,8 +80,8 @@ window.addEventListener("DOMContentLoaded", function() {
         for (var i = 0; i < places.length; i++) {
             var marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
 
-            (function(marker, place) {
-                kakao.maps.event.addListener(marker, 'click', function() {
+            (function (marker, place) {
+                kakao.maps.event.addListener(marker, 'click', function () {
                     displayPlaceInfo(place);
                 });
             })(marker, places[i]);
@@ -205,22 +207,20 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 
 
-
-
     function addMarker2(position) {
         const marker = new kakao.maps.Marker({
             position: position,
             clickable: true
         });
-        kakao.maps.event.addListener(marker, 'click', function() {
+        kakao.maps.event.addListener(marker, 'click', function () {
             overlay.setMap(map);
         });
         return marker;
     }
 
-    function  addMarkerMyLoc(locPosition){
-            marker = new kakao.maps.Marker({
-            position:locPosition
+    function addMarkerMyLoc(locPosition) {
+        marker = new kakao.maps.Marker({
+            position: locPosition
         });
         return marker
     }
@@ -228,16 +228,16 @@ window.addEventListener("DOMContentLoaded", function() {
     const placePhotos = document.querySelectorAll(".place-photo > a");
 
     for (const el of placePhotos) {
-        el.addEventListener("click", function(e) {
+        el.addEventListener("click", function (e) {
             e.preventDefault();
-            const { lat, lng, detail: contentId, address, title, image } = this.dataset;
+            const {lat, lng, detail: contentId, address, title, image} = this.dataset;
             const markerPosition = new kakao.maps.LatLng(Number(lat), Number(lng));
 
             removeMarker();
             const marker = addMarker2(markerPosition);
             map.panTo(markerPosition);
-                marker.setMap(map);
-                markers.push(marker);
+            marker.setMap(map);
+            markers.push(marker);
 
             const uri = "/tour/detail/" + contentId;
             const overlay = overlayItem(markerPosition, title, image, address, uri);
@@ -249,10 +249,9 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 
 
-
-    document.getElementById('photoButton').addEventListener('click', function() {
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(function (position){
+    document.getElementById('photoButton').addEventListener('click', function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
                 var lat = position.coords.latitude;
                 var lon = position.coords.longitude;
                 var locPosition = new kakao.maps.LatLng(lat, lon);
