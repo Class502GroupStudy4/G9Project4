@@ -1,8 +1,8 @@
 package org.g9project4.file.services;
 
 import com.querydsl.core.BooleanBuilder;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.file.constants.FileSelect;
 import org.g9project4.file.constants.FileStatus;
 import org.g9project4.file.entities.FileInfo;
 import org.g9project4.file.entities.QFileInfo;
@@ -15,13 +15,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 import static org.springframework.data.domain.Sort.Order.asc;
-
-;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +57,7 @@ public class FileInfoService {
      * @param status - ALL: 완료 + 미완료, DONE - 완료, UNDONE - 미완료
      * @return
      */
-    public List<FileInfo> getList(String gid, String location, FileSelect select, FileStatus status) {
+    public List<FileInfo> getList(String gid, String location, FileStatus status) {
 
         QFileInfo fileInfo = QFileInfo.fileInfo;
         BooleanBuilder andBuilder = new BooleanBuilder();
@@ -74,42 +71,12 @@ public class FileInfoService {
             andBuilder.and(fileInfo.done.eq(status == FileStatus.DONE));
         }
 
-        /* 파일 선택여부 */
-        if(select != FileSelect.ALL){
-            andBuilder.and(fileInfo.selected.eq(select == FileSelect.SELECTED));
-        }
-
         List<FileInfo> items = (List<FileInfo>)infoRepository.findAll(andBuilder, Sort.by(asc("createdAt")));
 
         // 2차 추가 데이터 처리
         items.forEach(this::addFileInfo);
 
         return items;
-    }
-
-    public List<FileInfo> getSelectedList(String gid, String location, FileStatus status){
-        return getList(gid, location, FileSelect.SELECTED, status);
-    }
-
-    public List<FileInfo> getSelectedList(String gid, String location){
-        return getSelectedList(gid, location ,FileStatus.DONE);
-    }
-
-    public List<FileInfo> getSelectedList(String gid){
-        return getSelectedList(gid, null);
-    }
-    public  List<FileInfo> getSelectedList(String gid, String location, int cnt){
-        List<FileInfo> items = getSelectedList(gid, location, FileStatus.DONE);
-
-        if(cnt == 0){
-            return items;
-        }
-        return items == null || items.isEmpty() ? null :items.stream().limit(cnt).toList();
-    }
-
-
-    public List<FileInfo> getList(String gid, String location, FileStatus status) {
-        return getList(gid, location, FileSelect.ALL, status);
     }
 
     public List<FileInfo> getList(String gid, String location) {
@@ -133,14 +100,12 @@ public class FileInfoService {
         item.setFileUrl(fileUrl);
         item.setFilePath(filePath);
 
-        item.setThumbUrl(utils.url("/file/thumb"));
+        item.setThumbPath(utils.url("/file/thumb/"));
     }
 
     // 브라우저 접근 주소
     public String getFileUrl(FileInfo item) {
-        //return request.getContextPath() + properties.getUrl() + getFolder(item.getSeq()) + "/" + getFileName(item);
-
-        String url =  properties.getUrl() + getFolder(item.getSeq()) + "/" + getFileName(item);
+        String url = properties.getUrl() + getFolder(item.getSeq()) + "/" + getFileName(item);
 
         return utils.url(url);
     }
@@ -157,18 +122,5 @@ public class FileInfoService {
     public String getFileName(FileInfo item) {
         String fileName = item.getSeq() + Objects.requireNonNullElse(item.getExtension(), "");
         return fileName;
-    }
-
-    public List<FileInfo> getSelectedImages(String gid, String location) {
-        List<FileInfo> items = getSelectedList(gid, location);
-        items = Objects.requireNonNullElse(items, Collections.EMPTY_LIST);
-
-        return items.stream()
-                .filter(item -> item.getContentType().contains("image/"))
-                .toList();
-    }
-
-    public List<FileInfo> getSelectedImages(String gid) {
-        return getSelectedImages(gid, null);
     }
 }
