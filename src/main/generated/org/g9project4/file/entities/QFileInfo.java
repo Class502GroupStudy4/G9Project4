@@ -48,8 +48,6 @@ public class QFileInfo extends EntityPathBase<FileInfo> {
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
 
-    public final BooleanPath selected = createBoolean("selected");
-
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public QFileInfo(String variable) {

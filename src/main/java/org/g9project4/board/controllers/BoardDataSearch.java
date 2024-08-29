@@ -18,6 +18,4 @@ public class BoardDataSearch extends CommonSearch {
     private Boolean notice; // 공지글
 
     private String sort; // 정렬 조건
-
-    private Long num1;
 }
