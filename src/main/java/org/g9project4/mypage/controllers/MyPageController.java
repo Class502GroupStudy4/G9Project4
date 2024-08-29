@@ -2,9 +2,10 @@ package org.g9project4.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.board.entities.Board;
 import org.g9project4.board.services.BoardInfoService;
+import org.g9project4.global.CommonSearch;
 import org.g9project4.global.ListData;
-import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Interest;
@@ -12,18 +13,17 @@ import org.g9project4.member.entities.Member;
 import org.g9project4.member.repositories.InterestsRepository;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.mypage.validators.ProfileUpdateValidator;
-import org.g9project4.publicData.myvisit.TourplaceDto;
 import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
 import org.g9project4.publicData.tour.entities.TourPlace;
-import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
-import org.g9project4.visitrecord.constants.RecommendType;
-import org.g9project4.visitrecord.services.VisitRecordService;
 import org.g9project4.wishlist.entities.WishList;
 import org.g9project4.wishlist.services.WishListService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -31,13 +31,14 @@ import org.springframework.web.bind.annotation.*;
 import org.g9project4.member.entities.Interests;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-import static ognl.Ognl.setValue;
-
+import static org.g9project4.member.entities.QMember.member;
+import static org.g9project4.search.entities.QSearchHistory.searchHistory;
+import static org.g9project4.wishlist.entities.QWishList.wishList;
 
 @Controller
 @RequestMapping("/mypage")
@@ -77,7 +78,16 @@ public class MyPageController {
                 .collect(Collectors.toList());
         form.setInterests(interests);
 
-        List<SearchHistory> searchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
+//        List<SearchHistory> allSearchHistory = searchHistoryService.getSearchHistoryForMember(memberUtil.getMember());
+//
+//        // 최근 5건만 선택
+//        List<SearchHistory> recentSearchHistory = allSearchHistory.stream()
+//                .limit(5)
+//                .collect(Collectors.toList());
+//
+//        model.addAttribute("searchHistory", recentSearchHistory);
+        /*
+        Pageable pageable = PageRequest.of(5, 5);
 
         List<WishList> wishList = wishListService.getWishListForMember(memberUtil.getMember());
 
@@ -85,6 +95,29 @@ public class MyPageController {
         model.addAttribute("wishList", wishList);
 
         return utils.tpl("mypage/index");
+    }
+
+    @GetMapping("/mysearch")
+    public String mySearch(@ModelAttribute CommonSearch search, Model model) {
+        //commonProcess("index", model);
+        search.setLimit(5);
+        ListData<SearchHistory> data = searchHistoryService.getMyKeywords(search, SearchType.TOUR);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+        model.addAttribute("addCss", List.of("mypage/mylist"));
+        return utils.tpl("mypage/mysearch");
+    }
+
+    @GetMapping("/mywish")
+    public String myWish(@ModelAttribute CommonSearch search, Model model) {
+        //commonProcess("index", model);
+        ListData<BoardData> data = boardInfoService.getWishList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+        model.addAttribute("addCss", List.of("mypage/mylist"));
+        return utils.tpl("mypage/mywish");
     }
 
     @GetMapping("/info")
@@ -114,12 +147,20 @@ public class MyPageController {
     public String updateInfo(@Valid RequestProfile form, Errors errors, Model model) {
         commonProcess("info", model);
 
+        Member member = memberUtil.getMember();
+
         profileUpdateValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             return utils.tpl("mypage/info");
         }
+
         memberSaveService.save(form);
+
+        //복수 관심사 저장
+        List<Interest> interests = form.getInterests();
+        memberSaveService.saveInterests(member, interests);
+
 
         //SecurityContextHolder.getContext().setAuthentication();
 
@@ -130,7 +171,10 @@ public class MyPageController {
     @GetMapping("/mypost")
     public String mypost(Model model, Member member) {
         commonProcess("mypost", model);
+        ListData<BoardData> data = boardInfoService.getMyList(search);
 
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
         // List<Board> boards = boardInfoService.getBoardsByMember(member);
         // model.addAttribute("boards", boards);
 
@@ -138,8 +182,13 @@ public class MyPageController {
     }
 
     @GetMapping("/mycomment")
-    public String mycomment(Model model) {
+    public String mycomment(@ModelAttribute CommonSearch search, Model model) {
         commonProcess("mycomment", model);
+
+        ListData<CommentData> data = boardInfoService.getMyComment(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("mypage/mycomment");
     }
@@ -274,7 +323,6 @@ public class MyPageController {
         } else if (mode.equals("myinterests")) {
             addCss.addAll(List.of("tour/list", "tour/_typelist"));
         }
-
 
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addCss", addCss);

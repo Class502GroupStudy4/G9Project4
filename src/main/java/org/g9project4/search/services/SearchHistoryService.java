@@ -1,21 +1,16 @@
 package org.g9project4.search.services;
 
-import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.repositories.MemberRepository;
 import org.g9project4.search.constatnts.SearchType;
-import org.g9project4.search.entities.QSearchHistory;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.repositories.SearchHistoryRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-
-import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @RequiredArgsConstructor
@@ -49,8 +44,27 @@ public class SearchHistoryService {
         save(keyword, SearchType.TOUR);
     }
 
-    public List<SearchHistory> getSearchHistoryForMember(Member member) {
-        return repository.findByMember(member);
+    public ListData<SearchHistory> getMyKeywords(CommonSearch search, SearchType type) {
+        if (!memberUtil.isLogin()) {
+            return new ListData<>();
+        }
+
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 5 : limit;
+
+
+        QSearchHistory searchHistory = QSearchHistory.searchHistory;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(searchHistory.member.seq.eq(memberUtil.getMember().getSeq()));
+        andBuilder.and(searchHistory.searchType.eq(type));
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+        Page<SearchHistory> data = repository.findAll(andBuilder, pageable);
+
+        Pagination pagination = new Pagination(page, (int)data.getTotalElements(), 10, limit, request);
+
+        return new ListData<>(data.getContent(), pagination);
     }
 
     // km 검색키워드별 점수계산
