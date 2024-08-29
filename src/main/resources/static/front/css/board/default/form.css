@@ -21,12 +21,6 @@ dd { /* 글 아래 텍스트 */
     text-indent: 15px
 }
 
-.button-group { /* 다시 입력, 작성하기 */
-    text-align: center;
-    border-radius: var(--button-radius); /* 버튼 모서리 반경을 조금 더 작게 설정 */
-    padding: 0.3rem 0.3rem; /* 버튼 안쪽 여백을 줄여서 버튼을 작게 만듦 */
-    font-size: 50px; /* 버튼 텍스트 크기를 줄임 */
-}
 form {
     background-color: var(--white);
     padding: 2rem;
@@ -42,6 +36,12 @@ form {
 
 }
 
+.button-group { /* 다시 입력, 작성하기 */
+    text-align: center;
+    border-radius: var(--button-radius); /* 버튼 모서리 반경을 조금 더 작게 설정 */
+    padding: 0.3rem 0.3rem; /* 버튼 안쪽 여백을 줄여서 버튼을 작게 만듦 */
+    font-size: 50px; /* 버튼 텍스트 크기를 줄임 */
+}
 .title { /* 제목 늘리기 */
     font-size: 25px;
     padding-right: 100px;
