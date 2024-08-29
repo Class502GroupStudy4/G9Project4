@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
+import org.g9project4.member.MemberUtil;
+import org.g9project4.member.constants.Interest;
+import org.g9project4.member.entities.Member;
 import org.g9project4.member.services.MemberSaveService;
 import org.g9project4.member.validators.JoinValidator;
 import org.springframework.stereotype.Controller;
@@ -14,10 +17,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.g9project4.member.entities.Member;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+
 
 
 @Slf4j
@@ -30,11 +36,13 @@ public class MemberController implements ExceptionProcessor {
     private final JoinValidator joinValidator;
     private final MemberSaveService memberSaveService;
     private final Utils utils;
+    private final MemberUtil memberUtil;
 
     @ModelAttribute
     public RequestLogin requestLogin() {
         return new RequestLogin();
     }
+
 
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form, Model model) {
@@ -58,6 +66,7 @@ public class MemberController implements ExceptionProcessor {
 
         memberSaveService.save(form);
 
+
         status.setComplete();
         session.removeAttribute("EmailAuthVerified");
 
@@ -76,6 +85,9 @@ public class MemberController implements ExceptionProcessor {
                 return "redirect:" + utils.redirectUrl("/member/password/reset");
             }
         }
+
+
+
         return utils.tpl("member/login");
     }
 

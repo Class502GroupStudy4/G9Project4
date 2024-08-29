@@ -14,7 +14,7 @@ public class ApiUpdateTest {
     private SigunguCodeRepository sigunguCodeRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-    private String sKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
+    private String   sKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
     @Test
     public void test() {
         apiUpdateService.update(sKey);
@@ -22,7 +22,7 @@ public class ApiUpdateTest {
 
     @Test
     public void test2() {
-        apiUpdateService.categoryUpdate( sKey);
+        apiUpdateService.categoryUpdate(sKey);
     }
 
 }

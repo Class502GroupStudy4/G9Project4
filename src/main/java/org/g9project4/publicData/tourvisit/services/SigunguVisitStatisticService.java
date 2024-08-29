@@ -151,13 +151,15 @@ public class SigunguVisitStatisticService {
     private static final long RETRY_DELAY_MS = 60000; // 60초
 
     private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
-        String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
+        String sKey = "7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos%2BQcjBgTlHVDYcoG8RwfuspzfxA%3D%3D";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String url = String.format("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json",
-                serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
+                sKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
 
-        log.info("Request URL: {}", url); // 요청 URL 로깅
+        /* km 로그 정보 필요시 주석 해제바람  시작 */
+
+    log.info("Request URL: {}", url); // 요청 URL 로깅
 
         for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
             try {
@@ -206,32 +208,9 @@ public class SigunguVisitStatisticService {
 
         log.error("Failed to fetch data after {} attempts", MAX_RETRIES);
         return null;
-    }
+    /* km 로그 정보 필요시 주석 해제바람  끝 */
 
-    //원 코드
-
-//    private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
-//
-//        String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-//
-//        String url = String.format("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?MobileOS=AND&MobileApp=TEST&serviceKey=%s&startYmd=%s&endYmd=%s&numOfRows=%d&pageNo=%d&_type=json", serviceKey, formatter.format(sdate), formatter.format(edate), limit, pageNo);
-//
-//        ResponseEntity<ApiResult2> response = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
-//
-//        if (!response.getStatusCode().is2xxSuccessful()) {
-//            return null;
-//        }
-//
-//        ApiResult2 result = response.getBody();
-//        if (!result.getResponse().getHeader().getResultCode().equals("0000")) {
-//            return null;
-//        }
-//
-//        return result;
-//    }
-
+}
     // 일별 통계
     @Scheduled(cron = "0 0 3 * * *")  // 매일 새벽 1시
     public void updateVisit1D() {

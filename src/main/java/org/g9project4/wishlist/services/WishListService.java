@@ -71,7 +71,4 @@ public class WishListService {
         return false;
     }
 
-    public List<WishList> getWishListForMember(Member member) {
-        return repository.findByMember(member);
-    }
 }
