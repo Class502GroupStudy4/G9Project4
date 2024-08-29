@@ -68,6 +68,9 @@ public class Member extends BaseEntity implements Serializable {
     @Transient
     private transient FileInfo profileImage;
 
+
+
+
 //    @ToString.Exclude
 //    @OneToMany(mappedBy = "member")
 //    private List<VisitRecords> visitRecords;

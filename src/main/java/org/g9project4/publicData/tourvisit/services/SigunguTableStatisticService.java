@@ -18,9 +18,8 @@ public class SigunguTableStatisticService {
 
     private final RestTemplate restTemplate;
     private final SigunguTableRepository sigunguTableRepository;
-//    private final SigunguTableRepository tableRepository;
 
-    private String serviceKey = "RtrIIdYjcb3IXn1a/zF7itGWY5ZFS3IEj85ohFx/snuKG9hYABL5Tn8jEgCEaCw6uEIHvUz30yF4n0GGP6bVIA==";
+    private String sKey ="7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos%2BQcjBgTlHVDYcoG8RwfuspzfxA";
     //    @Scheduled(fixedRate = 1L, timeUnit = TimeUnit.DAYS)
 
     /**
@@ -35,12 +34,12 @@ public class SigunguTableStatisticService {
 
         for (int i = 1; i <= totalPages; i++) {
             String url = String.format(
-                    "http://api.odcloud.kr/api/15067699/v1/uddi:0c8ed5b5-30ff-4495-9b0d-d89f94d7308f?page=%d&perPage=10&returnType=JSON&serviceKey=%s",
+                    "https://api.odcloud.kr/api/15067699/v1/uddi:0c8ed5b5-30ff-4495-9b0d-d89f94d7308f?page=%d&perPage=10&returnType=JSON&serviceKey=%s",
                     i,
-                    serviceKey
+                    sKey
             );
 
-            ApiResult result = restTemplate.getForObject(url, ApiResult.class);
+          ApiResult result = restTemplate.getForObject(url, ApiResult.class);
             if (result != null && result.getData() != null) {
                 List<SigunguTable> tables = result.getData().stream()
                         .map(this::convertToSigunguTable)
