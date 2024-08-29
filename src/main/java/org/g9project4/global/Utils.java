@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.global.exceptions.BadRequestException;
+import org.g9project4.global.rests.JSONData;
 import org.g9project4.publicData.tour.constants.ContentType;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -54,7 +54,7 @@ public class Utils { // 빈의 이름 - utils
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
         boolean fromGateway = _fromGateway.equals("true");
 
-        return fromGateway ? request.getScheme() + "://" + gatewayHost + "/app" + url : String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
+        return fromGateway ? request.getScheme() + "://" + gatewayHost + "/app" + url : request.getContextPath() + url;
     }
 
     public String adminUrl(String url) {
@@ -111,14 +111,12 @@ public class Utils { // 빈의 이름 - utils
     /**
      * 줄개행 문자(\n, \n\r) -> <br>
      *
-     * @param data
+     * @param str
      * @return
      */
-    public String nl2br(String data) {
-        data = data.replace("\n", "<br>")
-                .replace("\r", "");
+    public String nl2br(String str) {
+        return str.replace("\n", "<br>").replace("\r", "");
 
-        return data;
     }
 
     public ContentType getTypeByID(String id) {

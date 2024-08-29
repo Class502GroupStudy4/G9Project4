@@ -1,5 +1,6 @@
 package org.g9project4.board.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -9,7 +10,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.board.controllers.AdminBoardDataSearch;
 import org.g9project4.board.controllers.BoardDataSearch;
 import org.g9project4.board.controllers.RequestBoard;
 import org.g9project4.board.entities.*;
@@ -25,6 +25,7 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.constants.DeleteStatus;
+import org.g9project4.global.rests.JSONData;
 import org.g9project4.member.MemberUtil;
 import org.g9project4.member.constants.Authority;
 import org.g9project4.member.entities.Member;
@@ -32,10 +33,13 @@ import org.g9project4.wishlist.constants.WishType;
 import org.g9project4.wishlist.services.WishListService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -97,7 +101,6 @@ public class BoardInfoService {
         /* 검색 처리 S */
         QBoardData boardData = QBoardData.boardData;
         BooleanBuilder andBuilder = new BooleanBuilder();
-
         /* 관리자 검색 용도 */
         if (memberUtil.isAdmin() && search instanceof AdminBoardDataSearch adminSearch) {
             List<Long> memberSeq = adminSearch.getMemberSeq();
@@ -362,6 +365,7 @@ public class BoardInfoService {
         int ranges = utils.isMobile() ? 5 : 10;
         Pagination pagination = new Pagination(page, (int) total, ranges, limit, request);
 
+
         return new ListData<>(items, pagination);
     }
 
@@ -396,6 +400,7 @@ public class BoardInfoService {
                 .fetch().size();
         int ranges = utils.isMobile() ? 5 : 10;
         Pagination pagination = new Pagination(page, total, ranges, limit, request);
+
 
         return new ListData<>(items, pagination);
     }
@@ -470,6 +475,7 @@ public class BoardInfoService {
         // 회원 - 직접 작성한 게시글인 경우만 수정,삭제(editable)
         Member boardMember = item.getMember(); // 게시글을 작성한 회원
         Member loggedMember = memberUtil.getMember(); // 로그인한 회원
+
         if (boardMember != null && memberUtil.isLogin() && boardMember.getEmail().equals(loggedMember.getEmail())) {
             editable = true; // 수정, 삭제 가능
             mine = true; // 게시글 소유자
@@ -502,7 +508,7 @@ public class BoardInfoService {
         /* 게시글 권한 정보 처리 E */
 
         // 게시글 버튼 노출 권한 처리 S
-        boolean showEdit = false, showWrite = false, showList= false, showDelete = false;
+        boolean showEdit = false, showList = false, showDelete = false;
 
         Authority editAuthority = board.getWriteAccessType(); // 글작성, 수정 권한
         Authority listAuthority = board.getListAccessType(); // 글목록 보기 권한
@@ -510,7 +516,7 @@ public class BoardInfoService {
 
         if (editAuthority == Authority.ALL || boardMember == null ||
                 (editAuthority == Authority.USER && memberUtil.isLogin())) { // 수정 삭제 권한이 ALL인 경우, 비회원인 경우, 회원만 가능한 경우 + 로그인한 경우 수정, 삭제 버튼 클릭시 비회원 검증 하므로 노출
-            showWrite = true;
+            showEdit = showDelete = true;
         }
 
         if (listAuthority == Authority.ALL || (listAuthority == Authority.USER && memberUtil.isLogin())) {
@@ -526,6 +532,7 @@ public class BoardInfoService {
         }
 
         item.setShowWrite(showWrite);
+
         item.setShowEdit(showEdit);
         item.setShowDelete(showDelete);
         item.setShowList(showList);
