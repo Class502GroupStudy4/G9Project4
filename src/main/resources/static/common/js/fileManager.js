@@ -62,9 +62,7 @@ const fileManager = {
                         parent.fileUploadCallback(res.data);
                     }
                 })
-                .catch(err => {
-                    alert(err.message)
-                });
+                .catch(err => alert(err.message));
 
         } catch (e) {
             console.error(e);
@@ -84,7 +82,6 @@ const fileManager = {
         (async () => {
             try {
                 const res = await ajaxLoad(`/file/delete/${seq}`, 'DELETE');
-
                 if (typeof parent.fileDeleteCallback === 'function') {
                     parent.fileDeleteCallback(res.data);
                 }
@@ -94,6 +91,9 @@ const fileManager = {
                 console.error(err);
             }
         })();
+
+
+
     },
     /**
      * 파일 조회
@@ -129,6 +129,20 @@ const fileManager = {
                 console.error(err);
             }
         })();
+    },
+    /**
+     * 파일 선택 처리
+     *
+     */
+    select(gid, location, seq, cnt, callback) {
+        const formData = new FormData();
+        formData.append("gid", gid);
+        if (location?.trim()) {
+            formData.append("location", location);
+        }
+
+        seq = Array.isArray(seq) ? seq : [seq];
+        seq.forEach(s => formData.append("seq", s));
     }
 };
 

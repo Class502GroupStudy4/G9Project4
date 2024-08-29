@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="view">
     <div th:replace="~{front/board/default/_common::pageTitle}"></div>
+
     <div class="view-content" th:object="${boardData}">
         <div class="subject">
             <span th:if="*{category != null && !#strings.isEmpty(#strings.trim(category))}" th:text="*{'[' + category + ']'}"></span>
@@ -14,12 +15,9 @@
                 <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
             </div>
             <div class="right">
-                <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">♥</span>
-                <br>
+                <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">★</span>
                 <th:block th:text="#{조회수}"></th:block>: <span th:text="*{viewCount > 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA'): viewCount}"></span>
-                <br>
                 IP: <span th:text="*{ip}"></span>
-                <br>
                 <th:block th:text="#{작성일시}"></th:block>:
                 <span th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm:ss')}"></span>
             </div>
@@ -35,7 +33,7 @@
         </ul>
 
         <div class="links">
-            <a th:if="*{showEdit}" th:href="${@utils.redirectUrl('/board/write/' + board.bid)}" th:text="#{글쓰기}" class="btn"></a>
+            <a th:if="*{showWrite}" th:href="${@utils.redirectUrl('/board/write/' + board.bid)}" th:text="#{글쓰기}" class="btn"></a>
             <a th:if="*{showEdit}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}" th:text="#{글수정}" class="btn"></a>
             <a th:if="*{showDelete}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}" th:text="#{글삭제}" onclick="return confirm('정말 삭제하겠습니까?');" class="btn"></a>
 

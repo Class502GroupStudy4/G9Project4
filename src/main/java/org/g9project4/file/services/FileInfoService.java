@@ -1,7 +1,6 @@
 package org.g9project4.file.services;
 
 import com.querydsl.core.BooleanBuilder;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.file.constants.FileStatus;
 import org.g9project4.file.entities.FileInfo;
@@ -100,7 +99,7 @@ public class FileInfoService {
         item.setFileUrl(fileUrl);
         item.setFilePath(filePath);
 
-        item.setThumbPath(utils.url("/file/thumb/"));
+        item.setThumbUrl(utils.url("/file/thumb"));
     }
 
     // 브라우저 접근 주소
