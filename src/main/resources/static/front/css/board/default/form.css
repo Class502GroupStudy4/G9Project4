@@ -21,21 +21,6 @@ dd { /* 글 아래 텍스트 */
     text-indent: 15px
 }
 
-form {
-    background-color: var(--white);
-    padding: 2rem;
-    border-radius: var(--button-radius);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    max-width: var(--max-width);
-    width: 100%;
-    box-sizing: border-box;
-    /* form을 중앙에 배치 */
-    margin: 0 auto; /* 수평 중앙 배치 */
-    display: flex;
-    flex-direction: column;
-
-}
-
 .button-group { /* 다시 입력, 작성하기 */
     text-align: center;
     border-radius: var(--button-radius); /* 버튼 모서리 반경을 조금 더 작게 설정 */
