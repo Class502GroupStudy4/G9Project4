@@ -8,7 +8,6 @@
     <ul class="list_thumType place">
 
         <li class="bdr_nor" th:each="item, s:${items}" th:object="${item}">
-            <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{contentId}" data-type="TOUR" th:classappend="*{@wishListService.check(contentId, 'TOUR')} ? 'on'">♥</span>
             <div class="place-photo">
                 <a th:href="*{@utils.redirectUrl('/tour/detail/'+contentId)}">
                     <img class="firstImage" th:src="*{firstImage}" th:alt="#{이미지가_존재하지_않습니다.}">
@@ -22,16 +21,28 @@
                 <div class="place-address" th:text="*{address}"></div>
                 <!--            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>-->
 
-                <div class="place-categories" >
-                    <span th:if="*{!#strings.isEmpty(contentTypeId)}" th:text="*{@utils.getTypeByID(contentTypeId).type}"></span>
-                    <span th:if="*{category1!=null}" th:text="*{'#'+@categoryRepository.findDistinctName1ByCategory1(category1)}"></span>
-                    <span th:if="*{category2!=null}" th:text="*{'#'+@categoryRepository.findDistinctName2ByCategory2(category2)}"></span>
-                    <span th:if="*{category3!=null && @categoryRepository.findDistinctName3ByCategory3(category3)!=null}" th:text="*{'#'+@categoryRepository.findDistinctName3ByCategory3(category3)}"></span>
+                <div class="place-categories">
+                    <span th:if="*{!#strings.isEmpty(contentTypeId)}"
+                          th:text="*{@utils.getTypeByID(contentTypeId).type}"></span>
+                    <span th:if="*{category1!=null}"
+                          th:text="*{'#'+@categoryRepository.findDistinctName1ByCategory1(category1)}"></span>
+                    <span th:if="*{category2!=null}"
+                          th:text="*{'#'+@categoryRepository.findDistinctName2ByCategory2(category2)}"></span>
+                    <span th:if="*{category3!=null && @categoryRepository.findDistinctName3ByCategory3(category3)!=null}"
+                          th:text="*{'#'+@categoryRepository.findDistinctName3ByCategory3(category3)}"></span>
                 </div>
-
                 <p class="place-address" th:text="*{placePointValue}"></p>
             </div>
-
+            <div class="right">
+                <div class="right-content">
+                    <div th:text="*{'조회수 : '+ (@visitRecordRepository.countByContentId(contentId)!=null?@visitRecordRepository.countByContentId(contentId):0)}"></div>
+                    <div th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}"
+                         th:data-seq="*{contentId}"
+                         data-type="TOUR"
+                         th:classappend="*{@wishListService.check(contentId, 'TOUR')} ? 'on'">♥
+                    </div>
+                </div>
+            </div>
         </li>
     </ul>
 </div>

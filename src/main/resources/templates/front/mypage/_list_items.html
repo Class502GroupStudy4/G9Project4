@@ -133,7 +133,7 @@
             <th>
                 <a th:text="*{address}" target="_blank"></a>
             </th>
-            <th th:text="*{category1}"></th>
+            <th th:text="*{@categoryRepository.findDistinctName1ByCategory1(category1)}"></th>
         </tr>
         </tbody>
     </table>
