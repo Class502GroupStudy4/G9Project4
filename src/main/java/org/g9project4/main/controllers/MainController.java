@@ -54,12 +54,12 @@ public class MainController implements ExceptionProcessor {
         try {
             data = infoService.getList(bid,Search);
             model.addAttribute("items", data.getItems());
+            List<BoardData> top6Items = data.getItems().stream().limit(6).collect(Collectors.toList());
+            model.addAttribute("items2", top6Items);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("리뷰 게시판을 만들어주세요");
         }
-        List<BoardData> top6Items = data.getItems().stream().limit(6).collect(Collectors.toList());
-        model.addAttribute("items2", top6Items);
         model.addAttribute("addCommonCss",List.of("banner"));
         model.addAttribute("addCss", "main"); // CSS 파일 목록
         model.addAttribute("addScript", "main"); // JS 파일 목록
