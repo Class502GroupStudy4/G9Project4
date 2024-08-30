@@ -158,7 +158,7 @@ public class TourPlaceInfoService {
         LocalDate yearMonth = recordService.thisMonth(); // 이번 달을 기준으로 yearMonth를 가져옵니다.
 
         // 복합 키로 VisitRecord를 조회합니다.
-        VisitRecordId recordId = new VisitRecordId(contentId, uid, yearMonth);
+        VisitRecordId recordId = new VisitRecordId(contentId, uid);
         Optional<VisitRecord> visitRecordOptional = visitRecordRepository.findById(recordId);
 
         // VisitRecord가 존재하면 방문 횟수를 반환하고, 그렇지 않으면 0을 반환합니다.
