@@ -1,5 +1,6 @@
 .list-header {
-    background-color: white; display : block;
+    background-color: white;
+    display: block;
     position: relative;
     padding-top: 5rem;
     padding-bottom: 3rem;
@@ -14,11 +15,11 @@
 }
 
 .container-box {
-    position:relative;
+    position: relative;
     display: flex;
     justify-content: center;
     width: 1013px;
-    height:350px;
+    height: 350px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -50,7 +51,9 @@
     color: #ffc107 !important; /* 강제로 적용 */
 }
 
-
+.board-main-div {
+    margin-top: 110px;
+}
 .list-header-text {
     min-width: 300px;
     font-size: 1.15rem;
@@ -88,6 +91,7 @@
 .list-header-btn {
 
 }
+
 .svg-border-rounded {
     box-sizing: border-box;
 }
@@ -99,8 +103,6 @@
     height: 4rem;
     width: 100%;
 }
-
-
 
 
 /*!*이미지 시작*!*/
@@ -204,9 +206,6 @@
 /*}*/
 
 
-
-
-
 /*리스트*/
 
 .list_main {
@@ -226,6 +225,7 @@
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    margin-top: 70px;
 }
 
 .table_head th, .table_rows td {
@@ -292,11 +292,9 @@
 }
 
 
-
-/*-------------------------------------------------sec2�떆�옉-----------------------------------------------------------------------*/
+/*-------------------------------------------------sec2-----------------------------------------------------------------------*/
 .sec2 {
     background-color: #f0f0f0;
-    padding-bottom: 70px;
 }
 
 .secWrap {
@@ -325,6 +323,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    gap: 10px;
 }
 
 .sec2 .row2 {
@@ -335,7 +336,6 @@
 
 .sec2 .box {
     background-color: silver;
-    margin-bottom: 24px;
     border-radius: 5px;
     overflow: hidden;
     border: 2px solid #f0f0f0;
@@ -346,6 +346,7 @@
     height: 200px;
     position: relative;
     overflow: hidden;
+
 }
 
 .sec2 .box .ImgBox img {
@@ -405,6 +406,39 @@
     position: relative; /* 절대 위치 설정을 위해 필요 */
 }
 
+/* .info 요소의 스타일 조정 */
+.sec2 .data .info {
+    list-style-type: none; /* 리스트 마커 제거 */
+    padding: 0; /* 패딩 제거 */
+    margin: 0; /* 마진 제거 */
+}
+
+/* .info의 li 요소 스타일 조정 */
+.sec2 .data .info li {
+    margin: 0; /* 기본 마진 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    line-height: 1.2; /* 줄 간격 설정 */
+}
+
+/* .info의 p 요소 스타일 조정 */
+.sec2 .data .info p {
+    margin: 0; /* 기본 마진 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+}
+
+/* .info의 span 요소 스타일 조정 */
+.sec2 .data .info .placeName {
+    display: inline; /* 인라인 요소로 설정 */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+/* .header-info2 스타일 */
+.header-info2 {
+    position: absolute; /* 부모 컨테이너를 기준으로 절대 위치 설정 */
+    top: 17px; /* 상단에 위치 */
+    right: 20px; /* 오른쪽에 위치 */
+}
+
 /* .header-info2 스타일 추가 */
 .header-info2 {
     position: absolute; /* 부모 컨테이너를 기준으로 절대 위치 설정 */
@@ -422,8 +456,7 @@
 }
 
 
-
-.Name2{
+.Name2 {
     background-image: url("/images/list/img.png");
     background-repeat: no-repeat;
     background-position-x: 0;
@@ -431,8 +464,9 @@
     line-height: 1;
     right: 0;
 }
+
 .userName {
-margin-left: 25px;
+    margin-left: 25px;
 }
 
 .count {
