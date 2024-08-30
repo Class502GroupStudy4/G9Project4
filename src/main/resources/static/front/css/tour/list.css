@@ -3,17 +3,17 @@
     text-align: right;
 }
 /* ul CSS Start*/
-ul *{
+.list_thumType *{
     font-family: "Noto Sans KR", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     align-items: center;
 }
-ul{
+.list_thumType{
     width: 90%;
     padding: 0 200px 0 30px;
 }
-ul > li{
+.list_thumType > .bdr_nor{
     margin: 0 auto;
     height: 140px;
     position: relative;

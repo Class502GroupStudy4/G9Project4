@@ -229,22 +229,76 @@ main {
 
 /* 푸터 시작 */
 
-
 .footer-content {
     width: 100%; /* 가로 너비를 100%로 설정 */
     background-color: var(--secondary-color); /* 배경색 설정 (예: 어두운 회색) */
     color: #fff; /* 텍스트 색상 설정 */
-    padding: 40px; /* 여백 설정 */
+    padding: 10px; /* 여백 설정 */
     box-sizing: border-box; /* 패딩과 보더를 포함하여 전체 너비와 높이 계산 */
     text-align: center; /* 텍스트를 중앙 정렬 */
-    /*position: ; !* 화면에 고정 *!*/
-    bottom: 0; /* 화면 하단에 위치 */
-    left: 0; /* 화면 왼쪽에 정렬 */
-    z-index: 1000; /* 다른 요소들보다 위에 위치 (필요에 따라 조정) */
+    /*position: ; !* 화면에 고정 *!*!
+    bottom: 0; !* 화면 하단에 위치 *!
+    left: 0; !* 화면 왼쪽에 정렬 *!
+    z-index: 1000; !* 다른 요소들보다 위에 위치 (필요에 따라 조정) */
 }
 
 /* 푸터 내용 스타일 */
+/*--------------------------------------footer------------------------------------------------*/
+footer {
+    background-color: rgba(0, 0, 0, 0.7);
+}
 
+.fWrap {
+    width: 1092px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.ftrow1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ftrow1 .box {
+    width: 260px;
+    color: white;
+    padding-top: 17px;
+    padding-bottom: 17px;
+    box-sizing: border-box;
+}
+
+.fWrap h4 {
+    font-size: 16px;
+    color: #ccc;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    line-height: 2;
+    margin-bottom: 17px;
+}
+
+.fWrap li {
+    line-height: 1.5;
+}
+
+.icon {
+    display: flex;
+    margin-top: 50px;
+}
+
+.ico1 {
+    margin-right: 10px;
+}
+
+.ftrow2 {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    line-height: 2;
+}
+
+.footerbottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: transparent;
+}
 /* 푸터 끝 */
 /* 파일 공통 S */
 .image-file-box {
