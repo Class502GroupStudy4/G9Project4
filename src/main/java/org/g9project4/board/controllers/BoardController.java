@@ -20,6 +20,7 @@ import org.g9project4.global.exceptions.ExceptionProcessor;
 import org.g9project4.global.exceptions.UnAuthorizedException;
 import org.g9project4.global.exceptions.script.AlertBackException;
 import org.g9project4.member.MemberUtil;
+import org.g9project4.planner.services.PlannerNoteService;
 import org.g9project4.search.services.SearchHistoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,8 +46,9 @@ public class BoardController implements ExceptionProcessor {
     private final SearchHistoryService historyService;
     private final BoardViewCountService viewCountService;
     private final BoardAuthService authService;
-
     private final BoardValidator validator;
+    private final PlannerNoteService plannerNoteService;
+
     private final MemberUtil memberUtil;
     private final Utils utils;
 
@@ -70,6 +72,11 @@ public class BoardController implements ExceptionProcessor {
         form.setGuest(!memberUtil.isLogin());
         if (memberUtil.isLogin()) form.setPoster(memberUtil.getMember().getUserName());
 
+        //여행 플래너 공통 처리
+        if (bid.equals("planner_note")) {
+            plannerNoteService.commonProcess(form, model);
+        }
+
         return utils.tpl("board/write");
     }
 
@@ -79,6 +86,12 @@ public class BoardController implements ExceptionProcessor {
         commonProcess(seq, "update", model);
 
         RequestBoard form = infoService.getForm(boardData);
+
+        //여행 플래너 공통 처리
+        if (boardData.getBoard().getBid().equals("planner_note")) {
+            plannerNoteService.commonProcess(form, model);
+        }
+
         model.addAttribute("requestBoard", form);
 
         return utils.tpl("board/update");
@@ -92,6 +105,12 @@ public class BoardController implements ExceptionProcessor {
         System.out.println(errors.getAllErrors().stream().toString());
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);
+
+        //여행 플래너 공통 처리
+        if (form.getBid().equals("planner_note")) {
+            plannerNoteService.commonProcess(form, errors, model);
+        }
+
         boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
         BoardData data = null;
         if (mode.equals("update")) {
@@ -101,6 +120,7 @@ public class BoardController implements ExceptionProcessor {
         form.setGuest(isGuest);
 
         validator.validate(form, errors);
+
         if (errors.hasErrors()) {
             // 업로드된 파일 목록 - editor, attach
             String gid = form.getGid();
@@ -263,7 +283,6 @@ public class BoardController implements ExceptionProcessor {
         }
 
         addCss.add("board/" + skin + "/form");
-
 
         // 게시글 제목으로 title을 표시 하는 경우
         if (List.of("view", "update", "delete").contains(mode)) {

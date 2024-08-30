@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -116,7 +118,6 @@ public class Utils { // 빈의 이름 - utils
      */
     public String nl2br(String str) {
         return str.replace("\n", "<br>").replace("\r", "");
-
     }
 
     public ContentType getTypeByID(String id) {
@@ -240,11 +241,15 @@ public class Utils { // 빈의 이름 - utils
 
     public Map<String, String> toMap(String json) {
         try {
-            return objectMapper.readValue(json, new TypeReference<>() {});
-        } catch (JsonProcessingException e) {}
-
+            return objectMapper.readValue(json, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+        }
         return null;
     }
+
+
+
     public String getThumbUrl(Long seq, int width, int height) {
         return String.format("%s?seq=%d&width=%d&height=%d", url("/file/thumb"), seq, width, height);
     }
