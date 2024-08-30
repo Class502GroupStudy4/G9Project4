@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
 
-    <div class="header-image">
-        <img th:src="@{/images/home-2084.jpg}" alt="Header image" style="width: 100%; height: auto">
+    <div style="text-align: center;">
+        <img class="qna-images" th:src="${@utils.url('/images/자유게시판.png')}" style="width: 80%; max-width: 800px;">
     </div>
 
     <nav th:replace="~{front/board/default/_common::categorylink}"></nav>
