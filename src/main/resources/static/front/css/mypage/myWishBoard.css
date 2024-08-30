@@ -1,5 +1,5 @@
 .wishList-board {
-    font-size: 1.13rem;
+    font-size: 1.25rem;
     width: 100%;
     margin: 10px auto;
 }
@@ -9,4 +9,12 @@
 }
 .wishList-board th {
     padding: 10px 0;
+}
+
+.wishList-board .no-data {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    text-align: center;
+    font-style: italic;
+    color: #34495e;
 }
