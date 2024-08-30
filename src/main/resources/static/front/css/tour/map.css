@@ -32,7 +32,7 @@ html, body {
     width: 300px; /* 메뉴 바 너비 */
     height: 100%; /* 전체 화면 높이 */
     background: rgba(255, 255, 255, 0.7);
-    z-index: 1; /* 지도 위에 표시되도록 설정 */
+    z-index: 3; /* 지도 위에 표시되도록 설정 */
     font-size: 12px;
     border-radius: 10px;
     padding: 10px;
@@ -473,7 +473,7 @@ html, body {
     border-radius: 50%; /* 버튼을 둥글게 */
     cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 버튼에 그림자 추가 */
-    z-index: 10; /* 버튼을 다른 요소들 위에 표시 */
+    z-index: 1; /* 버튼을 다른 요소들 위에 표시 */
 }
 
 
