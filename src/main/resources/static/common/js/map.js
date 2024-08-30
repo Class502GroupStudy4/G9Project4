@@ -12,12 +12,12 @@ const mapLib = {
      *               - marker : [{ lat: 위도, lng: 경도,
      info: { content: html 데이터(인포윈도우), clickable: true|false - true(마커 클릭시 노출) }, image: 이미지 주소 - 마커이미지}]
      */
-    load(mapId, width = 300, height = 300, options) {
+    load(mapId, width = 100, height = 300, options) {
         const mapEl = document.getElementById(mapId);
         if (!mapEl || !options?.center) return;
 
 
-        mapEl.style.width = `${width}px`;
+        mapEl.style.width = `${width}%`;
         mapEl.style.height = `${height}px`;
 
         let {center, marker, markerImage} = options;

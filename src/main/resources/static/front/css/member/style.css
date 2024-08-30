@@ -156,8 +156,6 @@ input[type="checkbox"] {
     font-size: 1.5rem; /* 버튼 텍스트 크기 */
 }
 
-
-
  /*로그인 시작*/
 * {
     margin: 0;
@@ -291,4 +289,5 @@ footer {
     align-items: center; /* 체크박스와 레이블을 수직 중앙 정렬 */
     justify-content: center; /* 체크박스와 레이블을 가로로 중앙 정렬 */
     margin-top: 20px; /* 상단 여백 조정 (필요에 따라 조정) */
+
 }

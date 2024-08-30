@@ -6,7 +6,9 @@
         <h4 th:if="${pagination!=null}" th:text="${'검색된 항목 : '+pagination.total}" class="right"></h4>
     </div>
     <ul class="list_thumType place">
+
         <li class="bdr_nor" th:each="item, s:${items}" th:object="${item}">
+            <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{contentId}" data-type="TOUR" th:classappend="*{@wishListService.check(contentId, 'TOUR')} ? 'on'">♥</span>
             <div class="place-photo">
                 <a th:href="*{@utils.redirectUrl('/tour/detail/'+contentId)}">
                     <img class="firstImage" th:src="*{firstImage}" th:alt="#{이미지가_존재하지_않습니다.}">
@@ -19,6 +21,7 @@
                 </div>
                 <div class="place-address" th:text="*{address}"></div>
                 <!--            <p class="place-contenType" th:if="*{contentType != null}" th:text="*{contentType.getType()}"></p>-->
+
                 <div class="place-categories" >
                     <span th:if="*{!#strings.isEmpty(contentTypeId)}" th:text="*{@utils.getTypeByID(contentTypeId).type}"></span>
                     <span th:if="*{category1!=null}" th:text="*{'#'+@categoryRepository.findDistinctName1ByCategory1(category1)}"></span>
@@ -34,8 +37,6 @@
 </div>
 <!-- searchSidebar 섹션 -->
 <table th:fragment="searchSidebar" class="map-tour-list">
-    <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">♥</span>
-    <br>
     <ul class="list_thumType place" th:each="item, s:${items}" th:object="${item}">
         <li class="bdr_nor" th:attr="data-lat=*{latitude}, data-lng=*{longitude}">
             <div class="place-describe">

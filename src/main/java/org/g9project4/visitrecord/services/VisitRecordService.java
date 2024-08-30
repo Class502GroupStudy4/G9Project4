@@ -31,14 +31,19 @@ public class VisitRecordService {
 
         LocalDate yearMonth = thisMonth();
 
-        VisitRecordId recordId = new VisitRecordId(contentId, uid, yearMonth);
-        VisitRecord record = repository.findById(recordId).orElseGet(VisitRecord::new);
-
-        record.setContentId(contentId);
-        record.setUid(uid);
-        record.setYearMonth(yearMonth);
-        record.setVisitCount(record.getVisitCount() + 1);
-
+        VisitRecordId recordId = new VisitRecordId(contentId, uid);
+        VisitRecord record = repository.findById(recordId).orElse(null);
+        if (record == null) {
+            record = VisitRecord.builder()
+                    .contentId(contentId)
+                    .uid(uid)
+                    .yearMonth(yearMonth)
+                    .visitCount(1L)
+                    .build();
+        } else {
+            record.setYearMonth(yearMonth);
+            record.setVisitCount(record.getVisitCount() + 1);
+        }
         repository.saveAndFlush(record);
     }
 
@@ -51,7 +56,7 @@ public class VisitRecordService {
         builder.and(visitRecord.yearMonth.eq(yearMonth))
                 .and(visitRecord.uid.eq(uid));
 
-        List<VisitRecord> items = (List<VisitRecord>)repository.findAll(builder, Sort.by(desc("viewCount")));
+        List<VisitRecord> items = (List<VisitRecord>) repository.findAll(builder, Sort.by(desc("viewCount")));
 
         return items.stream().map(VisitRecord::getContentId).toList();
     }
