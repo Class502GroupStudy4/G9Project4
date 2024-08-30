@@ -28,9 +28,9 @@
     color: #2d2926;
 }
 .search-option input[type="radio"] {
-    display: none; /* 기본 체크박스 스타일 제거 */
-    width: 30px;
-    height: 30px;
+    /*display: none; !* 기본 체크박스 스타일 제거 *!*/
+    /*width: 30px;*/
+    /*height: 30px;*/
     /*background: url('unchecked.png') no-repeat center;*/
     cursor: pointer;
 }

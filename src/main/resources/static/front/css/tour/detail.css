@@ -1,0 +1,45 @@
+/*detailItem start*/
+.left {
+
+}
+
+.right {
+
+}
+
+.detail-info {
+    border-bottom: 1px solid var(--gray);
+}
+.detail-info > div{
+    display: flex;
+    justify-content: space-between;
+}
+.title * {
+    margin: 0 auto;
+}
+
+.title h2 {
+    font-size: 2rem;
+}
+.firstImage dd{
+    margin:0 auto;
+}
+.firstImage img {
+    height: 600px;
+}
+
+.overview dd {
+    border-top: 1px black solid;
+
+}
+
+.overview dd div {
+    margin: 0 auto;
+    line-height: 1.7rem;
+    font-size: 1.2rem;
+    color: var(--gray);
+}
+
+/*detailItem end*/
+/*detailPet start*/
+/*detailPet end*/

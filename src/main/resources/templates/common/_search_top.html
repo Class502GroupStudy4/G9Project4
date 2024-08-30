@@ -43,7 +43,7 @@
             </label>
         </dd>
     </div>
-    <div class="place-search-option">
+    <div class="place-search-option" th:if="*{areaCode!=null&&areaCode!=''}">
         <dt>세부지역 :</dt>
         <dd>
             <label>
@@ -51,7 +51,8 @@
                     <option value="" th:selected="${tourPlaceSearch.sigunguCode==null}" th:text="#{전체}"></option>
                     <option th:each="code :${@sigunguCodeRepository.findAllByAreaCode(tourPlaceSearch.areaCode)}"
                             th:id="'areaCode'+${code.areaCode}"
-                            th:value="${code.sigunguCode}" th:text="${code.name}" th:selected="${!#lists.isEmpty(tourPlaceSearch.sigunguCode)&&#lists.contains(tourPlaceSearch.sigunguCode,code.sigunguCode)}">
+                            th:value="${code.sigunguCode}" th:text="${code.name}"
+                            th:selected="${!#lists.isEmpty(tourPlaceSearch.sigunguCode)&&#lists.contains(tourPlaceSearch.sigunguCode,code.sigunguCode)}">
                 </select>
             </label>
         </dd>
@@ -74,51 +75,57 @@
             <label>
                 <select name="category1" class="category1 custom-radio">
                     <option value="" th:selected="${tourPlaceSearch.category1==null}" th:text="#{전체}"></option>
-                    <option th:each="cat : ${category1}" th:value="${cat[0]}" th:selected="${tourPlaceSearch.category1==cat[0]}"
+                    <option th:each="cat : ${category1}" th:value="${cat[0]}"
+                            th:selected="${tourPlaceSearch.category1==cat[0]}"
                             th:text="${cat[1]}">
                 </select>
             </label>
         </dd>
     </div>
 
-    <div class="place-search-option">
+    <div class="place-search-option" th:if="*{category1!=null&&category1!=''}">
         <dt>세부 카테고리 1:</dt>
         <dd>
             <label>
-                <select class="category2 custom-radio" name="category2" >
+                <select class="category2 custom-radio" name="category2">
                     <option value="" th:selected="${tourPlaceSearch.category2==null}" th:text="#{전체}"></option>
-                    <option th:each="cat2 : ${@categoryRepository.findDistinctCategory2ByCategory1(tourPlaceSearch.category1)}" th:value="${cat2[0]}" th:text="${cat2[1]}" th:selected="${tourPlaceSearch.category2==cat2[0]}">
+                    <option th:each="cat2 : ${@categoryRepository.findDistinctCategory2ByCategory1(tourPlaceSearch.category1)}"
+                            th:value="${cat2[0]}" th:text="${cat2[1]}"
+                            th:selected="${tourPlaceSearch.category2==cat2[0]}">
+                    </option>
+                </select>
+            </label>
+        </dd>
+    </div>
+    <div class="place-search-option" th:if="*{category3!=null&&category3!=''}">
+        <dt>세부 카테고리 2:</dt>
+        <dd>
+            <label>
+                <select class="category3 custom-radio" name="category3">
+                    <option value="" th:selected="${tourPlaceSearch.category3==null}" th:text="#{전체}"></option>
+                    <option th:each="cat3 : ${@categoryRepository.findDistinctCategory3ByCategory2(tourPlaceSearch.category2)}"
+                            th:value="${cat3[0]}" th:text="${cat3[1]}"
+                            th:selected="${tourPlaceSearch.category3==cat3[0]}">
                     </option>
                 </select>
             </label>
         </dd>
     </div>
     <div class="place-search-option">
-        <dt>세부 카테고리 2:</dt>
+        <dt>정렬 기준 :</dt>
         <dd>
-            <label>
-                <select class="category3 custom-radio" name="category3" >
-                    <option value="" th:selected="${tourPlaceSearch.category3==null}" th:text="#{전체}"></option>
-                    <option th:each="cat3 : ${@categoryRepository.findDistinctCategory3ByCategory2(tourPlaceSearch.category2)}" th:value="${cat3[0]}" th:text="${cat3[1]}" th:selected="${tourPlaceSearch.category3==cat3[0]}">
-                    </option>
-                </select>
-            </label>
+            <th:block th:each="orderBy,s :${@getOrders}">
+                <label>
+                    <input type="radio" class="orderBy" name="orderBy" th:text="${orderBy.type}"
+                           th:value="${orderBy.name}"
+                           th:id="orderBy+${orderBy.name}"
+                           th:checked="${tourPlaceSearch.orderBy==orderBy.name}">
+                    <th:block th:if="${s.even}"><br></th:block><!--onclick="frmTotalSearch.submit()"-->
+                </label>
+            </th:block>
         </dd>
     </div>
-    <div></div>
-    <dt>정렬 기준 :</dt>
-    <dd>
-        <th:block th:each="orderBy :${@getOrders}">
-            <label>
-                <i th:if="${tourPlaceSearch.orderBy==orderBy.name}" class="xi-check-square-o"></i>
-                <i th:unless="${tourPlaceSearch.orderBy==orderBy.name}" class="xi-checkbox-blank"></i>
-                <input type="radio" class="orderBy custom-radio" name="orderBy" th:text="${orderBy.type}"
-                       th:value="${orderBy.name}"
-                       th:id="orderBy+${orderBy.name}"
-                       th:checked="${tourPlaceSearch.orderBy==orderBy.name}" onclick="frmTotalSearch.submit()">
-            </label>
-        </th:block>
-    </dd>
+
     <div class="buttons">
         <button type="button" class="button search-option-submit" id="search-reset">초기화</button>
         <button type="submit" class="button search-option-submit">검색</button>

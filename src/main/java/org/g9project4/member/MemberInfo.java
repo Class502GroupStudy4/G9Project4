@@ -1,5 +1,6 @@
 package org.g9project4.member;
 
+import jakarta.persistence.Transient;
 import lombok.Builder;
 import lombok.Data;
 import org.g9project4.member.entities.Member;
@@ -16,7 +17,8 @@ public class MemberInfo implements UserDetails, Serializable {
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
-    private transient Member member;
+    @Transient
+    private Member member;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
