@@ -17,8 +17,8 @@ public class MemberInfo implements UserDetails, Serializable {
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
-    @Transient
-    private Member member;
+
+    private transient Member member;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

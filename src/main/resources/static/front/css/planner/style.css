@@ -1,0 +1,90 @@
+/* 전체 레이아웃 */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    padding: 20px;
+}
+.search-blank{
+
+}
+/* 게시글 목록 스타일 */
+.list-items {
+    list-style: none; /* 기본 불릿 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.list-items li {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0; /* 게시글 사이에 경계선 */
+}
+
+.list-items li:last-child {
+    border-bottom: none; /* 마지막 게시글에는 경계선 없음 */
+}
+.planner-list div{
+    justify-content: space-between;
+}
+.no-data {
+    text-align: center;
+    color: #888;
+    padding: 20px;
+}
+
+.subject {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--gray); /* 애플 블루 색상 */
+    text-decoration: none;
+}
+
+.subject:hover {
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}
+.planner-link{
+    display: flex;
+}
+
+.planner-info {
+    margin-top: 5px;
+    font-size: 14px;
+    display: flex;
+}
+.planner-info span{
+    color: #666;
+}
+.poster {
+    font-weight: 500;
+}
+
+.view-count {
+    margin-left: 15px;
+}
+
+.datetime {
+    margin-left: 15px;
+}
+
+/* 하단 박스 스타일 */
+
+
+/* 검색 폼 스타일 */
+.planner-top{
+    justify-content: space-between;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+.ALL2 {
+    display: flex;
+    gap: 10px;
+}
+
+
