@@ -69,4 +69,11 @@ public class MemberInfoService implements UserDetailsService {
             member.setProfileImage(items.get(0));
         }
     }
+    public void addInfo(Member member) {
+        // 프로필 이미지 추가 정보 처리
+        List<FileInfo> items = fileInfoService.getList(member.getEmail());
+        if (items != null && !items.isEmpty()) {
+            member.setProfileImage(items.get(0));
+        }
+    }
 }
