@@ -2,42 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <form name="frmLogin" method="post" th:action="${@utils.url('/member/login')}" autocomplete="off"
-          th:object="${requestLogin}">
-        <input type="hidden" name="redirectUrl" th:field="*{redirectUrl}">
-        <dl>
-            <dt th:text="#{이메일}"></dt>
-            <dd>
-                <input type="text" name="email" th:field="*{email}">
-                <div th:if="*{!success}" class="error" th:each="err:${#fields.errors('email')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{비밀번호}"></dt>
-            <dd>
-                <input type="password" name="password" th:field="*{password}">
-                <div th:if="*{!success}" class="error" th:each="err:${#fields.errors('password')}"
-                     th:text="${err}"></div>
-            </dd>
-        </dl>
+    <div class="main">
+        <div class="wrap mWrap">
+            <h1>
+                <a th:class="top-logo" href="/">여행어때</a>
+            </h1>
+            <div class="con">
+                <form name="frmLogin" method="post" th:action="${@utils.url('/member/login')}" autocomplete="off"
+                      th:object="${requestLogin}">
+                    <input type="hidden" name="redirectUrl" th:field="*{redirectUrl}">
 
-        <div>
-            <input type="checkbox" name="autoLogin" value="true" id="autoLogin">
-            <label for="autoLogin" th:text="#{자동_로그인}"></label>
-        </div>
 
-        <div class="error global" th:each="err: ${#fields.globalErrors()}" th:text="${err}"></div>
-        <div class="buttons">
-            <button class="button member-button" type="submit" th:text="#{로그인}"></button>
-            <button class="button member-button" type="button">
-                <a href="#" th:href="@{/member/join}" th:text="#{회원가입}"></a>
-            </button>
-        </div>
+                    <div class="formRow1">
 
-        <!-- 이미지 위치를 로그인 폼 아래로 이동 -->
-        <div style="text-align: center; margin-top: 20px;">
-            <img class="qna-images" th:src="${@utils.url('/images/여행어때.png')}" style="width: 80%; max-width: 800px; border: none;">
+                        <input type="text" class="form-control" placeholder="Enter ID"
+                               id="username" name="username" th:field="*{email}">
+                        <input
+                                type="password" class="form-control" placeholder="Enter password"
+                                id="password" name="password" th:field="*{password}">
+
+                        <div th:if="*{!success}" class="error" th:each="err:${#fields.errors('password')}"
+                             th:text="${err}"></div>
+                        <div class="errorMessage">
+                            <div th:if="*{!success}" class="error" th:each="err:${#fields.errors('email')}"
+                                 th:text="${err}"></div>
+                        </div>
+                    </div>
+
+                    <div class="formRow2">
+                        <button type="submit" id="btn_login" class="btn btn_login">로그인</button>
+                        <a class="btn btn_kakao"
+                           href="https://kauth.kakao.com/oauth/authorize?client_id=41f12d87aaeb5a7da3f35f70e190c310&redirect_uri=http://localhost:9090/oaga/auth/kakao/callback&response_type=code">카카오아이디로
+                            로그인</a>
+                    </div>
+
+                    <div th:class="autoLogin">
+                        <input type="checkbox" value="true" id="autoLogin">
+                        <label for="autoLogin" th:text="#{자동_로그인}"></label>
+                    </div>
+
+                    <div class="error global" th:each="err: ${#fields.globalErrors()}" th:text="${err}"></div>
+
+                </form>
+                <p>
+                    혹시, 여행어때가 처음이신가요? <a href="#" th:href="@{/member/join}" th:text="#{회원가입}"></a>
+                </p>
+            </div>
+
+            <div class="wrap fWrap">
+                <p>Copyright ⓒ 2024 How about a trip.com, All Rights Reserved.</p>
+                <p>제휴문의: elancla14@gmail.com | 051-0000-0000</p>
+            </div>
         </div>
-    </form>
+    </div>
+
 </main>
 </html>

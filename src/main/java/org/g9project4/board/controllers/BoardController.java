@@ -164,6 +164,7 @@ public class BoardController implements ExceptionProcessor {
         ListData<BoardData> data = infoService.getList(bid, search);
 
         // 상위 6개만 추출
+
         List<BoardData> top6Items = data.getItems().stream().limit(6).collect(Collectors.toList());
         model.addAttribute("items2", top6Items);
         model.addAttribute("items", data.getItems());
