@@ -80,7 +80,7 @@
     </section>
     <!-- ABOUT 부분 끝 -->
 
-    <th:block>
+    <th:block th:if="${!#lists.isEmpty(items)}">
         <section class="sec2_">
             <div class="secWrap_">
                 <div th:class="review_main_wright">
@@ -90,7 +90,7 @@
 
 
                 <div class="row1_">
-                    <th:block th:if="${!#lists.isEmpty(items)}" th:each="item, status : ${items}" th:object="${item}">
+                    <th:block th:if="${!#lists.isEmpty(items2)}" th:each="item, status : ${items2}" th:object="${item}">
                         <tr th:if="${!#lists.isEmpty(item.editorImages)}">
                             <div th:class="box_">
                                 <a th:href="*{@utils.url('/board/view/'+seq)}">
@@ -175,7 +175,7 @@
     </section>
     <!--            메인 3개 끝-->
 
-    <!--        메인 6개 시작 -->
+
     <!--        메인 6개 시작 -->
     <section class="sec2">
         <div class="secWrap">
@@ -282,9 +282,7 @@
     </div>
     <!--special-box E-->
 
-    <th:block th:if="${!#lists.isEmpty(items)}">
 
-    </th:block>
 </main>
 
 </html>

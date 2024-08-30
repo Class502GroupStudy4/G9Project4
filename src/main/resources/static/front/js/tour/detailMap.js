@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if(options.center.lat==0.0){
         return;
     }else if (options.center.lat !== undefined) {
-        mapLib.load("map", 900, 600, options);
+        mapLib.load("map", 100, 600, options);
     } else if (address !== undefined) {
         try {
             mapLib.loadByAddress(address, 0, "map", 900, 600, options);

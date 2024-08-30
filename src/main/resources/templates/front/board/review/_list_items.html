@@ -49,7 +49,8 @@
 
                 <div class="row1">
                     <th:block th:if="${!#lists.isEmpty(items2)}" th:each="item, status : ${items2}" th:object="${item}">
-                        <tr th:if="${!#lists.isEmpty(item.editorImages)}">
+                        <tr th:if="${!#lists.isEmpty(item.editorImages)}" >
+
                             <div th:class="box">
                                 <a th:href="*{@utils.url('/board/view/'+seq)}">
                                     <div class="ImgBox">
@@ -71,7 +72,7 @@
                                                 </li>
                                             </ul>
 
-                                            <!-- 오른쪽 상단으로 이동할 요소 -->
+
                                             <div class="header-info2">
                                                 <p class="Name2">
                                                     <span class="userName" th:text="*{poster}"></span>
@@ -83,6 +84,9 @@
                             </div>
                         </tr>
                     </th:block>
+                    <!--            <th:block>-->
+                    <!--                <li th:if="${!#lists.isEmpty(items)}" th:text="#{이미지가_작성된_리뷰가_없어요._첫_작성자가_되어보세요.}" class="no-data"></li>-->
+                    <!--            </th:block>-->
                 </div>
             </div>
         </section>

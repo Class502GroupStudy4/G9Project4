@@ -1,18 +1,17 @@
-.list-items{
+.wishList-board {
     font-size: 1.25rem;
     width: 100%;
-    margin: 0 auto;
+    margin: 10px auto;
 }
-.list-items tr{
+.wishList-board tr {
     margin-top: 10px;
     height: 1.5rem;
 }
-.list-items th{
-
+.wishList-board th {
     padding: 10px 0;
 }
 
-.list-items .no-data {
+.wishList-board .no-data {
     font-size: 1.5rem;
     font-weight: bolder;
     text-align: center;
