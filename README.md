@@ -16,17 +16,19 @@
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 </div>
 
-
-# 💙프로젝트 소개
+# 🏖️프로젝트 소개
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/90031892-a397-4966-80d2-db7807d0de3f" alt="mainLogo(b)" width="500">
+  <img src="https://github.com/user-attachments/assets/18c81153-7786-48ec-bd01-abf63f147e93" alt="mainLogo" width="500">
 </p>
-"여행어때?"는 한국관광공사 데이터를 기반으로 이용자 맞춤형 여행 정보를 제공하는 플랫폼으로 한국관광공사의 여행지 API를 활용해 다양한 여행지 정보를 제공하며, 사용자의 성별, 나이 등을 고려한 개인화된 추천 서비스를 제공합니다. 또한, 커뮤니티 기능을 통해 여행 계획을 세우고 후기를 공유할 수 있습니다. <br> "여행어때?"를 통해 나만의 여행 기록을 남겨보세요!
+여행어때? 바로가기 ➡️ http://maratanghuru.xyz/app
+<br>
+<br>
+"여행어때?"는 한국관광공사 데이터를 기반으로 이용자 맞춤형 여행 정보를 제공하는 플랫폼으로 한국관광공사의 여행지 API를 활용해 다양한 여행지 정보를 제공하며, 사용자의 성별, 나이 등을 고려한 개인화된 추천 서비스를 제공합니다. 또한, 커뮤니티 기능을 통해 여행 계획을 세우고 후기를 공유할 수 있습니다. <br> <br> "여행어때?" 사이트트를 통해 나만의 여행 기록을 남겨보세요!
 
-## 💚개발기간
+## ⛰️개발기간
 - 2024.07.31 ~ 2024.08.31
   
-## 🧡멤버 구성
+## 🏕️멤버 구성
  <table>
         <thead>
             <tr>
@@ -62,7 +64,7 @@
                     </a>
                 </td>
                 <td class="description">
-                    관리자 페이지, 메인화면 CSS 담당
+                    관리자 페이지 기능, 전반적인 CSS 담당
                 </td>
             </tr>
             <tr>
@@ -76,7 +78,7 @@
                     </a>
                 </td>
                 <td class="description">
-                    회원가입, 이메일 검증
+                    회원가입 시 이메일 검증, 게시판
                 </td>
             </tr>
             <tr>
@@ -125,7 +127,7 @@
     </table>
 
   
-## 💛개발 환경
+## ⛺개발 환경
 - Front
     - IDE : IntelliJ
     - Framework :
@@ -136,13 +138,13 @@
     - DataBase : Oracle
     - ORM :
       
-## 🤍USER FLOW
+## 🌊USER FLOW
 ![User Flow (1)](https://github.com/user-attachments/assets/7e65c013-65e5-4a6c-bd99-433a051e9dae)
 
-## 🖤ERD 구조
-![ERD 구조](https://github.com/user-attachments/assets/523a71dc-2bff-44b0-a245-a08ec8654125)
+## 🚋ERD 구조
+![ERD 구조](https://github.com/user-attachments/assets/bce969c5-54e0-43aa-b5da-616052fb97cd)
 
-## 💜주요 기능 목차
+## ✈️주요 기능 목차
 - 메인화면
 - 계정관리
     - 회원가입
