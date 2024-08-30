@@ -6,11 +6,10 @@
             <div class="container-box">
                 <div class="row-center">
                     <div class="list-header-txtbox">
-                        <h1 class="list-header-title">여행어때 사용자들의 자세한
-                            <br>국내 여행지 리뷰</br>
+                        <h1 class="list-header-title">여행어때 사용자들이 남긴
+                            <br>국내 여행지 사진</br>
                         </h1>
-                        <p class="list-header-text">생생한 경험자들의 여행리뷰를 참고하여 성공적인 여행을 만들 수
-                            있어요</p>
+                        <p class="list-header-text">여러분의 특별한 순간을 공유하고, 다른 여행자들과 소중한 추억을 나누는 기회를 가져보세요!
                         <a th:href="${@utils.url('/board/write/' + bid)}">
                             <button class="list-write-btn">나도
                                 리뷰 작성하러 가기
@@ -20,7 +19,7 @@
                         </div>
                     </div>
                     <div class="list-header-img-box">
-                        <img th:src="${@utils.url('/images/BoardReview/list.png')}" alt=""/>
+                        <img th:class="gallery_image" th:src="${@utils.url('/images/BoardGallery/gallery.jpg')}" alt=""/>
                     </div>
 
                 </div>
@@ -48,7 +47,7 @@
 
 
                 <div class="row1">
-                    <th:block th:if="${!#lists.isEmpty(items2)}" th:each="item, status : ${items2}" th:object="${item}">
+                    <th:block th:if="${!#lists.isEmpty(items)}" th:each="item, status : ${items}" th:object="${item}">
                         <tr th:if="${!#lists.isEmpty(item.editorImages)}" >
                             <div th:class="box">
                                 <a th:href="*{@utils.url('/board/view/'+seq)}">
