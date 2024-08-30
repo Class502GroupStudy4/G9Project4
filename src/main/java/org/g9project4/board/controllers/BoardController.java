@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/board")
@@ -141,7 +142,8 @@ public class BoardController implements ExceptionProcessor {
         historyService.saveBoard(search.getSkey());
 
         ListData<BoardData> data = infoService.getList(bid, search);
-
+        List<BoardData> top6Items = data.getItems().stream().limit(6).collect(Collectors.toList());
+        model.addAttribute("items2", top6Items);
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
 

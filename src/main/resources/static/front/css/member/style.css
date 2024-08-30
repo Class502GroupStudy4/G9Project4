@@ -155,3 +155,140 @@ input[type="checkbox"] {
     color: white;
     font-size: 1.5rem; /* 버튼 텍스트 크기 */
 }
+
+
+
+ /*로그인 시작*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+.top-logo {
+    text-decoration: none;
+    color: #138496;
+}
+
+.main {
+    width: 100%;
+    height: 100vh;
+    user-select: none;
+}
+
+.mWrap {
+    width: 600px; /* 크기 키움 */
+    height: 400px; /* 크기 키움 */
+    padding-top: 120px; /* 여백 키움 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px; /* 여백 키움 */
+    color: rgba(245, 161, 25, 0.9);
+    font-size: 36px; /* 폰트 크기 키움 */
+}
+
+.formRow1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px; /* 여백 키움 */
+}
+
+.formRow1 input {
+    width: 350px; /* 크기 키움 */
+    height: 30px; /* 높이 키움 */
+    margin-bottom: 40px; /* 여백 키움 */
+    border-top: transparent;
+    border-left: transparent;
+    border-right: transparent;
+    border-bottom: 2px solid rgba(3, 3, 3, 0.4); /* 두께 키움 */
+    font-size: 14px; /* 폰트 크기 키움 */
+    text-indent: 5px; /* 여백 키움 */
+    background-color: transparent;
+    color: rgba(3, 3, 3, 0.6); /* 색상 조정 */
+}
+
+.formRow2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formRow2 .btn_login {
+    width: 320px; /* 크기 키움 */
+    height: 40px; /* 높이 키움 */
+    border-radius: 8px; /* 모서리 둥글게 조정 */
+    border: transparent;
+    font-weight: bold;
+    margin-bottom: 30px; /* 여백 키움 */
+    color: #fff;
+    font-size: 16px; /* 폰트 크기 키움 */
+    background-color: #138496
+}
+
+.formRow2 .btn_login:hover {
+    cursor: pointer;
+}
+
+.formRow2 a {
+    width: 320px; /* 크기 키움 */
+    display: block;
+    line-height: 30px; /* 높이 키움 */
+    border: 1px solid rgba(3, 3, 3, 0.2);
+    background-color: transparent;
+    text-align: center;
+    border-radius: 8px; /* 모서리 둥글게 조정 */
+    height: 30px; /* 높이 키움 */
+    font-weight: bold;
+    font-size: 14px; /* 폰트 크기 키움 */
+    color: rgba(3, 3, 3, 0.7); /* 색상 조정 */
+}
+
+footer {
+    /* footer 스타일 추가 필요시 작성 */
+}
+
+.fWrap {
+    padding-top: 15px; /* 여백 키움 */
+    font-size: 12px; /* 폰트 크기 키움 */
+    text-align: center;
+    color: rgba(3, 3, 3, 0.7); /* 색상 조정 */
+    line-height: 2.0; /* 줄 간격 조정 */
+    width: 600px; /* 크기 키움 */
+    height: 80px; /* 높이 키움 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fWrap p:nth-child(2) {
+    /* 스타일 추가 필요시 작성 */
+}
+
+.con p {
+    text-align: center;
+    font-size: 14px; /* 폰트 크기 키움 */
+    color: rgba(3, 3, 3, 0.7); /* 색상 조정 */
+    padding-top: 40px; /* 여백 키움 */
+}
+
+.con p a {
+    color: #138496
+}
+
+.con p a:hover {
+    text-decoration: underline;
+}
+
+.autoLogin {
+    display: flex;
+    align-items: center; /* 체크박스와 레이블을 수직 중앙 정렬 */
+    justify-content: center; /* 체크박스와 레이블을 가로로 중앙 정렬 */
+    margin-top: 20px; /* 상단 여백 조정 (필요에 따라 조정) */
+}
