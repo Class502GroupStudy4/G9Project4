@@ -1,5 +1,7 @@
 /*List CSS Start*/
-
+.board-main-div {
+    margin-top: 110px;
+}
 .category-links {
     text-align: center; /* 중앙 정렬 */
     font-size: 18px; /* 적당한 글자 크기 */
