@@ -153,9 +153,11 @@
 
 .planner-box .title-wrap input[type='text'] {
     width: 100%;
-    height: 45px;
+    height: 40px;
     border: 1px solid #ccc;
     border-radius: 3px;
+    padding-left: 40px; /* 왼쪽 여백 추가 */
+    padding-right: 40px; /* 오른쪽 여백 추가 */
 }
 
 .planner-box tr.done {
