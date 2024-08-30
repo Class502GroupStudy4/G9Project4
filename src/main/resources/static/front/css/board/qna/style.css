@@ -7,6 +7,9 @@ body {
     background-color: #f7f7f7;
     color: #333;
 }
+.board-main-div {
+    margin-top: 110px;
+}
 
 h1 {
     font-weight: 700;
