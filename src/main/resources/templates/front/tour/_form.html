@@ -34,6 +34,8 @@
 </div>
 <!-- searchSidebar 섹션 -->
 <table th:fragment="searchSidebar" class="map-tour-list">
+    <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">♥</span>
+    <br>
     <ul class="list_thumType place" th:each="item, s:${items}" th:object="${item}">
         <li class="bdr_nor" th:attr="data-lat=*{latitude}, data-lng=*{longitude}">
             <div class="place-describe">

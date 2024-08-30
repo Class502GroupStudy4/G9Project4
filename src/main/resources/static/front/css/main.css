@@ -540,7 +540,7 @@ input {
 
 
 /*special-box S*/
-.review_main_wright {
+.review_main_wright2 {
     line-height: 1;
     padding-top: 70px;
     margin-bottom: 10px;
@@ -549,9 +549,12 @@ input {
     text-align: center;
 }
 
-.review_main_wright p {
-    margin-top: 15px;
-    margin-bottom: 15px;
+
+.tit2 {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    margin-top: 10px;
 }
 
 /*.bg {*/

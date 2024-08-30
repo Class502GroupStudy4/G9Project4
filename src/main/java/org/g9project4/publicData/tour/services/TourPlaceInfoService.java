@@ -57,10 +57,10 @@ public class TourPlaceInfoService {
     private final HttpServletRequest request;
     private final VisitRecordService recordService;
     private final SearchHistoryService historyService;
-private final SearchHistoryRepository searchHistoryRepository;
-private final VisitRecordRepository visitRecordRepository;
-private final VisitRecordService visitRecordService;
-private final SearchHistoryService searchHistoryService;
+    private final SearchHistoryRepository searchHistoryRepository;
+    private final VisitRecordRepository visitRecordRepository;
+    private final VisitRecordService visitRecordService;
+    private final SearchHistoryService searchHistoryService;
 
 
     /* km 마이페이지 - 검색기록 방문기록 추천 S */
@@ -292,4 +292,5 @@ private final SearchHistoryService searchHistoryService;
             item.setContentType(type);
         }
     }
+
 }

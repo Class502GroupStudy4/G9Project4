@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="home__info-overlay">
-                    <a th:href="${@utils.redirectUrl('/tour/list/spot')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list')}">
                         <img th:src="${@utils.url('/images/main/home2.jpg')}" alt="추천 장소 이미지" class="home__info-img">
                     </a>
                 </div>
@@ -91,7 +91,7 @@
             <div class="con">
                 <div class="box">
                     <!--        <li><a th:href="${@utils.redirectUrl('/tour/list')}" th:text="#{홈}"></a></li>-->
-                    <a th:href="${@utils.redirectUrl('/tour/list/spot')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list?contentType=spot')}">
                         <img th:src="${@utils.url('/images/list/spot.png')}" alt=""/>
                         <h4>관광</h4>
                         <p>
@@ -101,7 +101,7 @@
                 </div>
 
                 <div class="box">
-                    <a th:href="${@utils.redirectUrl('/tour/list/culture')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list?contentType=culture')}">
                         <img th:src="${@utils.url('/images/list/culture.jpg')}" alt=""/>
                         <h4>문화시설</h4>
                         <p>
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="box">
-                    <a th:href="${@utils.redirectUrl('/tour/list/festival')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list?contentType=festival')}">
                         <img th:src="${@utils.url('/images/list/festival.jpg')}" alt=""/>
                         <h4>행사/공연/축제</h4>
                         <p>
@@ -135,7 +135,7 @@
 
             <div class="row1">
                 <div class="box">
-                    <a th:href="${@utils.redirectUrl('/tour/list/course')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list?contentType=course')}">
                         <div class="ImgBox">
                             <img th:src="${@utils.url('/images/list/course.jpg')}" alt=""/>
                             <div class="txt">
@@ -145,7 +145,7 @@
                     </a>
 
 
-                    <a th:href="${@utils.redirectUrl('/tour/list/leports')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list?contentType=leports')}">
                         <div class="ImgBox">
                             <img th:src="${@utils.url('/images/list/leports.jpg')}" alt=""/>
                             <div class="txt">
@@ -153,7 +153,7 @@
                             </div>
                         </div>
                     </a>
-                    <a th:href="${@utils.redirectUrl('/tour/list/stay')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list?contentType=stay')}">
                         <div class="ImgBox">
                             <img th:src="${@utils.url('/images/list/stay.jpg')}" alt=""/>
                             <div class="txt">
@@ -166,7 +166,7 @@
 
             <div class=" row2">
                 <div class="box">
-                    <a th:href="${@utils.redirectUrl('/tour/list/shopping')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list?contentType=shopping')}">
                         <div class="ImgBox">
                             <img th:src="${@utils.url('/images/list/shopping.jpg')}" alt=""/>
                             <div class="txt">
@@ -174,7 +174,7 @@
                             </div>
                         </div>
                     </a>
-                    <a th:href="${@utils.redirectUrl('/tour/list/restaurant')}">
+                    <a th:href="${@utils.redirectUrl('/tour/list?contentType=restaurant')}">
                         <div class="ImgBox">
                             <img th:src="${@utils.url('/images/list/restaurant.jpg')}" alt=""/>
                             <div class="txt">
@@ -182,7 +182,7 @@
                             </div>
                         </div>
                     </a>
-                    <a th:href=" ${@utils.redirectUrl('/tour/list/green')}">
+                    <a th:href=" ${@utils.redirectUrl('/tour/list?contentType=green')}">
                         <div class="ImgBox">
                             <img th:src="${@utils.url('/images/list/green.jpg')}" alt=""/>
                             <div class="txt">
@@ -198,9 +198,9 @@
     <!--    6개 끝-->
 
 
-    <div th:class="review_main_wright">
+    <div th:class="review_main_wright2">
         <h3>맞춤 여행지</h3>
-        <p class="tit">나만의 완벽한 여행 코스, 맞춤형 여행이 바로 여기에서 시작됩니다!</p>
+        <p class="tit2">나만의 완벽한 여행 코스, 맞춤형 여행이 바로 여기에서 시작됩니다!</p>
     </div>
 
 
@@ -233,6 +233,9 @@
     </div>
     <!--special-box E-->
 
+    <th:block th:if="${!#lists.isEmpty(items)}">
+
+    </th:block>
 </main>
 
 </html>

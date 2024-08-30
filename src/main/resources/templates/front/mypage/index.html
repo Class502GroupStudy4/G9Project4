@@ -38,16 +38,16 @@
                     <dd th:text="${loggedMember.mobile}"></dd>
                 </dl>
                 <dl>
-                    <dt th:text="#{출생일}"></dt>
+                    <dt th:text="#{생일}"></dt>
                     <dd th:text="${loggedMember.birth}"></dd>
                 </dl>
                 <dl>
                     <dt th:text="#{성별}"></dt>
-                    <dd th:text="${loggedMember.gende}"></dd>
+                    <dd th:text="${loggedMember.gende.toString().equals('FEMALE') ? '여성' : '남성'}"></dd>
                 </dl>
                 <dl>
-                    <dt th:text="#{외국인여부}"></dt>
-                    <dd th:text="${loggedMember.isForeigner}"></dd>
+                    <dt th:text="#{국적}"></dt>
+                    <dd th:text="${loggedMember.isForeigner ? '외국인' : '내국인'}"></dd>
                 </dl>
             <dl>
                 <dt th:text="#{관심사}"></dt>

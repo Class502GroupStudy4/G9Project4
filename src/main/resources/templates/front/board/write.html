@@ -21,5 +21,9 @@
         <th:block th:replace="~{front/board/qna/_write::write}"></th:block>
     </th:block>
 
+    <th:block th:if="${board.skin == 'planner'}">
+        <th:block th:replace="~{front/board/planner/_write::write}"></th:block>
+    </th:block>
+
 </main>
 </html>

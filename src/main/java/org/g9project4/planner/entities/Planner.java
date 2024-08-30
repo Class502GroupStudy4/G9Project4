@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.g9project4.board.entities.BoardData;
 import org.g9project4.global.entities.BaseEntity;
 import org.g9project4.member.entities.Member;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,4 +43,7 @@ public class Planner extends BaseEntity {
 
     @Transient
     public List<Map<String, String>> itineraries;
+
+    @Transient
+    public List<BoardData> items; //여행 노트
 }

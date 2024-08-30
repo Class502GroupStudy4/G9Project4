@@ -11,6 +11,7 @@ const search = {
     }
 };
 window.addEventListener("DOMContentLoaded", function () {
+
     const resetEl = document.getElementById("search-reset");
     resetEl.addEventListener("click", function (e) {
         search.reset();
