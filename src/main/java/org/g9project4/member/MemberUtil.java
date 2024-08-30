@@ -35,44 +35,41 @@ public class MemberUtil {
 
 
     //km  오류로 인하여 수정
-     public Member getMember() {
-         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-         if (authentication == null || !authentication.isAuthenticated() || !(authentication.getPrincipal() instanceof MemberInfo memberInfo)) {
-             return null;
-         }
+    public Member getMember2() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || !(authentication.getPrincipal() instanceof MemberInfo memberInfo)) {
+            return null;
+        }
 
-         Member member = memberInfo.getMember();
-         if (member == null) {
-             member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
-             if (member != null) {
-                 infoService.addMemberInfo(member);
-                 memberInfo.setMember(member);
-             }
-         }
+        Member member = memberInfo.getMember();
+        if (member == null) {
+            member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
+            if (member != null) {
+                infoService.addMemberInfo(member);
+                memberInfo.setMember(member);
+            }
+        }
 
-         return member;
-     }
+        return member;
+    }
 
     // 원래 코드
-//    public Member getMember() {
-//
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        Member member = null;
-//        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
-//
-//
-//            member = memberInfo.getMember();
-//            if (member == null) {
-//                member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
-//                infoService.addMemberInfo(member);
-//
-//                memberInfo.setMember(member);
-//            }
-//        }
-//
-//        return member;
-//    }
+    public Member getMember() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
+
+            Member member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
+            memberInfo.setMember(member);
+
+            infoService.addInfo(member);
+
+            return member;
+        }
+
+        return null;
+    }
 
 
     public List<Member> getAllMembers() {

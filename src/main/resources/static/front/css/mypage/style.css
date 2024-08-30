@@ -23,6 +23,7 @@ main > aside.on {
 
 main > aside .main-logo{
     max-height: 150px;
+    max-width: 260px;
 }
 
 main > aside > a {
