@@ -9,8 +9,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.g9project4.board.entities.BoardData;
+import org.g9project4.board.entities.QBoardData;
+import org.g9project4.global.CommonSearch;
 import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
+import org.g9project4.global.Utils;
 import org.g9project4.publicData.tour.exceptions.TourPlaceNotFoundException;
 import org.g9project4.global.rests.gov.api.ApiItem;
 import org.g9project4.global.rests.gov.api.ApiResult;
@@ -32,6 +36,8 @@ import org.g9project4.visitrecord.entities.VisitRecord;
 import org.g9project4.visitrecord.entities.VisitRecordId;
 import org.g9project4.visitrecord.repositories.VisitRecordRepository;
 import org.g9project4.visitrecord.services.VisitRecordService;
+import org.g9project4.wishlist.constants.WishType;
+import org.g9project4.wishlist.services.WishListService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -51,6 +57,7 @@ public class TourPlaceInfoService {
     @PersistenceContext
     private EntityManager em;
 
+    private final JPAQueryFactory queryFactory;
     private final RestTemplate restTemplate;
     private final TourPlaceRepository repository;
     private String serviceKey = "n5fRXDesflWpLyBNdcngUqy1VluCJc1uhJ0dNo4sNZJ3lkkaYkkzSSY9SMoZbZmY7/O8PURKNOFmsHrqUp2glA==";
@@ -60,8 +67,8 @@ public class TourPlaceInfoService {
     private final SearchHistoryRepository searchHistoryRepository;
     private final VisitRecordRepository visitRecordRepository;
     private final VisitRecordService visitRecordService;
-    private final SearchHistoryService searchHistoryService;
-
+    private final WishListService wishListService;
+    private final Utils utils;
 
     /* km 마이페이지 - 검색기록 방문기록 추천 S */
     public ListData<TourplaceDto> getTotalList(TourPlaceSearch search, RecommendType recommendType, Member loggedMember, String keyword) {
@@ -291,6 +298,45 @@ public class TourPlaceInfoService {
             ContentType type = ContentType.getList().stream().filter(c -> c.getId() == contentTypeId.longValue()).findFirst().orElse(null);
             item.setContentType(type);
         }
+    }
+
+    /**
+     * 내가 찜한 게시글 목록
+     *
+     * @param search
+     * @return
+     */
+    public ListData<TourPlace> getWishList(CommonSearch search) {
+
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
+
+
+        List<Long> seqs = wishListService.getList(WishType.TOUR);
+        if (seqs == null || seqs.isEmpty()) {
+            return new ListData<>();
+        }
+
+        QTourPlace tourPlace = QTourPlace.tourPlace;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(tourPlace.contentId.in(seqs));
+
+        List<TourPlace> items = queryFactory.selectFrom(tourPlace)
+                .where(andBuilder)
+//                .leftJoin(tourPlace.)
+//                .fetchJoin()
+                .offset(offset)
+                .limit(limit)
+                .orderBy(tourPlace.createdAt.desc())
+                .fetch();
+
+        long total = repository.count(andBuilder);
+        int ranges = utils.isMobile() ? 5 : 10;
+        Pagination pagination = new Pagination(page, (int) total, ranges, limit, request);
+
+        return new ListData<>(items, pagination);
     }
 
 }

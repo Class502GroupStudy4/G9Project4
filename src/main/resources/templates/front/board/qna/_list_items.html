@@ -2,13 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="items">
+
+    <div style="text-align: center;">
+        <img class="qna-images" th:src="${@utils.url('/images/qna게시판.png')}" style="width: 80%; max-width: 800px;">
+    </div>
     <div class="write">
         <a th:href="*{@utils.url('/board/write/' + bid)}" class="write-btn">
             <i class="xi-pen"></i> 글쓰기
         </a>
     </div>
 
-<!--    <img class="qna-images" &lt;!&ndash;th:src="${@utils.url('/images/qna1.png')}"&ndash;&gt;>-->
 
     <h1 class="uncompleted-title">대답이 필요한 게시물</h1>
     <table class="table_rows">
@@ -38,7 +41,7 @@
                 <label th:for="${'chk_' + status.index}"></label>
             </td>
             <td th:text="*{seq}"></td>
-            <td th:text="*{subject}"></td>
+            <td><a th:href="*{@utils.url('/board/view/'+seq)}" th:text="*{subject}"></a></td>
             <td th:text="*{poster}"></td>
             <td th:text="*{#temporals.format(createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="*{viewCount}"></td>

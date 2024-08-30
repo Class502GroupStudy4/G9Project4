@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/")
 @Controller
@@ -57,7 +58,8 @@ public class MainController implements ExceptionProcessor {
             e.printStackTrace();
             System.out.println("리뷰 게시판을 만들어주세요");
         }
-
+        List<BoardData> top6Items = data.getItems().stream().limit(6).collect(Collectors.toList());
+        model.addAttribute("items2", top6Items);
         model.addAttribute("addCommonCss",List.of("banner"));
         model.addAttribute("addCss", "main"); // CSS 파일 목록
         model.addAttribute("addScript", "main"); // JS 파일 목록
