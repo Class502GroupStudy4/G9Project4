@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="commentList" th:object="${commentData}" th:if="${commentData != null && !commentData.empty}">
+<!--    <div class="total">
+        Total : <th:block th:text="*{commentCount >= 1000 ? #numbers.formatInteger(commentCount, 3, 'COMMA') : commentCount}"></th:block>
+    </div>-->
+
+    <ul class="comment_items">
+        <li class="item" th:each="comment : ${commentData}" th:object="${comment}" th:id="*{'comment_' + seq}">
+            <div class="comment_top">
+                <div>
+                    <th:block th:text="*{commenter}"></th:block>
+                    <th:block th:if="*{member == null}" th:text="#{(비회원)}"></th:block>
+                </div>
+                <div th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></div>
+            </div>
+            <!--// comment_top -->
+            <div class="comment" th:utext="*{@utils.nl2br(content)}"></div>
+<!--            <div class="btns" th:if="*{showEdit}">
+                <a  th:href="*{@utils.redirectUrl('/comment/delete/' + seq)}" th:data-deletable="*{editable}" class="delete_comment" th:text="#{삭제}" onclick="return confirm('정말 삭제하겠습니까?');"></a>
+                <button type="button" class="edit_comment" th:data-seq="*{seq}" th:data-editable="*{editable}" th:text="#{수정}"></button>
+            </div>-->
+        </li>
+    </ul>
+</th:block>
+<form th:fragment="commentWrite" th:object="${requestTourComment}" th:action="${@utils.redirectUrl('/tour/comment')}" name="frmTourPlaceComment" method="post" target="ifrmProcess" autocomplete="off">
+<h1>댓글</h1>
+    <input type="hidden" name="mode" th:field="*{mode}">
+    <input th:if="${items.detailItem != null}" type="hidden" name="contentId" th:value="${items.detailItem.contentid}">
+    <input th:if="*{mode == 'edit' && seq != null}" type="hidden" name="seq" th:field="*{seq}">
+
+    <div class="commenter_info">
+        <input type="text" name="commenter" th:placeholder="#{작성자}" th:field="*{commenter}">
+
+        <input th:if="${!isLogin}" type="password" name="guestPw" th:placeholder="#{비밀번호}" th:field="*{guestPw}">
+    </div>
+    <!--// commenter_info -->
+
+    <div class="comment_content">
+        <textarea name="content" th:placeholder="#{댓글을_입력하세요.}" th:field="*{content}"></textarea>
+        <button type="submit" th:text="#{작성하기}"></button>
+    </div>
+</form>
+</html>

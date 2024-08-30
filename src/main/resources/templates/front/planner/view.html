@@ -45,10 +45,10 @@
 
 
     <th:block th:if="*{items != null && !items.empty}">
-        <h2 th:text="#{여행노트}"></h2>
+        <h2 th:text="#{여행노트목록}"></h2>
         <ul>
             <li th:each="item : *{items}" th:object="${item}">
-                <a th:href="*{@utils.redirect('/board/view/' + seq)}" th:text="*{subject}"></a>
+                <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" th:text="*{subject}"></a>
             </li>
         </ul>
     </th:block>
