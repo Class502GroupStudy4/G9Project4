@@ -67,7 +67,6 @@ public class TourDetailInfoService {
             Long contentId = detailItem.getContentid();
             String detailPetUrl = String.format("https://apis.data.go.kr/B551011/KorService1/detailPetTour1?serviceKey=%s&MobileOS=and&MobileApp=test&contentId=%d&_type=json", serviceKey, contentId);
             ResponseEntity<DetailPetResult> petResponse = null;
-            restTemplate.getForEntity(URI.create(detailPetUrl), DetailPetResult.class);
             if (restTemplate.getForEntity(URI.create(detailPetUrl), DetailPetResult.class).getBody() == null) {
                 return new PlaceDetail<>(detailItem, null);
             }

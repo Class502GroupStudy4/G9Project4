@@ -7,7 +7,9 @@ import org.g9project4.visitrecord.entities.VisitRecordId;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -19,4 +21,7 @@ public interface VisitRecordRepository extends JpaRepository<VisitRecord, VisitR
 
     // 특정 uid에 대한 방문 기록을 조회하는 메서드
     List<VisitRecord> findByUid(int uid);
+
+    @Query("SELECT SUM(vr.visitCount) FROM VisitRecord vr WHERE vr.contentId = :contentId")
+    Long countByContentId(@Param("contentId")String contentId);
 }
