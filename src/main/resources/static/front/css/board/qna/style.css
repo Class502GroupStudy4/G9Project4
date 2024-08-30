@@ -7,6 +7,9 @@ body {
     background-color: #f7f7f7;
     color: #333;
 }
+.table_rows th, .table_rows td {
+    text-align: center;
+}
 
 h1 {
     font-weight: 700;
@@ -85,7 +88,7 @@ h1 {
 
 .uncompleted-title {
     text-align: left;
-    color: orange; /* Bright blue color */
+    color: #C19A6B; /* Bright blue color */
     margin-bottom: 20px;
     font-weight: 600;
 }

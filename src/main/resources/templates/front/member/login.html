@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
+<!--    <div style="text-align: center;">-->
+<!--        <img class="qna-images" th:src="${@utils.url('/images/여행어때.png')}" style="width: 80%; max-width: 800px;">-->
+<!--    </div>-->
+
     <form name="frmLogin" method="post" th:action="${@utils.url('/member/login')}" autocomplete="off"
           th:object="${requestLogin}">
         <input type="hidden" name="redirectUrl" th:field="*{redirectUrl}">
