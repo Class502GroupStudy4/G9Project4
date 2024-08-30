@@ -80,55 +80,55 @@
     </section>
     <!-- ABOUT 부분 끝 -->
 
-<!--    <th:block>-->
-<!--        <section class="sec2">-->
-<!--            <div class="secWrap">-->
-<!--                <div th:class="review_main_wright">-->
-<!--                    <h3>최근 여행리뷰</h3>-->
-<!--                    <p class="tit">다른 여행자들의 리뷰를 참고해 나만의 여행을 계획해보세요!</p>-->
-<!--                </div>-->
+    <th:block>
+        <section class="sec2_">
+            <div class="secWrap_">
+                <div th:class="review_main_wright">
+                    <h3>최근 여행리뷰</h3>
+                    <p class="tit_">다른 여행자들의 리뷰를 참고해 나만의 여행을 계획해보세요!</p>
+                </div>
 
 
-<!--                <div class="row1">-->
-<!--                    <th:block th:if="${!#lists.isEmpty(items)}" th:each="item, status : ${items}" th:object="${item}">-->
-<!--                        <tr th:if="${!#lists.isEmpty(item.editorImages)}">-->
-<!--                            <div th:class="box">-->
-<!--                                <a th:href="*{@utils.url('/board/view/'+seq)}">-->
-<!--                                    <div class="ImgBox">-->
-<!--                                        <img th:src="*{@utils.getThumbUrl(editorImages[0].fileUrl,348,170)}">-->
-<!--                                        <div th:class="txt">-->
-<!--                                            <p th:class="list-body-a" th:href="*{@utils.url('/board/view/'+seq)}"-->
-<!--                                               th:text="*{subject}"></p>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="sec2">-->
-<!--                                        <div class="data">-->
-<!--                                            &lt;!&ndash; 기존 요소들 &ndash;&gt;-->
-<!--                                            <ul class="info">-->
-<!--                                                <li>-->
-<!--                                                    <p>조회수: <span class="placeName" th:text="*{viewCount}"></span></p>-->
-<!--                                                </li>-->
-<!--                                                <li>-->
-<!--                                                    <p>댓글수: <span class="withFriend" th:text="*{commentCount}"></span></p>-->
-<!--                                                </li>-->
-<!--                                            </ul>-->
+                <div class="row1_">
+                    <th:block th:if="${!#lists.isEmpty(items)}" th:each="item, status : ${items}" th:object="${item}">
+                        <tr th:if="${!#lists.isEmpty(item.editorImages)}">
+                            <div th:class="box_">
+                                <a th:href="*{@utils.url('/board/view/'+seq)}">
+                                    <div class="ImgBox_">
+                                        <img th:src="*{@utils.getThumbUrl(editorImages[0].fileUrl,348,170)}">
+                                        <div th:class="txt_">
+                                            <p th:class="list-body-a" th:href="*{@utils.url('/board/view/'+seq)}"
+                                               th:text="*{subject}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="sec2_">
+                                        <div class="data_">
+                                            <!-- 기존 요소들 -->
+                                            <ul class="info_">
+                                                <li>
+                                                    <p>조회수: <span class="placeName" th:text="*{viewCount}"></span></p>
+                                                </li>
+                                                <li>
+                                                    <p>댓글수: <span class="withFriend" th:text="*{commentCount}"></span></p>
+                                                </li>
+                                            </ul>
 
-<!--                                            &lt;!&ndash; 오른쪽 상단으로 이동할 요소 &ndash;&gt;-->
-<!--                                            <div class="header-info2">-->
-<!--                                                <p class="Name2">-->
-<!--                                                    <span class="userName" th:text="*{poster}"></span>-->
-<!--                                                </p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </tr>-->
-<!--                    </th:block>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </section>-->
-<!--    </th:block>-->
+                                            <!-- 오른쪽 상단으로 이동할 요소 -->
+                                            <div class="header-info2_">
+                                                <p class="Name2_">
+                                                    <span class="userName" th:text="*{poster}"></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </tr>
+                    </th:block>
+                </div>
+            </div>
+        </section>
+    </th:block>
 
     <!--            메인 3개 -->
     <section class="sec1">
