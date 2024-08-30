@@ -172,6 +172,8 @@ public class PlannerController implements ExceptionProcessor {
             addScript.add("planner/select_tourplace");
         } else if (mode.equals("list")) {
             pageTitle = utils.getMessage("나의_여행_플래너_목록");
+        } else if (mode.equals("view")) {
+            addCss.add("planner/view");
         }
         model.addAttribute("addCss", addCss);
         model.addAttribute("addCommonScript", addCommonScript);
