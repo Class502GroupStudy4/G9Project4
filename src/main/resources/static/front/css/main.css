@@ -441,7 +441,7 @@ input {
 
 
 
-/* 6개 배너 스타일 */
+/*!* 6개 배너 스타일 *!*/
 
 .sec2 {
     margin: 0 auto;
@@ -534,7 +534,7 @@ input {
     color: #666;
     border-radius: 5px;
 }
-/*6개 스타일 끝*/
+/*!*6개 스타일 끝*!*/
 
 
 
@@ -610,6 +610,227 @@ input {
 
 
 
+/*!*-------------------------------------------------sec2-----------------------------------------------------------------------*!*/
+/*.sec2 {*/
+/*    background-color: #f0f0f0;*/
+/*}*/
 
+/*.secWrap {*/
+/*    width: 1092px;*/
+/*    margin-right: auto;*/
+/*    margin-left: auto;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.sec2 h3 {*/
+/*    line-height: 1;*/
+/*    padding-top: 70px;*/
+/*    margin-bottom: 10px;*/
+/*    font-size: 26px;*/
+/*    color: #333;*/
+/*}*/
+
+/*.sec2 .tit {*/
+/*    font-size: 16px;*/
+/*    color: #666;*/
+/*    margin-bottom: 30px;*/
+/*    line-height: 1;*/
+/*}*/
+
+/*.sec2 .row1 {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: space-between;*/
+/*    display: flex;*/
+/*    justify-content: center; !* 수평 중앙 정렬 *!*/
+/*    gap: 10px;*/
+/*}*/
+
+/*.sec2 .row2 {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+/*.sec2 .box {*/
+/*    background-color: silver;*/
+/*    border-radius: 5px;*/
+/*    overflow: hidden;*/
+/*    border: 2px solid #f0f0f0;*/
+/*}*/
+
+/*.sec2 .box .ImgBox {*/
+/*    width: 346px;*/
+/*    height: 200px;*/
+/*    position: relative;*/
+/*    overflow: hidden;*/
+
+/*}*/
+
+/*.sec2 .box .ImgBox img {*/
+/*    width: 346px;*/
+/*    height: 200px;*/
+/*}*/
+
+/*.sec2 .box .ImgBox:hover img {*/
+/*    transform: scale(1.5);*/
+/*    transition: all 2s;*/
+/*}*/
+
+/*.sec2 .txt {*/
+/*    height: 48px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: flex-start;*/
+/*    padding-left: 15px;*/
+/*    position: absolute;*/
+/*    left: 0;*/
+/*    bottom: 0;*/
+/*    width: 100%;*/
+/*    background-image: linear-gradient(transparent, black);*/
+/*    !**/
+/*    @ background洹몃씪�뜲�씠�뀡 �꽔湲�*/
+/*    - background-image*/
+/*    - �냽�꽦媛믪씠*/
+/*     @ linear-gradient()*/
+/*     @ radial-gradient()*/
+/*     @ linear-gradient(to right, red, green)*/
+/*     to right, to left, to top, to bottom*/
+/*     @ linear-gradient(45deg, red, green*/
+/*     -> 45�룄濡� �꽔湲�*/
+/*    *!*/
+/*    box-sizing: border-box;*/
+/*    !*�뙣�뵫怨� 蹂대뜑媛� 諛뺤뒪 �븞�뿉�꽌 �깮寃⑤궓.*!*/
+/*}*/
+
+/*.sec2 .box .txt h4 {*/
+/*    color: rgba(245, 161, 25, 0.9);*/
+/*}*/
+
+/*.sec2 .box .txt h4 span {*/
+/*    color: #999;*/
+/*}*/
+
+/*.sec2 .box .txt p {*/
+/*    color: white;*/
+/*}*/
+
+/*.sec2 .data {*/
+/*    background-color: #fff;*/
+/*    display: flex;*/
+/*    justify-content: space-between; !* 자식 요소들 사이에 공간을 배분 *!*/
+/*    align-items: flex-start; !* 자식 요소들을 상단에 정렬 *!*/
+/*    padding: 15px;*/
+/*    position: relative; !* 절대 위치 설정을 위해 필요 *!*/
+/*}*/
+
+/*!* .info 요소의 스타일 조정 *!*/
+/*.sec2 .data .info {*/
+/*    list-style-type: none; !* 리스트 마커 제거 *!*/
+/*    padding: 0; !* 패딩 제거 *!*/
+/*    margin: 0; !* 마진 제거 *!*/
+/*}*/
+
+/*!* .info의 li 요소 스타일 조정 *!*/
+/*.sec2 .data .info li {*/
+/*    margin: 0; !* 기본 마진 제거 *!*/
+/*    padding: 0; !* 기본 패딩 제거 *!*/
+/*    line-height: 1.2; !* 줄 간격 설정 *!*/
+/*}*/
+
+/*!* .info의 p 요소 스타일 조정 *!*/
+/*.sec2 .data .info p {*/
+/*    margin: 0; !* 기본 마진 제거 *!*/
+/*    padding: 0; !* 기본 패딩 제거 *!*/
+/*}*/
+
+/*!* .info의 span 요소 스타일 조정 *!*/
+/*.sec2 .data .info .placeName {*/
+/*    display: inline; !* 인라인 요소로 설정 *!*/
+/*    margin: 0; !* 기본 마진 제거 *!*/
+/*}*/
+
+/*!* .header-info2 스타일 *!*/
+/*.header-info2 {*/
+/*    position: absolute; !* 부모 컨테이너를 기준으로 절대 위치 설정 *!*/
+/*    top: 17px; !* 상단에 위치 *!*/
+/*    right: 20px; !* 오른쪽에 위치 *!*/
+/*}*/
+
+/*!* .header-info2 스타일 추가 *!*/
+/*.header-info2 {*/
+/*    position: absolute; !* 부모 컨테이너를 기준으로 절대 위치 설정 *!*/
+/*    top: 17px; !* 상단에 위치 *!*/
+/*    right: 20px; !* 오른쪽에 위치 *!*/
+/*}*/
+
+/*.sec2 .data .info {*/
+
+/*}*/
+
+/*.sec2 .data .info .placeName {*/
+/*    margin-top: 6px;*/
+/*    margin-bottom: 6px;*/
+/*}*/
+
+
+/*.Name2 {*/
+/*    background-image: url("/images/list/img.png");*/
+/*    background-repeat: no-repeat;*/
+/*    background-position-x: 0;*/
+/*    background-size: contain;*/
+/*    line-height: 1;*/
+/*    right: 0;*/
+/*}*/
+
+/*.userName {*/
+/*    margin-left: 25px;*/
+/*}*/
+
+/*.count {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.count .view {*/
+/*    margin: 0 10px;*/
+/*}*/
+
+/*.count .location {*/
+/*    background-image: url(../images/mainpage/icon_spot.png);*/
+/*    background-repeat: no-repeat;*/
+/*    background-position-x: 0;*/
+/*    padding-left: 20px;*/
+/*    line-height: 1;*/
+/*}*/
+
+/*.count .view {*/
+/*    background-image: url(../images/mainpage/icon_view.png);*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: 0 3px;*/
+/*    padding-left: 20px;*/
+/*    line-height: 1;*/
+/*}*/
+
+/*.count .copy {*/
+/*    background-image: url(../images/mainpage/icon_copy.png);*/
+/*    background-repeat: no-repeat;*/
+/*    background-position-x: 0;*/
+/*    padding-left: 20px;*/
+/*    line-height: 1;*/
+/*}*/
+
+/*.sec2 .more {*/
+/*    padding-top: 12px;*/
+/*    padding-bottom: 12px;*/
+/*    background-color: #fff;*/
+/*    width: 346px;*/
+/*    border: 1px solid #ccc;*/
+/*    margin-left: auto;*/
+/*    margin-right: auto;*/
+/*    font-size: 14px;*/
+/*    color: #666;*/
+/*    border-radius: 5px;*/
+/*}*/
 
 
