@@ -2,8 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-
-
     <form name="frmLogin" method="post" th:action="${@utils.url('/member/login')}" autocomplete="off"
           th:object="${requestLogin}">
         <input type="hidden" name="redirectUrl" th:field="*{redirectUrl}">
@@ -35,9 +33,11 @@
                 <a href="#" th:href="@{/member/join}" th:text="#{회원가입}"></a>
             </button>
         </div>
+
+        <!-- 이미지 위치를 로그인 폼 아래로 이동 -->
+        <div style="text-align: center; margin-top: 20px;">
+            <img class="qna-images" th:src="${@utils.url('/images/여행어때.png')}" style="width: 80%; max-width: 800px;">
+        </div>
     </form>
-    <div>
-        <img class="qna-images" th:src="${@utils.url('/images/여행어때.png')}">
-    </div>
 </main>
 </html>

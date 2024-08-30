@@ -48,7 +48,7 @@
 
 
                 <div class="row1">
-                    <th:block th:if="${!#lists.isEmpty(items)}" th:each="item, status : ${items}" th:object="${item}">
+                    <th:block th:if="${!#lists.isEmpty(items2)}" th:each="item, status : ${items2}" th:object="${item}">
                         <tr th:if="${!#lists.isEmpty(item.editorImages)}">
                             <div th:class="box">
                                 <a th:href="*{@utils.url('/board/view/'+seq)}">

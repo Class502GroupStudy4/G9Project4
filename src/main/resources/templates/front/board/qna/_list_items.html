@@ -41,7 +41,7 @@
                 <label th:for="${'chk_' + status.index}"></label>
             </td>
             <td th:text="*{seq}"></td>
-            <td th:text="*{subject}"></td>
+            <td><a th:href="*{@utils.url('/board/view/'+seq)}" th:text="*{subject}"></a></td>
             <td th:text="*{poster}"></td>
             <td th:text="*{#temporals.format(createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="*{viewCount}"></td>
