@@ -8,29 +8,34 @@
     <input type="hidden" name="poster" th:field="*{poster}">
 
     <dl>
-        <dt th:text="#{제목}"></dt>
-        <dd>
+        <dt>
+            <h2 th:text="#{여행노트이름}"></h2>
+        </dt>
+        <dd class="title">
             <input type="text" name="subject" th:field="*{subject}">
             <div class="error" th:each="err : ${#fields.errors('subject')}" th:text="${err}"></div>
         </dd>
     </dl>
-
     <ul th:if="${planner.itineraries != null && !planner.itineraries.empty}">
         <li th:each="item : ${planner.itineraries}" th:object="${item}">
             <div class="tour-info">
                 <div class="top">
-                    <div class="title" th:text="*{title}"></div>
-                    <div class="date" th:text="*{date}"></div>
+                    <div class="title" >
+                        <span th:text="*{'여행지 : '+title}"></span>
+                    </div>
+                    <div class="date">
+                        <span th:text="*{'방문일 : '+date}"
+                    </div>
                 </div>
                 <div class="bottom">
-                    <a th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}">
-                        <img th:src="*{@utils.getThumbUrl(firstImage, 400, 350)}">
+                    <textarea class="content" th:data-seq="*{seq}" th:text="${contents == null || contents['content_' + item.seq] == null ? '': contents['content_' + item.seq]}"></textarea>
+                    <a class="tourplace-image" th:href="*{@utils.redirectUrl('/tour/detail/' + contentId)}">
+                        <img th:src="*{@utils.getThumbUrl(firstImage, 500, 400)}">
                     </a>
                 </div>
+                <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="${requestBoard.gid}" th:data-location="*{'editor_' + seq}" data-image-only="true"></button>
             </div>
 
-            <textarea class="content" th:data-seq="*{seq}" th:text="${contents == null || contents['content_' + item.seq] == null ? '': contents['content_' + item.seq]}"></textarea>
-            <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="${requestBoard.gid}" th:data-location="*{'editor_' + seq}" data-image-only="true"></button>
             <div class="uploaded-files" th:id="*{'uploaded-files-editor_' + seq}">
                 <div th:if="${files != null && files['editor_' + item.seq] != null}" th:each="file : ${files['editor_' + item.seq]}" class="file-item" th:id="${'file-' + file.seq}">
                     <a th:href="${@utils.redirectUrl('/file/download/' + file.seq)}" th:text="${file.fileName}"></a>

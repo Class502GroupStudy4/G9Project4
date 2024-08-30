@@ -1,0 +1,31 @@
+.title input{
+    width: 50%;
+    line-height: 1.5rem;
+    font-size: 1.5rem;
+}
+.tour-info{
+    font-size: 1.5rem;
+}
+.ck.ck-editor {
+    width: 50% !important;
+}
+.bottom{
+    display: flex;
+}
+.tourplace-image{
+    width: 50%;
+    text-align: center;
+    align-items: center;
+}
+.tourplace-image img{
+    margin-top: 10px;
+}
+.fileUploads{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+li{
+    padding-top: 20px;
+    border-bottom: var(--gray) solid 1px;
+}
