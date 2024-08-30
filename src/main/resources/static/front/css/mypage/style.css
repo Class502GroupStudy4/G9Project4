@@ -112,3 +112,9 @@ main button.black {
 .button-group > button + button {
     margin-left: 5px;
 }
+
+.search-table, .wishTour-table > w1 {
+    font-size: 1.2rem;
+    font-weight: bolder;
+}
+

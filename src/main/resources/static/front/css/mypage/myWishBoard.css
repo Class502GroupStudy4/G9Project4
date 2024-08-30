@@ -1,0 +1,12 @@
+.wishList-board {
+    font-size: 1.13rem;
+    width: 100%;
+    margin: 10px auto;
+}
+.wishList-board tr {
+    margin-top: 10px;
+    height: 1.5rem;
+}
+.wishList-board th {
+    padding: 10px 0;
+}

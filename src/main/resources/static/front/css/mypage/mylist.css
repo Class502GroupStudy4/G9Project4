@@ -33,21 +33,21 @@
 
 /* 페이징 공통 E */
 
-.wishList-table {
+.wishTour-table {
     margin-top: 45px;
 
 }
 
-.wishList-items {
+.wishList-tour {
     font-size: 1.13rem;
     width: 100%;
     margin: 10px auto;
 }
-.wishList-items tr {
+.wishList-tour tr {
     margin-top: 10px;
     height: 1.5rem;
 }
-.wishList-items th {
+.wishList-tour th {
     padding: 10px 0;
 }
 
