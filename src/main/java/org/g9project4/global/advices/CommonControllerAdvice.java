@@ -37,4 +37,9 @@ public class CommonControllerAdvice {//전역에서 확인 가능
     public boolean isAdmin() {
         return memberUtil.isAdmin();
     }
+
+    @ModelAttribute("myProfileImage")
+    public FileInfo myProfileImage() {
+        return memberUtil.isLogin() ? memberUtil.getMember().getProfileImage() : null;
+    }
 }

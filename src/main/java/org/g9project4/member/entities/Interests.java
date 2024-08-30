@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class Interests implements Serializable {
 
 
-    //    @Id
+    @Id
     @ManyToOne
     @JoinColumn(name = "member_seq")
     private Member member;

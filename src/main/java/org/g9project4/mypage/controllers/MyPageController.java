@@ -119,6 +119,8 @@ public class MyPageController {
         form.setIsForeigner(member.getIsForeigner());
         form.setGid(member.getGid());
 
+
+
         //관심사 노출
         List<Interests> interestsEntities = interestsRepository.findByMember(member);
         List<Interest> interests = interestsEntities.stream()
