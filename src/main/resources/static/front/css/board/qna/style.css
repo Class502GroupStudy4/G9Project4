@@ -7,8 +7,8 @@ body {
     background-color: #f7f7f7;
     color: #333;
 }
-.table_rows th, .table_rows td {
-    text-align: center;
+.board-main-div {
+    margin-top: 110px;
 }
 
 h1 {
@@ -88,7 +88,7 @@ h1 {
 
 .uncompleted-title {
     text-align: left;
-    color: #C19A6B; /* Bright blue color */
+    color: orange; /* Bright blue color */
     margin-bottom: 20px;
     font-weight: 600;
 }
