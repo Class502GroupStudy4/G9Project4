@@ -25,22 +25,19 @@ import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.g9project4.search.constatnts.SearchType;
 import org.g9project4.search.entities.SearchHistory;
 import org.g9project4.search.services.SearchHistoryService;
-import org.g9project4.visitrecord.constants.RecommendType;
 import org.g9project4.visitrecord.services.VisitRecordService;
-import org.g9project4.wishlist.entities.WishList;
 import org.g9project4.wishlist.services.WishListService;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.g9project4.search.entities.QSearchHistory.searchHistory;
 
 @Controller
 @RequestMapping("/mypage")
@@ -217,44 +214,44 @@ public class MyPageController {
             return "error";
         }
     }
-
-    @GetMapping("/visitplace") // 검색기록 + 검색키워드 기준 추천
-    public String RecordList(
-            @ModelAttribute TourPlaceSearch search,
-            @RequestParam(value = "recommendType", defaultValue = "VIEW") String recommendTypeStr,
-            @RequestParam(value = "keyword", required = false) String keyword,
-            Model model) {
-
-// String을 RecommendType으로 변환
-        RecommendType recommendType = RecommendType.fromString(recommendTypeStr);
-
-//        // 기본값 설정
-//        if (recommendType == null) {
-//            recommendType = RecommendType.TOUR;
+//
+//    @GetMapping("/visitplace") // 검색기록 + 검색키워드 기준 추천
+//    public String RecordList(
+//            @ModelAttribute TourPlaceSearch search,
+//            @RequestParam(value = "recommendType", defaultValue = "VIEW") String recommendTypeStr,
+//            @RequestParam(value = "keyword", required = false) String keyword,
+//            Model model) {
+//
+//// String을 RecommendType으로 변환
+//        RecommendType recommendType = RecommendType.fromString(recommendTypeStr);
+//
+////        // 기본값 설정
+////        if (recommendType == null) {
+////            recommendType = RecommendType.TOUR;
+////        }
+//
+//        // 로그인 체크
+//        if (!memberUtil.isLogin()) {
+//            throw new IllegalStateException("로그인이 필요합니다.");
 //        }
-
-        // 로그인 체크
-        if (!memberUtil.isLogin()) {
-            throw new IllegalStateException("로그인이 필요합니다.");
-        }
-
-
-        // 현재 로그인한 회원 정보를 가져옴
-        Member loggedMember = memberUtil.getMember();
-
-        // 서비스 메서드를 호출하여 추천 여행지 목록을 가져옵니다.
-        ListData<TourplaceDto> data = tourInfoService.getTotalList(search, recommendType, loggedMember, keyword);
-
-        // 공통 처리 (commonProcess 메서드가 어떤 기능인지에 따라 다름)
-        commonProcess("visitplace", model);
-
-        model.addAttribute("recommendType", recommendType);
-        model.addAttribute("data", data);
-        model.addAttribute("tourPlaceSearch", search);
-
-        // 템플릿을 반환
-        return utils.tpl("mypage/visitplace");
-    }
+//
+//
+//        // 현재 로그인한 회원 정보를 가져옴
+//        Member loggedMember = memberUtil.getMember();
+//
+//        // 서비스 메서드를 호출하여 추천 여행지 목록을 가져옵니다.
+//        ListData<TourplaceDto> data = tourInfoService.getTotalList(search, recommendType, loggedMember, keyword);
+//
+//        // 공통 처리 (commonProcess 메서드가 어떤 기능인지에 따라 다름)
+//        commonProcess("visitplace", model);
+//
+//        model.addAttribute("recommendType", recommendType);
+//        model.addAttribute("data", data);
+//        model.addAttribute("tourPlaceSearch", search);
+//
+//        // 템플릿을 반환
+//        return utils.tpl("mypage/visitplace");
+//    }
 
 
     @GetMapping("/myinterests") // 관심사 기준 추천
@@ -315,13 +312,13 @@ public class MyPageController {
             addCss.add("mypage/mycomment");
 
         } else if (mode.equals("myplace")) {
-            addCss.addAll(List.of("tour/list", "tour/_typelist"));
+            addCss.addAll(List.of("mypage/list", "mypage/_typelist"));
 
         } else if (mode.equals("visitplace")) {
-            addCss.addAll(List.of("tour/list", "tour/_typelist"));
+            addCss.addAll(List.of("mypage/list", "mypage/_typelist"));
 
         } else if (mode.equals("myinterests")) {
-            addCss.addAll(List.of("tour/list", "tour/_typelist"));
+            addCss.addAll(List.of("mypage/list", "mypage/_typelist"));
         }
 
         model.addAttribute("addCommonScript", addCommonScript);
