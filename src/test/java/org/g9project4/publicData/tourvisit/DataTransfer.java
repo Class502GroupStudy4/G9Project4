@@ -14,9 +14,11 @@ import org.g9project4.publicData.tourvisit.services.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @SpringBootTest
+@Transactional
 //@ActiveProfiles("test")
 public class DataTransfer {
 
@@ -46,7 +48,7 @@ public class DataTransfer {
     @PersistenceContext
     private EntityManager em;
 
-    private String sKey = "7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos+QcjBgTlHVDYcoG8RwfuspzfxA==";
+    private String sKey = "N8yeFJlK12h1MoldGswxyuc6R+mgDa7RcdKioykhYnC0eWRCYVumURmL0E10CgJ+Wri+2Ln3xcXOs5pu+Z3sgA==";
 
     @Test
     void test1() {
@@ -76,7 +78,6 @@ public class DataTransfer {
     @Test
     void test4() {
         tableService.update();
-
     }
 
 
