@@ -138,7 +138,7 @@ public class SidoVisitStatisticService {
 
     private ApiResult2 getData(int pageNo, int limit, LocalDate sdate, LocalDate edate) {
 
-        String sKey = "RtrIIdYjcb3IXn1a/zF7itGWY5ZFS3IEj85ohFx/snuKG9hYABL5Tn8jEgCEaCw6uEIHvUz30yF4n0GGP6bVIA==";
+        String sKey = "N8yeFJlK12h1MoldGswxyuc6R%2BmgDa7RcdKioykhYnC0eWRCYVumURmL0E10CgJ%2BWri%2B2Ln3xcXOs5pu%2BZ3sgA%3D%3D";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
