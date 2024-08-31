@@ -38,16 +38,16 @@
                     <dd th:text="${loggedMember.mobile}"></dd>
                 </dl>
                 <dl>
-                    <dt th:text="#{출생일}"></dt>
+                    <dt th:text="#{생일}"></dt>
                     <dd th:text="${loggedMember.birth}"></dd>
                 </dl>
                 <dl>
                     <dt th:text="#{성별}"></dt>
-                    <dd th:text="${loggedMember.gende}"></dd>
+                    <dd th:text="${loggedMember.gende.toString().equals('FEMALE') ? '여성' : '남성'}"></dd>
                 </dl>
                 <dl>
-                    <dt th:text="#{외국인여부}"></dt>
-                    <dd th:text="${loggedMember.isForeigner}"></dd>
+                    <dt th:text="#{국적}"></dt>
+                    <dd th:text="${loggedMember.isForeigner ? '외국인' : '내국인'}"></dd>
                 </dl>
             <dl>
                 <dt th:text="#{관심사}"></dt>
@@ -63,12 +63,12 @@
             <h2 th:text="#{나의_여행_이야기}"></h2>
 
             <div class="search-table">
-            <span class="search-star">★ </span> 내가 최근에 검색한 여행지
-            <iframe th:src="${@utils.redirectUrl('/mypage/mysearch')}" width="100%" height="330" frameborder="0" scrolling="no"></iframe>
+                <span class="search-star">★ </span> <w1>내가 최근에 검색한 여행지</w1>
+            <iframe th:src="${@utils.redirectUrl('/mypage/mysearch')}" width="100%" height="350" frameborder="0" scrolling="no"></iframe>
             </div>
-            <div class="wishList-table">
-            <span class="wish-heart">♥ </span> 내가 찜한 게시물
-                <iframe th:src="${@utils.redirectUrl('/mypage/mywish')}" width="100%" height="330" frameborder="0" scrolling="no"></iframe>
+            <div class="wishTour-table">
+            <span class="wish-heart">♥ </span> <w1>내가 찜한 여행지</w1>
+                <iframe th:src="${@utils.redirectUrl('/mypage/myWishTour')}" width="100%" height="350" frameborder="0" scrolling="no"></iframe>
             </div>
 
             </div>

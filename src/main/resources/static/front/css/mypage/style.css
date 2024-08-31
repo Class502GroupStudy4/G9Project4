@@ -22,7 +22,8 @@ main > aside.on {
 }
 
 main > aside .main-logo{
-    max-height: 150px;
+    max-height: 120px;
+    max-width: 250px;
 }
 
 main > aside > a {
@@ -63,6 +64,7 @@ h1 {
     border-bottom: 2px solid #000;
     padding-bottom: 20px;
     line-height: 1;
+    margin-bottom: 20px;
 }
 
 input[type='text'],
@@ -97,17 +99,34 @@ main button.black {
     background: #000;
 }
 
-.button-group {
+.mypage-button-group {
     display: flex;
     width: 500px;
     margin: 10px auto;
 }
 
-.button-group > button {
+.mypage-button-group > button:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.mypage-button-group > button {
     width: 0;
     flex-grow: 1;
 }
 
-.button-group > button + button {
-    margin-left: 5px;
+.mypage-button-group > button + button {
+    margin-left: 15px;
 }
+
+.search-table > w1 {
+    color: #34495e;
+    font-size: 1.2rem;
+    font-weight: bolder;
+}
+
+.wishTour-table > w1 {
+    color: #34495e;
+    font-size: 1.2rem;
+    font-weight: bolder;
+}
+

@@ -3,35 +3,63 @@
     text-align: right;
 }
 /* ul CSS Start*/
-ul{
-}
-ul * {
+.list_thumType *{
     font-family: "Noto Sans KR", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
-    width: 90%;
     align-items: center;
 }
-ul > li{
+.list_thumType{
+    width: 90%;
+    padding: 0 200px 0 30px;
+}
+.list_thumType > .bdr_nor{
     margin: 0 auto;
     height: 140px;
     position: relative;
     padding: 20px 0 !important;
     border-bottom: 1px solid #e6e6e6;
 }
+
 .list_thumType .place {
     float: none;
 }
 .list_thumType > .bdr_nor{
     border-top: 1px solid #e6e6e6;
+    display: flex;
+}
+.list_thumType > .bdr_nor > .place-info{
+    padding-left: 30px;
+    display: block;
+
 }
 .list_thumType > li img{
     float: left;
     position: relative;
-    width: 140px;
-    height: 100px;
+    width: 178px;
+    height: 120px;
 }
-.list_thumType > li .place-tit .place-address{
+.list_thumType > li > div{
     display: flex;
+}
+.list_thumType > li .place-tit{
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+.list_thumType > li .place-address{
+    color: var(--gray);
+}
+.list_thumType > li .place-categories span{
+    color: var(--muted-text-color)
+}
+.right {
+    position: absolute;
+    right: 10px; /* 오른쪽에서 떨어진 거리 */
+    top: 50%;
+    transform: translateY(-50%); /* 수직으로 가운데 정렬 */
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 /* ul CSS End*/

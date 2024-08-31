@@ -1,5 +1,6 @@
 package org.g9project4.publicData.tour.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.g9project4.config.controllers.ApiConfig;
 import org.g9project4.config.service.ConfigInfoService;
@@ -7,27 +8,29 @@ import org.g9project4.global.ListData;
 import org.g9project4.global.Pagination;
 import org.g9project4.global.Utils;
 import org.g9project4.global.exceptions.ExceptionProcessor;
+import org.g9project4.global.exceptions.script.AlertException;
 import org.g9project4.global.rests.gov.detailapi.DetailItem;
 import org.g9project4.global.rests.gov.detailpetapi.DetailPetItem;
+import org.g9project4.member.MemberUtil;
 import org.g9project4.publicData.tour.entities.AreaCode;
 import org.g9project4.publicData.tour.entities.PlaceDetail;
+import org.g9project4.publicData.tour.entities.TourCommentData;
 import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.AreaCodeRepository;
 import org.g9project4.publicData.tour.repositories.CategoryRepository;
 import org.g9project4.publicData.tour.repositories.SigunguCodeRepository;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
-import org.g9project4.publicData.tour.services.NewTourPlaceInfoService;
-import org.g9project4.publicData.tour.services.TourDetailInfoService;
-import org.g9project4.publicData.tour.services.TourPlaceInfoService;
+import org.g9project4.publicData.tour.services.*;
+import org.g9project4.publicData.tour.validators.TourCommentValidator;
 import org.g9project4.search.services.SearchHistoryService;
 import org.g9project4.visitrecord.services.VisitRecordService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +51,10 @@ public class TourController implements ExceptionProcessor {
     private final SearchHistoryService searchHistoryService;
     private final VisitRecordService recordService;
     private final SearchHistoryService historyService;
+    private final TourCommentValidator validator;
+    private final TourCommentSaveService tourCommentSaveService;
+    private final MemberUtil memberUtil;
+    private final TourCommentInfoService tourCommentInfoService;
 
     @ModelAttribute("apiKeys")
     public ApiConfig getApiKeys() {
@@ -76,14 +83,14 @@ public class TourController implements ExceptionProcessor {
         List<String> addCommonCss = new ArrayList<>();
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
+
+        addCommonScript.add("wish");
+
         if (mode.equals("list")) {
             addCss.addAll(List.of("tour/list", "tour/_typelist", "tour/banner", "tour/search"));
-            addScript.addAll(List.of("tour/locBased", "tour/form"));
-        } else if (mode.equals("geolocation")) {
-            addCss.addAll(List.of("tour/list", "tour/_typelist"));
-            addScript.add("tour/locBased");
+            addScript.addAll(List.of("tour/locBased", "tour/form", "tour/search"));
         } else if (mode.equals("detail")) {
-            addCss.add("tour/map");
+            addCss.addAll(List.of("tour/map", "tour/detail"));
             addScript.add("tour/detailMap");
             addCommonScript.add("map");
         } else if (mode.equals("view")) {
@@ -142,9 +149,34 @@ public class TourController implements ExceptionProcessor {
 
         //km 추천 방문 데이터 저장
         recordService.record(contentId);
-
+        List<TourCommentData> data = tourCommentInfoService.getList(contentId);
+        model.addAttribute("commentData", data);
+        RequestTourComment requestComment = new RequestTourComment();
+        if (memberUtil.isLogin()) {
+            requestComment.setCommenter(memberUtil.getMember().getUserName());
+        }
+        model.addAttribute("requestTourComment", requestComment);
         return utils.tpl("tour/detail");
     }
 
+    /**
+     * 여행지 댓글 저장, 수정 처리
+     *
+     * @return
+     */
+    @PostMapping("/comment")
+    public String comment(@Valid RequestTourComment form, Errors errors, Model model) {
+        validator.validate(form, errors);
 
+        if (errors.hasErrors()) {
+            FieldError error = errors.getFieldErrors().stream().findFirst().orElse(null);
+            throw new AlertException(utils.getMessage(error == null || error.getCodes() == null ? "BadRequest" : error.getCodes()[0]), HttpStatus.BAD_REQUEST);
+        }
+        TourCommentData tourCommentData = tourCommentSaveService.save(form);
+
+        String script = String.format("parent.location.replace('/tour/detail/%d?comment_id=%d');", tourCommentData.getTourPlace().getContentId(), tourCommentData.getSeq());
+
+        model.addAttribute("script", script);
+        return "common/_execute_script";
+    }
 }

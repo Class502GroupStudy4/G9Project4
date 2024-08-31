@@ -195,7 +195,7 @@ public class NewTourPlaceInfoService {
         Double curLat = search.getLatitude();
         Integer radius = search.getRadius();
         String contentType = "";
-        if (search.getContentType() != null) {
+        if (search.getContentType() != null && !search.getContentType().equals("")) {
             contentType = String.valueOf(utils.typeCode(search.getContentType()).getId());
         }
         ApiConfig apiKey = configInfoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);

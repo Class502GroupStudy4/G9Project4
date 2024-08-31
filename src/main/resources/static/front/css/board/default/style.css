@@ -1,84 +1,163 @@
-/*List CSS Start*/
-.table_rows > .table_head *{
-    font-weight: 200;
-    font-size: 20px;
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.8; /* 줄 높이 증가 */
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f8;
+    color: #333;
 }
 
-.table_rows {
-    max-width: 100%;
-    word-wrap: break-word;
-    word-break: break-word;
-    table-layout: fixed;
-    border-collapse: collapse;
-    border-spacing: 2px;
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
-.table_rows td{
-    padding: 4px 7px;
+
+h1 {
+    font-size: 2.8rem; /* 제목 크기 증가 */
+    color: #333;
+    margin-bottom: 20px;
     text-align: center;
-    border-bottom: 1px solid #f2f2f2;
-}
-.left{
-    float: left;
-}
-.right {
-    float: right;
-}
-/*List CSS End*/
-/*View Css Start*/
-.subject{
-    font-weight: 400;
-    font-size: 2rem;
-    word-wrap: break-word;
-    word-break: break-word;
-}
-.post-info {
-    font-size: 1.2rem;
-    min-height: 40px;
-    display: flex; /* 요소들을 가로로 배치 */
-    justify-content: space-between; /* 양 끝으로 정렬 */
-    align-items: flex-start; /* 위쪽 정렬 */
-}
-.contents{
-    border-top: 2px solid #000000;
-    border-bottom: 2px solid #000000;
-    min-height: 500px;
-    padding: 15px;
-    margin: 7px;
 }
 
-.sbtn{
-    width: 70px;
-    height: 30px;
-    color: #222;
+/* Image Styles */
+.qna-images {
+    display: block;
+    max-width: 90%; /* 이미지 너비 조정 */
+    height: auto;
+    margin: 20px auto; /* 상하 여백 추가 및 중앙 정렬 */
+}
+
+/* Table Styles */
+.table_rows {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px 0; /* 위아래 여백 줄이기 */
+}
+
+.table_head th {
+    background-color: #333;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1.4rem; /* 헤더 글자 크기 */
+    padding: 10px; /* 패딩 줄이기 */
+}
+
+.table_rows td {
+    padding: 8px 15px; /* 패딩 줄이기 */
+    border-bottom: 1px solid #eee;
+    font-size: 1.2rem; /* 테이블 글자 크기 */
+}
+
+.table_rows tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Form Styles */
+form {
+    margin: 10px 0; /* 위아래 여백 줄이기 */
+    padding: 15px; /* 패딩 줄이기 */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
+.btn, .sbtn {
     display: inline-block;
-    font-size: 0.9rem;
+    padding: 12px 24px;
+    font-size: 1.1rem; /* 버튼 글자 크기 증가 */
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.3s ease;
 }
 
-.right {
-    float: none; /* float 해제 */
-    text-align: right;
-    margin-top: -20px; /* 필요에 따라 위로 올리기 */
+.btn:hover, .sbtn:hover {
+    background-color: #0056b3;
 }
+
+
+input[type="text"], select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1.1rem; /* 입력 필드 글자 크기 증가 */
+    width: calc(100% - 24px); /* 너비 조정 */
+}
+
+input[type="number"] {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1.1rem; /* 숫자 입력 필드 글자 크기 증가 */
+    width: 100%;
+}
+
+/* Titles */
+.completed-title, .uncompleted-title {
+    color: #333;
+    font-weight: 600;
+    margin: 20px 0;
+}
+
+.completed-title {
+    font-size: 2rem; /* 제목 크기 증가 */
+}
+
+.uncompleted-title {
+    font-size: 1.8rem; /* 제목 크기 증가 */
+    color: #ff5722;
+}
+
+/* Post Information */
+.post-info {
+    font-size: 1.2rem; /* 게시글 정보 글자 크기 증가 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.subject {
+    font-weight: 700;
+    font-size: 2rem; /* 게시글 제목 크기 증가 */
+    color: #333;
+}
+
+/* Content Section */
+.contents {
+    border-top: 4px solid #007bff;
+    border-bottom: 4px solid #007bff;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Pagination / Links */
 .links {
     text-align: right;
+    margin-top: 20px;
 }
-/*View Css End*/
 
-/* 댓글 */
-#frmComment { margin: 20px 0 30px; }
-.commenter_info { margin-bottom: 5px; }
-.commenter_info input { width: 120px; }
-.comment_content { display: flex; height: 100px; }
-.comment_content button { width: 100px; background: #000; color: #fff; border: 0; cursor: pointer; font-size: 1.15rem; }
-.comment_content textarea { flex-grow: 1; border: 1px solid #d5d5d5; padding: 10px; resize: none; }
+.links a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1.1rem; /* 링크 글자 크기 증가 */
+}
 
-.comment_items { margin-top: 10px; }
-.comment_items > li { border: 1px solid #d5d5d5; padding: 10px; border-radius: 3px; }
-.comment_items > li + li { margin-top: 10px; }
-.comment_items .comment_top { display: flex; justify-content: space-between; height: 35px; align-items: center; border-bottom: 1px solid #222; margin-bottom: 10px; padding: 0 10px; }
-.comment_items .comment { padding: 10px; background: #f8f8f8; border-radius: 3px; margin-bottom: 10px; }
-.comment_items .comment textarea { width: 100%; height: 150px; border: 1px solid #d5d5d5; padding: 10px; border-radius: 3px; resize: none; }
-
-.comment_items .btns { text-align: right; }
-.comment_items button, .comment_items .btns a { border: 1px solid #596b99; background: #fff; height: 35px; padding: 0 15px; color: #596b99; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
-.comment_items button:hover, .comment_items .btns a:hover { background: #596b99; color: #fff; }
+.links a:hover {
+    text-decoration: underline;
+}

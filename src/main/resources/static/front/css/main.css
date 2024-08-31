@@ -314,6 +314,66 @@ input {
     color: white;
 }
 
+
+/*=============== ABOUT ===============*/
+.about__container {
+    display: flex; /* Flexbox를 사용하여 자식 요소를 나란히 배치 */
+    justify-content: space-between; /* 자식 요소 사이의 간격을 일정하게 유지 */
+    align-items: center; /* 자식 요소를 수직으로 중앙 정렬 */
+    gap: 1rem; /* 자식 요소 간의 간격을 1rem으로 줄임 */
+    padding-top: 65px;
+    padding-bottom: 50px;
+}
+
+.about__data {
+    flex: 1; /* 너비를 자동으로 조정 */
+    text-align: left; /* 텍스트를 왼쪽 정렬 */
+    padding: 2rem 1rem; /* 패딩을 줄여서 공간을 절약 */
+    margin-left: 475px; /* 왼쪽 여백을 자동으로 설정하여 오른쪽으로 붙이기 */
+    margin-right: auto; /* 오른쪽 여백을 자동으로 설정하여 가운데로 정렬 */
+    max-width: 600px; /* 최대 너비를 설정하여 콘텐츠가 너무 넓어지지 않도록 조절 */
+}
+
+.about__description {
+    margin-bottom: var(--mb-2);
+}
+
+.about__img {
+    flex: 1; /* 너비를 자동으로 조정 */
+    display: flex; /* 이미지들을 나란히 배치 */
+    gap: 1.5rem; /* 이미지 사이의 간격을 줄임 */
+    align-items: center; /* 이미지들을 수직으로 중앙 정렬 */
+    justify-content: flex-start; /* 이미지들을 왼쪽으로 정렬 */
+    margin-left: 30px;
+}
+
+.about__img-overlay {
+    overflow: var(--img-hidden);
+}
+
+.about__img-one {
+    width: 130px;
+}
+
+.about__img-two {
+    width: 180px;
+}
+
+.about__img-one,
+.about__img-two {
+    transition: var(--img-transition);
+}
+
+.about__img-one:hover,
+.about__img-two:hover {
+    transform: var(--img-scale);
+}
+
+
+
+
+
+
 /*메인 3개 사진 */
 /* 기본 스타일 */
 .secWrap {
@@ -324,8 +384,9 @@ input {
     margin-bottom: 75px;
 }
 
+
 .sec1 h3 {
-    margin-top: 80px;
+    margin-top: 120px;
     margin-bottom: 30px;
     font-size: 26px;
     color: #333;
@@ -381,7 +442,7 @@ input {
 
 
 
-/* 6개 배너 스타일 */
+/*!* 6개 배너 스타일 *!*/
 
 .sec2 {
     margin: 0 auto;
@@ -474,77 +535,300 @@ input {
     color: #666;
     border-radius: 5px;
 }
-/*6개 스타일 끝*/
+/*!*6개 스타일 끝*!*/
+
+
 
 
 /*special-box S*/
-.bg {
-    background: url("https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=dea079de-8bf6-4558-b788-f9d7e85ef30c") 50% center no-repeat rgb(255, 255, 255);
-    height: 415px;
+.review_main_wright2 {
+    line-height: 1;
+    padding-top: 70px;
+    margin-bottom: 10px;
+    font-size: 26px;
+    color: #333;
+    text-align: center;
 }
-.cont{
+
+
+.tit2 {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+/*.bg {*/
+/*    background: url("https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=dea079de-8bf6-4558-b788-f9d7e85ef30c") 50% center no-repeat;*/
+/*    height: 415px;*/
+/*    background-color: #ffffff; !* 배경색 설정 *!*/
+/*}*/
+
+.bg {
+    background: url("https://example.com/new-background.jpg") 50% center no-repeat;
+    height: 415px;
+    background-color: #ffffff; /* 배경색 설정 */
+}
+
+.cont {
     margin-top: -415px;
     height: 418px;
 }
+
 .swiper {
-    width: 600px;
-    height: 300px;
+    width: 1000px;
+    position: relative;
+    height: 100%;
 }
-.swiper-pagination{
-    height: 30px;
-    width:30px;
+
+.swiper-pagination {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: #333;
+}
+
+.swiper-button-prev {
+    left: 10px;
+}
+
+.swiper-button-next {
+    right: 10px;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지 비율 유지 및 컨테이너에 맞게 크기 조정 */
 }
 /*special-box E*/
 
 
-/*=============== ABOUT ===============*/
-.about__container {
-    display: flex; /* Flexbox를 사용하여 자식 요소를 나란히 배치 */
-    justify-content: space-between; /* 자식 요소 사이의 간격을 일정하게 유지 */
-    align-items: center; /* 자식 요소를 수직으로 중앙 정렬 */
-    gap: 1rem; /* 자식 요소 간의 간격을 1rem으로 줄임 */
+
+/*-------------------------------------------------sec2-----------------------------------------------------------------------*/
+.sec2_ {
+    background-color: #f0f0f0;
 }
 
-.about__data {
-    flex: 1; /* 너비를 자동으로 조정 */
-    text-align: left; /* 텍스트를 왼쪽 정렬 */
-    padding: 2rem 1rem; /* 패딩을 줄여서 공간을 절약 */
-    margin-left: 475px; /* 왼쪽 여백을 자동으로 설정하여 오른쪽으로 붙이기 */
-    margin-right: auto; /* 오른쪽 여백을 자동으로 설정하여 가운데로 정렬 */
-    max-width: 600px; /* 최대 너비를 설정하여 콘텐츠가 너무 넓어지지 않도록 조절 */
+.secWrap_ {
+    width: 1092px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
 }
 
-.about__description {
-    margin-bottom: var(--mb-2);
+.sec2_ h3 {
+    line-height: 1;
+    padding-top: 70px;
+    margin-bottom: 10px;
+    font-size: 26px;
+    color: #333;
 }
 
-.about__img {
-    flex: 1; /* 너비를 자동으로 조정 */
-    display: flex; /* 이미지들을 나란히 배치 */
-    gap: 1.5rem; /* 이미지 사이의 간격을 줄임 */
-    align-items: center; /* 이미지들을 수직으로 중앙 정렬 */
-    justify-content: flex-start; /* 이미지들을 왼쪽으로 정렬 */
-    margin-left: 30px;
+.sec2_ .tit_ {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1;
 }
 
-.about__img-overlay {
-    overflow: var(--img-hidden);
+.sec2_ .row1_ {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    gap: 10px;
 }
 
-.about__img-one {
-    width: 130px;
+.sec2_ .row2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-.about__img-two {
-    width: 180px;
+.sec2_ .box_ {
+    background-color: silver;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 2px solid #f0f0f0;
 }
 
-.about__img-one,
-.about__img-two {
-    transition: var(--img-transition);
+.sec2_ .box_ .ImgBox_ {
+    width: 346px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+
 }
 
-.about__img-one:hover,
-.about__img-two:hover {
-    transform: var(--img-scale);
+.sec2_ .box_ .ImgBox_ img {
+    width: 346px;
+    height: 200px;
 }
+
+.sec2_ .box_ .ImgBox_:hover img {
+    transform: scale(1.5);
+    transition: all 2s;
+}
+
+.sec2_ .txt_ {
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 15px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-image: linear-gradient(transparent, black);
+    /*
+    @ background洹몃씪�뜲�씠�뀡 �꽔湲�
+    - background-image
+    - �냽�꽦媛믪씠
+     @ linear-gradient()
+     @ radial-gradient()
+     @ linear-gradient(to right, red, green)
+     to right, to left, to top, to bottom
+     @ linear-gradient(45deg, red, green
+     -> 45�룄濡� �꽔湲�
+    */
+    box-sizing: border-box;
+    /*�뙣�뵫怨� 蹂대뜑媛� 諛뺤뒪 �븞�뿉�꽌 �깮寃⑤궓.*/
+}
+
+.sec2_ .box_ .txt_ h4 {
+    color: rgba(245, 161, 25, 0.9);
+}
+
+.sec2_ .box_ .txt_ h4 span {
+    color: #999;
+}
+
+.sec2_ .box_ .txt_ p {
+    color: white;
+}
+
+.sec2_ .data_ {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between; /* 자식 요소들 사이에 공간을 배분 */
+    align-items: flex-start; /* 자식 요소들을 상단에 정렬 */
+    padding: 15px;
+    position: relative; /* 절대 위치 설정을 위해 필요 */
+}
+
+/* .info 요소의 스타일 조정 */
+.sec2_ .data_ .info_ {
+    list-style-type: none; /* 리스트 마커 제거 */
+    padding: 0; /* 패딩 제거 */
+    margin: 0; /* 마진 제거 */
+}
+
+/* .info의 li 요소 스타일 조정 */
+.sec2_ .data_ .info_ li {
+    margin: 0; /* 기본 마진 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    line-height: 1.2; /* 줄 간격 설정 */
+}
+
+/* .info의 p 요소 스타일 조정 */
+.sec2_ .data_ .info_ p {
+    margin: 0; /* 기본 마진 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+}
+
+/* .info의 span 요소 스타일 조정 */
+.sec2_ .data_ .info_ .placeName {
+    display: inline; /* 인라인 요소로 설정 */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+/* .header-info2 스타일 */
+.header-info2_ {
+    position: absolute; /* 부모 컨테이너를 기준으로 절대 위치 설정 */
+    top: 17px; /* 상단에 위치 */
+    right: 20px; /* 오른쪽에 위치 */
+}
+
+/* .header-info2 스타일 추가 */
+.header-info2_ {
+    position: absolute; /* 부모 컨테이너를 기준으로 절대 위치 설정 */
+    top: 17px; /* 상단에 위치 */
+    right: 20px; /* 오른쪽에 위치 */
+}
+
+
+.sec2_ .data_ .info_ .placeName {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+
+.Name2_ {
+    background-image: url("/images/list/img.png");
+    background-repeat: no-repeat;
+    background-position-x: 0;
+    background-size: contain;
+    line-height: 1;
+    right: 0;
+}
+
+.userName {
+    margin-left: 25px;
+}
+
+.count {
+    display: flex;
+    justify-content: center;
+}
+
+.count .view {
+    margin: 0 10px;
+}
+
+.count .location {
+    background-image: url(../images/mainpage/icon_spot.png);
+    background-repeat: no-repeat;
+    background-position-x: 0;
+    padding-left: 20px;
+    line-height: 1;
+}
+
+.count .view {
+    background-image: url(../images/mainpage/icon_view.png);
+    background-repeat: no-repeat;
+    background-position: 0 3px;
+    padding-left: 20px;
+    line-height: 1;
+}
+
+.count .copy {
+    background-image: url(../images/mainpage/icon_copy.png);
+    background-repeat: no-repeat;
+    background-position-x: 0;
+    padding-left: 20px;
+    line-height: 1;
+}
+
+.sec2_ .more_ {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #fff;
+    width: 346px;
+    border: 1px solid #ccc;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 14px;
+    color: #666;
+    border-radius: 5px;
+}
+
+

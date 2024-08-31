@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
 
-@ControllerAdvice("org.g9project4.board")
+@ControllerAdvice({"org.g9project4.board", "org.g9project.tour"})
 @RequiredArgsConstructor
 public class BoardControllerAdvice {
     private final WishListService wishListService;

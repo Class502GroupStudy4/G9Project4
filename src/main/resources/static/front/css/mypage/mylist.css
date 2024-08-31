@@ -10,7 +10,7 @@
 /* 페이징 공통 S */
 .pagination {
     text-align: center;
-    margin: 30px 0;
+    margin: 20px 0;
 }
 
 .pagination .page {
@@ -33,31 +33,38 @@
 
 /* 페이징 공통 E */
 
-.wishList-table {
-    margin-top: 45px;
-
-}
-
-.wishList-items {
-    font-size: 1.13rem;
+.wishList-tour {
+    font-size: 1.2rem;
     width: 100%;
     margin: 10px auto;
 }
-.wishList-items tr {
+.wishList-tour tr {
     margin-top: 10px;
     height: 1.5rem;
 }
-.wishList-items th {
+.wishList-tour th {
     padding: 10px 0;
 }
 
-.search-table {
-    margin-top: 10px;
+.wishList-tour .no-data {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    text-align: center;
+    font-style: italic;
+    color: #34495e;
+}
+
+.searchHistory-items .no-data {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    text-align: center;
+    font-style: italic;
+    color: #34495e;
 }
 
 .searchHistory-items {
     margin-top: 10px;
-    font-size: 1.13rem;
+    font-size: 1.2rem;
     width: 60%;
 
 }

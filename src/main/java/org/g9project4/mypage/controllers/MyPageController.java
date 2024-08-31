@@ -20,6 +20,7 @@ import org.g9project4.publicData.myvisit.TourplaceDto;
 import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
 import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
 import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
+import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.services.TourPlaceInfoService;
 import org.g9project4.search.constatnts.SearchType;
 import org.g9project4.search.entities.SearchHistory;
@@ -94,15 +95,16 @@ public class MyPageController {
         return utils.tpl("mypage/mysearch");
     }
 
-    @GetMapping("/mywish")
-    public String myWish(@ModelAttribute CommonSearch search, Model model) {
+    @GetMapping("/myWishTour")
+    public String myWishTour(@ModelAttribute CommonSearch search, Model model) {
         //commonProcess("index", model);
-        ListData<BoardData> data = boardInfoService.getWishList(search);
+        search.setLimit(5);
+        ListData<TourPlace> data = tourInfoService.getWishList(search);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
         model.addAttribute("addCss", List.of("mypage/mylist"));
-        return utils.tpl("mypage/mywish");
+        return utils.tpl("mypage/myWishTour");
     }
 
     @GetMapping("/info")
@@ -116,6 +118,8 @@ public class MyPageController {
         form.setGende(member.getGende());
         form.setIsForeigner(member.getIsForeigner());
         form.setGid(member.getGid());
+
+
 
         //관심사 노출
         List<Interests> interestsEntities = interestsRepository.findByMember(member);
@@ -174,6 +178,18 @@ public class MyPageController {
         model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("mypage/mycomment");
+    }
+
+    @GetMapping("/myWishBoard")
+    public String myWishBoard(@ModelAttribute CommonSearch search, Model model) {
+        commonProcess("myWishBoard", model);
+
+        ListData<BoardData> data = boardInfoService.getWishList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        return utils.tpl("mypage/myWishBoard");
     }
 
 
@@ -290,6 +306,9 @@ public class MyPageController {
             addScript.add("member/form");
         } else if (mode.equals("mypost")) {
             addCss.add("mypage/mypost");
+
+        } else if (mode.equals("myWishBoard")) {
+            addCss.add("mypage/myWishBoard");
 
         } else if (mode.equals("index")) {
             addCss.add("mypage/index");

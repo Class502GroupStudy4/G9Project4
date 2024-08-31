@@ -14,7 +14,7 @@
         </thead>
         <tbody>
         <tr th:if="${#lists.isEmpty(items)}">
-            <th colspan="6"  th:text="#{조회된_게시글이_없습니다.}" class="no-data"></th>
+            <th colspan="6"  th:text="#{조회된_내_게시글이_없습니다.}" class="no-data"></th>
         </tr>
         <tr th:if="${!#lists.isEmpty(items)}" th:each="item, s : ${items}" th:object="${item}" class="boardData-list">
 
@@ -48,12 +48,12 @@
             <th th:text="#{게시글_제목}"></th>
             <th th:text="#{댓글_내용}"></th>
             <th th:text="#{수정일}"></th>
-            <th th:text="#{삭제여부}"></th>
+            <th th:text="#{원게시글_삭제여부}"></th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${#lists.isEmpty(items)}">
-            <th colspan="6"  th:text="#{조회된_댓글이_없습니다.}" class="no-data"></th>
+            <th colspan="6"  th:text="#{조회된_내_댓글이_없습니다.}" class="no-data"></th>
         </tr>
         <tr th:if="${!#lists.isEmpty(items)}" th:each="item,s : ${items}" th:object="${item}" class="comment-list">
 
@@ -76,8 +76,8 @@
 
     </table>
 </th:block>
-<th:block th:fragment="myWishList">
-    <table class="wishList-items">
+<th:block th:fragment="myWishBoard">
+    <table class="wishList-board">
         <thead>
         <tr>
             <th th:text="#{순번}"></th>
@@ -90,7 +90,7 @@
         </thead>
         <tbody>
         <tr th:if="${#lists.isEmpty(items)}">
-            <th colspan="5" th:text="#{조회된_찜글이_없습니다.}" class="no-data"></th>
+            <th colspan="5" th:text="#{조회된_내_관심글이_없습니다.}" class="no-data"></th>
         </tr>
         <tr th:if="${!#lists.isEmpty(items)}" th:each="item, s : ${items}" th:object="${item}">
             <th th:text="${s.index + 1}"></th>
@@ -107,6 +107,33 @@
                 <i class="xi-check-square-o" th:if="*{deletedAt!=null}"></i>
                 <i class="xi-checkbox-blank" th:if="*{deletedAt==null}"></i>
             </th>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+<th:block th:fragment="myWishTour">
+    <table class="wishList-tour">
+        <thead>
+        <tr>
+            <th th:text="#{순번}"></th>
+            <th th:text="#{여행지_이름}"></th>
+            <th th:text="#{여행지_주소}"></th>
+            <th th:text="#{여행지_분류}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(items)}">
+            <th colspan="5" th:text="#{조회된_찜한_여행지가_없습니다.}" class="no-data"></th>
+        </tr>
+        <tr th:if="${!#lists.isEmpty(items)}" th:each="item, s : ${items}" th:object="${item}">
+            <th th:text="${s.index + 1}"></th>
+            <th>
+                <a th:href="*{@utils.redirectUrl('/tour/detail/'+ contentId)}" th:text="*{title}" target="_blank"></a>
+            </th>
+            <th>
+                <a th:text="*{address}" target="_blank"></a>
+            </th>
+            <th th:text="*{@categoryRepository.findDistinctName1ByCategory1(category1)}"></th>
         </tr>
         </tbody>
     </table>

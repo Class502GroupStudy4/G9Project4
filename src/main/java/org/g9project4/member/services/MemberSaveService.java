@@ -12,6 +12,7 @@ import org.g9project4.member.controllers.RequestJoin;
 import org.g9project4.member.entities.Authorities;
 
 import org.g9project4.member.entities.Interests;
+import org.g9project4.member.entities.InterestsId;
 import org.g9project4.member.entities.Member;
 import org.g9project4.member.exceptions.MemberNotFoundException;
 import org.g9project4.member.repositories.AuthoritiesRepository;
@@ -118,7 +119,10 @@ public class MemberSaveService {
             throw new IllegalArgumentException("Member does not exist");
         }
 
-        interestsRepository.deleteByMember(member);
+        interests.forEach(i->{
+            InterestsId id = new InterestsId(member,i);
+            interestsRepository.deleteById(id);
+        });
 
         // Convert the List<Interest> to List<Interests>
         List<Interests> newInterests = interests.stream()

@@ -5,12 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
+@Builder
 @Entity
 @AllArgsConstructor @NoArgsConstructor
 @IdClass(VisitRecordId.class)
@@ -21,11 +23,8 @@ public class VisitRecord {
     @Id
     @Column(name = "_uid")
     private int uid; // 비회원(IP + User-Agent), 회원(회원번호)
-    @Id
+//    @Id
     private LocalDate yearMonth;
 
     private Long visitCount; // 방문횟수
-
-
-
 }
