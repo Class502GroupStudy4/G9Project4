@@ -69,24 +69,13 @@ form {
 }
 
 /* Button Styles */
-.btn, .sbtn {
-    display: inline-block;
-    padding: 12px 24px;
+.btn1, .sbtn {
     font-size: 1.1rem; /* 버튼 글자 크기 증가 */
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 4px;
-    color: #ffffff;
-    background-color: #007bff;
-    border: none;
-    transition: background-color 0.3s ease;
 }
 
 .btn:hover, .sbtn:hover {
-    background-color: #0056b3;
+    background-color: #555; /* 버튼 호버 색상 변경 */
 }
-
 
 input[type="text"], select {
     padding: 12px;
@@ -138,8 +127,6 @@ input[type="number"] {
 
 /* Content Section */
 .contents {
-    border-top: 4px solid #007bff;
-    border-bottom: 4px solid #007bff;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
@@ -154,7 +141,7 @@ input[type="number"] {
 
 .links a {
     text-decoration: none;
-    color: #007bff;
+    color: #333; /* 링크 색상 검은색으로 변경 */
     font-size: 1.1rem; /* 링크 글자 크기 증가 */
 }
 
