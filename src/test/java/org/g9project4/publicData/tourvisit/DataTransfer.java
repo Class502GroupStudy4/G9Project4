@@ -1,20 +1,14 @@
 package org.g9project4.publicData.tourvisit;
 
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
-import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
-import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
-import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.ApiUpdateService;
 import org.g9project4.publicData.tourvisit.services.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @SpringBootTest
