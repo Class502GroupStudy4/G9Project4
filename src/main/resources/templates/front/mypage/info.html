@@ -51,8 +51,12 @@
         <dl>
             <dt th:text="#{성별}"></dt>
             <dd>
-                <input type="radio" name="gende" th:field="*{gende}" value="MALE"> 남자
-                <input type="radio" name="gende" th:field="*{gende}" value="FEMALE"> 여자
+                <label>
+                    <input type="radio" name="gende" th:field="*{gende}" value="MALE" th:text="#{남성}">
+                </label>
+                <label>
+                    <input type="radio" name="gende" th:field="*{gende}" value="FEMALE" th:text="#{여성}">
+                </label>
                 <div class="error" th:each="err:${#fields.errors('gende')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -60,8 +64,12 @@
         <dl>
             <dt th:text="#{외국인여부}"></dt>
             <dd>
-                <input type="radio" name="isForeigner" th:field="*{isForeigner}" value="true"> 예
-                <input type="radio" name="isForeigner" th:field="*{isForeigner}" value="false"> 아니오
+                <label>
+                    <input type="radio" name="isForeigner" th:field="*{isForeigner}" value="true" th:text="#{외국인}">
+                </label>
+                <label>
+                    <input type="radio" name="isForeigner" th:field="*{isForeigner}" value="false" th:text="#{내국인}">
+                </label>
                 <div class="error" th:each="err:${#fields.errors('isForeigner')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -69,24 +77,12 @@
         <dl>
             <dt th:text="#{관심사}"></dt>
             <dd>
-                <input type="checkbox" name="interests" th:field="*{interests}" value="MATJIB"> 맛집
-                <input type="checkbox" name="interests" th:field="*{interests}" value="HOCANCE"> 호캉스
-                <input type="checkbox" name="interests" th:field="*{interests}" value="MUSEUM"> 박물관
-                <input type="checkbox" name="interests" th:field="*{interests}" value="CAMPING"> 캠핑
-                <input type="checkbox" name="interests" th:field="*{interests}" value="HIKING"> 등산
-                <input type="checkbox" name="interests" th:field="*{interests}" value="NATURE"> 자연
-                <input type="checkbox" name="interests" th:field="*{interests}" value="ART"> 예술
-                <input type="checkbox" name="interests" th:field="*{interests}" value="SEA"> 강/바다
-                <input type="checkbox" name="interests" th:field="*{interests}" value="WITHCHILD"> 아이와 함께
-                <input type="checkbox" name="interests" th:field="*{interests}" value="WITHFAMILY"> 온가족 함께
-                <input type="checkbox" name="interests" th:field="*{interests}" value="WITHLOVER"> 연인과 함께
-                <input type="checkbox" name="interests" th:field="*{interests}" value="FISHING"> 낚시
-
+                <label th:each="interest :${@getInterest}">
+                    <input  type="checkbox" name="interests" th:field="${requestProfile.interests}" th:value="${interest.name}" th:text="${interest.type}">
+                </label>
                 <div class="error" th:each="err:${#fields.errors('interests')}" th:text="${err}"></div>
             </dd>
         </dl>
-
-
 
         <dl>
             <dt th:text="#{프로필_이미지}"></dt>
