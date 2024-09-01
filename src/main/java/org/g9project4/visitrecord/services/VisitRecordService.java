@@ -56,7 +56,7 @@ public class VisitRecordService {
         builder.and(visitRecord.yearMonth.eq(yearMonth))
                 .and(visitRecord.uid.eq(uid));
 
-        List<VisitRecord> items = (List<VisitRecord>) repository.findAll(builder, Sort.by(desc("viewCount")));
+        List<VisitRecord> items = (List<VisitRecord>) repository.findAll(builder, Sort.by(desc("visitCount")));
 
         return items.stream().map(VisitRecord::getContentId).toList();
     }
