@@ -166,7 +166,7 @@
 
 ![스크린샷 2024-09-02 153534](https://github.com/user-attachments/assets/01c47f82-1785-4e58-a268-4378888e7804)
 |:--:|
-| 회원가입 화면 |
+| 회원가입 화면 <br> 이용자 맞춤형 관광지 추천 시스템 구현을 위해 요구하는 정보량이 많음 (마이페이지에서 수정 가능) |
 
 
 | ![스크린샷 2024-09-02 153909](https://github.com/user-attachments/assets/c711bfc5-265a-4c9a-93bc-d435cb9b2839) | ![KakaoTalk_20240902_154103463](https://github.com/user-attachments/assets/6456cb9b-437d-4fe0-a9b8-27f95afc1fa3) |
@@ -186,10 +186,8 @@
    - 마이페이지
     
       
- 마이페이지 세부 사항
- 
-  
-  마이페이지 메인 화면 내 사이드바를 통해 서브 메뉴를 확인할 수 있습니다.
+ 마이페이지 세부 사항  
+ -> 마이페이지 메인 화면 내 사이드바를 통해 서브 메뉴를 확인할 수 있습니다.
 
 
 | ![스크린샷(169)](https://github.com/user-attachments/assets/3f2e5f08-8b38-4b0b-905c-074f04249b08) | ![스크린샷(170)](https://github.com/user-attachments/assets/033f2115-7b77-45c9-beaf-c2366d3dbcaf) |
