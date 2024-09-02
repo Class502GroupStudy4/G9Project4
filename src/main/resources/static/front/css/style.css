@@ -231,7 +231,7 @@ main {
 
 .footer-content {
     width: 100%; /* 가로 너비를 100%로 설정 */
-    background-color: var(--secondary-color); /* 배경색 설정 (예: 어두운 회색) */
+    background-color: var(--border-color); /* 배경색 설정 (예: 어두운 회색) */
     color: #fff; /* 텍스트 색상 설정 */
     padding: 10px; /* 여백 설정 */
     box-sizing: border-box; /* 패딩과 보더를 포함하여 전체 너비와 높이 계산 */
