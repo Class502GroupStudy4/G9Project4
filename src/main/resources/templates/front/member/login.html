@@ -8,7 +8,7 @@
                 <a th:class="top-logo" href="/">여행어때</a>
             </h1>
             <div class="con">
-                <form name="frmLogin" method="post" th:action="${@utils.url('/member/login')}" autocomplete="off"
+                <form name="frmLogin" method="post" th:action="${@utils.redirectUrl('/member/login')}" autocomplete="off"
                       th:object="${requestLogin}">
                     <input type="hidden" name="redirectUrl" th:field="*{redirectUrl}">
 
