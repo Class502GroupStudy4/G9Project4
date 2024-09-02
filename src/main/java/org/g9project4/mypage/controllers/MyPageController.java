@@ -315,10 +315,8 @@ public class MyPageController {
 
         } else if (mode.equals("myplace")) {
             addCss.addAll(List.of("mypage/list", "mypage/_typelist"));
-
         } else if (mode.equals("visitplace")) {
             addCss.addAll(List.of("mypage/list", "mypage/_typelist"));
-
         } else if (mode.equals("myinterests")) {
             addCss.addAll(List.of("mypage/list", "mypage/_typelist"));
         }

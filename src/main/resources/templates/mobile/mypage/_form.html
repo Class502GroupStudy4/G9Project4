@@ -20,7 +20,7 @@
             <p class="place-address" th:text="*{finalPointValue}"></p>
 
 
-            <div class="right">
+            <div class="right  ex-info">
                 <div class="right-content">
                     <div th:text="*{'조회수 : '+ (@visitRecordRepository.countByContentId(contentId)!=null?@visitRecordRepository.countByContentId(contentId):0)}"></div>
                     <div th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}"

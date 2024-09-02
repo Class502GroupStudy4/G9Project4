@@ -3,20 +3,17 @@
     text-align: right;
 }
 /* ul CSS Start*/
-ul *{
+.list_thumType *{
     font-family: "Noto Sans KR", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     align-items: center;
 }
-ul {
+.list_thumType{
     width: 90%;
     padding: 0 200px 0 30px;
-    margin-left: auto;
-    position: relative;
-    right: 0;
 }
-ul > li{
+.list_thumType > .bdr_nor{
     margin: 0 auto;
     height: 140px;
     position: relative;
@@ -56,7 +53,6 @@ ul > li{
     color: var(--muted-text-color)
 }
 .right {
-    position: absolute;
     right: 10px; /* 오른쪽에서 떨어진 거리 */
     top: 50%;
     transform: translateY(-50%); /* 수직으로 가운데 정렬 */
@@ -64,5 +60,8 @@ ul > li{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+}
+.ex-info{
+    position: absolute;
 }
 /* ul CSS End*/

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="placeList" class="tour-list">
+
     <div class="list-info">
         <h1 th:text="#{검색_결과}"></h1>
         <h4 th:if="${pagination!=null}" th:text="${'검색된 항목 : '+pagination.total}" class="right"></h4>
     </div>
+
     <ul class="list_thumType place">
 
         <li class="bdr_nor" th:each="item, s:${items}" th:object="${item}">
             <div class="place-photo">
                 <a th:href="*{@utils.redirectUrl('/tour/detail/'+contentId)}">
-                    <img class="firstImage" th:src="*{firstImage}" th:alt="#{이미지가_존재하지_않습니다.}">
+                    <img class="firstImage" th:src="*{firstImage}" th:alt="이미지" onerror="this.onerror=null; this.src='/images/fallback-image.jpg';">
                 </a>
             </div>
             <div class="place-info">
@@ -31,8 +33,11 @@
                     <span th:if="*{category3!=null && @categoryRepository.findDistinctName3ByCategory3(category3)!=null}"
                           th:text="*{'#'+@categoryRepository.findDistinctName3ByCategory3(category3)}"></span>
                 </div>
+
                 <p class="place-address" th:text="*{placePointValue}"></p>
             </div>
+
+
             <div class="right ex-info">
                 <div class="right-content">
                     <div th:text="*{'조회수 : '+ (@visitRecordRepository.countByContentId(contentId)!=null?@visitRecordRepository.countByContentId(contentId):0)}"></div>
@@ -60,7 +65,7 @@
             <div class="place-photo">
                 <a th:if="*{firstImage != null}" href="#"
                    th:attr="data-lat=*{latitude}, data-lng=*{longitude}, data-detail=*{contentId}, data-address=*{address}, data-title=*{title}, data-image=*{firstImage}">
-                    <img class="firstImage" th:src="*{firstImage}">
+                    <img class="firstImage" th:src="*{firstImage}" th:alt="이미지" onerror="this.onerror=null; this.src='/images/fallback-image.jpg';">
                 </a>
                 <a th:if="*{firstImage==null}" href="#" th:attr="data-lat=*{latitude}, data-lng=*{longitude}"><i
                         class="xi-image not-exist"></i></a>
