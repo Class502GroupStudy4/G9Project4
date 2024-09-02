@@ -164,9 +164,14 @@
 - 회원가입
  
 
-| ![스크린샷 2024-08-31 171102](https://github.com/user-attachments/assets/6726c5f2-0a41-46cd-b21e-c01c84f8c87b) | ![스크린샷 2024-08-31 171119](https://github.com/user-attachments/assets/54dea7d5-436a-4d65-b57d-90f499bf3d0d) |
+![스크린샷 2024-09-02 153534](https://github.com/user-attachments/assets/01c47f82-1785-4e58-a268-4378888e7804)
+|:--:|
+| 회원가입 화면 |
+
+
+| ![스크린샷 2024-09-02 153909](https://github.com/user-attachments/assets/c711bfc5-265a-4c9a-93bc-d435cb9b2839) | ![KakaoTalk_20240902_154103463](https://github.com/user-attachments/assets/6456cb9b-437d-4fe0-a9b8-27f95afc1fa3) |
 |:--:|:--:|
-| 이메일 인증을 통해 회원의 이메일이 유효한지 확인 가능 | 회원이 설정한 개인정보는 마이페이지에서 직접 변경 가능 |
+| 이메일 인증을 통해 회원의 이메일이 유효한지 확인 가능 | 이메일로 코드 전송 |
 
 
    - 로그인
