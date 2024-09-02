@@ -130,7 +130,7 @@
 ## ⛺개발 환경
 - Front
     - IDE : IntelliJ
-    - Framework :
+    - Framework : Spring Thymeleaf 
     - Library :
 - Back
     - IDE : IntelliJ
@@ -195,7 +195,7 @@
 | 마이페이지 메인화면 | 마이페이지 서브메뉴(사이드 바 형식) |
 
   
-1. **내 정보수정** : 회원가입 시 입력한 정보를 "내 정보수정" 메뉴에서 수정할 수 있습니다. (회원명, 전화번호, 생일, 국적, 프로필 이미지 등) (gif 파일)
+1. **내 정보수정** : 회원가입 시 입력한 정보를 "내 정보수정" 메뉴에서 수정할 수 있습니다. (회원명, 전화번호, 생일, 국적, 프로필 이미지 등)
  
   
 | ![사이트 제목 - Chrome 2024-08-31 15-12-29 (3)](https://github.com/user-attachments/assets/de210849-56fd-4bb6-988b-6db5909d0d47) |
