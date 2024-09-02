@@ -239,7 +239,7 @@ window.addEventListener("DOMContentLoaded", function () {
             marker.setMap(map);
             markers.push(marker);
 
-            const uri = "/tour/detail/" + contentId;
+            const uri = "/app/tour/detail/" + contentId;
             const overlay = overlayItem(markerPosition, title, image, address, uri);
             overlay.setMap(map);
             currentOverlay = overlay;
