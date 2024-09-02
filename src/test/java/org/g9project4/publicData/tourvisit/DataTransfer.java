@@ -1,13 +1,8 @@
 package org.g9project4.publicData.tourvisit;
 
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.g9project4.publicData.myvisit.services.TourplaceInterestsPointService;
-import org.g9project4.publicData.myvisit.services.TourplacePointMemberService;
-import org.g9project4.publicData.tour.controllers.TourPlaceSearch;
-import org.g9project4.publicData.tour.entities.TourPlace;
 import org.g9project4.publicData.tour.repositories.TourPlaceRepository;
 import org.g9project4.publicData.tour.services.ApiUpdateService;
 import org.g9project4.publicData.tourvisit.services.*;
@@ -46,7 +41,7 @@ public class DataTransfer {
     @PersistenceContext
     private EntityManager em;
 
-    private String sKey = "7rVGv4M2LZhWVFhu97TYGa8Lltf6eOFPG99BKHny11wiv2TWbUle1fP3Foos+QcjBgTlHVDYcoG8RwfuspzfxA==";
+    private String sKey = "N8yeFJlK12h1MoldGswxyuc6R+mgDa7RcdKioykhYnC0eWRCYVumURmL0E10CgJ+Wri+2Ln3xcXOs5pu+Z3sgA==";
 
     @Test
     void test1() {
@@ -76,7 +71,6 @@ public class DataTransfer {
     @Test
     void test4() {
         tableService.update();
-
     }
 
 

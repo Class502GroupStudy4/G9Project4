@@ -43,7 +43,7 @@ public class TourController implements ExceptionProcessor {
     private final TourPlaceInfoService placeInfoService;
     private final TourDetailInfoService detailInfoService;
     private final ConfigInfoService configInfoService;
-    private final NewTourPlaceInfoService newTourPlaceInfoService;
+    private final TourPlaceInfoService tourPlaceInfoService;
     private final Utils utils;
     private final AreaCodeRepository areaCodeRepository;
     private final SigunguCodeRepository sigunguCodeRepository;
@@ -121,7 +121,7 @@ public class TourController implements ExceptionProcessor {
     @GetMapping("/list")
     public String list(Model model, @ModelAttribute TourPlaceSearch search) {
         try {
-            ListData<TourPlace> data = newTourPlaceInfoService.getSearchedList(search);
+            ListData<TourPlace> data = tourPlaceInfoService.getSearchedList(search);
             if (search.getSkey() != null) {
                 searchHistoryService.saveTour(search.getSkey());
             }

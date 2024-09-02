@@ -56,8 +56,13 @@ public class Utils { // 빈의 이름 - utils
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
         boolean fromGateway = _fromGateway.equals("true");
 
-        return fromGateway ? request.getScheme() + "://" + gatewayHost + "/app" + url : request.getContextPath() + url;
+        if (gatewayHost.equals("@http_host")) {
+            gatewayHost = "maratanghuru.xyz";
+        }
+
+        return fromGateway ? request.getScheme() + "://" + gatewayHost + "/app" + url : String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
     }
+
 
     public String adminUrl(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("admin-service");

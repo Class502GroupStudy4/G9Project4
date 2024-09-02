@@ -49,7 +49,7 @@ public class ApiUpdateService {
     public void update(String sKey) {
      //km   for (int i = 0; i < 100; i++) {
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 1; i++) {
             String url = String.format("https://apis.data.go.kr/B551011/KorService1/areaBasedList1?MobileOS=AND&MobileApp=TEST&numOfRows=1000&pageNo=%d&serviceKey=%s&_type=json", i,  sKey);
 
             ResponseEntity<ApiResult> response = null;
