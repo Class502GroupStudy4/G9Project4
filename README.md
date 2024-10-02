@@ -6,16 +6,6 @@
 </a>
 </div>
 
-<div align = "center">
-<img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white">
-<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">
-<img src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white">
-<img src="https://img.shields.io/badge/HTML-0000CD?style=for-the-badge&logo=html5&logoColor=white&color=DC143C">
-<img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-</div>
-
 # 🏖️프로젝트 소개
 <p align="center">
   <img src="https://github.com/user-attachments/assets/18c81153-7786-48ec-bd01-abf63f147e93" alt="mainLogo" width="500">
@@ -127,16 +117,90 @@
     </table>
 
   
-## ⛺개발 환경
-- Front
-    - IDE : IntelliJ
-    - Framework : Spring Thymeleaf 
-    - Library :
-- Back
-    - IDE : IntelliJ
-    - Framework : Springboot
-    - DataBase : Oracle
-    - ORM :
+## ⛺개발환경 및 개발언어
+<h3>프로그래밍 언어</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java">
+        <div>JAVA (17.0.10)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
+        <div>JavaScript (6)</div>
+    </div>
+</div>
+
+<h3>백엔드</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring">
+        <div>Spring (6.1.12)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot">
+        <div>Spring Boot (3.3.3)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white" alt="Spring Security">
+        <div>Spring Security (6.3.3)</div>
+    </div>
+</div>
+
+<h3>프론트엔드</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white" alt="Thymeleaf">
+        <div>Thymeleaf (3.1.2)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/HTML-0000CD?style=for-the-badge&logo=html5&logoColor=white&color=DC143C" alt="HTML">
+        <div>HTML5</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS">
+        <div>CSS3</div>
+    </div>
+</div>
+
+<h3>데이터베이스</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white" alt="Oracle">
+        <div>Oracle (11)</div>
+    </div>
+</div>
+
+<h3>DevOps</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+        <div>Docker (26.0.0)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/AWS%20EC2-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS EC2">
+        <div>AWS EC2 (21)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white" alt="Jenkins">
+        <div>Jenkins (2.470)</div>
+    </div>
+</div>
+
+<h3>개발 도구</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/IntelliJ-000000?style=for-the-badge&logo=intellijidea&logoColor=white" alt="IntelliJ">
+        <div>IntelliJ</div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
       
 ## 🌊USER FLOW
 ![User Flow (1)](https://github.com/user-attachments/assets/7e65c013-65e5-4a6c-bd99-433a051e9dae)
