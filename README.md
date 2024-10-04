@@ -1,19 +1,12 @@
 ![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=G9Project&fontSize=90&animation=fadeIn&fontAlignY=38&desc=G9PR0JECT팀의%204번째%20프로젝트,%20우리의%20국내여행%20커뮤니티%20"여행어때?"&descAlignY=65&descAlign=56)
 
-<div align = "center">
-<a href="http://maratanghuru.xyz/app" target="_blank">
-<img src="https://img.shields.io/badge/SITE-778899?style=for-the-badge&color=000000">
-</a>
-</div>
-
-<div align = "center">
-<img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white">
-<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">
-<img src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white">
-<img src="https://img.shields.io/badge/HTML-0000CD?style=for-the-badge&logo=html5&logoColor=white&color=DC143C">
-<img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+<div align="center">
+    <a href="http://maratanghuru.xyz/app" target="_blank">
+        <img src="https://img.shields.io/badge/SITE-000080?style=for-the-badge&logo=appveyor&logoColor=FFFFFF">
+    </a>
+    <a href="https://youtu.be/nB4fG4DARG4" target="_blank">
+        <img src="https://img.shields.io/badge/Demo%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=FFFFFF">
+    </a>
 </div>
 
 # 🏖️프로젝트 소개
@@ -21,6 +14,8 @@
   <img src="https://github.com/user-attachments/assets/18c81153-7786-48ec-bd01-abf63f147e93" alt="mainLogo" width="500">
 </p>
 여행어때? 바로가기 ➡️ http://maratanghuru.xyz/app
+<br>
+여행어때? 시연 영상 보러가기 ➡️ https://youtu.be/nB4fG4DARG4
 <br>
 <br>
 "여행어때?"는 한국관광공사 데이터를 기반으로 이용자 맞춤형 여행 정보를 제공하는 플랫폼으로 한국관광공사의 여행지 API를 활용해 다양한 여행지 정보를 제공하며, 사용자의 성별, 나이 등을 고려한 개인화된 추천 서비스를 제공합니다. 또한, 커뮤니티 기능을 통해 여행 계획을 세우고 후기를 공유할 수 있습니다. <br> <br> "여행어때?" 사이트를 통해 나만의 여행 기록을 남겨보세요!
@@ -127,16 +122,90 @@
     </table>
 
   
-## ⛺개발 환경
-- Front
-    - IDE : IntelliJ
-    - Framework : Spring Thymeleaf 
-    - Library :
-- Back
-    - IDE : IntelliJ
-    - Framework : Springboot
-    - DataBase : Oracle
-    - ORM :
+## ⛺개발환경 및 개발언어
+<h3>프로그래밍 언어</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java">
+        <div>JAVA (17.0.10)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
+        <div>JavaScript (6)</div>
+    </div>
+</div>
+
+<h3>백엔드</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring">
+        <div>Spring (6.1.12)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot">
+        <div>Spring Boot (3.3.3)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white" alt="Spring Security">
+        <div>Spring Security (6.3.3)</div>
+    </div>
+</div>
+
+<h3>프론트엔드</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white" alt="Thymeleaf">
+        <div>Thymeleaf (3.1.2)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/HTML-0000CD?style=for-the-badge&logo=html5&logoColor=white&color=DC143C" alt="HTML">
+        <div>HTML5</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS">
+        <div>CSS3</div>
+    </div>
+</div>
+
+<h3>데이터베이스</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white" alt="Oracle">
+        <div>Oracle (11)</div>
+    </div>
+</div>
+
+<h3>DevOps</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+        <div>Docker (26.0.0)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/AWS%20EC2-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS EC2">
+        <div>AWS EC2 (21)</div>
+    </div>
+    <div>
+        <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white" alt="Jenkins">
+        <div>Jenkins (2.470)</div>
+    </div>
+</div>
+
+<h3>개발 도구</h3>
+<div style="text-align: center;">
+    <div>
+        <img src="https://img.shields.io/badge/IntelliJ-000000?style=for-the-badge&logo=intellijidea&logoColor=white" alt="IntelliJ">
+        <div>IntelliJ</div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
       
 ## 🌊USER FLOW
 ![User Flow (1)](https://github.com/user-attachments/assets/7e65c013-65e5-4a6c-bd99-433a051e9dae)
